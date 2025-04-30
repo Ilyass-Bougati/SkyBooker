@@ -4,11 +4,9 @@ module skybooker.skybooker {
     requires static lombok;
     requires java.persistence;
 
-    exports skybooker.skybooker;
-    exports skybooker;
+    exports skybooker.skybooker to javafx.graphics;
     exports skybooker.skybooker.entity;
 
     opens skybooker.skybooker to javafx.fxml;
-    opens skybooker to javafx.fxml;
     opens skybooker.skybooker.entity to javafx.fxml;
 }

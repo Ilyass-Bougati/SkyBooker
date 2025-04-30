@@ -104,7 +104,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>skybooker.skybooker/skybooker.Main</mainClass>
+                            <mainClass>skybooker.skybooker/skybooker.skybooker.HelloApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
