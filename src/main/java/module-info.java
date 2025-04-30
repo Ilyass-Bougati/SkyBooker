@@ -1,17 +1,14 @@
 module skybooker.skybooker {
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.web;
-
-    requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires net.synedra.validatorfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
-    requires com.almasb.fxgl.all;
     requires static lombok;
+    requires java.persistence;
+
+    exports skybooker.skybooker;
+    exports skybooker;
+    exports skybooker.skybooker.entity;
 
     opens skybooker.skybooker to javafx.fxml;
-    exports skybooker.skybooker;
+    opens skybooker to javafx.fxml;
+    opens skybooker.skybooker.entity to javafx.fxml;
 }
