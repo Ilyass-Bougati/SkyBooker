@@ -14,10 +14,11 @@ import java.time.LocalDateTime;
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private EtatReservation etat = EtatReservation.PENDING;
+
     @Min(0)
-    private double price;
+    private double prixTotal;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)

@@ -32,6 +32,6 @@ public class Client {
     @NotNull
     private String CIN;
 
-//    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private Set<Reservation> reservations = new HashSet<>();
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Reservation> reservations = new HashSet<>();
 }

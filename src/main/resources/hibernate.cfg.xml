@@ -28,6 +28,16 @@
         <!-- Names the annotated entity class -->
         <mapping class="skybooker.entity.Reservation"/>
         <mapping class="skybooker.entity.Client"/>
+        <mapping class="skybooker.entity.Vol"/>
+        <mapping class="skybooker.entity.Avion"/>
+        <mapping class="skybooker.entity.Aeroport"/>
+        <mapping class="skybooker.entity.Ville"/>
+        <mapping class="skybooker.entity.CompanieAerienne"/>
+        <mapping class="skybooker.entity.Capacite"/>
+        <mapping class="skybooker.entity.Classe"/>
+        <mapping class="skybooker.entity.Billet"/>
+        <mapping class="skybooker.entity.Passager"/>
+        <mapping class="skybooker.entity.Categorie"/>
 
 
     </session-factory>
