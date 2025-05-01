@@ -2,12 +2,14 @@ package skybooker.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import lombok.Data;
 import skybooker.enums.EtatVol;
-
 import java.sql.Time;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-
+@Data
 @Entity
 @Table(name = "vols")
 public class Vol {
@@ -24,4 +26,19 @@ public class Vol {
 
     @Min(0)
     private double prix;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "aeroport_depart_id", nullable = false)
+    private Aeroport aeroportDepart;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "aeroport_arrive_id", nullable = false)
+    private Aeroport aeroportArrive;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "avion_id", nullable = false)
+    private Avion avion;
+
+    @OneToMany(mappedBy = "vol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Reservation> reservations = new HashSet<>();
 }

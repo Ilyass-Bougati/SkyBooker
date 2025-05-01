@@ -1,7 +1,12 @@
 package skybooker.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
+@Data
 @Entity
 @Table(name = "classes")
 public class Classe {
@@ -10,4 +15,7 @@ public class Classe {
     private long id;
     private String nom;
     private int prixParKm;
+
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Billet> billets = new HashSet<>();
 }

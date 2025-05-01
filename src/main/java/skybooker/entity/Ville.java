@@ -1,12 +1,11 @@
 package skybooker.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
+@Data
 @Entity
 @Table(name = "villes")
 public class Ville {
@@ -15,4 +14,7 @@ public class Ville {
     private long id;
     private String nom;
     private String pays;
+
+    @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Aeroport> aeroports = new HashSet<>();
 }

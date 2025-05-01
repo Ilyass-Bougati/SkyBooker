@@ -2,7 +2,9 @@ package skybooker.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "categories")
 public class Categorie {

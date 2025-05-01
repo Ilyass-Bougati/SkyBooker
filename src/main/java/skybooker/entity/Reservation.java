@@ -6,6 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import skybooker.enums.EtatReservation;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
@@ -27,4 +29,11 @@ public class Reservation {
     @Column(name = "reserved_at")
     @CreationTimestamp
     private LocalDateTime reservedAt;
+
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Billet> billets = new HashSet<>();
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "vol_id", nullable = false)
+    private Vol vol;
 }
