@@ -1,2 +1,5 @@
 # SkyBooker
-blah blah blah, just a readme m8
+## Database
+This is the current schema of the database
+
+![image](img/MCD.png)
