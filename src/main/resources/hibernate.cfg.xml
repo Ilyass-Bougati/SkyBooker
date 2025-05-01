@@ -22,11 +22,13 @@
         <!-- SQL dialect -->
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">update</property>
         <property name="hibernate.transaction.jta.platform">true </property>
 
         <!-- Names the annotated entity class -->
+        <mapping class="skybooker.entity.Reservation"/>
         <mapping class="skybooker.entity.Client"/>
+
 
     </session-factory>
 

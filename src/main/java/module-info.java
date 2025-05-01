@@ -7,11 +7,11 @@ module skybooker.skybooker {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires hibernate.jpa;
+    requires jakarta.validation;
 
     exports skybooker to javafx.graphics;
     exports skybooker.entity;
 
     opens skybooker to javafx.fxml;
-//    opens skybooker.entity to javafx.fxml;
     opens skybooker.entity to org.hibernate.orm.core;
 }

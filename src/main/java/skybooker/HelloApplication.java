@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import skybooker.entity.Client;
+import skybooker.entity.Reservation;
 
 import java.io.IOException;
 
@@ -24,26 +25,13 @@ public class HelloApplication extends Application {
 
     public static void main(String[] args) {
         Configuration cfg = new Configuration().configure();
-        cfg.addAnnotatedClass(skybooker.entity.Client.class);
         SessionFactory sessionFactory;
         Session session;
         Transaction transaction;
 
         try {
             sessionFactory = cfg.buildSessionFactory();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-        try {
             session = sessionFactory.openSession();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-        try {
             transaction = session.beginTransaction();
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +39,19 @@ public class HelloApplication extends Application {
         }
 
         try {
-            session.save(new Client());
+            Reservation res = new Reservation();
+            Client ilyass = new Client();
+            ilyass.setNom("Ilyass");
+            ilyass.setPrenom("Bougati");
+            ilyass.setCIN("Something");
+            ilyass.setEmail("a@a.a");
+            ilyass.setPassword("password");
+            ilyass.setAdresse("Mok");
+            ilyass.setTelephone("000");
+            session.save(ilyass);
+
+            res.setClient(ilyass);
+            session.save(res);
             transaction.commit();
             session.close();
             launch();
