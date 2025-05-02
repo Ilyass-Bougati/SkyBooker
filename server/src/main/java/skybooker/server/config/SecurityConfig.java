@@ -16,21 +16,28 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import skybooker.server.service.ClientService;
+import skybooker.server.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final RsaKeyProperties rsaKeys;
+    private final CustomUserDetailsService userDetailsService;
 
-    public SecurityConfig(RsaKeyProperties rsaKeys) {
+    public SecurityConfig(RsaKeyProperties rsaKeys, CustomUserDetailsService userDetailsService) {
         this.rsaKeys = rsaKeys;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -48,6 +55,9 @@ public class SecurityConfig {
             oauth2.jwt(Customizer.withDefaults());
         });
 
+        // configuring the UserDetailsService
+        http.userDetailsService(userDetailsService);
+
         // creating a stateless session, JWT is stateless
         http.sessionManagement(session -> {
             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -57,18 +67,10 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-    // TODO : change this, it think it's obvious why. And add a password encoder
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        return new InMemoryUserDetailsManager(
-                User.withUsername("ilyass")
-                        .password("{noop}password")
-                        .authorities("read")
-                        .build()
-        );
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     JwtDecoder jwtDecoder() {
