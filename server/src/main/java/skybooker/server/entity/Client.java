@@ -17,10 +17,6 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
-    private String nom;
-    @NotNull
-    private String prenom;
-    @NotNull
     @Email
     private String email;
     @NotNull
@@ -29,24 +25,23 @@ public class Client {
     private String telephone;
     @NotNull
     private String adresse;
-    @NotNull
-    private String cin;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Passager passager;
 
     /**
      * This function is meant to update all the fields of a client
      * @param client This is the client's new fields
      */
     public void updateFields(Client client) {
-        setCin(client.getCin());
-        setNom(client.getNom());
-        setPrenom(client.getPrenom());
         setEmail(client.getEmail());
         // TODO : fix this the password needs to be hashed
         setPassword(client.getPassword());
         setTelephone(client.getTelephone());
         setAdresse(client.getAdresse());
+        setPassager(client.getPassager());
     }
 }
