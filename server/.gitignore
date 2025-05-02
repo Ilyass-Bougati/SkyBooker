@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### The openssl certificates ###
+src/main/resources/certs/
