@@ -1,6 +1,7 @@
 package skybooker.server.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -24,6 +25,10 @@ public class Passager {
     @Column(unique = true)
     @NotNull
     private String CIN;
+
+    @NotNull
+    @Min(0)
+    private int age;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "categorie_id", nullable = false)
