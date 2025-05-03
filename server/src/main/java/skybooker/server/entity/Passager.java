@@ -15,6 +15,8 @@ public class Passager {
     private long id;
     private String nom;
     private String prenom;
+
+    @Column(unique = true)
     private String CIN;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
