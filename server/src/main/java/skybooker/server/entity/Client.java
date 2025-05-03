@@ -16,13 +16,18 @@ public class Client{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(unique = true)
     @NotNull
     @Email
     private String email;
+
     @NotNull
     private String password;
+
     @NotNull
     private String telephone;
+
     @NotNull
     private String adresse;
 
