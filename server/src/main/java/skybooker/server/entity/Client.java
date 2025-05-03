@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "clients")
-public class Client {
+public class Client{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -29,7 +29,7 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne(cascade = CascadeType.ALL)
     private Passager passager;
 
     /**
