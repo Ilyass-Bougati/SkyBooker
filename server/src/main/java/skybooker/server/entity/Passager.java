@@ -1,6 +1,7 @@
 package skybooker.server.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -13,10 +14,15 @@ public class Passager {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotNull
     private String nom;
+
+    @NotNull
     private String prenom;
 
     @Column(unique = true)
+    @NotNull
     private String CIN;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
