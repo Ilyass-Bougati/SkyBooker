@@ -1,16 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="skybooker.client.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<VBox alignment="CENTER" prefHeight="708" prefWidth="1171" spacing="20.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.HelloController">
+    <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
+      <font>
+         <Font name="Roboto Light" size="100.0" />
+      </font>
+    </Label>
+    <Separator prefHeight="0.0" prefWidth="1131.0" />
+    <HBox>
+        <Rectangle fill="TRANSPARENT" width="94" />
+        <Pane prefHeight="407.46" prefWidth="437.48" style="-fx-border-color: rgba(0,0,0,0.1); -fx-rotate: -5.04;">
+            <children>
+                <VBox>
+                    <Rectangle fill="TRANSPARENT" height="4.6" />
+                    <HBox>
+                        <Rectangle fill="TRANSPARENT" width="8" />
+                        <ImageView fitHeight="322" fitWidth="421">
+                            <Image url="@assets/images/barcelona_bg.jpeg" />
+                        </ImageView>
+                    </HBox>
+                </VBox>
+            </children>
+        </Pane>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+        <Rectangle fill="TRANSPARENT" width="20.4" />
+        <VBox>
+            <HBox>
+                <Rectangle fill="TRANSPARENT" width="177" />
+                <Label style="-fx-font-weight: bold;" stylesheets="@style.css" text="Sign in" textAlignment="CENTER" textFill="#000000">
+                    <font>
+                        <Font name="RobotoCondensed-Black" size="40.0" />
+                    </font>
+                </Label>
+            </HBox>
+            <Rectangle fill="TRANSPARENT" height="19" />
+         <TextField prefHeight="76" prefWidth="466" promptText="Email" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+             <font>
+                 <Font name="Roboto Light" size="30.0" />
+             </font>
+         </TextField>
+            <Rectangle fill="TRANSPARENT" height="19" />
+         <PasswordField prefHeight="76" prefWidth="466" promptText="Password" style="-fx-border-radius: 12; -fx-background-radius: 12 ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2);">
+             <font>
+                 <Font name="Roboto Light" size="30.0" />
+             </font>
+         </PasswordField>
+         <HBox>
+             <Rectangle fill="TRANSPARENT" width="227" />
+             <Button mnemonicParsing="false" style="-fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="forgotten password ?" textFill="#00000080" underline="true">
+                 <font>
+                     <Font name="Roboto Light" size="28.0" />
+                 </font>
+             </Button>
+         </HBox>
+         <Rectangle fill="TRANSPARENT" height="84" />
+            <HBox>
+                <Rectangle fill="TRANSPARENT" width="149" />
+                <Button mnemonicParsing="false" prefHeight="76" prefWidth="168" style=" -fx-font-size: 35; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" styleClass="submit" stylesheets="@style.css" text="Log in" textFill="#FFFFFF">
+                    <font>
+                        <Font name="Roboto Light" size="35.0" />
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+    </HBox>
 </VBox>
