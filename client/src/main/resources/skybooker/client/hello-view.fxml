@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER"  prefHeight="425" prefWidth="825" spacing="20.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.HelloController">
+<VBox alignment="CENTER" prefHeight="600" prefWidth="825" spacing="20.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.HelloController">
     <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
       <font>
          <Font name="Roboto Light" size="75.0" />
@@ -14,14 +14,15 @@
     </Label>
     <Separator prefHeight="0.0" prefWidth="684.3" />
     <HBox>
-        <Rectangle fill="TRANSPARENT" width="70.5" />
-        <Pane prefHeight="305.25" prefWidth="328.11" style="-fx-border-color: rgba(0,0,0,0.1); -fx-rotate: -5.04;">
+        <Rectangle fill="TRANSPARENT" width="42.75" />
+        <Pane prefHeight="305.25" prefWidth="328.11" style="-fx-rotate: -5.04;">
+            <Rectangle fill="WHITE" width="328.11" height="305.25" style="-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.3) , 10 ,0, 0 ,0 0)"/>
             <VBox>
-                <Rectangle fill="TRANSPARENT" height="3.45"/>
+                <Rectangle fill="TRANSPARENT" height="7" />
                 <HBox>
-                    <Rectangle fill="TRANSPARENT" width="8"/>
-                    <ImageView fitHeight="241.5" fitWidth="315.75">
-                        <Image url="@assets/images/barcelona_bg.jpeg"/>
+                    <Rectangle fill="TRANSPARENT" width="12" />
+                    <ImageView fitHeight="230" fitWidth="305.0">
+                        <Image url="@assets/images/barcelona_bg.jpeg" />
                     </ImageView>
                 </HBox>
             </VBox>
@@ -32,7 +33,7 @@
                 <Rectangle fill="TRANSPARENT" width="132.75" />
                 <Label style="-fx-font-weight: bold;" text="Sign in" textAlignment="CENTER" textFill="#000000">
                     <font>
-                        <Font name="RobotoCondensed-Black" size="30.0" />
+                        <Font name="Roboto Light" size="30.0" />
                     </font>
                 </Label>
             </HBox>
@@ -49,7 +50,7 @@
              </font>
          </PasswordField>
          <HBox>
-             <Rectangle fill="TRANSPARENT" width="170.25" />
+             <Rectangle fill="TRANSPARENT" width="150.25" />
              <Button mnemonicParsing="false" style="-fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="forgotten password ?" textFill="#00000080" underline="true">
                  <font>
                      <Font name="Roboto Light" size="21.0" />
@@ -65,9 +66,9 @@
                     </font>
                 </Button>
             </HBox>
-            <Rectangle fill="TRANSPARENT" height="14.25"/>
+            <Rectangle fill="TRANSPARENT" height="14.25" />
             <HBox>
-                <Rectangle fill="TRANSPARENT" width="87"/>
+                <Rectangle fill="TRANSPARENT" width="87" />
                 <Button mnemonicParsing="false" style="-fx-padding: 0 0 0 0 ; -fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="No account ? Sign up" textFill="#00000080" underline="true">
                     <font>
                         <Font name="Roboto Light" size="21.0" />
@@ -75,5 +76,6 @@
                 </Button>
             </HBox>
         </VBox>
+        <Rectangle fill="TRANSPARENT" width="63" />
     </HBox>
 </VBox>
