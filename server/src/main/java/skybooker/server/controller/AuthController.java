@@ -39,8 +39,9 @@ public class AuthController {
     }
 
     @PostMapping("/")
-    public String token(Authentication authentication) {
-        return tokenService.generateToken(authentication);
+    public ResponseEntity<String> token(Authentication authentication) {
+        System.out.println(authentication);
+        return ResponseEntity.ok(tokenService.generateToken(authentication));
     }
 
     @PostMapping("/register")
