@@ -37,4 +37,12 @@ public class Passager {
     @OneToMany(mappedBy = "passager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Billet> billets = new HashSet<>();
 
+    public void updateFields(Passager passager) {
+        setNom(passager.getNom());
+        setPrenom(passager.getPrenom());
+        setCIN(passager.getCIN());
+        setAge(passager.getAge());
+        setCategorie(passager.getCategorie());
+    }
+
 }

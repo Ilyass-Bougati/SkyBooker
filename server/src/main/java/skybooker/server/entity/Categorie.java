@@ -15,4 +15,9 @@ public class Categorie {
 
     @Max(1)
     private double reduction;
+
+    public void updateFields(Categorie categorie) {
+        setReduction(categorie.getReduction());
+        setNom(categorie.getNom());
+    }
 }
