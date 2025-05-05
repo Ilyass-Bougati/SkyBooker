@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import jakarta.persistence.*;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import skybooker.server.DTO.ClientDTO;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,16 +39,29 @@ public class Client{
     @OneToOne(cascade = CascadeType.ALL)
     private Passager passager;
 
+    // TODO : test this
     /**
      * This function is meant to update all the fields of a client
      * @param client This is the client's new fields
      */
     public void updateFields(Client client) {
         setEmail(client.getEmail());
-        // TODO : fix this the password needs to be hashed
-        setPassword(client.getPassword());
+        setPassword(BCrypt.hashpw(client.getPassword(), BCrypt.gensalt()));
         setTelephone(client.getTelephone());
         setAdresse(client.getAdresse());
         setPassager(client.getPassager());
+    }
+
+    /**
+     * This function changes only the email, telephone and adresse of a client
+     * to change the reservations, the passager or the password you should pass
+     * through other services/methods
+     *
+     * @param clientDTO The new details of the client
+     */
+    public void updateFields(ClientDTO clientDTO) {
+        setEmail(clientDTO.getEmail());
+        setTelephone(clientDTO.getTelephone());
+        setAdresse(clientDTO.getAdresse());
     }
 }
