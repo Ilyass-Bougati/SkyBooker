@@ -1,10 +1,6 @@
 package skybooker.server.controller;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import org.apache.coyote.BadRequestException;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +11,6 @@ import skybooker.server.DTO.RegisterRequestDTO;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
-import skybooker.server.repository.CategorieRepository;
-import skybooker.server.repository.PassagerRepository;
 import skybooker.server.service.CategorieService;
 import skybooker.server.service.ClientService;
 import skybooker.server.service.PassagerService;
@@ -40,12 +34,15 @@ public class AuthController {
 
     @PostMapping("/")
     public ResponseEntity<String> token(Authentication authentication) {
-        System.out.println(authentication);
         return ResponseEntity.ok(tokenService.generateToken(authentication));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Client> saveClient(@RequestBody RegisterRequestDTO registerRequest) {
+    public ResponseEntity<Client> saveClient(Authentication authentication, @RequestBody @Valid RegisterRequestDTO registerRequest) {
+        if (authentication!= null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Passager passager = registerRequest.passager();
 
         // giving the user the default category
