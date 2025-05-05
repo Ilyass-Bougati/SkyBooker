@@ -10,11 +10,13 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
+    public static FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+    public static Scene scene ;
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1171, 708 , false , SceneAntialiasing.BALANCED);
 
+        scene = new Scene(fxmlLoader.load(), 1171, 708 , false , SceneAntialiasing.BALANCED);
         stage.setTitle("Authentication for SkyBooker");
         stage.setScene(scene);
         stage.setResizable(false);
