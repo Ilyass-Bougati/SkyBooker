@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import skybooker.server.DTO.RegisterRequestDTO;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
@@ -42,55 +43,8 @@ public class AuthController {
         return tokenService.generateToken(authentication);
     }
 
-    // This inner class is for creating new Clients
-    @Data
-    public static class RegisterRequest {
-        @Email
-        private String email;
-
-        @NotNull
-        private String password;
-
-        @NotNull
-        private String telephone;
-
-        @NotNull
-        private String adresse;
-
-        @NotNull
-        private String nom;
-
-        @NotNull
-        private String prenom;
-
-        @NotNull
-        private String CIN;
-
-        @NotNull
-        @Min(0)
-        private int age;
-
-        public Passager passager() {
-            Passager passager = new Passager();
-            passager.setNom(nom);
-            passager.setPrenom(prenom);
-            passager.setCIN(CIN);
-            passager.setAge(age);
-            return passager;
-        }
-
-        public Client client() {
-            Client client = new Client();
-            client.setEmail(email);
-            client.setPassword(password);
-            client.setTelephone(telephone);
-            client.setAdresse(adresse);
-            return client;
-        }
-    }
-
     @PostMapping("/register")
-    public ResponseEntity<Client> saveClient(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<Client> saveClient(@RequestBody RegisterRequestDTO registerRequest) {
         Passager passager = registerRequest.passager();
 
         // giving the user the default category
