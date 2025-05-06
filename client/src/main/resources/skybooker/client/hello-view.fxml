@@ -6,7 +6,6 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-
 <VBox alignment="CENTER" prefHeight="600" prefWidth="825" spacing="20.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.HelloController">
     <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
       <font>
@@ -70,7 +69,7 @@
             <Rectangle fill="TRANSPARENT" height="14.25" />
             <HBox>
                 <Rectangle fill="TRANSPARENT" width="87" />
-                <Button onAction="#onSignUpButton" mnemonicParsing="false" style="-fx-padding: 0 0 0 0 ; -fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="No account ? Sign up" textFill="#00000080" underline="true">
+                <Button mnemonicParsing="false" style="-fx-padding: 0 0 0 0 ; -fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="No account ? Sign up" textFill="#00000080" underline="true">
                     <font>
                         <Font name="Roboto Light" size="21.0" />
                     </font>
