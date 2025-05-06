@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import skybooker.server.DTO.ClientDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Client;
@@ -38,11 +39,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Client> saveClient(Authentication authentication, @RequestBody @Valid RegisterRequestDTO registerRequest) {
+    public ResponseEntity<ClientDTO> saveClient(Authentication authentication, @RequestBody @Valid RegisterRequestDTO registerRequest) {
         if (authentication!= null) {
             return ResponseEntity.badRequest().build();
         }
-
         Passager passager = registerRequest.passager();
 
         // giving the user the default category
@@ -56,7 +56,7 @@ public class AuthController {
         Client client = registerRequest.client();
         client.setPassager(passager);
         clientService.create(client);
-        return ResponseEntity.ok(client);
+        return ResponseEntity.ok(new ClientDTO(client));
     }
 
 }

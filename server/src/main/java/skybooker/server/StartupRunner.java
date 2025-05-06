@@ -18,16 +18,13 @@ public class StartupRunner implements CommandLineRunner {
     @Autowired
     private ClientService clientService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Override
     public void run(String... args) throws Exception {
         Client client = new Client();
         client.setEmail("ilyass@gmail.com");
         client.setTelephone("000");
         client.setAdresse("aaa");
-        client.setPassword(passwordEncoder.encode("123"));
+        client.setPassword("123");
         clientService.create(client);
 
         // Creating the default categories

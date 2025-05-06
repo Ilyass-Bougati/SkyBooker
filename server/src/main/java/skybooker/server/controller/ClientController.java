@@ -37,41 +37,27 @@ public class ClientController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<ClientDTO> updateClient(Principal principal, @RequestBody @Valid ClientDTO clientDTO) {
-        Client client = clientService.findById(clientDTO.getId());
+    public ResponseEntity<Void> updateClient(Principal principal, @RequestBody @Valid ClientDTO clientDTO) {
+        Client client = clientService.findByEmail(principal.getName());
         if (client == null) {
             // shouldn't reveal that the client doesn't exist
             return ResponseEntity.badRequest().build();
         } else {
             // checking if the user is authorized to make the action
-            // TODO : check if the user is admin
-            if (principal.getName().equals(client.getEmail()))
-            {
-                client.updateFields(clientDTO);
-                Client newClient = clientService.update(client);
-                return ResponseEntity.ok(new ClientDTO(newClient));
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
+            // TODO : check if the user is admin, and just make this shit better
+            client.updateFields(clientDTO);
+            clientService.update(client);
+            return ResponseEntity.ok().build();
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteClient(Principal principal, @PathVariable long id) {
-        Client client = clientService.findById(id);
-        if (client == null) {
-            // shouldn't reveal that the client doesn't exist
-            return ResponseEntity.badRequest().build();
+    @DeleteMapping("/")
+    public ResponseEntity<Void> deleteClient(Principal principal) {
+        if (principal != null) {
+            clientService.deleteByEmail(principal.getName());
+            return ResponseEntity.ok().build();
         } else {
-            // checking if the user is authorized to make the action
-            // TODO : check if the user is admin
-            if (principal.getName().equals(client.getEmail()))
-            {
-                clientService.deleteById(id);
-                return ResponseEntity.ok().build();
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 }
