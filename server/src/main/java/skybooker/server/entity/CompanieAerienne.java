@@ -1,5 +1,6 @@
 package skybooker.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class CompanieAerienne {
     private String iacaCode;
     private String icaoCode;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "companieAerienne", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Avion> avions = new HashSet<>();
 }

@@ -1,11 +1,16 @@
 package skybooker.server.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import skybooker.server.DTO.AvionDTO;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "avions")
@@ -18,14 +23,27 @@ public class Avion {
     private String model;
     private double maxDistance;
 
-    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL)
     private Set<Vol> vols = new HashSet<>();
 
-    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL)
     private Set<Capacite> capacites = new HashSet<>();
 
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "companie_aerienne_id", nullable = false)
     private CompanieAerienne companieAerienne;
+
+    /**
+     * This function create a Avion entity from a AvionDTO object
+     * @param avionDTO the Avion transfer object
+     */
+    public Avion(AvionDTO avionDTO) {
+        setIataCode(avionDTO.getIataCode());
+        setIcaoCode(avionDTO.getIcaoCode());
+        setModel(avionDTO.getModel());
+        setMaxDistance(avionDTO.getMaxDistance());
+        setVols(new HashSet<>());
+        setCapacites(new HashSet<>());
+    }
 }
