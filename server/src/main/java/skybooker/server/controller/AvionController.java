@@ -34,12 +34,12 @@ public class AvionController {
 
     @PostMapping("/")
     public ResponseEntity<Avion> createAvion(@RequestBody @Valid AvionDTO avionDTO) {
-        return ResponseEntity.ok(avionService.create(avionDTO));
+        return ResponseEntity.ok(avionService.createDTO(avionDTO));
     }
 
     @PutMapping("/")
     public ResponseEntity<Avion> updateAvion(@RequestBody @Valid AvionDTO avionDTO) {
-        Avion avion = avionService.update(avionDTO);
+        Avion avion = avionService.updateDTO(avionDTO);
         if (avion == null) {
             return ResponseEntity.notFound().build();
         } else {

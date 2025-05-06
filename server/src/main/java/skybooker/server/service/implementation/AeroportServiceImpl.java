@@ -37,7 +37,7 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
-    public Aeroport create(AeroportDTO entity) {
+    public Aeroport createDTO(AeroportDTO entity) {
         Aeroport aeroport = new Aeroport(entity);
         aeroport.setVille(villeService.findById(entity.getVilleId()));
         return aeroportRepository.save(aeroport);
@@ -63,7 +63,7 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
-    public Aeroport update(AeroportDTO entity) {
+    public Aeroport updateDTO(AeroportDTO entity) {
         Aeroport aeroport = findById(entity.getId());
         if (aeroport != null) {
             // modifying the airport

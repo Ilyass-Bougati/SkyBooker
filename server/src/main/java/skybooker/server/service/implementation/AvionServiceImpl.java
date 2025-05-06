@@ -52,14 +52,14 @@ public class AvionServiceImpl implements AvionService {
     }
 
     @Override
-    public Avion create(AvionDTO avionDTO) {
+    public Avion createDTO(AvionDTO avionDTO) {
         Avion avion = new Avion(avionDTO);
         avion.setCompanieAerienne(companieAerienneService.findById(avionDTO.getCompanieAerienneId()));
         return avionRepository.save(avion);
     }
 
     @Override
-    public Avion update(AvionDTO avionDTO) {
+    public Avion updateDTO(AvionDTO avionDTO) {
         Avion avion = findById(avionDTO.getId());
         if (avion != null) {
             // modifying the avion

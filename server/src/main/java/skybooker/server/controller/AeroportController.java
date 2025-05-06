@@ -35,12 +35,12 @@ public class AeroportController {
 
     @PostMapping("/")
     public ResponseEntity<Aeroport> createAeroport(@RequestBody @Valid AeroportDTO aeroportDTO) {
-        return ResponseEntity.ok(aeroportService.create(aeroportDTO));
+        return ResponseEntity.ok(aeroportService.createDTO(aeroportDTO));
     }
 
     @PutMapping("/")
     public ResponseEntity<Aeroport> updateAeroport(@RequestBody @Valid AeroportDTO aeroportDTO) {
-        Aeroport aeroport = aeroportService.update(aeroportDTO);
+        Aeroport aeroport = aeroportService.updateDTO(aeroportDTO);
         if (aeroport == null) {
             return ResponseEntity.notFound().build();
         } else {
