@@ -24,7 +24,7 @@ public class Vol {
     private Date dateDepart;
     private Time heureDepart;
     private Date dateArrive;
-    private Time hereArrive;
+    private Time heureArrive;
     private EtatVol etat;
 
     @Min(0)
