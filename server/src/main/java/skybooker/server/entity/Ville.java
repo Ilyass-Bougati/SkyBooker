@@ -1,10 +1,16 @@
 package skybooker.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.HashSet;
 import java.util.Set;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "villes")
@@ -15,6 +21,7 @@ public class Ville {
     private String nom;
     private String pays;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Aeroport> aeroports = new HashSet<>();
 }
