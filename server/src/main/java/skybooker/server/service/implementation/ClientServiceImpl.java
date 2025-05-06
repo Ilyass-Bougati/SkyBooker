@@ -1,7 +1,9 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import skybooker.server.DTO.ClientDTO;
 import skybooker.server.entity.Client;
 import skybooker.server.repository.ClientRepository;
 import skybooker.server.service.ClientService;
@@ -14,6 +16,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Client> findAll() {
@@ -28,6 +33,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client create(Client client) {
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
         return clientRepository.save(client);
     }
 
@@ -50,5 +56,22 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void delete(Client client) {
         clientRepository.delete(client);
+    }
+
+    @Override
+    public void deleteByEmail(String email) {
+        clientRepository.deleteByEmail(email);
+    }
+
+    @Override
+    public Client findByEmail(String email) {
+        Optional<Client> clientOptional = clientRepository.findByEmail(email);
+        return clientOptional.orElse(null);
+    }
+
+    @Override
+    public Client update(Client client, ClientDTO clientDTO) {
+        client.updateFields(clientDTO);
+        return clientRepository.save(client);
     }
 }
