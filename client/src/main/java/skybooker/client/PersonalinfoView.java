@@ -1,24 +1,27 @@
 package skybooker.client;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
-import java.io.IOException;
 
-public class SignupView {
+public class PersonalinfoView {
     @FXML
     private ImageView button_icon;
 
     @FXML
-    protected void onContinueButton() throws IOException
+    private ChoiceBox<String> cardinals;
+
+    private void initializeCardinals()
     {
-        HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("personalinfo-view.fxml"));
-        HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+        cardinals.setItems(FXCollections.observableArrayList("CA" , "FR" ,"MA" , "US" ));
+        cardinals.setValue("MA");
     }
 
     @FXML
@@ -31,5 +34,8 @@ public class SignupView {
                 new ColorInput(0, 0, button_icon.getFitWidth(), button_icon.getFitHeight(), Color.WHITE)
         );
         button_icon.setEffect(blend);
+
+        initializeCardinals();
     }
 }
+

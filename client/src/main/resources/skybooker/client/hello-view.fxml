@@ -69,7 +69,7 @@
                  </font>
              </Button>
              <Rectangle fill="TRANSPARENT" height="14.25" />
-             <Button mnemonicParsing="false" style="-fx-padding: 0 0 0 0 ; -fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="No account ? Sign up" textFill="#00000080" underline="true">
+             <Button onAction="#onSignUpButton" mnemonicParsing="false" style="-fx-padding: 0 0 0 0 ; -fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="No account ? Sign up" textFill="#00000080" underline="true">
                  <font>
                      <Font name="Roboto Light" size="21.0" />
                  </font>
