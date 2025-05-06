@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import skybooker.server.DTO.VilleDTO;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,4 +25,9 @@ public class Ville {
     @JsonIgnore
     @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Aeroport> aeroports = new HashSet<>();
+
+    public Ville(VilleDTO villeDTO) {
+        setNom(villeDTO.getNom());
+        setPays(villeDTO.getPays());
+    }
 }
