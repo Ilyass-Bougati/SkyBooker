@@ -40,7 +40,12 @@ public class AeroportController {
 
     @PutMapping("/")
     public ResponseEntity<Aeroport> updateAeroport(@RequestBody @Valid AeroportDTO aeroportDTO) {
-        return ResponseEntity.ok(aeroportService.update(aeroportDTO));
+        Aeroport aeroport = aeroportService.update(aeroportDTO);
+        if (aeroport == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(aeroport);
+        }
     }
 
     @DeleteMapping("/{id}")
