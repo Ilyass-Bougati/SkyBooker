@@ -1,6 +1,14 @@
-.text{
-    @font-face {
-        font-family: RobotoCondensed-Black;
-        src: url("RobotoCondensed-Regular.ttf");
-    }
+.datepicker > .arrow-button{
+    -fx-background-radius: 0 12 12 0;
+    -fx-border-radius: 0 12 12 0;
+    -fx-background-color: white;
+}
+.datepicker > .text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 12 0 0 12;
+    -fx-border-radius: 12 0 0 12;
+}
+.date-picker-popup > *{
+    -fx-font-size: 17;
+    -fx-border-radius: 12;
 }

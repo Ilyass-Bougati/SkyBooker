@@ -6,76 +6,77 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="600" prefWidth="825" spacing="20.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.HelloController">
+<VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.HelloController">
     <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
       <font>
          <Font name="Roboto Light" size="75.0" />
       </font>
     </Label>
     <Separator prefHeight="0.0" prefWidth="684.3" />
-    <HBox>
-        <Rectangle fill="TRANSPARENT" width="42.75" />
-        <Pane prefHeight="305.25" prefWidth="328.11" style="-fx-rotate: -5.04;">
-            <Rectangle fill="WHITE" width="328.11" height="305.25" style="-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.3) , 10 ,0, 0 ,0 0)"/>
-            <VBox>
-                <Rectangle fill="TRANSPARENT" height="7" />
-                <HBox>
-                    <Rectangle fill="TRANSPARENT" width="12" />
-                    <ImageView fitHeight="230" fitWidth="305.0">
-                        <Image url="@assets/images/barcelona_bg.jpeg" />
-                    </ImageView>
-                </HBox>
-            </VBox>
-        </Pane>
-        <Rectangle fill="TRANSPARENT" width="15.3" />
+    <HBox prefHeight="512">
         <VBox>
+            <Rectangle fill="TRANSPARENT" height="20" />
             <HBox>
-                <Rectangle fill="TRANSPARENT" width="132.75" />
+                <Rectangle fill="TRANSPARENT" width="42.75" />
+                <Pane prefWidth="329.0" style="-fx-rotate: -5.04;">
+                    <Rectangle fill="WHITE" height="305.25" style="-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.3) , 10 ,0, 0 ,0 0)" width="328.11" />
+                    <VBox>
+                        <Rectangle fill="TRANSPARENT" height="7" />
+                        <HBox alignment="CENTER">
+                            <Rectangle fill="TRANSPARENT" width="12" />
+                            <ImageView fitHeight="230" fitWidth="305.0">
+                                <Image url="@assets/images/barcelona_bg.jpeg" />
+                            </ImageView>
+                        </HBox>
+                    </VBox>
+                </Pane>
+            </HBox>
+        </VBox>
+        <Rectangle fill="TRANSPARENT" width="28.3" />
+        <VBox prefWidth="350.0">
+            <VBox alignment="CENTER">
                 <Label style="-fx-font-weight: bold;" text="Sign in" textAlignment="CENTER" textFill="#000000">
                     <font>
                         <Font name="Roboto Light" size="30.0" />
                     </font>
                 </Label>
-            </HBox>
-            <Rectangle fill="TRANSPARENT" height="14.25" />
-         <TextField prefHeight="57" prefWidth="349.5" promptText="Email" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
-             <font>
-                 <Font name="Roboto Light" size="22.5" />
-             </font>
-         </TextField>
-            <Rectangle fill="TRANSPARENT" height="14.25" />
-         <PasswordField prefHeight="57" prefWidth="349.5" promptText="Password" style="-fx-border-radius: 12; -fx-background-radius: 12 ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2);">
-             <font>
-                 <Font name="Roboto Light" size="22.5" />
-             </font>
-         </PasswordField>
+                <Rectangle fill="TRANSPARENT" height="14.25" />
+                <TextField prefHeight="57" prefWidth="354.2" promptText="Email" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+                    <font>
+                        <Font name="Roboto Light" size="22.5" />
+                    </font>
+                </TextField>
+                <Rectangle fill="TRANSPARENT" height="14.25" />
+                <PasswordField prefHeight="57" prefWidth="354.2" promptText="Password" style="-fx-border-radius: 12; -fx-background-radius: 12 ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2);">
+                    <font>
+                        <Font name="Roboto Light" size="22.5" />
+                    </font>
+                </PasswordField>
+            </VBox>
          <HBox>
              <Rectangle fill="TRANSPARENT" width="150.25" />
-             <Button mnemonicParsing="false" style="-fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="forgotten password ?" textFill="#00000080" underline="true">
+             <Button mnemonicParsing="false" style=" -fx-padding: 0 0 0 0 ; -fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="forgotten password ?" textFill="#00000080" underline="true">
                  <font>
                      <Font name="Roboto Light" size="21.0" />
                  </font>
              </Button>
          </HBox>
          <Rectangle fill="TRANSPARENT" height="63" />
-            <HBox>
-                <Rectangle fill="TRANSPARENT" width="111.75" />
-                <Button mnemonicParsing="false" prefHeight="57" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Log in" textFill="#FFFFFF">
-                    <font>
-                        <Font name="Roboto Light" size="26.25" />
-                    </font>
-                </Button>
-            </HBox>
-            <Rectangle fill="TRANSPARENT" height="14.25" />
-            <HBox>
-                <Rectangle fill="TRANSPARENT" width="87" />
-                <Button mnemonicParsing="false" style="-fx-padding: 0 0 0 0 ; -fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="No account ? Sign up" textFill="#00000080" underline="true">
-                    <font>
-                        <Font name="Roboto Light" size="21.0" />
-                    </font>
-                </Button>
-            </HBox>
+         <VBox alignment="CENTER">
+             <Button mnemonicParsing="false" prefHeight="57" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Log in" textFill="#FFFFFF">
+                 <font>
+                     <Font name="Roboto Light" size="26.25" />
+                 </font>
+             </Button>
+             <Rectangle fill="TRANSPARENT" height="14.25" />
+             <Button onAction="#onSignUpButton" mnemonicParsing="false" style="-fx-padding: 0 0 0 0 ; -fx-background-color: TRANSPARENT ; -fx-cursor: hand ;" text="No account ? Sign up" textFill="#00000080" underline="true">
+                 <font>
+                     <Font name="Roboto Light" size="21.0" />
+                 </font>
+             </Button>
+         </VBox>
+            <Rectangle fill="TRANSPARENT" height="139.5" />
         </VBox>
-        <Rectangle fill="TRANSPARENT" width="63" />
+        <Rectangle fill="TRANSPARENT" width="70.0" />
     </HBox>
 </VBox>

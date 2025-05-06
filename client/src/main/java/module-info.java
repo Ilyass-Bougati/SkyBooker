@@ -11,6 +11,7 @@ module skybooker.client {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires okhttp;
+    requires java.desktop;
 
     opens skybooker.client to javafx.fxml;
     exports skybooker.client;
