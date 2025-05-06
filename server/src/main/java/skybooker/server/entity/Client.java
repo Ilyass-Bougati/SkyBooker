@@ -68,4 +68,13 @@ public class Client{
         setTelephone(clientDTO.getTelephone());
         setAdresse(clientDTO.getAdresse());
     }
+
+    /**
+     * This function checks if a client is admin
+     *
+     * @return boolean that indicates if the client is admin
+     */
+    public boolean isAdmin() {
+        return getRole().getId() == 2;
+    }
 }

@@ -2,6 +2,7 @@ package skybooker.server.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
+import skybooker.server.UserPrincipal;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
