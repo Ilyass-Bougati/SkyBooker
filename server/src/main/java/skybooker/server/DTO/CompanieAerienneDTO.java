@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class CompanieAerienneDTO {
     private long id;
     private String nom;
-    private String iacaCode;
+    private String iataCode;
     private String icaoCode;
 }
