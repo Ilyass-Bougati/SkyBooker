@@ -12,9 +12,11 @@ import skybooker.server.DTO.RegisterRequestDTO;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
+import skybooker.server.entity.Role;
 import skybooker.server.service.CategorieService;
 import skybooker.server.service.ClientService;
 import skybooker.server.service.PassagerService;
+import skybooker.server.service.RoleService;
 import skybooker.server.service.implementation.TokenService;
 
 @RestController
@@ -25,12 +27,14 @@ public class AuthController {
     private final ClientService clientService;
     private final PassagerService passagerService;
     private final CategorieService categorieService;
+    private final RoleService roleService;
 
-    public AuthController(TokenService tokenService, ClientService clientService, PassagerService passagerService, CategorieService categorieService) {
+    public AuthController(TokenService tokenService, ClientService clientService, PassagerService passagerService, CategorieService categorieService, RoleService roleService) {
         this.tokenService = tokenService;
         this.clientService = clientService;
         this.passagerService = passagerService;
         this.categorieService = categorieService;
+        this.roleService = roleService;
     }
 
     @PostMapping("/")
@@ -54,6 +58,11 @@ public class AuthController {
         passagerService.create(passager);
 
         Client client = registerRequest.client();
+
+        // giving USER_ROLE
+        Role userRole = roleService.findById(1L);
+        client.setRole(userRole);
+
         client.setPassager(passager);
         clientService.create(client);
         return ResponseEntity.ok(new ClientDTO(client));

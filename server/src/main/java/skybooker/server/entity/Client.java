@@ -39,7 +39,11 @@ public class Client{
     @OneToOne(cascade = CascadeType.ALL)
     private Passager passager;
 
-    // TODO : test this
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
+
+
     /**
      * This function is meant to update all the fields of a client
      * @param client This is the client's new fields

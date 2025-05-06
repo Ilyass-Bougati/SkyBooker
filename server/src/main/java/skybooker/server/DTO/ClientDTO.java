@@ -1,19 +1,14 @@
 package skybooker.server.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
 import skybooker.server.entity.Reservation;
+import skybooker.server.entity.Role;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,6 +34,8 @@ public class ClientDTO {
 
     private Passager passager;
 
+    private Role role;
+
     public ClientDTO(Client client) {
         setId(client.getId());
         setEmail(client.getEmail());
@@ -46,5 +43,6 @@ public class ClientDTO {
         setAdresse(client.getAdresse());
         setReservations(client.getReservations());
         setPassager(client.getPassager());
+        setRole(client.getRole());
     }
 }
