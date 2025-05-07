@@ -22,13 +22,13 @@
         </Label>
         <Rectangle fill="TRANSPARENT" height="21" />
         <HBox alignment="CENTER">
-            <PasswordField prefHeight="57" prefWidth="201.125" promptText="Password" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+            <PasswordField fx:id="password"  prefHeight="57" prefWidth="201.125" promptText="Password" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
                 <font>
                     <Font name="Roboto Light" size="22.5" />
                 </font>
             </PasswordField>
             <Rectangle fill="TRANSPARENT" width="27.75" />
-            <PasswordField prefHeight="57" prefWidth="201.125" promptText="Confirm" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+            <PasswordField fx:id="confirmedPassword" prefHeight="57" prefWidth="201.125" promptText="Confirm" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
                 <font>
                     <Font name="Roboto Light" size="22.5" />
                 </font>
@@ -53,7 +53,7 @@
             <DatePicker prefHeight="48.0" prefWidth="208.0" promptText="Birthdate" style="-fx-font-size: 22.5 ; -fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
             <Rectangle fill="TRANSPARENT" width="27.75" />
             <ChoiceBox fx:id="cardinals" prefHeight="48.0" prefWidth="60.0" style="-fx-border-radius: 12 0 0 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 0 0 12; -fx-background-color: white" />
-            <TextField prefHeight="48.0" prefWidth="136.0" promptText="Phone" style="-fx-border-radius: 0 12 12 0; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 0 12 12 0;">
+            <TextField fx:id="phone" prefHeight="48.0" prefWidth="136.0" promptText="Phone" style="-fx-border-radius: 0 12 12 0; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 0 12 12 0;">
                 <font>
                     <Font name="Roboto Light" size="22.5" />
                 </font>

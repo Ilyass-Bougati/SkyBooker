@@ -22,20 +22,20 @@
         </Label>
         <Rectangle fill="TRANSPARENT" height="21" />
         <HBox alignment="CENTER">
-            <TextField prefHeight="57" prefWidth="185.25" promptText="First Name" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+            <TextField fx:id="fName" prefHeight="57" prefWidth="185.25" promptText="First Name" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
                 <font>
                     <Font name="Roboto Light" size="22.5" />
                 </font>
             </TextField>
             <Rectangle fill="TRANSPARENT" width="27.75" />
-            <TextField prefHeight="57" prefWidth="185.25" promptText="Last Name" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+            <TextField fx:id="lName" prefHeight="57" prefWidth="185.25" promptText="Last Name" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
                 <font>
                     <Font name="Roboto Light" size="22.5" />
                 </font>
             </TextField>
         </HBox>
         <Rectangle fill="TRANSPARENT" height="21" />
-        <TextField prefHeight="57" prefWidth="398.25" promptText="Email" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+        <TextField fx:id="email" prefHeight="57" prefWidth="398.25" promptText="Email" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
             <font>
                 <Font name="Roboto Light" size="22.5" />
             </font>
