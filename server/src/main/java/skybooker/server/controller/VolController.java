@@ -17,40 +17,37 @@ public class VolController {
 
     @GetMapping("/{id}")
     public ResponseEntity<VolDTO> vol(@PathVariable long id){
-        Vol vol =volService.findById(id);
+        Vol vol = volService.findById(id);
         if(vol == null){
             return ResponseEntity.notFound().build();
         }else{
             return ResponseEntity.ok(new VolDTO(vol));
         }
     }
-    @PutMapping("/")
-    public ResponseEntity<VolDTO> updateVol(@PathVariable long id, @RequestBody @Valid VolDTO volDTO){
-        Vol vol = volService.findById(id);
+
+    @PostMapping("/")
+    public ResponseEntity<VolDTO> addVol(@RequestBody @Valid VolDTO volDTO){
+        Vol vol = volService.createDTO(volDTO);
         if(vol == null){
             return ResponseEntity.notFound().build();
-        }else{
-            vol.setDateDepart(volDTO.getDateDepart());
-            vol.setHeureDepart(volDTO.getHeureDepart());
-            vol.setDateArrive(volDTO.getDateArrive());
-            vol.setHeureArrive(volDTO.getHeureArrive());
-            vol.setEtat(volDTO.getEtat());
-            vol.setPrix(volDTO.getPrix());
-
-            Vol updatedVol = volService.update(vol);
-            return ResponseEntity.ok(new VolDTO(updatedVol));
+        } else {
+            return ResponseEntity.ok(new VolDTO(vol));
         }
-
     }
 
-    @DeleteMapping("/")
-    public ResponseEntity<VolDTO> deleteVol(@PathVariable long id){
-        Vol vol = volService.findById(id);
-        if(vol == null){
+    @PutMapping("/")
+    public ResponseEntity<VolDTO> updateVol(@RequestBody @Valid VolDTO volDTO){
+        Vol updatedVol = volService.updateDTO(volDTO);
+        if(updatedVol == null){
             return ResponseEntity.notFound().build();
-        }else{
-            volService.deleteById(id);
-            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(new VolDTO(updatedVol));
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVol(@PathVariable long id){
+        volService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

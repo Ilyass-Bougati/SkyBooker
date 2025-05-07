@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import skybooker.server.DTO.VolDTO;
 import skybooker.server.enums.EtatVol;
 import java.sql.Time;
 import java.util.Date;
@@ -44,4 +45,15 @@ public class Vol {
 
     @OneToMany(mappedBy = "vol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new HashSet<>();
+
+    public Vol(VolDTO volDTO) {
+        setId(volDTO.getId());
+        setDateDepart(volDTO.getDateDepart());
+        setHeureDepart(volDTO.getHeureDepart());
+        setDateArrive(volDTO.getDateArrive());
+        setHeureArrive(volDTO.getHeureArrive());
+        setEtat(volDTO.getEtat());
+        setPrix(volDTO.getPrix());
+        setReservations(new HashSet<>());
+    }
 }
