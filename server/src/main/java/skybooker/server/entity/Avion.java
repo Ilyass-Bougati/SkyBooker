@@ -1,5 +1,6 @@
 package skybooker.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,9 +24,11 @@ public class Avion {
     private String model;
     private double maxDistance;
 
-    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Vol> vols = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL)
     private Set<Capacite> capacites = new HashSet<>();
 

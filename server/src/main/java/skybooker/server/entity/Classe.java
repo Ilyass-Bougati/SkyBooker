@@ -1,5 +1,6 @@
 package skybooker.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ public class Classe {
     private String nom;
     private int prixParKm;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Billet> billets = new HashSet<>();
 }
