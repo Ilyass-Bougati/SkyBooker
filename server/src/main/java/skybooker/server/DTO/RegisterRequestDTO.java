@@ -1,5 +1,6 @@
 package skybooker.server.DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -27,6 +28,7 @@ public class RegisterRequestDTO {
     @NotNull
     private String prenom;
 
+    @JsonProperty("CIN")
     @NotNull
     private String CIN;
 

@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.entity.Categorie;
 import skybooker.server.service.CategorieService;
@@ -34,7 +34,7 @@ public class CategorieController {
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Categorie> createCategory(@RequestBody @Valid Categorie categorie) {
         // Check if category with same name already exists
         if (categorieService.findByNom(categorie.getNom()) != null) {
@@ -46,7 +46,7 @@ public class CategorieController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Categorie> updateCategory(@PathVariable Long id, @RequestBody @Valid Categorie categorie) {
         if (!id.equals(categorie.getId())) {
             return ResponseEntity.badRequest().build();
@@ -68,7 +68,7 @@ public class CategorieController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         Categorie categorie = categorieService.findById(id);
         if (categorie == null) {
