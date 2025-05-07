@@ -2,9 +2,7 @@ package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import skybooker.server.entity.Avion;
 import skybooker.server.entity.Billet;
-import skybooker.server.repository.AvionRepository;
 import skybooker.server.repository.BilletRepository;
 import skybooker.server.service.BilletService;
 
