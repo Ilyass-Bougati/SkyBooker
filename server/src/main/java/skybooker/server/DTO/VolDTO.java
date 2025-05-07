@@ -10,6 +10,7 @@ import skybooker.server.enums.EtatVol;
 
 import java.sql.Time;
 import java.util.*;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,8 +41,10 @@ public class VolDTO {
 
     @NotNull
     private long aeroportArriveId;
+
     @NotNull
     private long avionId;
+
     public VolDTO(Vol vol){
         this.id = vol.getId();
         this.dateDepart = vol.getDateDepart();
@@ -53,6 +56,5 @@ public class VolDTO {
         this.aeroportArriveId = vol.getAeroportArrive().getId();
         this.aeroportDepartId = vol.getAeroportDepart().getId();
         this.avionId = vol.getAvion().getId();
-
     }
 }
