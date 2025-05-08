@@ -1,4 +1,4 @@
-name: Building the whole project
+name: Building the server
 on:
   push:
     branches:
@@ -30,7 +30,3 @@ jobs:
       - name: Run server tests
         run: mvn test
         working-directory: ./server
-
-      - name: Build the client
-        run: mvn clean install
-        working-directory: ./client
