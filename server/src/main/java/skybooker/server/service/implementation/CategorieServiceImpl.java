@@ -27,6 +27,12 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
+    public Categorie findByNom(String name) {
+        Optional<Categorie> categorie = categorieRepository.findByNom(name);
+        return categorie.orElse(null);
+    }
+
+    @Override
     public Categorie create(Categorie categorie) {
         return categorieRepository.save(categorie);
     }

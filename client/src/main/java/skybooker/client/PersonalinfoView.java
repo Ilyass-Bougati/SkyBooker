@@ -2,13 +2,14 @@ package skybooker.client;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.*;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+
+import java.util.function.UnaryOperator;
 
 
 public class PersonalinfoView {
@@ -18,11 +19,14 @@ public class PersonalinfoView {
     @FXML
     private ChoiceBox<String> cardinals;
 
-    private void initializeCardinals()
-    {
-        cardinals.setItems(FXCollections.observableArrayList("CA" , "FR" ,"MA" , "US" ));
-        cardinals.setValue("MA");
-    }
+    @FXML
+    private PasswordField password;
+
+    @FXML
+    private PasswordField confirmedPassword;
+
+    @FXML
+    private TextField phone;
 
     @FXML
     public void initialize()
@@ -36,6 +40,62 @@ public class PersonalinfoView {
         button_icon.setEffect(blend);
 
         initializeCardinals();
+        addPhoneNumberConstraint();
     }
+
+    private boolean verifyPasswordValidity()
+    {
+        if(password.getText().length() < 8)
+        {
+            return false;
+        }
+
+        boolean containsUpperCase = false , containsLowerCase = false , containsNumeral = false , containsSpecialChar = false;
+
+        for(char c : password.getText().toCharArray())
+        {
+            if( c >= 'a' && c <= 'z')
+            {
+                containsLowerCase = true;
+            }
+            else if( c >= 'A' && c <= 'Z' )
+            {
+                containsUpperCase = true;
+            }
+            else if( c >= '0' && c <= '9' )
+            {
+                containsNumeral = true;
+            }
+            else{
+                containsSpecialChar = true;
+            }
+        }
+
+        return containsUpperCase && containsLowerCase && containsNumeral && containsSpecialChar ;
+    }
+
+    private boolean verifyConfirmedPasswordValidity()
+    {
+        return confirmedPassword.getText().equals(password.getText()) ;
+    }
+
+    private void initializeCardinals()
+    {
+        cardinals.setItems(FXCollections.observableArrayList("CA" , "FR" ,"MA" , "US"));
+        cardinals.setValue("MA");
+    }
+
+    private void addPhoneNumberConstraint()
+    {
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            if(!change.isDeleted() &&( change.getText().matches("[^0-9]") || phone.getText().length() == 9)){
+                return null;
+            }
+            return change;
+        };
+
+        phone.setTextFormatter(new TextFormatter<>(filter));
+    }
+
 }
 
