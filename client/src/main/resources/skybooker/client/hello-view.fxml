@@ -63,7 +63,7 @@
          </HBox>
          <Rectangle fill="TRANSPARENT" height="63" />
          <VBox alignment="CENTER">
-             <Button mnemonicParsing="false" prefHeight="57" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Log in" textFill="#FFFFFF">
+             <Button onAction="#onLogInButton" mnemonicParsing="false" prefHeight="57" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Log in" textFill="#FFFFFF">
                  <font>
                      <Font name="Roboto Light" size="26.25" />
                  </font>
