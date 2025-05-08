@@ -56,11 +56,16 @@ public class Client {
         if (response.isSuccessful()) {
             System.out.println(request.toString());
         } else {
-            System.out.println("Unexpected code " + response.body().string());
+            throw new IOException("Unexpected code " + response);
         }
     }
 
     public static String getToken() {
         return token;
+    }
+
+    public static void logout() {
+        token = "";
+        isLoggedIn = false;
     }
 }
