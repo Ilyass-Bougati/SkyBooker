@@ -1,4 +1,4 @@
-name: Building the whole project
+name: Building the client
 on:
   push:
     branches:
