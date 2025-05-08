@@ -18,4 +18,11 @@ public class HelloController {
         HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
         HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
     }
+
+    @FXML
+    protected void onLogInButton() throws IOException
+    {
+        HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Landingpage-view.fxml"));
+        HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+    }
 }

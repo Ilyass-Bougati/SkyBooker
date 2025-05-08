@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.LandingpageView">
+    <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
+        <font>
+            <Font name="Roboto Light" size="75.0" />
+        </font>
+    </Label>
+    <Separator prefHeight="0.0" prefWidth="684.3" />
+    <Rectangle fill="TRANSPARENT" height="42.75" />
+    <VBox alignment="CENTER">
+        <ImageView fitHeight="186.0" fitWidth="781.0" preserveRatio="true">
+            <Image url="@assets/images/plane_bg2.jpeg" />
+         <viewport>
+            <Rectangle2D height="123.0" minX="-19.0" minY="150.0" width="650.0" />
+         </viewport>
+        </ImageView>
+        <StackPane maxWidth="735">
+            <Rectangle fx:id="container" height="126.0" style="-fx-fill: rgb(255,255,255) ; -fx-border-radius: 12 12 12 12 ; -fx-background-radius: 12 12 12 12 ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)" width="735.0" />
+            <VBox>
+                <HBox alignment="CENTER">
+                    <padding>
+                        <Insets left="9" right="9" />
+                    </padding>
+                    <Label style="-fx-font-weight: bold" text="Passengers :">
+                        <font>
+                            <Font name="Roboto Light" size="22.5" />
+                        </font>
+                    </Label>
+                    <Label style="-fx-font-weight: bold" text="Class :">
+                        <font>
+                            <Font name="Roboto Light" size="22.5" />
+                        </font>
+                    </Label>
+                </HBox>
+                <Rectangle height="21.75"/>
+                <HBox>
+                    <padding>
+                        <Insets left="9" right="9" />
+                    </padding>
+                    <TextField maxHeight="51" maxWidth="230.25" promptText="Departure" style="-fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12 0 0 12 ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 0 0 12;">
+                        <font>
+                            <Font name="Roboto Light" size="22.5" />
+                        </font>
+                    </TextField>
+                    <TextField maxHeight="51" maxWidth="157.5" promptText="Arrival" style="-fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius:  0 12 12 0; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 0 12 12 0;">
+                        <font>
+                            <Font name="Roboto Light" size="22.5" />
+                        </font>
+                    </TextField>
+                    <Rectangle fill="TRANSPARENT" width="26.25" />
+                    <DatePicker maxHeight="51" maxWidth="120" promptText="Date" style="-fx-font-weight: bold ;-fx-font-size: 22.5 ; -fx-font-family: 'Roboto Light'; -fx-border-radius:  12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
+                    <Rectangle width="56.0" />
+                    <Button mnemonicParsing="false" prefHeight="51" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Find" textFill="#FFFFFF">
+                        <font>
+                            <Font name="Roboto Light" size="26.25" />
+                        </font>
+                    </Button>
+                </HBox>
+            </VBox>
+        </StackPane>
+        <Rectangle height="38.25" />
+        <StackPane>
+            <VBox alignment="CENTER_LEFT">
+                <padding>
+                    <Insets left="41.75" />
+                </padding>
+                <Button maxHeight="57" maxWidth="57" mnemonicParsing="false" prefHeight="57" prefWidth="57" style="-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); -fx-cursor: hand;" textFill="#FFFFFF">
+                    <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" opacity="50" rotate="-90">
+                            <Image url="@assets/Arrow_icon.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT">
+                <padding>
+                    <Insets right="41.75" />
+                </padding>
+                <Button mnemonicParsing="false" prefHeight="57" style="-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); -fx-cursor: hand;" text="Explore">
+                    <font>
+                        <Font name="Roboto Light" size="26.25" />
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" opacity="50" rotate="-90">
+                            <Image url="@assets/Arrow_icon.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </VBox>
+        </StackPane>
+    </VBox>
+</VBox>

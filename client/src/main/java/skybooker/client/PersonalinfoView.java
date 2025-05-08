@@ -8,6 +8,7 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.util.function.UnaryOperator;
 
@@ -41,6 +42,8 @@ public class PersonalinfoView {
 
         initializeCardinals();
         addPhoneNumberConstraint();
+        addToolTip(password , "Password must be at least 8 characters , \n contain lower and upper case characters ,  \n as well as numerals and a special character");
+        addToolTip(password , "Passwords must match");
     }
 
     private boolean verifyPasswordValidity()
@@ -97,5 +100,12 @@ public class PersonalinfoView {
         phone.setTextFormatter(new TextFormatter<>(filter));
     }
 
+    private void addToolTip(Control control , String tip)
+    {
+        Tooltip tt = new Tooltip(tip);
+        tt.setWrapText(true);
+        tt.setFont(new Font("Roboto Light" , 17));
+        control.tooltipProperty().setValue(tt);
+    }
 }
 
