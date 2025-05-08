@@ -8,7 +8,9 @@ import skybooker.server.DTO.PassagerDTO;
 import skybooker.server.entity.Passager;
 import skybooker.server.service.PassagerService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/passager")
@@ -18,32 +20,35 @@ public class PassagerController {
     private PassagerService passagerService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Passager>> getAllPassager() {
-        return ResponseEntity.ok(passagerService.findAll());
+    public ResponseEntity<List<PassagerDTO>> getAllPassager() {
+        List<Passager> passagers = passagerService.findAll();
+        List<PassagerDTO> passagerDTOs = passagers.stream().map(PassagerDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok(passagerDTOs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Passager> getPassagerById(@PathVariable Long id) {
+    public ResponseEntity<PassagerDTO> getPassagerById(@PathVariable Long id) {
         Passager passager = passagerService.findById(id);
         if (passager == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(passager);
+            return ResponseEntity.ok(new PassagerDTO(passager));
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<Passager> createPassager(@RequestBody @Valid PassagerDTO passagerDTO) {
-        return ResponseEntity.ok(passagerService.createDTO(passagerDTO));
+    public ResponseEntity<PassagerDTO> createPassager(@RequestBody @Valid PassagerDTO passagerDTO) {
+        Passager passager = passagerService.createDTO(passagerDTO);
+        return ResponseEntity.ok(new PassagerDTO(passager));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Passager> updatePassager(@RequestBody @Valid PassagerDTO passagerDTO) {
+    public ResponseEntity<PassagerDTO> updatePassager(@RequestBody @Valid PassagerDTO passagerDTO) {
         Passager passager = passagerService.updateDTO(passagerDTO);
         if (passager == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(passager);
+            return ResponseEntity.ok(new PassagerDTO(passager));
         }
     }
 

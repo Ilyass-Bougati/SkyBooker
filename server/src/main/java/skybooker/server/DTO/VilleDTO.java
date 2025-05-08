@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import skybooker.server.entity.Ville;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,4 +17,10 @@ public class VilleDTO {
 
     @NotNull
     private String pays;
+
+    public VilleDTO(Ville ville) {
+        setId(ville.getId());
+        setNom(ville.getNom());
+        setPays(ville.getPays());
+    }
 }

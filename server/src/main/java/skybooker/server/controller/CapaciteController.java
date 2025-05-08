@@ -23,27 +23,28 @@ public class CapaciteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Capacite> getCapaciteById(@PathVariable Long id) {
+    public ResponseEntity<CapaciteDTO> getCapaciteById(@PathVariable Long id) {
         Capacite capacite = capaciteService.findById(id);
         if (capacite == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(capacite);
+            return ResponseEntity.ok(new CapaciteDTO(capacite));
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<Capacite> createCapacite(@RequestBody @Valid CapaciteDTO capaciteDTO) {
-        return ResponseEntity.ok(capaciteService.createDTO(capaciteDTO));
+    public ResponseEntity<CapaciteDTO> createCapacite(@RequestBody @Valid CapaciteDTO capaciteDTO) {
+        Capacite capacite = capaciteService.createDTO(capaciteDTO);
+        return ResponseEntity.ok(new CapaciteDTO(capacite));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Capacite> updateCapacite(@RequestBody @Valid CapaciteDTO capaciteDTO) {
+    public ResponseEntity<CapaciteDTO> updateCapacite(@RequestBody @Valid CapaciteDTO capaciteDTO) {
         Capacite capacite = capaciteService.updateDTO(capaciteDTO);
         if (capacite == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(capacite);
+            return ResponseEntity.ok(new CapaciteDTO(capacite));
         }
     }
 

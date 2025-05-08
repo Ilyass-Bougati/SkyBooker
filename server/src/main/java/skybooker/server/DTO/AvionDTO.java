@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import skybooker.server.entity.Aeroport;
+import skybooker.server.entity.Avion;
 
 @Data
 @NoArgsConstructor
@@ -26,4 +27,13 @@ public class AvionDTO {
 
     @NotNull
     private long companieAerienneId;
+
+    public AvionDTO(Avion avion) {
+        this.id = avion.getId();
+        this.iataCode = avion.getIataCode();
+        this.icaoCode = avion.getIcaoCode();
+        this.model = avion.getModel();
+        this.maxDistance = avion.getMaxDistance();
+        setCompanieAerienneId(avion.getCompanieAerienne().getId());
+    }
 }
