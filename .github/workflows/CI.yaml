@@ -1,4 +1,4 @@
-name: Build a JAR in spring boot using springboot
+name: Building the whole project
 on:
   push:
     branches:
@@ -23,12 +23,14 @@ jobs:
         with:
           java-version: '17'
 
-
-      - name: Build with Maven
+      - name: Build the server
         run: mvn clean install
         working-directory: ./server
 
-
-      - name: Run Tests
+      - name: Run server tests
         run: mvn test
         working-directory: ./server
+
+      - name: Build the client
+        run: mvn clean install
+        working-directory: ./client
