@@ -3,12 +3,10 @@ package skybooker.server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import skybooker.server.entity.Categorie;
-import skybooker.server.entity.Client;
-import skybooker.server.entity.Role;
-import skybooker.server.repository.CategorieRepository;
-import skybooker.server.repository.RoleRepository;
+import skybooker.server.entity.*;
+import skybooker.server.repository.*;
 import skybooker.server.service.ClientService;
+import skybooker.server.service.VilleService;
 
 @Component
 public class StartupRunner implements CommandLineRunner {
@@ -18,8 +16,24 @@ public class StartupRunner implements CommandLineRunner {
 
     @Autowired
     private ClientService clientService;
+
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private VilleRepository villeRepository;
+
+    @Autowired
+    private CompanieAerienneRepository companieAerienneRepository;
+
+    @Autowired
+    private AeroportRepository aeroportRepository;
+
+    @Autowired
+    private AvionRepository avionRepository;
+
+    @Autowired
+    private ClasseRepository classeRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -36,9 +50,9 @@ public class StartupRunner implements CommandLineRunner {
         enfant.setNom("enfant");
         enfant.setReduction(0.25);
 
-        categorieRepository.save(normale);
-        categorieRepository.save(senior);
         categorieRepository.save(enfant);
+        categorieRepository.save(senior);
+        categorieRepository.save(normale);
 
         // Create the roles
         Role role = new Role();
@@ -58,5 +72,57 @@ public class StartupRunner implements CommandLineRunner {
         client.setPassword("123");
         client.setRole(role2);
         clientService.create(client);
+
+        // Creating a default city
+        Ville settat = new Ville();
+        settat.setNom("settat");
+        settat.setPays("maroc");
+        villeRepository.save(settat);
+
+        // Creating default companieaerieen
+        CompanieAerienne companie = new CompanieAerienne();
+        companie.setNom("companie");
+        companieAerienneRepository.save(companie);
+
+        // creating airports
+        Aeroport depart = new Aeroport();
+        depart.setNom("depart");
+        depart.setIcaoCode("icao1");
+        depart.setIataCode("iata1");
+        depart.setLatitude(0.0);
+        depart.setLongitude(0.0);
+        depart.setVille(settat);
+
+        Aeroport arrive = new Aeroport();
+        arrive.setNom("arrive");
+        arrive.setIcaoCode("icao2");
+        arrive.setIataCode("iata2");
+        arrive.setLatitude(1.0);
+        arrive.setLongitude(1.0);
+        arrive.setVille(settat);
+
+        aeroportRepository.save(depart);
+        aeroportRepository.save(arrive);
+
+        // creatign an airplane
+        Avion avion = new Avion();
+        avion.setCompanieAerienne(companie);
+        avion.setMaxDistance(1000);
+        avion.setModel("boeing");
+        avion.setIataCode("iata3");
+        avion.setIcaoCode("icao3");
+        avionRepository.save(avion);
+
+        // classe
+        Classe classe = new Classe();
+        classe.setNom("premier");
+        classe.setPrixParKm(100);
+
+        Classe eco = new Classe();
+        eco.setNom("economie");
+        eco.setPrixParKm(100);
+
+        classeRepository.save(classe);
+        classeRepository.save(eco);
     }
 }
