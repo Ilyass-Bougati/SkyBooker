@@ -1,5 +1,11 @@
 package skybooker.server.enums;
 
 public enum EtatVol {
-    PENDING
+    SCHEDULED,
+    BOARDING,
+    DELAYED,
+    CANCELLED,
+    LANDED,
+    DIVERTED,
+    COMPLETED
 }
