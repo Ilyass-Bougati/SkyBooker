@@ -2,8 +2,10 @@ package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import skybooker.server.DTO.PassagerDTO;
 import skybooker.server.entity.Passager;
 import skybooker.server.repository.PassagerRepository;
+import skybooker.server.service.CategorieService;
 import skybooker.server.service.PassagerService;
 
 import java.util.List;
@@ -13,7 +15,10 @@ import java.util.Optional;
 public class PassagerServiceImpl implements PassagerService {
 
     @Autowired
-    PassagerRepository passagerRepository;
+    private PassagerRepository passagerRepository;
+
+    @Autowired
+    private CategorieService categorieService;
 
     @Override
     public List<Passager> findAll() {
@@ -50,5 +55,30 @@ public class PassagerServiceImpl implements PassagerService {
     @Override
     public void delete(Passager passager) {
         passagerRepository.delete(passager);
+    }
+
+    @Override
+    public Passager createDTO(PassagerDTO passagerDTO) {
+        Passager passager = new Passager(passagerDTO);
+        passager.updateCategorie(categorieService);
+        return passagerRepository.save(passager);
+    }
+
+    @Override
+    public Passager updateDTO(PassagerDTO passagerDTO) {
+        Passager passager = findById(passagerDTO.getId());
+        if (passager != null) {
+            // updating the passager
+            passager.setNom(passagerDTO.getNom());
+            passager.setPrenom(passagerDTO.getPrenom());
+            passager.setAge(passagerDTO.getAge());
+            passager.setCIN(passagerDTO.getCIN());
+            passager.updateCategorie(categorieService);
+
+            // saving the updates
+            return passagerRepository.save(passager);
+        } else {
+            return null;
+        }
     }
 }
