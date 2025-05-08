@@ -1,0 +1,31 @@
+name: Build a JAR in spring boot using springboot
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+
+
+        with:
+          java-version: '17'
+
+
+      - name: Build with Maven
+        run: mvn clean install
+        working-directory: ./server
+
+
+      - name: Run Tests
+        run: mvn test
+        working-directory: ./server
