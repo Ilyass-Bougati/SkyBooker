@@ -8,7 +8,9 @@ import skybooker.server.DTO.BilletDTO;
 import skybooker.server.entity.Billet;
 import skybooker.server.service.BilletService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/billet")
@@ -18,32 +20,35 @@ public class BilletController {
     private BilletService billetService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Billet>> getAllBillet() {
-        return ResponseEntity.ok(billetService.findAll());
+    public ResponseEntity<List<BilletDTO>> getAllBillet() {
+        List<Billet> billets = billetService.findAll();
+        List<BilletDTO> billetDTOs = billets.stream().map(BilletDTO::new).toList();
+        return ResponseEntity.ok(billetDTOs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Billet> getBilletById(@PathVariable Long id) {
+    public ResponseEntity<BilletDTO> getBilletById(@PathVariable Long id) {
         Billet billet = billetService.findById(id);
         if (billet == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(billet);
+            return ResponseEntity.ok(new BilletDTO(billet));
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<Billet> createBillet(@RequestBody @Valid BilletDTO billetDTO) {
-        return ResponseEntity.ok(billetService.createDTO(billetDTO));
+    public ResponseEntity<BilletDTO> createBillet(@RequestBody @Valid BilletDTO billetDTO) {
+        Billet billet = billetService.createDTO(billetDTO);
+        return ResponseEntity.ok(new BilletDTO(billet));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Billet> updateBillet(@RequestBody @Valid BilletDTO billetDTO) {
+    public ResponseEntity<BilletDTO> updateBillet(@RequestBody @Valid BilletDTO billetDTO) {
         Billet billet = billetService.updateDTO(billetDTO);
         if (billet == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(billet);
+            return ResponseEntity.ok(new BilletDTO(billet));
         }
     }
 

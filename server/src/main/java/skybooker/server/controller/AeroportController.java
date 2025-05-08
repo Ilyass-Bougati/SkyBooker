@@ -8,7 +8,9 @@ import skybooker.server.DTO.AeroportDTO;
 import skybooker.server.entity.Aeroport;
 import skybooker.server.service.AeroportService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -19,32 +21,35 @@ public class AeroportController {
     private AeroportService aeroportService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Aeroport>> getAllAeroport() {
-        return ResponseEntity.ok(aeroportService.findAll());
+    public ResponseEntity<List<AeroportDTO>> getAllAeroport() {
+        List<Aeroport> aeroports = aeroportService.findAll();
+        List<AeroportDTO> aeroportDTOS = aeroports.stream().map(AeroportDTO::new).toList();
+        return ResponseEntity.ok(aeroportDTOS);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Aeroport> getAeroportById(@PathVariable Long id) {
+    public ResponseEntity<AeroportDTO> getAeroportById(@PathVariable Long id) {
         Aeroport aeroport = aeroportService.findById(id);
         if (aeroport == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(aeroport);
+            return ResponseEntity.ok(new AeroportDTO(aeroport));
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<Aeroport> createAeroport(@RequestBody @Valid AeroportDTO aeroportDTO) {
-        return ResponseEntity.ok(aeroportService.createDTO(aeroportDTO));
+    public ResponseEntity<AeroportDTO> createAeroport(@RequestBody @Valid AeroportDTO aeroportDTO) {
+        Aeroport aeroport = aeroportService.createDTO(aeroportDTO);
+        return ResponseEntity.ok(new AeroportDTO(aeroport));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Aeroport> updateAeroport(@RequestBody @Valid AeroportDTO aeroportDTO) {
+    public ResponseEntity<AeroportDTO> updateAeroport(@RequestBody @Valid AeroportDTO aeroportDTO) {
         Aeroport aeroport = aeroportService.updateDTO(aeroportDTO);
         if (aeroport == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(aeroport);
+            return ResponseEntity.ok(new AeroportDTO(aeroport));
         }
     }
 
