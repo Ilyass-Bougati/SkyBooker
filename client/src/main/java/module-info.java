@@ -10,8 +10,10 @@ module skybooker.client {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
-    requires okhttp;
     requires java.desktop;
+    requires okhttp3;
+    requires com.fasterxml.jackson.databind;
+    requires java.sql;
 
     opens skybooker.client to javafx.fxml;
     exports skybooker.client;

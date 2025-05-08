@@ -1,4 +1,4 @@
-package skybooker.server.enums;
+package enums;
 
 public enum EtatReservation {
     PENDING,

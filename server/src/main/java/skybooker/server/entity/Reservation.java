@@ -1,8 +1,12 @@
 package skybooker.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.enums.EtatReservation;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -11,17 +15,21 @@ import java.util.Set;
 
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "reservations")
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private EtatReservation etat = EtatReservation.PENDING;
 
     @Min(0)
     private double prixTotal;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
@@ -30,10 +38,17 @@ public class Reservation {
     @CreationTimestamp
     private LocalDateTime reservedAt;
 
-    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     private Set<Billet> billets = new HashSet<>();
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "vol_id", nullable = false)
     private Vol vol;
+
+    public Reservation(ReservationDTO reservationDTO) {
+        setEtat(reservationDTO.getEtat());
+        setReservedAt(reservationDTO.getReservedAt());
+        setPrixTotal(reservationDTO.getPrixTotal());
+        billets = new HashSet<>();
+    }
 }

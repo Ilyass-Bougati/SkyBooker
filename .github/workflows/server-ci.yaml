@@ -1,0 +1,32 @@
+name: Building the server
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+
+
+        with:
+          java-version: '17'
+
+      - name: Build the server
+        run: mvn clean install
+        working-directory: ./server
+
+      - name: Run server tests
+        run: mvn test
+        working-directory: ./server

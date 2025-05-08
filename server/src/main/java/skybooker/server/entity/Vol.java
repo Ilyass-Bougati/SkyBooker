@@ -1,5 +1,6 @@
 package skybooker.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -31,18 +32,19 @@ public class Vol {
     @Min(0)
     private double prix;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "aeroport_depart_id", nullable = false)
     private Aeroport aeroportDepart;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "aeroport_arrive_id", nullable = false)
     private Aeroport aeroportArrive;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "avion_id", nullable = false)
     private Avion avion;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "vol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new HashSet<>();
 
