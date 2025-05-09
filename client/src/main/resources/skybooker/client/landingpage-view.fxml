@@ -27,20 +27,27 @@
             <VBox>
                 <HBox alignment="CENTER">
                     <padding>
-                        <Insets left="9" right="9" />
+                        <Insets left="9" right="9" top="5" />
                     </padding>
-                    <Label style="-fx-font-weight: bold" text="Passengers :">
+                    <Label style="-fx-font-weight: bold" text="Passengers : ">
                         <font>
                             <Font name="Roboto Light" size="22.5" />
                         </font>
                     </Label>
-                    <Label style="-fx-font-weight: bold" text="Class :">
+                    <Button fx:id="contextMenuTrigger" text="0" style="-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;">
+                        <font>
+                            <Font name="Roboto Light" />
+                        </font>
+                    </Button>
+                    <Rectangle fill="TRANSPARENT" width="30" />
+                    <Label style="-fx-font-weight: bold" text="Class : ">
                         <font>
                             <Font name="Roboto Light" size="22.5" />
                         </font>
                     </Label>
+                    <ChoiceBox fx:id="classes" value="Economy" style=" -fx-pref-width: 180 ;-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;" />
                 </HBox>
-                <Rectangle height="21.75"/>
+                <Rectangle height="21.75" />
                 <HBox>
                     <padding>
                         <Insets left="9" right="9" />
