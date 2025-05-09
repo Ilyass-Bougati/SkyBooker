@@ -9,6 +9,7 @@ import skybooker.server.entity.Reservation;
 import skybooker.server.service.ReservationService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/reservation")
@@ -18,8 +19,10 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Reservation>> getAllReservation() {
-        return ResponseEntity.ok(reservationService.findAll());
+    public ResponseEntity<List<ReservationDTO>> getAllReservation() {
+        List<Reservation> reservations = reservationService.findAll();
+        List<ReservationDTO> reservationDTOs = reservations.stream().map(ReservationDTO::new).toList();
+        return ResponseEntity.ok(reservationDTOs);
     }
 
     @GetMapping("/{id}")

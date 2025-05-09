@@ -8,7 +8,9 @@ import skybooker.server.DTO.AvionDTO;
 import skybooker.server.entity.Avion;
 import skybooker.server.service.AvionService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/avion")
@@ -18,8 +20,10 @@ public class AvionController {
     private AvionService avionService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Avion>> getAllAvion() {
-        return ResponseEntity.ok(avionService.findAll());
+    public ResponseEntity<List<AvionDTO>> getAllAvion() {
+        List<Avion> avions = avionService.findAll();
+        List<AvionDTO> avionDTOs = avions.stream().map(AvionDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok(avionDTOs);
     }
 
     @GetMapping("/{id}")
