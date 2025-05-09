@@ -6,6 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.geometry.Insets?>
 <VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.PersonalinfoView">
     <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
         <font>
@@ -14,52 +15,66 @@
     </Label>
     <Separator prefHeight="0.0" prefWidth="684.3" />
     <Rectangle fill="TRANSPARENT" height="41.25" />
-    <VBox alignment="CENTER" maxWidth="430.0">
-        <Label style="-fx-font-weight: 900;" text="Almost there !" textAlignment="CENTER">
-            <font>
-                <Font name="Roboto Light" size="30" />
-            </font>
-        </Label>
-        <Rectangle fill="TRANSPARENT" height="21" />
-        <HBox alignment="CENTER">
-            <PasswordField fx:id="password"  prefHeight="57" prefWidth="201.125" promptText="Password" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+    <StackPane>
+        <VBox>
+            <padding>
+                <Insets left="20"/>
+            </padding>
+            <Button onAction="#onBackButton" mnemonicParsing="false" maxHeight="57" maxWidth="57" prefHeight="57" prefWidth="57" style="-fx-effect: dropshadow(gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); ;-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-cursor: hand;" textFill="#FFFFFF">
+                <graphic>
+                    <ImageView fitHeight="30" fitWidth="30" rotate="90" style="-fx-opacity: 0.5;">
+                        <Image url="@assets/Arrow_icon.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </VBox>
+        <VBox alignment="CENTER" maxWidth="430.0">
+            <Label style="-fx-font-weight: 900;" text="Almost there !" textAlignment="CENTER">
                 <font>
-                    <Font name="Roboto Light" size="22.5" />
+                    <Font name="Roboto Light" size="30" />
                 </font>
-            </PasswordField>
-            <Rectangle fill="TRANSPARENT" width="27.75" />
-            <PasswordField fx:id="confirmedPassword" prefHeight="57" prefWidth="201.125" promptText="Confirm" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
-                <font>
-                    <Font name="Roboto Light" size="22.5" />
-                </font>
-            </PasswordField>
-        </HBox>
-        <Rectangle fill="TRANSPARENT" height="21" />
-        <HBox>
-            <TextField prefHeight="57" prefWidth="266.75" promptText="Address" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
-                <font>
-                    <Font name="Roboto Light" size="22.5" />
-                </font>
-            </TextField>
-            <Rectangle fill="TRANSPARENT" width="27.75" />
-            <TextField prefHeight="57" prefWidth="136.0" promptText="CIN" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
-                <font>
-                    <Font name="Roboto Light" size="22.5" />
-                </font>
-            </TextField>
-        </HBox>
-        <Rectangle fill="TRANSPARENT" height="21" />
-        <HBox alignment="CENTER">
-            <DatePicker prefHeight="48.0" prefWidth="208.0" promptText="Birthdate" style="-fx-font-size: 22.5 ; -fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
-            <Rectangle fill="TRANSPARENT" width="27.75" />
-            <ChoiceBox fx:id="cardinals" prefHeight="48.0" prefWidth="60.0" style="-fx-border-radius: 12 0 0 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 0 0 12; -fx-background-color: white" />
-            <TextField fx:id="phone" prefHeight="48.0" prefWidth="136.0" promptText="Phone" style="-fx-border-radius: 0 12 12 0; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 0 12 12 0;">
-                <font>
-                    <Font name="Roboto Light" size="22.5" />
-                </font>
-            </TextField>
-        </HBox>
-    </VBox>
+            </Label>
+            <Rectangle fill="TRANSPARENT" height="21" />
+            <HBox alignment="CENTER">
+                <PasswordField fx:id="password"  prefHeight="57" prefWidth="201.125" promptText="Password" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+                    <font>
+                        <Font name="Roboto Light" size="22.5" />
+                    </font>
+                </PasswordField>
+                <Rectangle fill="TRANSPARENT" width="27.75" />
+                <PasswordField fx:id="confirmedPassword" prefHeight="57" prefWidth="201.125" promptText="Confirm" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+                    <font>
+                        <Font name="Roboto Light" size="22.5" />
+                    </font>
+                </PasswordField>
+            </HBox>
+            <Rectangle fill="TRANSPARENT" height="21" />
+            <HBox>
+                <TextField prefHeight="57" prefWidth="266.75" promptText="Address" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+                    <font>
+                        <Font name="Roboto Light" size="22.5" />
+                    </font>
+                </TextField>
+                <Rectangle fill="TRANSPARENT" width="27.75" />
+                <TextField prefHeight="57" prefWidth="136.0" promptText="CIN" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+                    <font>
+                        <Font name="Roboto Light" size="22.5" />
+                    </font>
+                </TextField>
+            </HBox>
+            <Rectangle fill="TRANSPARENT" height="21" />
+            <HBox alignment="CENTER">
+                <DatePicker prefHeight="48.0" prefWidth="208.0" promptText="Birthdate" style="-fx-font-size: 22.5 ; -fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
+                <Rectangle fill="TRANSPARENT" width="27.75" />
+                <ChoiceBox fx:id="cardinals" prefHeight="48.0" prefWidth="60.0" style="-fx-border-radius: 12 0 0 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 0 0 12; -fx-background-color: white" />
+                <TextField fx:id="phone" prefHeight="48.0" prefWidth="136.0" promptText="Phone" style="-fx-border-radius: 0 12 12 0; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 0 12 12 0;">
+                    <font>
+                        <Font name="Roboto Light" size="22.5" />
+                    </font>
+                </TextField>
+            </HBox>
+        </VBox>
+    </StackPane>
     <Rectangle fill="TRANSPARENT" height="46.5" />
     <Button mnemonicParsing="false" prefHeight="59.0" prefWidth="59.0" style="-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-cursor: hand;" textFill="#FFFFFF">
         <graphic>

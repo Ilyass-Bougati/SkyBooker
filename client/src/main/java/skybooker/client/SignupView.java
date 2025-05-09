@@ -2,12 +2,18 @@ package skybooker.client;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,7 +32,9 @@ public class SignupView {
     private TextField email;
 
 
-
+    private interface controlCheck {
+        boolean check();
+    }
 
     @FXML
     protected void onContinueButton() throws IOException
@@ -36,6 +44,13 @@ public class SignupView {
             HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("personalinfo-view.fxml"));
             HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
         }
+    }
+
+    @FXML
+    protected void onBackButton() throws IOException
+    {
+        HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+        HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
     }
 
     @FXML
@@ -51,6 +66,22 @@ public class SignupView {
                 new ColorInput(0, 0, button_icon.getFitWidth(), button_icon.getFitHeight(), Color.WHITE)
         );
         button_icon.setEffect(blend);
+
+        initializeErrorPopup(fName, "Name should only contain characters ", ()->{
+            String text = fName.getText() ;
+            return checkNameValidity(text);
+        });
+
+        initializeErrorPopup(lName, "Name should only contain characters ", ()->{
+            String text = lName.getText() ;
+            return checkNameValidity(text);
+        });
+
+        initializeErrorPopup(email, "Invalid Email", ()->{
+            String text = email.getText() ;
+            return checkEmailValidity(text);
+        });
+
     }
 
 
@@ -76,6 +107,33 @@ public class SignupView {
 
     private boolean checkEmailValidity(String email)
     {
-        return email.length() <= 320 && email.contains("@") && email.split("@")[1].contains(".");
+        return email.length() <= 320 && email.contains("@") && !email.endsWith("@") && email.split("@")[1].contains(".");
+    }
+
+    private void initializeErrorPopup(Control c , String Error , controlCheck chk)
+    {
+        Popup errorPopup = new Popup();
+
+        Label errorMessage = new Label(Error);
+        errorMessage.setStyle("-fx-text-fill: red ; -fx-font-family: 'Roboto Light' ; -fx-font-size: 14 ; -fx-font-weight: bold ;");
+
+        VBox errorMessageContainer = new VBox();
+        errorMessageContainer.setAlignment(Pos.CENTER);
+
+        errorMessageContainer.getChildren().add(errorMessage);
+        errorPopup.getContent().add(errorMessageContainer);
+
+        c.setOnKeyTyped(e ->{
+            boolean b = chk.check();
+            if(!errorPopup.isShowing() && !b)
+            {
+                Bounds bounds = c.localToScreen(c.getBoundsInLocal());
+                errorPopup.show(c , bounds.getMinX() , bounds.getMaxY());
+            }
+            else if(errorPopup.isShowing() && b)
+            {
+                errorPopup.hide();
+            }
+        });
     }
 }
