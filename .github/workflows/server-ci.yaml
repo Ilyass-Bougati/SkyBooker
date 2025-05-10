@@ -4,11 +4,35 @@ on:
     branches:
       - main
 
-
 jobs:
-  build:
+  # Label of the runner job
+  runner-job:
+    # You must use a Linux environment when using service containers or container jobs
     runs-on: ubuntu-latest
+
+    # Service containers to run with `runner-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_DB: skybooker     # <- Set the database name here
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: root
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+
     steps:
+      # Downloads a copy of the code in your repository before running CI tests
       - name: Check out code
         uses: actions/checkout@v2
 
@@ -21,5 +45,21 @@ jobs:
           java-version: '17'
 
       - name: Build the server
-        run: mvn clean install -DskipTests
+        run: ./mvnw clean install -DskipTests
         working-directory: ./server
+
+      - name: Generating RSA keys
+        run: bash ./keygen.sh
+        working-directory: ./server
+
+      - name: Testing the application
+        run: ./mvnw test
+        working-directory: ./server
+
+        # Environment variables used by the `client.js` script to create
+        # a new PostgreSQL table.
+        env:
+          # The hostname used to communicate with the PostgreSQL service container
+          POSTGRES_HOST: localhost
+          # The default PostgreSQL port
+          POSTGRES_PORT: 5432
