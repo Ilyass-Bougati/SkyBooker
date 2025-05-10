@@ -1,4 +1,4 @@
-package skybooker.server.controller;
+package skybooker.server.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -34,7 +34,7 @@ public class CategorieController {
     }
 
     @PostMapping("/")
-    @Secured("ROLE_ADMIN")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<Categorie> createCategory(@RequestBody @Valid Categorie categorie) {
         // Check if category with same name already exists
         if (categorieService.findByNom(categorie.getNom()) != null) {
@@ -46,7 +46,7 @@ public class CategorieController {
     }
 
     @PutMapping("/{id}")
-    @Secured("ROLE_ADMIN")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<Categorie> updateCategory(@PathVariable Long id, @RequestBody @Valid Categorie categorie) {
         if (!id.equals(categorie.getId())) {
             return ResponseEntity.badRequest().build();
@@ -68,7 +68,7 @@ public class CategorieController {
     }
 
     @DeleteMapping("/{id}")
-    @Secured("ROLE_ADMIN")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         Categorie categorie = categorieService.findById(id);
         if (categorie == null) {
