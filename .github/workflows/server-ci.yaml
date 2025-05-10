@@ -33,22 +33,22 @@ jobs:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
 
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
+      steps:
+        - name: Check out code
+          uses: actions/checkout@v2
 
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        - name: Set up JDK 17
+          uses: actions/setup-java@v1
 
 
-        with:
-          java-version: '17'
+          with:
+            java-version: '17'
 
-      - name: Build the server
-        run: mvn clean install -DskipTests
-        working-directory: ./server
+        - name: Build the server
+          run: mvn clean install -DskipTests
+          working-directory: ./server
 
-      - name: Testing the application
-        run: mvn test
-        working-directory: ./server
+        - name: Testing the application
+          run: mvn test
+          working-directory: ./server
