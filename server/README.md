@@ -2,6 +2,7 @@
 To run this server you'll need to generate the private and public keys necessary for encoding and decoding the JWT.
 That could be done following the commands.
 ```bash
+mkdir src/main/resources/certs
 cd src/main/resources/certs
 openssl genrsa -out keypair.pem 2048
 openssl rsa -in keypair.pem -pubout -out public.pem
