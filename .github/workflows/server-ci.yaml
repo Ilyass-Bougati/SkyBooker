@@ -45,11 +45,11 @@ jobs:
           java-version: '17'
 
       - name: Build the server
-        run: mvn clean install -DskipTests
+        run: ./mvnw clean install -DskipTests
         working-directory: ./server
 
       - name: Testing the application
-        run: mvn test
+        run: ./mvnw test
         working-directory: ./server
 
         # Environment variables used by the `client.js` script to create
