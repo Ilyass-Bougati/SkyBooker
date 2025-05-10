@@ -1,8 +1,5 @@
 name: Building the server
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
