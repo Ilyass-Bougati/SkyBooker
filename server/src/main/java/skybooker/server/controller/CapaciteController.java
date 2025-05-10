@@ -3,6 +3,7 @@ package skybooker.server.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.CapaciteDTO;
 import skybooker.server.entity.Capacite;
@@ -33,12 +34,14 @@ public class CapaciteController {
     }
 
     @PostMapping("/")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<CapaciteDTO> createCapacite(@RequestBody @Valid CapaciteDTO capaciteDTO) {
         Capacite capacite = capaciteService.createDTO(capaciteDTO);
         return ResponseEntity.ok(new CapaciteDTO(capacite));
     }
 
     @PutMapping("/")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<CapaciteDTO> updateCapacite(@RequestBody @Valid CapaciteDTO capaciteDTO) {
         Capacite capacite = capaciteService.updateDTO(capaciteDTO);
         if (capacite == null) {
@@ -49,6 +52,7 @@ public class CapaciteController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured("SCOPE_ROLE_ADMIN")
     public void deleteCapacite(@PathVariable Long id) {
         capaciteService.deleteById(id);
     }

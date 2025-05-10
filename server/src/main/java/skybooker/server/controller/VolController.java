@@ -4,7 +4,9 @@ package skybooker.server.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import skybooker.server.DTO.PriceDTO;
 import skybooker.server.DTO.VolDTO;
 import skybooker.server.entity.Vol;
 import skybooker.server.service.VolService;
@@ -31,6 +33,7 @@ public class VolController {
     }
 
     @PostMapping("/")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<VolDTO> addVol(@RequestBody @Valid VolDTO volDTO){
         Vol vol = volService.createDTO(volDTO);
         if(vol == null){
@@ -41,6 +44,7 @@ public class VolController {
     }
 
     @PutMapping("/")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<VolDTO> updateVol(@RequestBody @Valid VolDTO volDTO){
         Vol updatedVol = volService.updateDTO(volDTO);
         if(updatedVol == null){
@@ -51,6 +55,7 @@ public class VolController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<Void> deleteVol(@PathVariable long id){
         volService.deleteById(id);
         return ResponseEntity.ok().build();
