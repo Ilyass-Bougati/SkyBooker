@@ -1,5 +1,9 @@
 package skybooker.client;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
@@ -11,10 +15,12 @@ import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -31,18 +37,40 @@ public class SignupView {
     @FXML
     private TextField email;
 
+    @FXML
+    private StackPane container;
+
 
     private interface controlCheck {
         boolean check();
     }
 
     @FXML
-    protected void onContinueButton() throws IOException
+    protected void onContinueButton() throws RuntimeException
     {
         if(checkNameValidity(fName.getText()) && checkNameValidity(lName.getText()) && checkEmailValidity(email.getText()))
         {
-            HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("personalinfo-view.fxml"));
-            HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+            Bounds bounds = container.localToScreen(container.getBoundsInLocal());
+            TranslateTransition exitTransition = new TranslateTransition();
+            exitTransition.setDuration(new Duration(1000));
+            exitTransition.setFromX(bounds.getMinX());
+            exitTransition.setToX(bounds.getMinX() - 1000);
+            exitTransition.setAutoReverse(false);
+            exitTransition.setNode(container);
+            exitTransition.play();
+
+            fadeOutAnimation();
+
+            PauseTransition delay = new PauseTransition(new Duration(1000));
+            delay.setOnFinished(e ->{
+                HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("personalinfo-view.fxml"));
+                try {
+                    HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            delay.playFromStart();
         }
     }
 
@@ -66,6 +94,8 @@ public class SignupView {
                 new ColorInput(0, 0, button_icon.getFitWidth(), button_icon.getFitHeight(), Color.WHITE)
         );
         button_icon.setEffect(blend);
+
+        Platform.runLater(this::fadeInAnimation);
 
         initializeErrorPopup(fName, "Name should only contain characters ", ()->{
             String text = fName.getText() ;
@@ -135,5 +165,27 @@ public class SignupView {
                 errorPopup.hide();
             }
         });
+    }
+
+    private void fadeInAnimation()
+    {
+        FadeTransition fadeIn = new FadeTransition();
+        fadeIn.setNode(container);
+        fadeIn.setFromValue(0);
+        fadeIn.setToValue(1);
+        fadeIn.setDuration(new Duration(1500));
+        fadeIn.setAutoReverse(false);
+        fadeIn.play();
+    }
+
+    private void fadeOutAnimation()
+    {
+        FadeTransition fadeOut = new FadeTransition();
+        fadeOut.setNode(container);
+        fadeOut.setFromValue(1);
+        fadeOut.setToValue(0);
+        fadeOut.setDuration(new Duration(900));
+        fadeOut.setAutoReverse(false);
+        fadeOut.play();
     }
 }

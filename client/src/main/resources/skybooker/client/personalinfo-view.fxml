@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<?import javafx.geometry.Insets?>
 <VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.PersonalinfoView">
     <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
         <font>
@@ -14,13 +14,13 @@
         </font>
     </Label>
     <Separator prefHeight="0.0" prefWidth="684.3" />
-    <Rectangle fill="TRANSPARENT" height="41.25" />
-    <StackPane>
+    <Rectangle fill="TRANSPARENT" height="40.0" />
+    <StackPane fx:id="container">
         <VBox>
             <padding>
-                <Insets left="20"/>
+                <Insets left="20" />
             </padding>
-            <Button onAction="#onBackButton" mnemonicParsing="false" maxHeight="57" maxWidth="57" prefHeight="57" prefWidth="57" style="-fx-effect: dropshadow(gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); ;-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-cursor: hand;" textFill="#FFFFFF">
+            <Button maxHeight="57" maxWidth="57" mnemonicParsing="false" onAction="#onBackButton" prefHeight="57" prefWidth="57" style="-fx-effect: dropshadow(gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); ;-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-cursor: hand;" textFill="#FFFFFF">
                 <graphic>
                     <ImageView fitHeight="30" fitWidth="30" rotate="90" style="-fx-opacity: 0.5;">
                         <Image url="@assets/Arrow_icon.png" />
@@ -36,7 +36,7 @@
             </Label>
             <Rectangle fill="TRANSPARENT" height="21" />
             <HBox alignment="CENTER">
-                <PasswordField fx:id="password"  prefHeight="57" prefWidth="201.125" promptText="Password" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+                <PasswordField fx:id="password" prefHeight="57" prefWidth="201.125" promptText="Password" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
                     <font>
                         <Font name="Roboto Light" size="22.5" />
                     </font>
@@ -83,5 +83,5 @@
             </ImageView>
         </graphic>
     </Button>
-    <Rectangle fill="TRANSPARENT" height="105.5" />
+    <Rectangle fill="TRANSPARENT" height="106.5" />
 </VBox>
