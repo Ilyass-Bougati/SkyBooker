@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.SearchresultsView">
+    <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
+        <font>
+            <Font name="Roboto Light" size="75.0" />
+        </font>
+    </Label>
+    <Separator prefHeight="0.0" prefWidth="684.3" />
+    <Rectangle fill="TRANSPARENT" height="42.75" />
+    <StackPane maxHeight="464" minHeight="464">
+        <HBox>
+            <VBox>
+                <padding>
+                    <Insets left="20" />
+                </padding>
+                <Button maxHeight="57" maxWidth="57" mnemonicParsing="false" prefHeight="57" prefWidth="57" style="-fx-effect: dropshadow(gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); ;-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-cursor: hand;" textFill="#FFFFFF">
+                    <graphic>
+                        <ImageView fitHeight="30" fitWidth="30" rotate="90" style="-fx-opacity: 0.5;">
+                            <Image url="@assets/Arrow_icon.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </VBox>
+            <Rectangle fill="TRANSPARENT" width="20" />
+            <ScrollPane maxHeight="444" maxWidth="708" minHeight="444" minWidth="708" style=" -fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)">
+                <padding>
+                    <Insets bottom="20" left="20" right="20" top="20" />
+                </padding>
+                <VBox alignment="CENTER_LEFT" prefHeight="393.0" prefWidth="649.0" style=" -fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ; ">
+                    <Rectangle height="446.0" width="648.0">
+                  <fill>
+                     <LinearGradient endX="0.2142857142857143" endY="1.0">
+                        <stops>
+                           <Stop>
+                              <color>
+                                 <Color green="0.3333333432674408" blue="1.0" opacity="0.11495726555585861" />
+                              </color>
+                           </Stop>
+                           <Stop offset="1.0">
+                              <color>
+                                 <Color red="1.0" green="1.0" blue="1.0" />
+                              </color>
+                           </Stop>
+                        </stops>
+                     </LinearGradient>
+                  </fill></Rectangle>
+                </VBox>
+            </ScrollPane>
+
+        </HBox>
+        <VBox alignment="BOTTOM_LEFT">
+            <padding>
+                <Insets bottom="20" left="20" />
+            </padding>
+
+            <Button maxHeight="57" maxWidth="57" mnemonicParsing="false" prefHeight="57" prefWidth="57" style="-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); -fx-cursor: hand;" textFill="#FFFFFF">
+                <graphic>
+                    <ImageView fitHeight="30" fitWidth="30" opacity="50" rotate="-90">
+                        <Image url="@assets/Arrow_icon.png" />
+                    </ImageView>
+                </graphic>
+            </Button>
+        </VBox>
+    </StackPane>
+</VBox>

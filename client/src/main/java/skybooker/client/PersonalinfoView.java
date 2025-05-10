@@ -1,5 +1,7 @@
 package skybooker.client;
 
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +12,12 @@ import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.function.UnaryOperator;
@@ -34,6 +38,9 @@ public class PersonalinfoView {
 
     @FXML
     private TextField phone;
+
+    @FXML
+    private StackPane container;
 
     private interface controlCheck {
         boolean check();
@@ -57,6 +64,7 @@ public class PersonalinfoView {
         );
         button_icon.setEffect(blend);
 
+        Platform.runLater(this::fadeInAnimation);
         initializeCardinals();
         addPhoneNumberConstraint();
         addToolTip(password , "Password must be at least 8 characters , \n contain lower and upper case characters ,  \n as well as numerals and a special character");
@@ -64,8 +72,6 @@ public class PersonalinfoView {
 
         initializeErrorPopup(password , "Password must be at least 8 characters , contain upper and lower case , numeral and special characters" , this::verifyPasswordValidity);
         initializeErrorPopup(confirmedPassword , "Passwords must match" , this::verifyConfirmedPasswordValidity);
-
-
 
     }
 
@@ -136,7 +142,7 @@ public class PersonalinfoView {
         Popup errorPopup = new Popup();
 
         Label errorMessage = new Label(Error);
-        errorMessage.setStyle("-fx-text-fill: red ; -fx-font-family: 'Roboto Light' ; -fx-font-size: 14 ; -fx-font-weight: bold ;");
+        errorMessage.setStyle("-fx-text-fill: red ; -fx-font-family: 'Roboto Light' ; -fx-font-size: 13 ; -fx-font-weight: bold ;");
 
         VBox errorMessageContainer = new VBox();
         errorMessageContainer.setAlignment(Pos.CENTER);
@@ -161,6 +167,16 @@ public class PersonalinfoView {
                 errorPopup.hide();
             }
         });
+    }
+
+    private void fadeInAnimation() {
+        FadeTransition fadeIn = new FadeTransition();
+        fadeIn.setNode(container);
+        fadeIn.setFromValue(0);
+        fadeIn.setToValue(1);
+        fadeIn.setDuration(new Duration(1500));
+        fadeIn.setAutoReverse(false);
+        fadeIn.play();
     }
 }
 

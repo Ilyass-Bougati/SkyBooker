@@ -14,8 +14,9 @@
         </font>
     </Label>
     <Separator prefHeight="0.0" prefWidth="684.3" />
-    <Rectangle fill="TRANSPARENT" height="42.75" />
+    <Rectangle fill="TRANSPARENT" height="40" />
     <VBox alignment="CENTER">
+        <Rectangle fill="TRANSPARENT" height="31" />
         <ImageView fitHeight="186.0" fitWidth="781.0" preserveRatio="true">
             <Image url="@assets/images/plane_bg2.jpeg" />
          <viewport>
@@ -23,49 +24,41 @@
          </viewport>
         </ImageView>
         <StackPane maxWidth="735">
-            <Rectangle fx:id="container" height="126.0" style="-fx-fill: rgb(255,255,255) ; -fx-border-radius: 12 12 12 12 ; -fx-background-radius: 12 12 12 12 ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)" width="735.0" />
+            <Rectangle height="126.0" style="-fx-fill: rgb(255,255,255) ; -fx-border-radius: 12 12 12 12 ; -fx-background-radius: 12 12 12 12 ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)" width="735.0" />
             <VBox>
                 <HBox alignment="CENTER">
                     <padding>
                         <Insets left="9" right="9" top="5" />
                     </padding>
-                    <Label style="-fx-font-weight: bold" text="Passengers : ">
+                    <Label text="Passengers : ">
                         <font>
                             <Font name="Roboto Light" size="22.5" />
                         </font>
                     </Label>
-                    <Button fx:id="contextMenuTrigger" text="0" style="-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;">
+                    <Button fx:id="contextMenuTrigger" style="-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;" text="0">
                         <font>
                             <Font name="Roboto Light" />
                         </font>
                     </Button>
                     <Rectangle fill="TRANSPARENT" width="30" />
-                    <Label style="-fx-font-weight: bold" text="Class : ">
+                    <Label text="Class : ">
                         <font>
                             <Font name="Roboto Light" size="22.5" />
                         </font>
                     </Label>
-                    <ChoiceBox fx:id="classes" value="Economy" style=" -fx-pref-width: 180 ;-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;" />
+                    <ChoiceBox fx:id="classes" style=" -fx-pref-width: 180 ;-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;" value="Economy" />
                 </HBox>
                 <Rectangle height="21.75" />
                 <HBox>
                     <padding>
                         <Insets left="9" right="9" />
                     </padding>
-                    <TextField maxHeight="51" maxWidth="230.25" promptText="Departure" style="-fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12 0 0 12 ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 0 0 12;">
-                        <font>
-                            <Font name="Roboto Light" size="22.5" />
-                        </font>
-                    </TextField>
-                    <TextField maxHeight="51" maxWidth="157.5" promptText="Arrival" style="-fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius:  0 12 12 0; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 0 12 12 0;">
-                        <font>
-                            <Font name="Roboto Light" size="22.5" />
-                        </font>
-                    </TextField>
+                    <ChoiceBox fx:id="departure" maxHeight="51" maxWidth="230.25" style="-fx-min-width: 180; -fx-max-width: 180; -fx-font-family: 'Roboto Light'; -fx-font-size: 22.5; -fx-border-radius: 12 0 0 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 0 0 12; -fx-background-color: white;" value="Departure" />
+                    <ChoiceBox fx:id="arrival" maxHeight="51" maxWidth="157.5" style="-fx-min-width: 150; -fx-max-width: 150; -fx-font-family: 'Roboto Light'; -fx-font-size: 22.5; -fx-border-radius: 0 12 12 0; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 0 12 12 0; -fx-background-color: white;" value="Arrival" />
                     <Rectangle fill="TRANSPARENT" width="26.25" />
                     <DatePicker maxHeight="51" maxWidth="120" promptText="Date" style="-fx-font-weight: bold ;-fx-font-size: 22.5 ; -fx-font-family: 'Roboto Light'; -fx-border-radius:  12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
                     <Rectangle width="56.0" />
-                    <Button mnemonicParsing="false" prefHeight="51" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Find" textFill="#FFFFFF">
+                    <Button onAction="#onFindButton" mnemonicParsing="false" prefHeight="51" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Find" textFill="#FFFFFF">
                         <font>
                             <Font name="Roboto Light" size="26.25" />
                         </font>
@@ -73,7 +66,7 @@
                 </HBox>
             </VBox>
         </StackPane>
-        <Rectangle height="38.25" />
+        <Rectangle height="69.0" />
         <StackPane>
             <VBox alignment="CENTER_LEFT">
                 <padding>
@@ -103,5 +96,6 @@
                 </Button>
             </VBox>
         </StackPane>
+        <Rectangle fill="TRANSPARENT" height="20" />
     </VBox>
 </VBox>
