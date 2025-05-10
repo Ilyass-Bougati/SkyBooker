@@ -18,32 +18,35 @@ public class VilleController {
     private VilleService villeService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Ville>> getAllVille() {
-        return ResponseEntity.ok(villeService.findAll());
+    public ResponseEntity<List<VilleDTO>> getAllVille() {
+        List<Ville> villes = villeService.findAll();
+        List<VilleDTO> villeDTOs = villes.stream().map(VilleDTO::new).toList();
+        return ResponseEntity.ok(villeDTOs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Ville> getVilleById(@PathVariable Long id) {
+    public ResponseEntity<VilleDTO> getVilleById(@PathVariable Long id) {
         Ville ville = villeService.findById(id);
         if (ville == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(ville);
+            return ResponseEntity.ok(new VilleDTO(ville));
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<Ville> createVille(@RequestBody @Valid VilleDTO villeDTO) {
-        return ResponseEntity.ok(villeService.createDTO(villeDTO));
+    public ResponseEntity<VilleDTO> createVille(@RequestBody @Valid VilleDTO villeDTO) {
+        Ville ville = villeService.createDTO(villeDTO);
+        return ResponseEntity.ok(new VilleDTO(ville));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Ville> updateVille(@RequestBody @Valid VilleDTO villeDTO) {
+    public ResponseEntity<VilleDTO> updateVille(@RequestBody @Valid VilleDTO villeDTO) {
         Ville ville = villeService.updateDTO(villeDTO);
         if (ville == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(ville);
+            return ResponseEntity.ok(new VilleDTO(ville));
         }
     }
 
