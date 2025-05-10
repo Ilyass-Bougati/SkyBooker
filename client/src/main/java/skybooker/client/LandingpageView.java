@@ -89,8 +89,8 @@ public class LandingpageView {
             Label tmpL = labels.get(i) ;
             Button tmpTF = textFields.get(i);
 
-            tmpL.setStyle("-fx-font-family: 'Roboto Light' ; -fx-font-size: 20 ; -fx-font-weight: bold ;");
-            tmpTF.setStyle(" -fx-text-alignment: left; -fx-max-width: 50; -fx-min-width: 50; -fx-max-height: 50  ;-fx-min-height: 50 ; -fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
+            tmpL.setStyle("-fx-font-family: 'Roboto Light' ; -fx-font-size: 20 ;");
+            tmpTF.setStyle(" -fx-text-alignment: left; -fx-max-width: 50; -fx-min-width: 50; -fx-max-height: 50  ;-fx-min-height: 50 ; -fx-background-color: white ; -fx-font-size: 22.5 ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
             tmpTF.textProperty().addListener((_)->{
                 int sum = 0 ;
                 for(Button t : textFields)
@@ -108,7 +108,7 @@ public class LandingpageView {
             paddingRect.setWidth(25);
 
             Button plusButton = new Button("+");
-            plusButton.setStyle("-fx-background-color: white ;-fx-font-family: 'Roboto Light' ;-fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: dropshadow( gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0); -fx-background-radius: 12 ; -fx-cursor: hand");
+            plusButton.setStyle("-fx-background-color: white ;-fx-font-family: 'Roboto Light' ;-fx-border-radius: 12  ; -fx-effect: dropshadow( gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0); -fx-background-radius: 12 ; -fx-cursor: hand");
             plusButton.setOnAction(e->{
                 int pass = Integer.parseInt(tmpTF.getText());
                 pass++;
@@ -117,7 +117,7 @@ public class LandingpageView {
 
 
             Button minusButton = new Button("-");
-            minusButton.setStyle("-fx-background-color: white ;-fx-font-family: 'Roboto Light' ;-fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: dropshadow( gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0); -fx-background-radius: 12 ; -fx-cursor: hand");
+            minusButton.setStyle("-fx-background-color: white ;-fx-font-family: 'Roboto Light' ;-fx-border-radius: 12  ; -fx-effect: dropshadow( gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0); -fx-background-radius: 12 ; -fx-cursor: hand");
             minusButton.setOnAction(e->{
                 int pass = Integer.parseInt(tmpTF.getText());
                 if(pass > 0)

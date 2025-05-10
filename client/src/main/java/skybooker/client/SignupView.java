@@ -50,19 +50,14 @@ public class SignupView {
     {
         if(checkNameValidity(fName.getText()) && checkNameValidity(lName.getText()) && checkEmailValidity(email.getText()))
         {
-            Bounds bounds = container.localToScreen(container.getBoundsInLocal());
-            TranslateTransition exitTransition = new TranslateTransition();
-            exitTransition.setDuration(new Duration(1000));
-            exitTransition.setFromX(bounds.getMinX());
-            exitTransition.setToX(bounds.getMinX() - 1000);
-            exitTransition.setAutoReverse(false);
-            exitTransition.setNode(container);
-            exitTransition.play();
+            FadeTransition fadeOut = new FadeTransition();
+            fadeOut.setNode(container);
+            fadeOut.setFromValue(1);
+            fadeOut.setToValue(0);
+            fadeOut.setDuration(new Duration(500));
+            fadeOut.setAutoReverse(false);
 
-            fadeOutAnimation();
-
-            PauseTransition delay = new PauseTransition(new Duration(1000));
-            delay.setOnFinished(e ->{
+            fadeOut.setOnFinished(e ->{
                 HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("personalinfo-view.fxml"));
                 try {
                     HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
@@ -70,7 +65,8 @@ public class SignupView {
                     throw new RuntimeException(ex);
                 }
             });
-            delay.playFromStart();
+
+            fadeOut.play();
         }
     }
 
@@ -173,19 +169,8 @@ public class SignupView {
         fadeIn.setNode(container);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
-        fadeIn.setDuration(new Duration(1500));
+        fadeIn.setDuration(new Duration(500));
         fadeIn.setAutoReverse(false);
         fadeIn.play();
-    }
-
-    private void fadeOutAnimation()
-    {
-        FadeTransition fadeOut = new FadeTransition();
-        fadeOut.setNode(container);
-        fadeOut.setFromValue(1);
-        fadeOut.setToValue(0);
-        fadeOut.setDuration(new Duration(900));
-        fadeOut.setAutoReverse(false);
-        fadeOut.play();
     }
 }

@@ -1,7 +1,6 @@
 package skybooker.client;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -170,26 +169,14 @@ public class PersonalinfoView {
         });
     }
 
-    private void fadeInAnimation()
-    {
+    private void fadeInAnimation() {
         FadeTransition fadeIn = new FadeTransition();
         fadeIn.setNode(container);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         fadeIn.setDuration(new Duration(1500));
         fadeIn.setAutoReverse(false);
-
-        Bounds bounds = container.localToScreen(container.getBoundsInLocal());
-
-        TranslateTransition closeIn = new TranslateTransition();
-        closeIn.setNode(container);
-        closeIn.setFromX(bounds.getMinX() + 1000);
-        closeIn.setToX(bounds.getMinX());
-        closeIn.setDuration(new Duration(1000));
-        closeIn.setAutoReverse(false);
-
         fadeIn.play();
-        closeIn.play();
     }
 }
 

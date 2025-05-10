@@ -42,7 +42,7 @@ public class HelloController {
     {
         FadeTransition fadeIn = new FadeTransition();
         fadeIn.setNode(container);
-        fadeIn.setDuration(new Duration(1500));
+        fadeIn.setDuration(new Duration(500));
         fadeIn.setAutoReverse(false);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
@@ -55,12 +55,12 @@ public class HelloController {
     {
         Platform.runLater(()-> ((Stage)HelloApplication.scene.getWindow()).setTitle("Authentication for SkyBooker"));
         Platform.runLater(()->{
-                            Bounds graphicBounds = graphic.localToScreen(graphic.getBoundsInLocal());
+                            Bounds graphicBounds = graphic.localToScene(graphic.getBoundsInLocal());
                             TranslateTransition closeInGraphic = new TranslateTransition();
                             closeInGraphic.setAutoReverse(false);
                             closeInGraphic.setFromX(graphicBounds.getMinX() - 100);
                             closeInGraphic.setToX(graphicBounds.getMinX());
-                            closeInGraphic.setDuration(new Duration(1500));
+                            closeInGraphic.setDuration(new Duration(800));
                             closeInGraphic.setNode(graphic);
 
                             fadeInAnimation();

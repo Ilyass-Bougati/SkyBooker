@@ -15,7 +15,7 @@
     </Label>
     <Separator prefHeight="0.0" prefWidth="684.3" />
     <Rectangle fill="TRANSPARENT" height="41.25" />
-    <StackPane fx:id="container">
+    <StackPane fx:id="container" opacity="0">
         <VBox>
             <padding>
                 <Insets left="20" />
@@ -64,5 +64,5 @@
             </ImageView>
         </graphic>
     </Button>
-    <Rectangle fill="TRANSPARENT" height="107.5" />
+    <Rectangle fill="TRANSPARENT" height="103.5" />
 </VBox>
