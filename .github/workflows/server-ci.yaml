@@ -6,10 +6,8 @@ on:
 
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
 
-    # Label of the runner job
+  # Label of the runner job
   runner-job:
     # You must use a Linux environment when using service containers or container jobs
     runs-on: ubuntu-latest
