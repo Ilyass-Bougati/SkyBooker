@@ -48,6 +48,10 @@ jobs:
         run: ./mvnw clean install -DskipTests
         working-directory: ./server
 
+      - name: Generating RSA keys
+        run: bash ./keygen.sh
+        working-directory: ./server
+
       - name: Testing the application
         run: ./mvnw test
         working-directory: ./server
