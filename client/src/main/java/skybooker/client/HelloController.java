@@ -1,18 +1,28 @@
 package skybooker.client;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
+import javafx.geometry.Bounds;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
 public class HelloController {
+
+    @FXML
+    private HBox container;
+
+    @FXML
+    private VBox graphic;
+
+    @FXML
+    private HBox inputs;
 
     @FXML
     protected void onSignUpButton() throws IOException
@@ -28,9 +38,33 @@ public class HelloController {
         HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
     }
 
+    private void fadeInAnimation()
+    {
+        FadeTransition fadeIn = new FadeTransition();
+        fadeIn.setNode(container);
+        fadeIn.setDuration(new Duration(500));
+        fadeIn.setAutoReverse(false);
+        fadeIn.setFromValue(0);
+        fadeIn.setToValue(1);
+        fadeIn.play();
+    }
+
+
     @FXML
     protected void initialize()
     {
-        Platform.runLater(()->{((Stage)HelloApplication.scene.getWindow()).setTitle("Authentication for SkyBooker");});
+        Platform.runLater(()-> ((Stage)HelloApplication.scene.getWindow()).setTitle("Authentication for SkyBooker"));
+        Platform.runLater(()->{
+                            Bounds graphicBounds = graphic.localToScene(graphic.getBoundsInLocal());
+                            TranslateTransition closeInGraphic = new TranslateTransition();
+                            closeInGraphic.setAutoReverse(false);
+                            closeInGraphic.setFromX(graphicBounds.getMinX() - 100);
+                            closeInGraphic.setToX(graphicBounds.getMinX());
+                            closeInGraphic.setDuration(new Duration(800));
+                            closeInGraphic.setNode(graphic);
+
+                            fadeInAnimation();
+                            closeInGraphic.play();
+        });
     }
 }
