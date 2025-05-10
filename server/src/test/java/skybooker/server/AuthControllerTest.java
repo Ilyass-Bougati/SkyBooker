@@ -7,8 +7,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import skybooker.server.DTO.RegisterRequestDTO;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,6 +51,16 @@ public class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(requestContent))
         )
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void checkAuthentication() throws Exception {
+        ResultActions res = mvc.perform(post("/api/v1/auth/").with(httpBasic("ilyass@gmail.com", "123")))
+                .andExpect(status().isOk());
+        String token = res.andReturn().getResponse().getContentAsString();
+
+        mvc.perform(get("/api/v1/aeroport/").header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
     }
 
