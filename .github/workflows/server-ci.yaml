@@ -40,5 +40,9 @@ jobs:
           java-version: '17'
 
       - name: Build the server
-        run: mvn clean install
+        run: mvn clean install -DskipTests
+        working-directory: ./server
+
+      - name: Testing the application
+        run: mvn test
         working-directory: ./server
