@@ -3,6 +3,7 @@ package skybooker.server.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.VilleDTO;
 import skybooker.server.entity.Ville;
@@ -14,8 +15,11 @@ import java.util.List;
 @RequestMapping("/api/v1/ville")
 public class VilleController {
 
-    @Autowired
-    private VilleService villeService;
+    private final VilleService villeService;
+
+    public VilleController(VilleService villeService) {
+        this.villeService = villeService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<VilleDTO>> getAllVille() {
@@ -35,12 +39,14 @@ public class VilleController {
     }
 
     @PostMapping("/")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<VilleDTO> createVille(@RequestBody @Valid VilleDTO villeDTO) {
         Ville ville = villeService.createDTO(villeDTO);
         return ResponseEntity.ok(new VilleDTO(ville));
     }
 
     @PutMapping("/")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<VilleDTO> updateVille(@RequestBody @Valid VilleDTO villeDTO) {
         Ville ville = villeService.updateDTO(villeDTO);
         if (ville == null) {
@@ -51,6 +57,7 @@ public class VilleController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured("SCOPE_ROLE_ADMIN")
     public void deleteVille(@PathVariable Long id) {
         villeService.deleteById(id);
     }

@@ -3,6 +3,7 @@ package skybooker.server.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.CompanieAerienneDTO;
 import skybooker.server.entity.CompanieAerienne;
@@ -37,12 +38,14 @@ public class CompanieAerienneController {
     }
 
     @PostMapping("/")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<CompanieAerienneDTO> createCompanieAerienne(@RequestBody @Valid CompanieAerienneDTO companieAerienneDTO) {
         CompanieAerienne companieAerienne = companieAerienneService.createDTO(companieAerienneDTO);
         return ResponseEntity.ok(new CompanieAerienneDTO(companieAerienne));
     }
 
     @PutMapping("/")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<CompanieAerienneDTO> updateCompanieAerienne(@RequestBody @Valid CompanieAerienneDTO companieAerienneDTO) {
         CompanieAerienne companieAerienne = companieAerienneService.updateDTO(companieAerienneDTO);
         if (companieAerienne == null) {
@@ -53,6 +56,7 @@ public class CompanieAerienneController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured("SCOPE_ROLE_ADMIN")
     public void deleteCompanieAerienne(@PathVariable Long id) {
         companieAerienneService.deleteById(id);
     }
