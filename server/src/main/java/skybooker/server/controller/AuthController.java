@@ -2,15 +2,10 @@ package skybooker.server.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
-import skybooker.server.UserPrincipal;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
@@ -20,6 +15,8 @@ import skybooker.server.service.ClientService;
 import skybooker.server.service.PassagerService;
 import skybooker.server.service.RoleService;
 import skybooker.server.service.implementation.TokenService;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -39,7 +36,17 @@ public class AuthController {
         this.roleService = roleService;
     }
 
-    @PostMapping("/")
+    @GetMapping("/")
+    public ResponseEntity<ClientDTO> getClient(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).build();
+        } else {
+            Client client = clientService.findByEmail(principal.getName());
+            return ResponseEntity.ok(new ClientDTO(client));
+        }
+    }
+
+    @PostMapping("/login")
     public ResponseEntity<String> token(Authentication authentication) {
         return ResponseEntity.ok(tokenService.generateToken(authentication));
     }

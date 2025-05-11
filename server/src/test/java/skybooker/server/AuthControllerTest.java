@@ -25,7 +25,7 @@ public class AuthControllerTest {
 
     @Test
     void login() throws Exception {
-        mvc.perform(post("/api/v1/auth/").with(httpBasic("ilyass@gmail.com", "123")))
+        mvc.perform(post("/api/v1/auth/login").with(httpBasic("ilyass@gmail.com", "123")))
                 .andExpect(status().isOk());
     }
 
@@ -56,7 +56,7 @@ public class AuthControllerTest {
 
     @Test
     void checkAuthentication() throws Exception {
-        ResultActions res = mvc.perform(post("/api/v1/auth/").with(httpBasic("ilyass@gmail.com", "123")))
+        ResultActions res = mvc.perform(post("/api/v1/auth/login").with(httpBasic("ilyass@gmail.com", "123")))
                 .andExpect(status().isOk());
         String token = res.andReturn().getResponse().getContentAsString();
 
