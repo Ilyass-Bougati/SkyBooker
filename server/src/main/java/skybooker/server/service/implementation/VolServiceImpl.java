@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import skybooker.server.DTO.VolDTO;
 import skybooker.server.entity.Vol;
+import skybooker.server.entity.Classe;
 import skybooker.server.repository.VolRepository;
+import skybooker.server.repository.ClasseRepository;
 import skybooker.server.service.AeroportService;
 import skybooker.server.service.AvionService;
 import skybooker.server.service.VolService;
@@ -15,6 +17,8 @@ public class VolServiceImpl implements VolService {
 
     @Autowired
     public VolRepository volRepository;
+    @Autowired
+    public ClasseRepository classeRepository;
     @Autowired
     private AvionService avionService;
     @Autowired
@@ -85,5 +89,39 @@ public class VolServiceImpl implements VolService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Double calculatePrice(Long volId, Long classeId) {
+        //Récupérer le vol et la classe
+        Vol vol = findById(volId);
+        Classe classe = classeRepository.findById(classeId).orElse(null);
+
+        if (vol == null || classe == null) {
+            return null;
+        }
+
+        //Calculer la distance entre aéroports (méthode à implémenter)
+        double distance = calculateDistance(
+                vol.getAeroportDepart().getLatitude(),
+                vol.getAeroportDepart().getLongitude(),
+                vol.getAeroportArrive().getLatitude(),
+                vol.getAeroportArrive().getLongitude()
+        );
+
+        //Calculer le prix final
+        return distance * classe.getPrixParKm();
+    }
+
+    //(formule Haversine)
+    private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        final int R = 6371;
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
     }
 }
