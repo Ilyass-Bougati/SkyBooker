@@ -15,6 +15,11 @@ public class VolController {
     @Autowired
     private VolService volService;
 
+    @GetMapping("/{volId}/{classeId}")
+    public ResponseEntity<PriceDTO> getPrice(@PathVariable long volId, @PathVariable long classeId) {
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<VolDTO> vol(@PathVariable long id){
         Vol vol = volService.findById(id);
