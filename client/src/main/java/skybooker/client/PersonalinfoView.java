@@ -174,7 +174,7 @@ public class PersonalinfoView {
         fadeIn.setNode(container);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
-        fadeIn.setDuration(new Duration(1500));
+        fadeIn.setDuration(new Duration(500));
         fadeIn.setAutoReverse(false);
         fadeIn.play();
     }
