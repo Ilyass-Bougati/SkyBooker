@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
 import javafx.util.Duration;
+import okhttp3.Response;
 import requests.Client;
 
 import java.io.IOException;
@@ -77,7 +78,16 @@ public class PersonalinfoView {
             // this is fiiiiiiine
             RegisterRequestDTOBuilder.setAge((int) ChronoUnit.YEARS.between(birthDate.getValue(), LocalDate.now()));
 
-            Client.unAuthorizedPost("/auth/register", RegisterRequestDTOBuilder.build());
+            try {
+                Response response = Client.unAuthorizedPost("/auth/register", RegisterRequestDTOBuilder.build());
+                if (response.isSuccessful()) {
+                    System.out.println("Successfully registered");
+                } else {
+                    System.out.println("We got a problem");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
