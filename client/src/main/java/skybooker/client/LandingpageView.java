@@ -60,40 +60,40 @@ public class LandingpageView {
         StackPane contextMenuContainer = new StackPane();
         contextMenu = new Popup();
 
-        Rectangle contextMenuBackground = new Rectangle();
-        contextMenuBackground.setWidth(200);
-        contextMenuBackground.setHeight(200);
-        contextMenuBackground.setFill(Color.WHITE);
-        contextMenuBackground.setStyle("-fx-max-width: 100% ; -fx-max-height: 100%; -fx-border-radius: 12 ; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian , black , 10 , 0 , 0 , 0)");
+
+        contextMenuContainer.setStyle("-fx-background-color: rgb(255,255,255) ; -fx-border-radius: 12 ; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian , black , 10 , 0 , 0 , 0)");
+        contextMenuContainer.setPadding(new Insets(10 , 10, 10, 10));
 
         VBox rows = new VBox();
 
+
         ArrayList<Label> labels = new ArrayList<>();
-        ArrayList<HBox> categories = new ArrayList<>();
-        ArrayList<Button> textFields = new ArrayList<>();
+        ArrayList<Button> counters = new ArrayList<>();
+        ArrayList<String> categoriesNames = new ArrayList<>();
+        ArrayList<HBox> categoriesContainers = new ArrayList<>();
 
-        categories.add(new HBox());
-        categories.add(new HBox());
-        categories.add(new HBox());
+        categoriesNames.add("Children" );
+        categoriesNames.add("Adults" );
+        categoriesNames.add("Seniors" );
 
-        labels.add(new Label("Children"));
-        labels.add(new Label("Adults"));
-        labels.add(new Label("Seniors"));
+        for(int i = 0 ; i < categoriesNames.size() ; i++)
+        {
+            categoriesContainers.add(new HBox());
+            labels.add(new Label(categoriesNames.get(i)));
+            counters.add(new Button("0"));
+        }
 
-        textFields.add(new Button("0"));
-        textFields.add(new Button("0"));
-        textFields.add(new Button("0"));
 
-        for(int i = 0 ; i < 3 ; i++)
+        for(int i = 0 ; i <  categoriesNames.size() ; i++)
         {
             Label tmpL = labels.get(i) ;
-            Button tmpTF = textFields.get(i);
+            Button tmpTF = counters.get(i);
 
             tmpL.setStyle("-fx-font-family: 'Roboto Light' ; -fx-font-size: 20 ;");
             tmpTF.setStyle(" -fx-text-alignment: left; -fx-max-width: 50; -fx-min-width: 50; -fx-max-height: 50  ;-fx-min-height: 50 ; -fx-background-color: white ; -fx-font-size: 22.5 ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
             tmpTF.textProperty().addListener((_)->{
                 int sum = 0 ;
-                for(Button t : textFields)
+                for(Button t : counters)
                 {
                     if(t.getText().isEmpty())
                     {
@@ -128,20 +128,19 @@ public class LandingpageView {
             });
 
 
-            categories.get(i).getChildren().add(tmpL);
-            categories.get(i).getChildren().add(paddingRect);
-            categories.get(i).getChildren().add(plusButton);
-            categories.get(i).getChildren().add(tmpTF);
-            categories.get(i).getChildren().add(minusButton);
+            categoriesContainers.get(i).getChildren().add(tmpL);
+            categoriesContainers.get(i).getChildren().add(paddingRect);
+            categoriesContainers.get(i).getChildren().add(plusButton);
+            categoriesContainers.get(i).getChildren().add(tmpTF);
+            categoriesContainers.get(i).getChildren().add(minusButton);
 
-            categories.get(i).setAlignment(Pos.CENTER_RIGHT);
-            categories.get(i).setPadding(new Insets(0 ,10 ,0, 10));
+            categoriesContainers.get(i).setAlignment(Pos.CENTER_RIGHT);
+            categoriesContainers.get(i).setPadding(new Insets(0 ,10 ,0, 10));
 
-            rows.getChildren().add(categories.get(i));
+            rows.getChildren().add(categoriesContainers.get(i));
             rows.setAlignment(Pos.CENTER);
         }
 
-        contextMenuContainer.getChildren().add(contextMenuBackground);
         contextMenuContainer.getChildren().add(rows);
 
         contextMenu.getContent().add(contextMenuContainer);
