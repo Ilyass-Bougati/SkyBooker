@@ -1,8 +1,6 @@
 package skybooker.client;
 
 import javafx.animation.FadeTransition;
-import javafx.animation.PauseTransition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import utils.Validator;
 
 import java.io.IOException;
 
@@ -48,7 +47,7 @@ public class SignupView {
     @FXML
     protected void onContinueButton() throws RuntimeException
     {
-        if(checkNameValidity(fName.getText()) && checkNameValidity(lName.getText()) && checkEmailValidity(email.getText()))
+        if(Validator.checkNameValidity(fName.getText()) && Validator.checkNameValidity(lName.getText()) && Validator.checkEmailValidity(email.getText()))
         {
             FadeTransition fadeOut = new FadeTransition();
             fadeOut.setNode(container);
@@ -57,7 +56,7 @@ public class SignupView {
             fadeOut.setDuration(new Duration(500));
             fadeOut.setAutoReverse(false);
 
-            fadeOut.setOnFinished(e ->{
+            fadeOut.setOnFinished( e -> {
                 HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("personalinfo-view.fxml"));
                 try {
                     HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
@@ -95,45 +94,19 @@ public class SignupView {
 
         initializeErrorPopup(fName, "Name should only contain characters ", ()->{
             String text = fName.getText() ;
-            return checkNameValidity(text);
+            return Validator.checkNameValidity(text);
         });
 
         initializeErrorPopup(lName, "Name should only contain characters ", ()->{
             String text = lName.getText() ;
-            return checkNameValidity(text);
+            return Validator.checkNameValidity(text);
         });
 
         initializeErrorPopup(email, "Invalid Email", ()->{
             String text = email.getText() ;
-            return checkEmailValidity(text);
+            return Validator.checkEmailValidity(text);
         });
 
-    }
-
-
-    private boolean checkNameValidity(String Name)
-    {
-        if(Name.isEmpty() || Name.length() > 50)
-        {
-            return false;
-        }
-
-        String lower = Name.toLowerCase();
-
-        for(int i = 0 ; i < Name.length() ; i++)
-        {
-            if(lower.charAt(i) > 'z' || lower.charAt(i) < 'a')
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private boolean checkEmailValidity(String email)
-    {
-        return email.length() <= 320 && email.contains("@") && !email.endsWith("@") && email.split("@")[1].contains(".");
     }
 
     private void initializeErrorPopup(Control c , String Error , controlCheck chk)
