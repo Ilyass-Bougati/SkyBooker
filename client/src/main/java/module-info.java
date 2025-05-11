@@ -17,4 +17,5 @@ module skybooker.client {
 
     opens skybooker.client to javafx.fxml;
     exports skybooker.client;
+    exports DTO;
 }

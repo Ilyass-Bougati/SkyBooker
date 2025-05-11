@@ -1,5 +1,6 @@
 package skybooker.client;
 
+import DTO.RegisterRequestDTOBuilder;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -18,8 +19,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
 import javafx.util.Duration;
+import requests.Client;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.function.UnaryOperator;
 
 
@@ -40,6 +44,15 @@ public class PersonalinfoView {
     private TextField phone;
 
     @FXML
+    private TextField adresse;
+
+    @FXML
+    private TextField cin;
+
+    @FXML
+    private DatePicker birthDate;
+
+    @FXML
     private StackPane container;
 
     private interface controlCheck {
@@ -51,6 +64,22 @@ public class PersonalinfoView {
     {
         HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
         HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+    }
+
+    @FXML
+    public void onRegisterButton() throws IOException {
+        // checking the inputs
+        if (password.getText().equals(confirmedPassword.getText()) && !cin.getText().isEmpty() && !password.getText().isEmpty() && !phone.getText().isEmpty() && !adresse.getText().isEmpty() && birthDate.getValue() != null) {
+            RegisterRequestDTOBuilder.setAdresse(adresse.getText());
+            RegisterRequestDTOBuilder.setTelephone(phone.getText());
+            RegisterRequestDTOBuilder.setPassword(password.getText());
+            RegisterRequestDTOBuilder.setCIN(cin.getText());
+            // this is fiiiiiiine
+            RegisterRequestDTOBuilder.setAge((int) ChronoUnit.YEARS.between(birthDate.getValue(), LocalDate.now()));
+
+            Client.unAuthorizedPost("/auth/register", RegisterRequestDTOBuilder.build());
+        }
+
     }
 
     @FXML

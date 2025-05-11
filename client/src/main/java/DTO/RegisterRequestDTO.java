@@ -1,12 +1,12 @@
 package DTO;
 
 public class RegisterRequestDTO {
-    private String email;
-    private String password;
-    private String telephone;
-    private String adresse;
-    private String nom;
-    private String prenom;
-    private String CIN;
-    private int age;
+    public String email;
+    public String password;
+    public String telephone;
+    public String adresse;
+    public String nom;
+    public String prenom;
+    public String cin;
+    public int age;
 }
