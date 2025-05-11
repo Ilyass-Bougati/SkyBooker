@@ -17,7 +17,7 @@ public class VolController {
     @Autowired
     private VolService volService;
 
-    @GetMapping("/{volId}/{classeId}")
+    @GetMapping("/price/{volId}/{classeId}")
     public ResponseEntity<PriceDTO> getPrice(@PathVariable long volId, @PathVariable long classeId) {
         Double calculatedPrice = volService.calculatePrice(volId, classeId);
         
