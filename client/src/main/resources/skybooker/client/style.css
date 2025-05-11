@@ -1,4 +1,4 @@
-.datepicker > .arrow-button{
+.datepicker > .arrow-button {
     -fx-background-radius: 0 12 12 0;
     -fx-border-radius: 0 12 12 0;
     -fx-background-color: white;
@@ -8,7 +8,26 @@
     -fx-background-radius: 12 0 0 12;
     -fx-border-radius: 12 0 0 12;
 }
-.date-picker-popup > *{
+.date-picker-popup > * {
     -fx-font-size: 17;
     -fx-border-radius: 12;
+}
+
+.scroll-pane > .scroll-bar > .track {
+    -fx-background-color: transparent;
+    -fx-background-radius: 12 ;
+    -fx-border-radius: 12 ;
+}
+
+.scroll-pane > .scroll-bar > .thumb {
+    -fx-background-color: #80abeb;
+    -fx-background-radius: 12 ;
+    -fx-border-radius: 12 ;
+}
+
+.scroll-pane > .scroll-bar > .increment-button ,
+.scroll-pane > .scroll-bar > .decrement-button {
+    -fx-background-color: #80abeb;
+    -fx-background-radius: 12 ;
+    -fx-border-radius: 12 ;
 }
