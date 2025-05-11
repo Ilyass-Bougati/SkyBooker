@@ -1,5 +1,6 @@
 package skybooker.client;
 
+import DTO.RegisterRequestDTOBuilder;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -49,6 +50,11 @@ public class SignupView {
     {
         if(Validator.checkNameValidity(fName.getText()) && Validator.checkNameValidity(lName.getText()) && Validator.checkEmailValidity(email.getText()))
         {
+            // storing the data to the RegisterRequestDTO
+            RegisterRequestDTOBuilder.setPrenom(fName.getText());
+            RegisterRequestDTOBuilder.setNom(lName.getText());
+            RegisterRequestDTOBuilder.setEmail(email.getText());
+
             FadeTransition fadeOut = new FadeTransition();
             fadeOut.setNode(container);
             fadeOut.setFromValue(1);

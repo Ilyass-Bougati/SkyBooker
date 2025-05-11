@@ -1,6 +1,6 @@
 package DTO;
 
-public class RegisterRequestDTO {
+public class RegisterRequestDTOBuilder {
     private static String email;
     private static String password;
     private static String telephone;
@@ -15,7 +15,7 @@ public class RegisterRequestDTO {
     }
 
     public static void setEmail(String email) {
-        RegisterRequestDTO.email = email;
+        RegisterRequestDTOBuilder.email = email;
     }
 
     public static String getPassword() {
@@ -23,7 +23,7 @@ public class RegisterRequestDTO {
     }
 
     public static void setPassword(String password) {
-        RegisterRequestDTO.password = password;
+        RegisterRequestDTOBuilder.password = password;
     }
 
     public static String getTelephone() {
@@ -31,7 +31,7 @@ public class RegisterRequestDTO {
     }
 
     public static void setTelephone(String telephone) {
-        RegisterRequestDTO.telephone = telephone;
+        RegisterRequestDTOBuilder.telephone = telephone;
     }
 
     public static String getAdresse() {
@@ -39,7 +39,7 @@ public class RegisterRequestDTO {
     }
 
     public static void setAdresse(String adresse) {
-        RegisterRequestDTO.adresse = adresse;
+        RegisterRequestDTOBuilder.adresse = adresse;
     }
 
     public static String getNom() {
@@ -47,7 +47,7 @@ public class RegisterRequestDTO {
     }
 
     public static void setNom(String nom) {
-        RegisterRequestDTO.nom = nom;
+        RegisterRequestDTOBuilder.nom = nom;
     }
 
     public static String getPrenom() {
@@ -55,7 +55,7 @@ public class RegisterRequestDTO {
     }
 
     public static void setPrenom(String prenom) {
-        RegisterRequestDTO.prenom = prenom;
+        RegisterRequestDTOBuilder.prenom = prenom;
     }
 
     public static String getCIN() {
@@ -63,7 +63,7 @@ public class RegisterRequestDTO {
     }
 
     public static void setCIN(String CIN) {
-        RegisterRequestDTO.CIN = CIN;
+        RegisterRequestDTOBuilder.CIN = CIN;
     }
 
     public static int getAge() {
@@ -71,6 +71,19 @@ public class RegisterRequestDTO {
     }
 
     public static void setAge(int age) {
-        RegisterRequestDTO.age = age;
+        RegisterRequestDTOBuilder.age = age;
+    }
+
+    public static RegisterRequestDTO build() {
+        RegisterRequestDTO dto = new RegisterRequestDTO();
+        dto.cin = getCIN();
+        dto.email = getEmail();
+        dto.password = getPassword();
+        dto.telephone = getTelephone();
+        dto.adresse = getAdresse();
+        dto.nom = getNom();
+        dto.prenom = getPrenom();
+        dto.age = getAge();
+        return dto;
     }
 }
