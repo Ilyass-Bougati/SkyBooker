@@ -18,16 +18,19 @@ public class VolController {
     private VolService volService;
 
     @GetMapping("/{volId}/{classeId}")
-    public ResponseEntity<Double> calculateFlightPrice(
-            @PathVariable long volId,
-            @PathVariable long classeId) {
-
-        Double price = volService.calculatePrice(volId, classeId);
-        if (price == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(price);
+public ResponseEntity<PriceDTO> getPrice(
+    @PathVariable long volId, 
+    @PathVariable long classeId) {
+    
+    Double calculatedPrice = volService.calculatePrice(volId, classeId);
+    
+    if (calculatedPrice == null) {
+        return ResponseEntity.notFound().build();
     }
+    
+    PriceDTO response = new PriceDTO(calculatedPrice.floatValue());
+    return ResponseEntity.ok(response);
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<VolDTO> vol(@PathVariable long id){
