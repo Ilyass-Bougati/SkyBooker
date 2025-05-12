@@ -74,6 +74,12 @@ public class RegisterRequestDTOBuilder {
         RegisterRequestDTOBuilder.age = age;
     }
 
+    /**
+     * This function creates a RegisterRequestDTO from the static data that was fed into the RegisterRequestDTOBuilder
+     * This is a very weird way of doing stuff, and I don't like it, but it's working
+     *
+     * @return a RegisterRequestDTO
+     */
     public static RegisterRequestDTO build() {
         RegisterRequestDTO dto = new RegisterRequestDTO();
         dto.cin = getCIN();
@@ -84,6 +90,16 @@ public class RegisterRequestDTOBuilder {
         dto.nom = getNom();
         dto.prenom = getPrenom();
         dto.age = getAge();
+
+        // removing old data
+        setAdresse("");
+        setCIN("");
+        setEmail("");
+        setTelephone("");
+        setNom("");
+        setPrenom("");
+        setAge(0);
+        setPassword("");
         return dto;
     }
 }

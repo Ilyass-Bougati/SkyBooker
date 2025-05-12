@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class Client {
     private static final String url = "http://localhost:8080/api/v1";
@@ -39,7 +38,7 @@ public class Client {
         }
     }
 
-    public static void post(String route, Object object) throws IOException {
+    public static Response post(String route, Object object) throws IOException {
         // turning to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(object);
@@ -52,16 +51,10 @@ public class Client {
                 .build();
 
         Call call = client.newCall(request);
-        Response response = call.execute();
-        if (response.isSuccessful()) {
-            System.out.println(request.toString());
-        } else {
-            System.out.println(response.body().string());
-            throw new IOException("Unexpected code " + response);
-        }
+        return call.execute();
     }
 
-    public static void unAuthorizedPost(String route, Object object) throws IOException {
+    public static Response unAuthorizedPost(String route, Object object) throws IOException {
         // turning to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(object);
@@ -73,13 +66,7 @@ public class Client {
                 .build();
 
         Call call = client.newCall(request);
-        Response response = call.execute();
-        if (response.isSuccessful()) {
-            System.out.println(request.toString());
-        } else {
-            System.out.println(response.body().string());
-            throw new IOException("Unexpected code " + response);
-        }
+        return call.execute();
     }
 
     public static String getToken() {
