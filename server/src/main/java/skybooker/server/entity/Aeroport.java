@@ -36,7 +36,6 @@ public class Aeroport {
     @JsonIgnore
     @OneToMany(mappedBy = "aeroportDepart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Vol> volsDepart = new HashSet<>();
-
     public Aeroport(AeroportDTO aeroportDTO) {
         setIataCode(aeroportDTO.getIataCode());
         setIcaoCode(aeroportDTO.getIcaoCode());
