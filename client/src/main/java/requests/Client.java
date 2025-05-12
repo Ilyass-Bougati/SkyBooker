@@ -21,7 +21,7 @@ public class Client {
 
         RequestBody body = RequestBody.create("", MediaType.parse("application/json"));
         Request request = new Request.Builder()
-                .url(url + "/auth/")
+                .url(url + "/auth/login")
                 .post(body)
                 .header("Authorization", Credentials.basic(username, password))
                 .build();
@@ -56,6 +56,28 @@ public class Client {
         if (response.isSuccessful()) {
             System.out.println(request.toString());
         } else {
+            System.out.println(response.body().string());
+            throw new IOException("Unexpected code " + response);
+        }
+    }
+
+    public static void unAuthorizedPost(String route, Object object) throws IOException {
+        // turning to json
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(object);
+
+        RequestBody formBody = RequestBody.create(json, MediaType.parse("application/json"));
+        Request request = new Request.Builder()
+                .url(url + route)
+                .post(formBody)
+                .build();
+
+        Call call = client.newCall(request);
+        Response response = call.execute();
+        if (response.isSuccessful()) {
+            System.out.println(request.toString());
+        } else {
+            System.out.println(response.body().string());
             throw new IOException("Unexpected code " + response);
         }
     }
