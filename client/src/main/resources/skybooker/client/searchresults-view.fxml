@@ -8,13 +8,6 @@
 <?import javafx.scene.text.*?>
 
 <VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.SearchresultsView">
-    <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
-        <font>
-            <Font name="Roboto Light" size="75.0" />
-        </font>
-    </Label>
-    <Separator prefHeight="0.0" prefWidth="684.3" />
-    <Rectangle fill="TRANSPARENT" height="40" />
     <HBox>
         <VBox>
             <padding>
@@ -47,12 +40,57 @@
             <padding>
                 <Insets bottom="20" right="20" />
             </padding>
-            <ScrollPane  stylesheets="@style.css" hbarPolicy="NEVER" maxHeight="444" maxWidth="708" minHeight="444" minWidth="708" pannable="true" style=" -fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)" vbarPolicy="ALWAYS">
+            <ScrollPane  stylesheets="@style.css" hbarPolicy="NEVER" maxHeight="444" maxWidth="708" minHeight="444" minWidth="708" pannable="true" style="-fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)" vbarPolicy="ALWAYS">
                 <padding>
                     <Insets bottom="20" left="20" right="20" top="20" />
                 </padding>
-                <VBox fx:id="searchResults" >
-
+                <VBox>
+                    <Rectangle fill="TRANSPARENT" height="20" />
+                    <HBox>
+                        <Rectangle fill="TRANSPARENT" width="85" />
+                        <VBox fx:id="searchResults" alignment="CENTER">
+                            <VBox alignment="CENTER">
+                                <VBox  style="-fx-background-color: rgb(255,255,255) ; -fx-border-radius: 12 ; -fx-background-radius: 12 ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)">
+                                    <padding>
+                                        <Insets left="10" right="10" bottom="10" top="10" />
+                                    </padding>
+                                    <HBox alignment="CENTER">
+                                        <Label text="Passengers : ">
+                                            <font>
+                                                <Font name="Roboto Light" size="22.5" />
+                                            </font>
+                                        </Label>
+                                        <Button fx:id="contextMenuTrigger" style="-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;" text="0">
+                                            <font>
+                                                <Font name="Roboto Light" />
+                                            </font>
+                                        </Button>
+                                        <Rectangle fill="TRANSPARENT" width="30" />
+                                        <Label text="Class : ">
+                                            <font>
+                                                <Font name="Roboto Light" size="22.5" />
+                                            </font>
+                                        </Label>
+                                        <ChoiceBox fx:id="classes" style=" -fx-pref-width: 180 ;-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;" value="Economy" />
+                                    </HBox>
+                                    <Rectangle height="21.75" />
+                                    <HBox alignment="CENTER">
+                                        <padding>
+                                            <Insets left="9" right="9" />
+                                        </padding>
+                                        <Rectangle fill="TRANSPARENT" width="26.25" />
+                                        <DatePicker maxHeight="51" maxWidth="120" promptText="Date" style="-fx-font-weight: bold ;-fx-font-size: 22.5 ; -fx-font-family: 'Roboto Light'; -fx-border-radius:  12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
+                                        <Rectangle width="56.0" />
+                                        <Button mnemonicParsing="false" prefHeight="51" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Find" textFill="#FFFFFF">
+                                            <font>
+                                                <Font name="Roboto Light" size="26.25" />
+                                            </font>
+                                        </Button>
+                                    </HBox>
+                                </VBox>
+                            </VBox>
+                        </VBox>
+                    </HBox>
                 </VBox>
             </ScrollPane>
         </VBox>

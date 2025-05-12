@@ -8,18 +8,11 @@
 <?import javafx.scene.text.*?>
 
 <VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.LandingpageView">
-    <Label style="-fx-font-weight: 900;" text="SkyBooker" textAlignment="CENTER" textFill="#80abeb">
-        <font>
-            <Font name="Roboto Light" size="75.0" />
-        </font>
-    </Label>
-    <Separator prefHeight="0.0" prefWidth="684.3" />
-    <Rectangle fill="TRANSPARENT" height="40" />
     <VBox alignment="CENTER">
         <Rectangle fill="TRANSPARENT" height="31" />
-        <StackPane prefHeight="275.0" prefWidth="825.0" >
+        <StackPane prefHeight="275.0" maxWidth="800.0">
             <VBox alignment="TOP_CENTER">
-                <ImageView fitHeight="186.0" fitWidth="781.0" preserveRatio="true">
+                <ImageView fitHeight="186.0" fitWidth="800.0" preserveRatio="true">
                     <Image url="@assets/images/plane_bg2.jpeg" />
                     <viewport>
                         <Rectangle2D height="123.0" minX="-19.0" minY="150.0" width="650.0" />
@@ -27,9 +20,9 @@
                 </ImageView>
             </VBox>
             <VBox alignment="BOTTOM_CENTER">
-                <VBox maxWidth="734.0" minWidth="734.0" minHeight="135" maxHeight="135" style="-fx-background-color: rgb(255,255,255) ; -fx-border-radius: 12 12 12 12 ; -fx-background-radius: 12 12 12 12 ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)">
+                <VBox maxHeight="135" maxWidth="734.0" minHeight="135" minWidth="734.0" style="-fx-background-color: rgb(255,255,255) ; -fx-border-radius: 12 12 12 12 ; -fx-background-radius: 12 12 12 12 ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)">
                     <padding>
-                        <Insets bottom="9" left="9" right="9" top="9" />
+                        <Insets bottom="10" top="10" />
                     </padding>
                     <HBox alignment="CENTER">
                         <Label text="Passengers : ">
@@ -56,10 +49,10 @@
                             <Insets left="9" right="9" />
                         </padding>
                         <ChoiceBox fx:id="departure" maxHeight="51" maxWidth="230.25" style="-fx-min-width: 180; -fx-max-width: 180; -fx-font-family: 'Roboto Light'; -fx-font-size: 22.5; -fx-border-radius: 12 0 0 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 0 0 12; -fx-background-color: white;" value="Departure" />
-                        <ChoiceBox fx:id="arrival" maxHeight="51" maxWidth="157.5" style="-fx-min-width: 150; -fx-max-width: 150; -fx-font-family: 'Roboto Light'; -fx-font-size: 22.5; -fx-border-radius: 0 12 12 0; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 0 12 12 0; -fx-background-color: white;" value="Arrival" />
+                        <ChoiceBox fx:id="arrival" maxHeight="51" maxWidth="157.5" style="-fx-min-width: 180; -fx-max-width: 180; -fx-font-family: 'Roboto Light'; -fx-font-size: 22.5; -fx-border-radius: 0 12 12 0; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 0 12 12 0; -fx-background-color: white;" value="Arrival" />
                         <Rectangle fill="TRANSPARENT" width="26.25" />
-                        <DatePicker maxHeight="51" maxWidth="120" promptText="Date" style="-fx-font-weight: bold ;-fx-font-size: 22.5 ; -fx-font-family: 'Roboto Light'; -fx-border-radius:  12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
-                        <Rectangle width="56.0" />
+                        <DatePicker fx:id="date" maxHeight="51" maxWidth="180" promptText="Date" style="-fx-font-weight: bold ;-fx-font-size: 22.5 ; -fx-font-family: 'Roboto Light'; -fx-border-radius:  12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
+                        <Rectangle width="40.0" />
                         <Button mnemonicParsing="false" onAction="#onFindButton" prefHeight="51" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Find" textFill="#FFFFFF">
                             <font>
                                 <Font name="Roboto Light" size="26.25" />

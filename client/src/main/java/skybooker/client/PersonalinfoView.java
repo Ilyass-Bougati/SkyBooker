@@ -55,6 +55,7 @@ public class PersonalinfoView {
     @FXML
     private StackPane container;
 
+
     private interface controlCheck {
         boolean check();
     }
@@ -94,6 +95,7 @@ public class PersonalinfoView {
         button_icon.setEffect(blend);
 
         Platform.runLater(this::fadeInAnimation);
+        Platform.runLater(this::initializeDatePicker);
         initializeCardinals();
         addPhoneNumberConstraint();
         addToolTip(password , "Password must be at least 8 characters , \n contain lower and upper case characters ,  \n as well as numerals and a special character");
@@ -102,6 +104,11 @@ public class PersonalinfoView {
         initializeErrorPopup(password , "Password must be at least 8 characters , contain upper and lower case , numeral and special characters" , this::verifyPasswordValidity);
         initializeErrorPopup(confirmedPassword , "Passwords must match" , this::verifyConfirmedPasswordValidity);
 
+    }
+
+    private void initializeDatePicker()
+    {
+        birthDate.getEditor().setDisable(true);
     }
 
     private boolean verifyPasswordValidity()
