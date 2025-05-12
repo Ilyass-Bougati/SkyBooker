@@ -13,8 +13,12 @@
     -fx-border-radius: 12;
 }
 
-.scroll-pane > .scroll-bar > .track {
+.scroll-pane > .scroll-bar:vertical{
     -fx-background-color: transparent;
+}
+
+.scroll-pane > .scroll-bar > .track {
+    -fx-background-color: #acc6e5;
     -fx-background-radius: 12 ;
     -fx-border-radius: 12 ;
 }
@@ -27,7 +31,7 @@
 
 .scroll-pane > .scroll-bar > .increment-button ,
 .scroll-pane > .scroll-bar > .decrement-button {
-    -fx-background-color: #80abeb;
+    -fx-background-color: white;
     -fx-background-radius: 12 ;
     -fx-border-radius: 12 ;
 }

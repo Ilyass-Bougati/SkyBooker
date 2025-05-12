@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -36,6 +37,9 @@ public class LandingpageView {
     @FXML
     private Button contextMenuTrigger;
 
+    @FXML
+    private DatePicker date;
+
     private Popup contextMenu;
 
     @FXML
@@ -53,13 +57,18 @@ public class LandingpageView {
         Platform.runLater(this::initializeClasses);
         Platform.runLater(this::initializeLocations);
         Platform.runLater(this::initializePopup);
+        Platform.runLater(this::initializeDatePicker);
+    }
+
+    private void initializeDatePicker()
+    {
+        date.getEditor().setDisable(true);
     }
 
     private void initializePopup()
     {
         StackPane contextMenuContainer = new StackPane();
         contextMenu = new Popup();
-
 
         contextMenuContainer.setStyle("-fx-background-color: rgb(255,255,255) ; -fx-border-radius: 12 ; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian , black , 10 , 0 , 0 , 0)");
         contextMenuContainer.setPadding(new Insets(10 , 10, 10, 10));
@@ -76,11 +85,13 @@ public class LandingpageView {
         categoriesNames.add("Adults" );
         categoriesNames.add("Seniors" );
 
+
         for(int i = 0 ; i < categoriesNames.size() ; i++)
         {
             categoriesContainers.add(new HBox());
             labels.add(new Label(categoriesNames.get(i)));
             counters.add(new Button("0"));
+            SearchresultsView.passengers.put(categoriesNames.get(i) , 0);
         }
 
 
@@ -171,5 +182,22 @@ public class LandingpageView {
 
         departure.setItems(FXCollections.observableArrayList(locations));
         arrival.setItems(FXCollections.observableArrayList(locations));
+
+        departure.setOnAction(_ ->{
+            String initialValue =arrival.getValue() ;
+            ArrayList<String> newLocations = new ArrayList<>(locations);
+            newLocations.remove(departure.getValue());
+            arrival.setItems(FXCollections.observableArrayList(newLocations));
+            arrival.setValue(initialValue);
+        });
+
+        arrival.setOnAction(_ ->{
+            String initialValue =departure.getValue() ;
+            ArrayList<String> newLocations = new ArrayList<>(locations);
+            newLocations.remove(arrival.getValue());
+            departure.setItems(FXCollections.observableArrayList(newLocations));
+            departure.setValue(initialValue);
+        });
     }
+
 }
