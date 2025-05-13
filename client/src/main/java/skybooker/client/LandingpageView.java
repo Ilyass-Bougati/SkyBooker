@@ -45,6 +45,12 @@ public class LandingpageView {
     @FXML
     protected void onFindButton() throws IOException
     {
+        if(departure.getValue().equals("Departure") || arrival.getValue().equals("Arrival"))
+            return;
+
+        SearchresultsView.arrival = arrival.getValue();
+        SearchresultsView.departure = departure.getValue();
+        SearchresultsView.className = classes.getValue();
         HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("searchresults-view.fxml"));
         HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
     }
@@ -81,8 +87,8 @@ public class LandingpageView {
         ArrayList<String> categoriesNames = new ArrayList<>();
         ArrayList<HBox> categoriesContainers = new ArrayList<>();
 
-        categoriesNames.add("Children" );
         categoriesNames.add("Adults" );
+        categoriesNames.add("Children" );
         categoriesNames.add("Seniors" );
 
 
@@ -118,13 +124,17 @@ public class LandingpageView {
             Rectangle paddingRect = new Rectangle(0,0,Color.TRANSPARENT);
             paddingRect.setWidth(25);
 
+            String key = categoriesNames.get(i);
+
             Button plusButton = new Button("+");
             plusButton.setStyle("-fx-background-color: white ;-fx-font-family: 'Roboto Light' ;-fx-border-radius: 12  ; -fx-effect: dropshadow( gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0); -fx-background-radius: 12 ; -fx-cursor: hand");
             plusButton.setOnAction(e->{
                 int pass = Integer.parseInt(tmpTF.getText());
                 pass++;
                 tmpTF.setText(String.valueOf(pass));
+                SearchresultsView.passengers.replace(key , pass);
             });
+
 
 
             Button minusButton = new Button("-");
@@ -136,6 +146,7 @@ public class LandingpageView {
                     pass--;
                 }
                 tmpTF.setText(String.valueOf(pass));
+                SearchresultsView.passengers.replace(key , pass);
             });
 
 
