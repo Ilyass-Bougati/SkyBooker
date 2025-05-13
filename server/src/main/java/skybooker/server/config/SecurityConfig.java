@@ -42,8 +42,11 @@ public class SecurityConfig {
         // But it's fine since we're disabling session management
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(request -> {request
-                    .requestMatchers("/api/v1/auth/**").permitAll()
-                    .anyRequest().authenticated();
+                .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/api-docs").permitAll()
+                .requestMatchers("/swagger").permitAll()
+                .requestMatchers("/swagger-ui/*").permitAll()
+                .anyRequest().authenticated();
         });
 
         // Configuring the resource server
