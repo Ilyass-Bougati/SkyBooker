@@ -78,5 +78,14 @@ public class Passager {
         }
     }
 
+    /**
+     * This function lowercases the fields that needs to be lowercase
+     */
+    public void lowerCase() {
+        setNom(getNom().toLowerCase());
+        setPrenom(getPrenom().toLowerCase());
+        setCIN(getCIN().toLowerCase());
+    }
+
 
 }

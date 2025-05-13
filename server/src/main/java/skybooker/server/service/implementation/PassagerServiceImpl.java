@@ -33,6 +33,7 @@ public class PassagerServiceImpl implements PassagerService {
 
     @Override
     public Passager create(Passager passager) {
+        passager.lowerCase();
         return passagerRepository.save(passager);
     }
 
@@ -41,6 +42,7 @@ public class PassagerServiceImpl implements PassagerService {
         Passager oldPassager = this.findById(passager.getId());
         if (oldPassager != null) {
             oldPassager.updateFields(passager);
+            oldPassager.lowerCase();
             return passagerRepository.save(oldPassager);
         } else {
             return null;
@@ -61,6 +63,7 @@ public class PassagerServiceImpl implements PassagerService {
     public Passager createDTO(PassagerDTO passagerDTO) {
         Passager passager = new Passager(passagerDTO);
         passager.updateCategorie(categorieService);
+        passager.lowerCase();
         return passagerRepository.save(passager);
     }
 
@@ -74,6 +77,7 @@ public class PassagerServiceImpl implements PassagerService {
             passager.setAge(passagerDTO.getAge());
             passager.setCIN(passagerDTO.getCIN());
             passager.updateCategorie(categorieService);
+            passager.lowerCase();
 
             // saving the updates
             return passagerRepository.save(passager);

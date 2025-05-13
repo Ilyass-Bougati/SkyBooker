@@ -34,6 +34,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client create(Client client) {
         client.setPassword(passwordEncoder.encode(client.getPassword()));
+        client.setEmail(client.getEmail().toLowerCase());
         return clientRepository.save(client);
     }
 
@@ -42,6 +43,7 @@ public class ClientServiceImpl implements ClientService {
         Client oldClient = this.findById(client.getId());
         if (oldClient != null) {
             oldClient.updateFields(client);
+            client.setEmail(client.getEmail().toLowerCase());
             return clientRepository.save(oldClient);
         } else {
             return null;
@@ -72,6 +74,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client update(Client client, ClientDTO clientDTO) {
         client.updateFields(clientDTO);
+        client.setEmail(client.getEmail().toLowerCase());
         return clientRepository.save(client);
     }
 }
