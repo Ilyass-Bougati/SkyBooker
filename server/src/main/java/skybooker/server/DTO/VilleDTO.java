@@ -1,5 +1,6 @@
 package skybooker.server.DTO;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,7 @@ public class VilleDTO {
     private long id;
 
     @NotNull
+    @Column(unique = true)
     private String nom;
 
     @NotNull

@@ -43,13 +43,13 @@
                         </font>
                     </Label>
                     <Rectangle fill="TRANSPARENT" height="14.25" />
-                    <TextField prefHeight="57" prefWidth="354.2" promptText="Email" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
+                    <TextField fx:id="email" prefHeight="57" prefWidth="354.2" promptText="Email" style="-fx-border-radius: 12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;">
                         <font>
                             <Font name="Roboto Light" size="22.5" />
                         </font>
                     </TextField>
                     <Rectangle fill="TRANSPARENT" height="14.25" />
-                    <PasswordField prefHeight="57" prefWidth="354.2" promptText="Password" style="-fx-border-radius: 12; -fx-background-radius: 12 ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2);">
+                    <PasswordField fx:id="password" prefHeight="57" prefWidth="354.2" promptText="Password" style="-fx-border-radius: 12; -fx-background-radius: 12 ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2);">
                         <font>
                             <Font name="Roboto Light" size="22.5" />
                         </font>
