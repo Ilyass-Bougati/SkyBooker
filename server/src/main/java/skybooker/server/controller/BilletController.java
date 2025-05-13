@@ -16,8 +16,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/billet")
 public class BilletController {
 
-    @Autowired
-    private BilletService billetService;
+    private final BilletService billetService;
+
+    public BilletController(BilletService billetService) {
+        this.billetService = billetService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<BilletDTO>> getAllBillet() {

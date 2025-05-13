@@ -15,8 +15,11 @@ import java.util.List;
 @RequestMapping("/api/v1/capacite")
 public class CapaciteController {
 
-    @Autowired
-    private CapaciteService capaciteService;
+    private final CapaciteService capaciteService;
+
+    public CapaciteController(CapaciteService capaciteService) {
+        this.capaciteService = capaciteService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<Capacite>> getAllCapacite() {

@@ -16,14 +16,18 @@ import java.util.Optional;
 @Service
 public class BilletServiceImpl implements BilletService {
 
-    @Autowired
-    private BilletRepository billetRepository;
-    @Autowired
-    private ClasseService classeService;
-    @Autowired
-    private PassagerService passagerService;
-    @Autowired
-    private ReservationService reservationService;
+    private final BilletRepository billetRepository;
+    private final ClasseService classeService;
+    private final PassagerService passagerService;
+
+    public BilletServiceImpl(BilletRepository billetRepository, ClasseService classeService, PassagerService passagerService, ReservationService reservationService) {
+        this.billetRepository = billetRepository;
+        this.classeService = classeService;
+        this.passagerService = passagerService;
+        this.reservationService = reservationService;
+    }
+
+    private final ReservationService reservationService;
 
     @Override
     public List<Billet> findAll() {

@@ -15,8 +15,11 @@ import java.security.Principal;
 @RequestMapping("/api/v1/client")
 public class ClientController {
 
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
+
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ClientDTO> client(@PathVariable long id) {

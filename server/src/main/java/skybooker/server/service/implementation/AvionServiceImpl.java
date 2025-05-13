@@ -14,11 +14,13 @@ import java.util.Optional;
 @Service
 public class AvionServiceImpl implements AvionService {
 
-    @Autowired
-    private AvionRepository avionRepository;
+    private final AvionRepository avionRepository;
+    private final CompanieAerienneService companieAerienneService;
 
-    @Autowired
-    private CompanieAerienneService companieAerienneService;
+    public AvionServiceImpl(AvionRepository avionRepository, CompanieAerienneService companieAerienneService) {
+        this.avionRepository = avionRepository;
+        this.companieAerienneService = companieAerienneService;
+    }
 
     @Override
     public List<Avion> findAll() {

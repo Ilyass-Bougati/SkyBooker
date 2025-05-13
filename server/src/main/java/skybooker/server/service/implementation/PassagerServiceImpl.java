@@ -14,11 +14,13 @@ import java.util.Optional;
 @Service
 public class PassagerServiceImpl implements PassagerService {
 
-    @Autowired
-    private PassagerRepository passagerRepository;
+    private final PassagerRepository passagerRepository;
+    private final CategorieService categorieService;
 
-    @Autowired
-    private CategorieService categorieService;
+    public PassagerServiceImpl(PassagerRepository passagerRepository, CategorieService categorieService) {
+        this.passagerRepository = passagerRepository;
+        this.categorieService = categorieService;
+    }
 
     @Override
     public List<Passager> findAll() {

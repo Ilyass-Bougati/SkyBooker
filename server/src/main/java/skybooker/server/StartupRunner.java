@@ -13,13 +13,15 @@ import skybooker.server.service.ClientService;
 @Component
 public class StartupRunner implements CommandLineRunner {
 
-    @Autowired
-    private CategorieRepository categorieRepository;
+    private final CategorieRepository categorieRepository;
+    private final ClientService clientService;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private ClientService clientService;
-    @Autowired
-    private RoleRepository roleRepository;
+    public StartupRunner(RoleRepository roleRepository, ClientService clientService, CategorieRepository categorieRepository) {
+        this.roleRepository = roleRepository;
+        this.clientService = clientService;
+        this.categorieRepository = categorieRepository;
+    }
 
     @Override
     public void run(String... args) throws Exception {

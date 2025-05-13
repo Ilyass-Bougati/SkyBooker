@@ -12,8 +12,11 @@ import java.util.Optional;
 @Service
 public class ClasseServiceImpl implements ClasseService {
 
-    @Autowired
-    private ClasseRepository classeRepository;
+    private final ClasseRepository classeRepository;
+
+    public ClasseServiceImpl(ClasseRepository classeRepository) {
+        this.classeRepository = classeRepository;
+    }
 
     @Override
     public List<Classe> findAll() {

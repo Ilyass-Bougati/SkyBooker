@@ -14,11 +14,14 @@ import java.util.Optional;
 @Service
 public class AeroportServiceImpl implements AeroportService {
 
-    @Autowired
-    private AeroportRepository aeroportRepository;
+    private final AeroportRepository aeroportRepository;
 
-    @Autowired
-    private VilleService villeService;
+    public AeroportServiceImpl(AeroportRepository aeroportRepository, VilleService villeService) {
+        this.aeroportRepository = aeroportRepository;
+        this.villeService = villeService;
+    }
+
+    private final VilleService villeService;
 
     @Override
     public List<Aeroport> findAll() {

@@ -15,12 +15,15 @@ import java.util.Optional;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
-    @Autowired
-    private ReservationRepository reservationRepository;
-    @Autowired
-    private ClientService clientService;
-    @Autowired
-    private VolService volService;
+    private final ReservationRepository reservationRepository;
+    private final ClientService clientService;
+    private final VolService volService;
+
+    public ReservationServiceImpl(ReservationRepository reservationRepository, ClientService clientService, VolService volService) {
+        this.reservationRepository = reservationRepository;
+        this.clientService = clientService;
+        this.volService = volService;
+    }
 
     @Override
     public List<Reservation> findAll() {

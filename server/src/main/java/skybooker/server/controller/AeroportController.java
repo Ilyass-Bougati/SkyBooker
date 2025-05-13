@@ -18,8 +18,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/aeroport")
 public class AeroportController {
 
-    @Autowired
-    private AeroportService aeroportService;
+    private final AeroportService aeroportService;
+
+    public AeroportController(AeroportService aeroportService) {
+        this.aeroportService = aeroportService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<AeroportDTO>> getAllAeroport() {
