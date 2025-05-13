@@ -10,7 +10,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class UserPrincipal implements UserDetails {
-    private Client client;
+
+    private final Client client;
 
     public UserPrincipal(Client client) {
         this.client = client;

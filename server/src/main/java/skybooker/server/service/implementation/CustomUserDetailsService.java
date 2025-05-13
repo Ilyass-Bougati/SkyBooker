@@ -13,8 +13,12 @@ import java.util.Optional;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
-    private ClientRepository clientRepository;
+
+    private final ClientRepository clientRepository;
+
+    public CustomUserDetailsService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     /**
      *

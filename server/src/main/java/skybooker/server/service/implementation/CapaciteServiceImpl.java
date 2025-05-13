@@ -15,12 +15,15 @@ import java.util.Optional;
 @Service
 public class CapaciteServiceImpl implements CapaciteService {
 
-    @Autowired
-    private CapaciteRepository capaciteRepository;
-    @Autowired
-    private AvionService avionService;
-    @Autowired
-    private ClasseService classeService;
+    private final CapaciteRepository capaciteRepository;
+    private final AvionService avionService;
+    private final ClasseService classeService;
+
+    public CapaciteServiceImpl(CapaciteRepository capaciteRepository, AvionService avionService, ClasseService classeService) {
+        this.capaciteRepository = capaciteRepository;
+        this.avionService = avionService;
+        this.classeService = classeService;
+    }
 
     @Override
     public List<Capacite> findAll() {

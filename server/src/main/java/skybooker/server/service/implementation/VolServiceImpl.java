@@ -15,14 +15,17 @@ import java.util.*;
 @Service
 public class VolServiceImpl implements VolService {
 
-    @Autowired
-    public VolRepository volRepository;
-    @Autowired
-    public ClasseRepository classeRepository;
-    @Autowired
-    private AvionService avionService;
-    @Autowired
-    private AeroportService aeroportService;
+    private final VolRepository volRepository;
+    private final ClasseRepository classeRepository;
+    private final AvionService avionService;
+    private final AeroportService aeroportService;
+
+    public VolServiceImpl(VolRepository volRepository, ClasseRepository classeRepository, AvionService avionService, AeroportService aeroportService) {
+        this.volRepository = volRepository;
+        this.classeRepository = classeRepository;
+        this.avionService = avionService;
+        this.aeroportService = aeroportService;
+    }
 
     @Override
     public List<Vol> findAll(){

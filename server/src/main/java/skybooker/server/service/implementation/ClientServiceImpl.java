@@ -14,11 +14,13 @@ import java.util.Optional;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+        this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public List<Client> findAll() {

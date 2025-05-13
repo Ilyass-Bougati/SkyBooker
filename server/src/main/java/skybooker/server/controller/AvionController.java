@@ -17,8 +17,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/avion")
 public class AvionController {
 
-    @Autowired
-    private AvionService avionService;
+    private final AvionService avionService;
+
+    public AvionController(AvionService avionService) {
+        this.avionService = avionService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<AvionDTO>> getAllAvion() {

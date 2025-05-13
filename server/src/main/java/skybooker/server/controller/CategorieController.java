@@ -16,8 +16,11 @@ import java.util.List;
 @RequestMapping("/api/v1/categories")
 public class CategorieController {
 
-    @Autowired
-    private CategorieService categorieService;
+    private final CategorieService categorieService;
+
+    public CategorieController(CategorieService categorieService) {
+        this.categorieService = categorieService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<Categorie>> getCategories() {

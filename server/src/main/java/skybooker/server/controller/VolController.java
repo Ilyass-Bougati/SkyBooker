@@ -14,8 +14,12 @@ import skybooker.server.service.VolService;
 @RestController
 @RequestMapping("/api/v1/vol")
 public class VolController {
-    @Autowired
-    private VolService volService;
+
+    private final VolService volService;
+
+    public VolController(VolService volService) {
+        this.volService = volService;
+    }
 
     @GetMapping("/price/{volId}/{classeId}")
     public ResponseEntity<PriceDTO> getPrice(@PathVariable long volId, @PathVariable long classeId) {

@@ -15,8 +15,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/reservation")
 public class ReservationController {
 
-    @Autowired
-    private ReservationService reservationService;
+    private final ReservationService reservationService;
+
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<ReservationDTO>> getAllReservation() {

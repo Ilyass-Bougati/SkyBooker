@@ -16,8 +16,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/passager")
 public class PassagerController {
 
-    @Autowired
-    private PassagerService passagerService;
+    private final PassagerService passagerService;
+
+    public PassagerController(PassagerService passagerService) {
+        this.passagerService = passagerService;
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<PassagerDTO>> getAllPassager() {

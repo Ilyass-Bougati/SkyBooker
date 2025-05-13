@@ -13,8 +13,11 @@ import java.util.Optional;
 @Service
 public class VilleServiceImpl implements VilleService {
 
-    @Autowired
-    private VilleRepository villeRepository;
+    private final VilleRepository villeRepository;
+
+    public VilleServiceImpl(VilleRepository villeRepository) {
+        this.villeRepository = villeRepository;
+    }
 
     @Override
     public List<Ville> findAll() {
