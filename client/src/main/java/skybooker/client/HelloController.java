@@ -6,12 +6,16 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import requests.Client;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HelloController {
 
@@ -25,6 +29,12 @@ public class HelloController {
     private HBox inputs;
 
     @FXML
+    private TextField email;
+
+    @FXML
+    private TextField password;
+
+    @FXML
     protected void onSignUpButton() throws IOException
     {
         HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
@@ -34,6 +44,17 @@ public class HelloController {
     @FXML
     protected void onLogInButton() throws IOException
     {
+        if (email.getText().isEmpty() || password.getText().isEmpty()) {
+            return;
+        }
+
+        try {
+            Client.login(email.getText(), password.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+
         HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Landingpage-view.fxml"));
         HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
     }
