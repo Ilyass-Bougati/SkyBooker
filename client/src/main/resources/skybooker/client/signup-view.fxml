@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.SignupView">
-    <StackPane fx:id="container" opacity="0">
+    <StackPane fx:id="container" opacity="1">
         <VBox>
             <padding>
                 <Insets left="20" />
@@ -57,5 +57,4 @@
             </ImageView>
         </graphic>
     </Button>
-    <Rectangle fill="TRANSPARENT" height="103.5" />
 </VBox>

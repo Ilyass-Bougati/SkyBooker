@@ -45,13 +45,12 @@ public class HelloController {
     protected void onLogInButton() throws IOException
     {
         if (email.getText().isEmpty() || password.getText().isEmpty()) {
-            return;
-        }
+         return;     }
 
         try {
             Client.login(email.getText(), password.getText());
         } catch (IOException ex) {
-            Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
 

@@ -13,6 +13,7 @@ import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -54,7 +55,7 @@ public class PersonalinfoView {
     private DatePicker birthDate;
 
     @FXML
-    private StackPane container;
+    private HBox container;
 
 
     private interface controlCheck {
