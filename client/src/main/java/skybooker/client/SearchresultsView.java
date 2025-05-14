@@ -1,5 +1,6 @@
 package skybooker.client;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -7,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -14,7 +16,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
+import utils.GeneralUtils;
 
+import java.io.IOException;
 import java.util.*;
 
 public class SearchresultsView {
@@ -25,16 +29,33 @@ public class SearchresultsView {
     @FXML
     private Button contextMenuTrigger;
 
+    @FXML
+    private DatePicker date;
+
     private Popup contextMenu ;
 
     public static String className = "Economy" , departure , arrival;
     public static HashMap<String , Integer> passengers = new HashMap<>();
 
     @FXML
+    protected void onBackButton()
+    {
+        try{
+            GeneralUtils.loadView("landingpage-view.fxml");
+        }catch (IOException ioe)
+        {
+            throw new RuntimeException("An error occured while loading view");
+        }
+    }
+
+    @FXML
     public void initialize()
     {
-        initializePopup();
-        initializeClasses();
+        Platform.runLater(()->{
+            initializePopup();
+            initializeClasses();
+            GeneralUtils.initializeDatePicker(date);});
+
     }
 
 

@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import utils.GeneralUtils;
 import utils.Validator;
 
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class SignupView {
     @FXML
     protected void onContinueButton() throws RuntimeException
     {
+
         if(Validator.checkNameValidity(fName.getText()) && Validator.checkNameValidity(lName.getText()) && Validator.checkEmailValidity(email.getText()))
         {
             // storing the data to the RegisterRequestDTO
@@ -55,19 +57,14 @@ public class SignupView {
             RegisterRequestDTOBuilder.setNom(lName.getText());
             RegisterRequestDTOBuilder.setEmail(email.getText());
 
-            FadeTransition fadeOut = new FadeTransition();
-            fadeOut.setNode(container);
-            fadeOut.setFromValue(1);
-            fadeOut.setToValue(0);
-            fadeOut.setDuration(new Duration(500));
-            fadeOut.setAutoReverse(false);
+            FadeTransition fadeOut = GeneralUtils.fadeOutAnimation(container , 500);
 
             fadeOut.setOnFinished( e -> {
-                HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("personalinfo-view.fxml"));
-                try {
-                    HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                try{
+                    GeneralUtils.loadView("personalinfo-view.fxml");
+                }catch(IOException ioe)
+                {
+                    throw new RuntimeException("An error occured while loading view");
                 }
             });
 
@@ -78,16 +75,15 @@ public class SignupView {
     @FXML
     protected void onBackButton() throws IOException
     {
-        HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+        GeneralUtils.loadView("hello-view.fxml");
     }
 
     @FXML
     public void initialize()
     {
         //Changes the window title
-        Stage stage = (Stage)(HelloApplication.scene.getWindow());
-        stage.setTitle("Sign up to SkyBooker");
+        GeneralUtils.changeWindowTitle("Sign up to SkyBooker");
+
         //Sets the icon on the button to white
         Blend blend = new Blend(
                 BlendMode.SRC_ATOP,
@@ -96,7 +92,7 @@ public class SignupView {
         );
         button_icon.setEffect(blend);
 
-        Platform.runLater(this::fadeInAnimation);
+        Platform.runLater(()-> GeneralUtils.fadeInAnimation(container , 500).play());
 
         initializeErrorPopup(fName, "Name should only contain characters ", ()->{
             String text = fName.getText() ;
@@ -140,16 +136,5 @@ public class SignupView {
                 errorPopup.hide();
             }
         });
-    }
-
-    private void fadeInAnimation()
-    {
-        FadeTransition fadeIn = new FadeTransition();
-        fadeIn.setNode(container);
-        fadeIn.setFromValue(0);
-        fadeIn.setToValue(1);
-        fadeIn.setDuration(new Duration(500));
-        fadeIn.setAutoReverse(false);
-        fadeIn.play();
     }
 }

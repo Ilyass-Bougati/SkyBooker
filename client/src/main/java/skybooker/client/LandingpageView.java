@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import utils.GeneralUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +41,9 @@ public class LandingpageView {
     @FXML
     private DatePicker date;
 
+    @FXML
+    private StackPane container;
+
     private Popup contextMenu;
 
     @FXML
@@ -51,25 +55,22 @@ public class LandingpageView {
         SearchresultsView.arrival = arrival.getValue();
         SearchresultsView.departure = departure.getValue();
         SearchresultsView.className = classes.getValue();
-        HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("searchresults-view.fxml"));
-        HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+
+        GeneralUtils.loadView("searchresults-view.fxml");
     }
 
     @FXML
     public void initialize()
     {
-        ((Stage)HelloApplication.scene.getWindow()).setTitle("Welcome to SkyBooker");
-
+        GeneralUtils.changeWindowTitle("Welcome to SkyBooker");
+        Platform.runLater(() -> GeneralUtils.fadeInAnimation(container , 500).play());
         Platform.runLater(this::initializeClasses);
         Platform.runLater(this::initializeLocations);
         Platform.runLater(this::initializePopup);
-        Platform.runLater(this::initializeDatePicker);
+        Platform.runLater(() -> GeneralUtils.initializeDatePicker(date));
     }
 
-    private void initializeDatePicker()
-    {
-        date.getEditor().setDisable(true);
-    }
+
 
     private void initializePopup()
     {
@@ -92,12 +93,11 @@ public class LandingpageView {
         categoriesNames.add("Seniors" );
 
 
-        for(int i = 0 ; i < categoriesNames.size() ; i++)
-        {
+        for (String categoriesName : categoriesNames) {
             categoriesContainers.add(new HBox());
-            labels.add(new Label(categoriesNames.get(i)));
+            labels.add(new Label(categoriesName));
             counters.add(new Button("0"));
-            SearchresultsView.passengers.put(categoriesNames.get(i) , 0);
+            SearchresultsView.passengers.put(categoriesName, 0);
         }
 
 

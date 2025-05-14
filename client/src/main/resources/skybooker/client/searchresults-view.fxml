@@ -9,13 +9,13 @@
 
 <VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.SearchresultsView">
     <HBox>
-        <VBox>
+        <VBox fx:id="container">
             <padding>
                 <Insets bottom="20" left="20" />
             </padding>
             <HBox>
                 <VBox>
-                    <Button maxHeight="57" maxWidth="57" mnemonicParsing="false" prefHeight="57" prefWidth="57" style="-fx-effect: dropshadow(gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); ;-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-cursor: hand;" textFill="#FFFFFF">
+                    <Button onAction="#onBackButton" maxHeight="57" maxWidth="57" mnemonicParsing="false" prefHeight="57" prefWidth="57" style="-fx-effect: dropshadow(gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); ;-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-cursor: hand;" textFill="#FFFFFF">
                         <graphic>
                             <ImageView fitHeight="30" fitWidth="30" rotate="90" style="-fx-opacity: 0.5;">
                                 <Image url="@assets/Arrow_icon.png" />
@@ -79,7 +79,7 @@
                                             <Insets left="9" right="9" />
                                         </padding>
                                         <Rectangle fill="TRANSPARENT" width="26.25" />
-                                        <DatePicker maxHeight="51" maxWidth="120" promptText="Date" style="-fx-font-weight: bold ;-fx-font-size: 22.5 ; -fx-font-family: 'Roboto Light'; -fx-border-radius:  12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
+                                        <DatePicker fx:id="date" maxHeight="51" maxWidth="120" promptText="Date" style="-fx-font-weight: bold ;-fx-font-size: 22.5 ; -fx-font-family: 'Roboto Light'; -fx-border-radius:  12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
                                         <Rectangle width="56.0" />
                                         <Button mnemonicParsing="false" prefHeight="51" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Find" textFill="#FFFFFF">
                                             <font>

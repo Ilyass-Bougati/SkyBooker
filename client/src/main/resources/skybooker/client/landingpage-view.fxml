@@ -10,7 +10,7 @@
 <VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.LandingpageView">
     <VBox alignment="CENTER">
         <Rectangle fill="TRANSPARENT" height="31" />
-        <StackPane prefHeight="275.0" maxWidth="800.0">
+        <StackPane opacity="0" fx:id="container" prefHeight="275.0" maxWidth="800.0">
             <VBox alignment="TOP_CENTER">
                 <ImageView fitHeight="186.0" fitWidth="800.0" preserveRatio="true">
                     <Image url="@assets/images/plane_bg2.jpeg" />
@@ -80,7 +80,7 @@
                 <padding>
                     <Insets right="41.75" />
                 </padding>
-                <Button mnemonicParsing="false" prefHeight="57" style="-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); -fx-cursor: hand;" text="Explore">
+                <Button mnemonicParsing="false" prefHeight="57" style="-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); -fx-cursor: hand;" text="My Reservations">
                     <font>
                         <Font name="Roboto Light" size="26.25" />
                     </font>
