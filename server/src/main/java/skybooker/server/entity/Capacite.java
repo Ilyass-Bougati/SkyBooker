@@ -11,7 +11,9 @@ import skybooker.server.DTO.CapaciteDTO;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "capacites")
+@Table(name = "capacites", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"avion_id", "classe_id"})
+})
 public class Capacite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +27,8 @@ public class Capacite {
     @JoinColumn(name = "avion_id", nullable = false)
     private Avion avion;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "classe_id", nullable = false)
     private Classe classe;
 
     public Capacite(CapaciteDTO capaciteDTO) {
