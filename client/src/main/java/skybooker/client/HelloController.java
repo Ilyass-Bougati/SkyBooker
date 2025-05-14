@@ -44,14 +44,14 @@ public class HelloController {
     @FXML
     protected void onLogInButton() throws IOException
     {
-//        if (email.getText().isEmpty() || password.getText().isEmpty()) {return;}
-//
-//        try {
-//            Client.login(email.getText(), password.getText());
-//        } catch (IOException ex) {
-//           Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
-//            return;
-//        }
+        if (email.getText().isEmpty() || password.getText().isEmpty()) {return;}
+
+        try {
+            Client.login(email.getText(), password.getText());
+        } catch (IOException ex) {
+           Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
 
         GeneralUtils.loadView("Landingpage-view.fxml");
     }
