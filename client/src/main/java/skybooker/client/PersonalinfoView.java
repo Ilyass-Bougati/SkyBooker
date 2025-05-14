@@ -22,6 +22,7 @@ import javafx.stage.Popup;
 import javafx.util.Duration;
 import okhttp3.Response;
 import requests.Client;
+import utils.GeneralUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -65,12 +66,11 @@ public class PersonalinfoView {
     @FXML
     protected void onBackButton() throws IOException
     {
-        HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
-        HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+        GeneralUtils.loadView("signup-view.fxml");
     }
 
     @FXML
-    public void onRegisterButton() throws IOException {
+    public void onRegisterButton() {
         // checking the inputs
         if (password.getText().equals(confirmedPassword.getText()) && !cin.getText().isEmpty() && !password.getText().isEmpty() && !phone.getText().isEmpty() && !adresse.getText().isEmpty() && birthDate.getValue() != null) {
             RegisterRequestDTOBuilder.setAdresse(adresse.getText());
@@ -105,8 +105,9 @@ public class PersonalinfoView {
         );
         button_icon.setEffect(blend);
 
-        Platform.runLater(this::fadeInAnimation);
-        Platform.runLater(this::initializeDatePicker);
+        Platform.runLater(() -> GeneralUtils.fadeInAnimation(container , 500).play());
+        Platform.runLater(() -> GeneralUtils.initializeDatePicker(birthDate));
+
         initializeCardinals();
         addPhoneNumberConstraint();
         addToolTip(password , "Password must be at least 8 characters , \n contain lower and upper case characters ,  \n as well as numerals and a special character");
@@ -116,12 +117,6 @@ public class PersonalinfoView {
         initializeErrorPopup(confirmedPassword , "Passwords must match" , this::verifyConfirmedPasswordValidity);
 
     }
-
-    private void initializeDatePicker()
-    {
-        birthDate.getEditor().setDisable(true);
-    }
-
     private boolean verifyPasswordValidity()
     {
         if(password.getText().length() < 8)
@@ -214,16 +209,6 @@ public class PersonalinfoView {
                 errorPopup.hide();
             }
         });
-    }
-
-    private void fadeInAnimation() {
-        FadeTransition fadeIn = new FadeTransition();
-        fadeIn.setNode(container);
-        fadeIn.setFromValue(0);
-        fadeIn.setToValue(1);
-        fadeIn.setDuration(new Duration(500));
-        fadeIn.setAutoReverse(false);
-        fadeIn.play();
     }
 }
 

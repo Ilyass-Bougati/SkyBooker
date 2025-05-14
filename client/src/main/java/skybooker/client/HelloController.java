@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import requests.Client;
+import utils.GeneralUtils;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -37,15 +38,13 @@ public class HelloController {
     @FXML
     protected void onSignUpButton() throws IOException
     {
-        HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-view.fxml"));
-        HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+        GeneralUtils.loadView("signup-view.fxml");
     }
 
     @FXML
     protected void onLogInButton() throws IOException
     {
-        if (email.getText().isEmpty() || password.getText().isEmpty()) {
-         return;     }
+        if (email.getText().isEmpty() || password.getText().isEmpty()) {return;}
 
         try {
             Client.login(email.getText(), password.getText());
@@ -54,26 +53,14 @@ public class HelloController {
             return;
         }
 
-        HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Landingpage-view.fxml"));
-        HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
-    }
-
-    private void fadeInAnimation()
-    {
-        FadeTransition fadeIn = new FadeTransition();
-        fadeIn.setNode(container);
-        fadeIn.setDuration(new Duration(500));
-        fadeIn.setAutoReverse(false);
-        fadeIn.setFromValue(0);
-        fadeIn.setToValue(1);
-        fadeIn.play();
+        GeneralUtils.loadView("Landingpage-view.fxml");
     }
 
 
     @FXML
     protected void initialize()
     {
-        Platform.runLater(()-> ((Stage)HelloApplication.scene.getWindow()).setTitle("Authentication for SkyBooker"));
+        Platform.runLater(()-> GeneralUtils.changeWindowTitle("Authentication for SkyBooker"));
         Platform.runLater(()->{
                             Bounds graphicBounds = graphic.localToScene(graphic.getBoundsInLocal());
                             TranslateTransition closeInGraphic = new TranslateTransition();
@@ -83,7 +70,7 @@ public class HelloController {
                             closeInGraphic.setDuration(new Duration(800));
                             closeInGraphic.setNode(graphic);
 
-                            fadeInAnimation();
+                            GeneralUtils.fadeInAnimation(container , 500).play();
                             closeInGraphic.play();
         });
     }
