@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+    <h1 th:text="${pageTitle}">Dashboard</h1>
+    <p>Welcome to the Airline Administration Panel.</p>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Fare Categories</h5>
+                    <p class="card-text">Add, edit, or delete passenger fare categories.</p>
+                    <a th:href="@{/admin/categories}" class="btn btn-primary">Go to Categories</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">View Statistics</h5>
+                    <p class="card-text">Analyze occupancy rates and other metrics.</p>
+                    <a th:href="@{/admin/statistics/occupancy}" class="btn btn-primary">View Occupancy Stats</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
