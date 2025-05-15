@@ -17,7 +17,7 @@ public class AdminDashboardController {
     }
 
     @GetMapping("/login")
-    public String AdminLoginPage(Model model) {
+    public String AdminLoginPage() {
         return "admin/login";
     }
 }

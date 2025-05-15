@@ -11,7 +11,6 @@ import skybooker.server.entity.Categorie;
 import skybooker.server.service.CategorieService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/categories")
