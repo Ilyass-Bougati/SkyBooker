@@ -6,10 +6,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -32,7 +30,69 @@ public class SearchresultsView {
     @FXML
     private DatePicker date;
 
+    @FXML
+    private VBox container;
+
+    @FXML
+    private HBox page;
+
+    private class bookPopup extends Popup{
+        private int buttonId ;
+        private ScrollPane container;
+        private VBox subcontainer;
+
+        public bookPopup(int buttonId)
+        {
+            super();
+            this.container = new ScrollPane();
+            this.container.setMinWidth(500);
+            this.container.setMinHeight(500);
+            this.buttonId = buttonId;
+            this.setX(HelloApplication.scene.getWindow().getX() + HelloApplication.scene.getWidth()*0.5 - 250);
+            this.setY(HelloApplication.scene.getWindow().getY() + HelloApplication.scene.getHeight()*0.5 - 250);
+            this.subcontainer = new VBox();
+            this.subcontainer.setStyle("-fx-background-color: white ; -fx-background-radius: 12 ;");
+            this.subcontainer.setMouseTransparent(false);
+
+            Button closeButton = new Button("x");
+            closeButton.setStyle("-fx-background-color: rgba(0,102,255,0.98) ;-fx-text-fill: white ; -fx-background-radius: 12 ; -fx-border-radius: 12 ; -fx-font-size: 20 ");
+            closeButton.setMinHeight(57);
+            closeButton.setMinWidth(57);
+            closeButton.setOnAction(_ -> {
+                page.setEffect(null);
+                this.hide();
+            });
+
+            Label testLabel1 = new Label("test : ");
+            testLabel1.setStyle("-fx-font-family: 'Roboto Light' ; -fx-font-size: 25 ;");
+
+            this.subcontainer.getChildren().addAll(closeButton, testLabel1 );
+            this.container.setContent(this.subcontainer);
+            this.getContent().add(container);
+
+            initialize();
+        }
+        public void initialize()
+        {
+            HelloApplication.scene.getWindow().xProperty().addListener((_) ->{
+                this.setX(HelloApplication.scene.getWindow().getX() + HelloApplication.scene.getWidth()*0.5 - 250);
+            });
+
+            HelloApplication.scene.getWindow().yProperty().addListener((_) ->{
+                this.setY(HelloApplication.scene.getWindow().getY() + HelloApplication.scene.getHeight()*0.5 - 250);
+            });
+        }
+        public void updateId(int newId)
+        {
+            this.buttonId = newId;
+            initialize();
+        }
+    }
+
     private Popup contextMenu ;
+    private bookPopup bp = null;
+    private final ArrayList<ArrayList<String>> Rows = new ArrayList<>();
+    private final HashMap<Button , Integer> buttonDictionnary = new HashMap<>();
 
     public static String className = "Economy" , departure , arrival;
     public static HashMap<String , Integer> passengers = new HashMap<>();
@@ -54,10 +114,11 @@ public class SearchresultsView {
         Platform.runLater(()->{
             initializePopup();
             initializeClasses();
-            GeneralUtils.initializeDatePicker(date);});
-
+            GeneralUtils.initializeDatePicker(date);
+            populateRows();
+            displayRows();
+        });
     }
-
 
     private void initializeClasses()
     {
@@ -164,5 +225,56 @@ public class SearchresultsView {
             Bounds bounds = contextMenuTrigger.localToScreen(contextMenuTrigger.getBoundsInLocal());
             contextMenu.show(contextMenuTrigger , bounds.getMinX() , bounds.getMaxY());
         });
+    }
+
+    private void populateRows()
+    {
+        for(int i = 0 ; i < 2 ; i ++)
+        {
+            ArrayList<String> Row = new ArrayList<>();
+            Row.add("Airline" + i );
+            Row.add("\t\tDPT" + i);
+            Row.add("\t00:00");
+            Row.add("\t00:00");
+            Row.add("\tARR" + i);
+            Row.add("\t\t100" + i + "$");
+            Rows.add(Row);
+        }
+    }
+
+    private void displayRows()
+    {
+        int i = 0;
+        for(ArrayList<String> row : Rows)
+        {
+            Button rowButton = new Button();
+            StringBuilder buttonLabel = new StringBuilder();
+            for(String s : row)
+            {
+                buttonLabel.append(s);
+            }
+            rowButton.setText(buttonLabel.toString());
+            rowButton.setAlignment(Pos.CENTER);
+            rowButton.setStyle("-fx-background-color: rgb(255,255,255) ; -fx-cursor: hand; -fx-font-weight: bold ; -fx-text-fill: #3434af ; -fx-font-family: 'Roboto Light'; -fx-font-size: 20 ; -fx-text-alignment: center ; -fx-min-width: 674 ; -fx-max-width: 674 ; -fx-min-height: 57 ; -fx-max-height: 57 ;");
+            rowButton.setOnAction(_ -> {
+                int id = buttonDictionnary.get(rowButton);
+                if(bp == null)
+                {
+                    bp = new bookPopup(id);
+                }
+                else{
+                    bp.updateId(id);
+                }
+                BoxBlur bb = new BoxBlur(5,5,3);
+                page.setEffect(bb);
+                bp.show(HelloApplication.scene.getWindow());
+            });
+
+            buttonDictionnary.put(rowButton,i++);
+
+            container.getChildren().add(rowButton);
+            container.getChildren().add(new Separator());
+        }
+        container.getChildren().removeLast();
     }
 }

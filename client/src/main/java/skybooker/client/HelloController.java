@@ -1,15 +1,12 @@
 package skybooker.client;
 
-import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import requests.Client;
 import utils.GeneralUtils;
@@ -27,13 +24,16 @@ public class HelloController {
     private VBox graphic;
 
     @FXML
-    private HBox inputs;
-
-    @FXML
     private TextField email;
 
     @FXML
     private TextField password;
+
+    @FXML
+    protected void backdoor() throws IOException
+    {
+        GeneralUtils.loadView("Landingpage-view.fxml");
+    }
 
     @FXML
     protected void onSignUpButton() throws IOException
@@ -53,7 +53,7 @@ public class HelloController {
             return;
         }
 
-        GeneralUtils.loadView("Landingpage-view.fxml");
+        GeneralUtils.loadView("landingpage-view.fxml");
     }
 
 

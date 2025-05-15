@@ -128,8 +128,14 @@ public class SignupView {
             boolean b = chk.check();
             if(!errorPopup.isShowing() && !b)
             {
-                Bounds bounds = c.localToScreen(c.getBoundsInLocal());
-                errorPopup.show(c , bounds.getMinX() , bounds.getMaxY());
+                Bounds bounds = c.localToScene(c.getBoundsInLocal());
+                HelloApplication.scene.getWindow().xProperty().addListener(_->{
+                    errorPopup.setX(bounds.getMinX() + HelloApplication.scene.getWindow().getX());
+                });
+                HelloApplication.scene.getWindow().yProperty().addListener(_->{
+                    errorPopup.setY(bounds.getMaxY() + 30 + HelloApplication.scene.getWindow().getY());
+                });
+                errorPopup.show(c , bounds.getMinX() + HelloApplication.scene.getWindow().getX() , bounds.getMaxY() + 30 + HelloApplication.scene.getWindow().getY());
             }
             else if(errorPopup.isShowing() && b)
             {
