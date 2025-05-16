@@ -41,7 +41,7 @@ public class AdminVilleController {
     public String saveVille(@Valid @ModelAttribute("ville") Ville ville, BindingResult result,
                             Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("pageTitle", (ville.getId() == 0 ? "Ajouter" : "Modifier") +" une nouvelle ville");
+            model.addAttribute("pageTitle", (ville.getId() == null ? "Ajouter" : "Modifier") +" une nouvelle ville");
             return "admin/localisation/add-edit-ville";
         }
 
