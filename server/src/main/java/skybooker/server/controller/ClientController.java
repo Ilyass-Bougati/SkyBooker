@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.entity.Client;
@@ -22,8 +23,19 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
+    @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<ClientDTO> client(@PathVariable long id) {
         Client client = clientService.findById(id);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(new ClientDTO(client));
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<ClientDTO> client(Principal principal) {
+        Client client = clientService.findByEmail(principal.getName());
         if (client == null) {
             return ResponseEntity.notFound().build();
         } else {
