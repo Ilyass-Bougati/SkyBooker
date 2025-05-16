@@ -36,7 +36,7 @@ public class AdminAeroportController {
         List<Aeroport> aeroports = aeroportService.findAll();
         model.addAttribute("aeroports", aeroports);
         model.addAttribute("pageTitle", "Gerer les Aeroports");
-        return "admin/localisation/aeroports";
+        return "admin/aeroports";
     }
 
     @GetMapping("/add")
@@ -44,7 +44,7 @@ public class AdminAeroportController {
         model.addAttribute("aeroport", new Aeroport());
         addVilleListToModel(model);
         model.addAttribute("pageTitle", "Ajouter un Aéroport");
-        return "admin/localisation/add-edit-aeroport";
+        return "admin/add-edit-aeroport";
     }
 
     @PostMapping("/save")
@@ -53,7 +53,7 @@ public class AdminAeroportController {
         if (result.hasErrors()) {
             addVilleListToModel(model);
             model.addAttribute("pageTitle", (aeroport.getId() == 0 ? "Ajouter" : "Modifier") + " un Aéroport");
-            return "admin/localisation/add-edit-aeroport";
+            return "admin/add-edit-aeroport";
         }
         aeroportService.create(aeroport);
         redirectAttributes.addFlashAttribute("successMessage", "Aéroport sauvegardé avec succès !");
@@ -70,7 +70,7 @@ public class AdminAeroportController {
             model.addAttribute("aeroport", aeroport);
             addVilleListToModel(model);
             model.addAttribute("pageTitle", "Modifier un Aeroport");
-            return "admin/localisation/add-edit-aeroport";
+            return "admin/add-edit-aeroport";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Aeroport not found with ID: " + id);
             return "redirect:/admin/aeroports";

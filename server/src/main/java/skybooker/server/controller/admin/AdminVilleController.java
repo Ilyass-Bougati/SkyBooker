@@ -27,14 +27,14 @@ public class AdminVilleController {
         List<Ville> villes = villeService.findAll();
         model.addAttribute("villes", villes);
         model.addAttribute("pageTitle", "Gerer les Villes");
-        return "admin/localisation/villes";
+        return "admin/villes";
     }
 
     @GetMapping("/add")
     public String AddVilles(Model model) {
         model.addAttribute("ville", new Ville());
         model.addAttribute("pageTitle", "Ajouter une nouvelle ville");
-        return "admin/localisation/add-edit-ville";
+        return "admin/add-edit-ville";
     }
 
     @PostMapping("/save")
@@ -42,7 +42,7 @@ public class AdminVilleController {
                             Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("pageTitle", (ville.getId() == null ? "Ajouter" : "Modifier") +" une nouvelle ville");
-            return "admin/localisation/add-edit-ville";
+            return "admin/add-edit-ville";
         }
 
         villeService.create(ville);
@@ -56,7 +56,7 @@ public class AdminVilleController {
         if (ville != null) {
             model.addAttribute("ville", ville);
             model.addAttribute("pageTitle", "Modifier une nouvelle ville");
-            return "admin/localisation/add-edit-ville";
+            return "admin/add-edit-ville";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Ville not found with ID: " + id);
             return "redirect:/admin/villes";
