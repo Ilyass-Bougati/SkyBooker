@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}">Gérer les Villes</h1>
+
+  <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+  <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+  <a th:href="@{/admin/villes/add}" class="btn btn-primary mb-3">Ajouter une Ville</a>
+
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Pays</th>
+      <th sec:authorize="hasRole('ADMIN')">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="v : ${villes}">
+      <td th:text="${v.id}">1</td>
+      <td th:text="${v.nom}">Paris</td> <td th:text="${v.pays}">France</td>
+      <td sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/admin/villes/edit/{id}(id=${v.id})}" class="btn btn-sm btn-warning">Modifier</a>
+        <a th:href="@{/admin/villes/delete/{id}(id=${v.id})}"
+           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette ville ?')"
+           class="btn btn-sm btn-danger">Supprimer</a>
+      </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(villes)}">
+      <td colspan="5" class="text-center">Aucune ville trouvée.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
