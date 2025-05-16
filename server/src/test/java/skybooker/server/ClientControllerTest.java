@@ -24,12 +24,12 @@ public class ClientControllerTest {
     MockMvc mvc;
 
     private static String adminToken = null;
+    private static String clientToken = null;
 
     @BeforeEach
     public void setup() throws Exception {
-        if (adminToken == null) {
-            adminToken = Auth.login("ilyass@gmail.com", "123", mvc);
-        }
+        adminToken = adminToken == null ? Auth.login("ilyass@gmail.com", "123", mvc) : adminToken;
+        clientToken = clientToken == null ? Auth.login("amine@gmail.com", "123", mvc) : clientToken;
     }
 
     @Test
@@ -60,15 +60,13 @@ public class ClientControllerTest {
     @Test
     @Order(3)
     void deleteClient() throws Exception {
-        String clientToken = Auth.login("amime@gmail.com", "123", mvc);
-        mvc.perform(delete("/api/v1/client/").header("Authorization", "Bearer " + adminToken))
+        mvc.perform(delete("/api/v1/client/").header("Authorization", "Bearer " + clientToken))
                 .andExpect(status().isOk());
     }
 
     @Test
     @Order(4)
     void getUserUnauthorized() throws Exception {
-        String clientToken = Auth.login("amine@gmail.com", "123", mvc);
         mvc.perform(get("/api/v1/client/5").header("Authorization", "Bearer " + clientToken))
                 .andExpect(status().is(403));
     }
