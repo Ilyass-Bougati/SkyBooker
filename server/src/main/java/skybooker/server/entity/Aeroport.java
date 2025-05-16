@@ -2,9 +2,7 @@ package skybooker.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.DTO.AeroportDTO;
 
 import java.util.HashSet;
@@ -27,14 +25,17 @@ public class Aeroport {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "ville_id", nullable = false)
+    @ToString.Exclude
     private Ville ville;
 
     @JsonIgnore
     @OneToMany(mappedBy = "aeroportArrive", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Set<Vol> volsArrive = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "aeroportDepart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Set<Vol> volsDepart = new HashSet<>();
 
     public Aeroport(AeroportDTO aeroportDTO) {
