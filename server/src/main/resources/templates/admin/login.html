@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle='Admin Login')}"></head>
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <h2 class="text-center mb-4">Admin Login</h2>
+      <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        Invalid username or password.
+      </div>
+      <div th:if="${param.logout}" class="alert alert-success" role="alert">
+        You have been logged out.
+      </div>
+      <form th:action="@{/admin/perform_login}" method="post">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username:</label>
+          <input type="text" id="username" name="username" class="form-control" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password:</label>
+          <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

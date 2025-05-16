@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}">Passenger Categories</h1>
+
+  <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+  <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+  <a th:href="@{/admin/categories/add}" class="btn btn-primary mb-3">Add New Category</a>
+
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Discount Percentage</th>
+      <th sec:authorize="hasRole('ADMIN')">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cat : ${categories}">
+      <td th:text="${cat.id}">1</td>
+      <td th:text="${cat.nom}">Junior</td> <td th:text="${cat.reduction != null ? cat.reduction + '%' : 'N/A'}">40%</td> <td sec:authorize="hasRole('ADMIN')">
+      <a th:href="@{/admin/categories/edit/{id}(id=${cat.id})}" class="btn btn-sm btn-warning">Edit</a>
+      <a th:href="@{/admin/categories/delete/{id}(id=${cat.id})}"
+         onclick="return confirm('Are you sure you want to delete this category?')"
+         class="btn btn-sm btn-danger">Delete</a>
+    </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(categories)}">
+      <td colspan="4" class="text-center">No passenger categories found.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
