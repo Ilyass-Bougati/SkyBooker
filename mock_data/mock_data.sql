@@ -1,22 +1,6 @@
 -- This script populates the database with mock data for an airline reservation system.
+-- Note : the other tables are generated in the StartupRunner
 
--- Note: until we remove the creation of the categories from the java code you need to run this to empty the categories table
-TRUNCATE TABLE categories CASCADE;
-
-
--- Populate Categories
-INSERT INTO categories (nom, reduction) VALUES
-('Standard', 0.0),
-('Junior', 0.4),
-('Senior', 0.25),
-('Student', 0.15);
-
-
--- Populate Classes
-INSERT INTO classes (nom, prix_par_km) VALUES
-('Economy', 10),
-('Business', 30),
-('First Class', 60);
 
 -- Populate Airlines
 INSERT INTO companie_aerienne (iata_code, icao_code, nom) VALUES
