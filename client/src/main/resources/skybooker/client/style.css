@@ -29,6 +29,14 @@
     -fx-border-radius: 12 ;
 }
 
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .content {
+    -fx-background-color: #ffffff;
+}
+
 .scroll-pane > .scroll-bar > .increment-button ,
 .scroll-pane > .scroll-bar > .decrement-button {
     -fx-background-color: white;

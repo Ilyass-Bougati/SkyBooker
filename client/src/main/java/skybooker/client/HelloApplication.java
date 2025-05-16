@@ -10,8 +10,27 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-    public static Scene scene;
-    public static FXMLLoader fxmlLoader;
+    private static Scene scene;
+
+    public static FXMLLoader getFxmlLoader() {
+        return fxmlLoader;
+    }
+
+    public static void setFxmlLoader(FXMLLoader fxmlLoader) {
+        HelloApplication.fxmlLoader = fxmlLoader;
+    }
+
+    public static Scene getScene() {
+        return scene;
+    }
+
+    public static void setScene(Scene scene) {
+        HelloApplication.scene = scene;
+    }
+
+    private static FXMLLoader fxmlLoader;
+
+
 
     @Override
     public void start(Stage stage) throws IOException {
