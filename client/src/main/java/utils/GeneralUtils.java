@@ -14,14 +14,15 @@ public class GeneralUtils {
 
     public static void loadView(String viewFileName)throws IOException
     {
-        HelloApplication.fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(viewFileName));
-        HelloApplication.scene.setRoot(HelloApplication.fxmlLoader.load());
+        HelloApplication.setFxmlLoader(new FXMLLoader(HelloApplication.class.getResource(viewFileName)));
+        HelloApplication.getScene().setRoot(HelloApplication.getFxmlLoader().load());
     }
 
     public static FadeTransition fadeInAnimation(Node node , int milliseconds)
     {
         FadeTransition fadeIn = new FadeTransition();
         fadeIn.setNode(node);
+        fadeIn.setCycleCount(1);
         fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         fadeIn.setDuration(new Duration(milliseconds));
@@ -33,6 +34,7 @@ public class GeneralUtils {
     {
         FadeTransition fadeOut = new FadeTransition();
         fadeOut.setNode(node);
+        fadeOut.setCycleCount(1);
         fadeOut.setFromValue(1);
         fadeOut.setToValue(0);
         fadeOut.setDuration(new Duration(milliseconds));
@@ -45,5 +47,5 @@ public class GeneralUtils {
         date.getEditor().setDisable(true);
     }
 
-    public static void changeWindowTitle(String newTitle) { ((Stage)HelloApplication.scene.getWindow()).setTitle(newTitle); }
+    public static void changeWindowTitle(String newTitle) { ((Stage)HelloApplication.getScene().getWindow()).setTitle(newTitle); }
 }

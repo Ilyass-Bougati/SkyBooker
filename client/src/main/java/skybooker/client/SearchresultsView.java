@@ -1,5 +1,7 @@
 package skybooker.client;
 
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
+import javafx.util.Duration;
 import utils.GeneralUtils;
 
 import java.io.IOException;
@@ -36,28 +39,61 @@ public class SearchresultsView {
     @FXML
     private HBox page;
 
+    @FXML
+    private VBox contentContainer;
+
+    @FXML
+    private VBox content;
+
+    @FXML
+    private ScrollPane scrollable;
+
+    private Popup contextMenu ;
+
+    private bookPopup bp = null;
+    private final ArrayList<ArrayList<String>> Rows = new ArrayList<>();
+    private final HashMap<Button , Integer> buttonDictionnary = new HashMap<>();
+    public static String className = "Economy" , departure , arrival;
+
+    public static HashMap<String , Integer> passengers = new HashMap<>();
+
     private class bookPopup extends Popup{
         private int buttonId ;
-        private ScrollPane container;
-        private VBox subcontainer;
+        private final ScrollPane container;
+        private final VBox subcontainer;
 
         public bookPopup(int buttonId)
         {
             super();
+
             this.container = new ScrollPane();
+
             this.container.setMinWidth(500);
             this.container.setMinHeight(500);
+            this.container.setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.45) , 10 , 0 , 0 , 0) ; -fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ;");
+
             this.buttonId = buttonId;
-            this.setX(HelloApplication.scene.getWindow().getX() + HelloApplication.scene.getWidth()*0.5 - 250);
-            this.setY(HelloApplication.scene.getWindow().getY() + HelloApplication.scene.getHeight()*0.5 - 250);
+
+            this.setX(HelloApplication.getScene().getWindow().getX() + HelloApplication.getScene().getWidth()*0.5 - 250);
+            this.setY(HelloApplication.getScene().getWindow().getY() + HelloApplication.getScene().getHeight()*0.5 - 250);
+
             this.subcontainer = new VBox();
-            this.subcontainer.setStyle("-fx-background-color: white ; -fx-background-radius: 12 ;");
+            this.subcontainer.setStyle("-fx-background-color: white ; -fx-background-radius: 12 ; -fx-border-radius: 12");
             this.subcontainer.setMouseTransparent(false);
+            this.subcontainer.setMinWidth(480);
+            this.subcontainer.setMaxWidth(480);
+            this.subcontainer.setAlignment(Pos.TOP_CENTER);
+
+            this.container.getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toExternalForm());
+
+            this.subcontainer.setMinHeight(800);
+            this.subcontainer.setMaxHeight(800);
 
             Button closeButton = new Button("x");
             closeButton.setStyle("-fx-background-color: rgba(0,102,255,0.98) ;-fx-text-fill: white ; -fx-background-radius: 12 ; -fx-border-radius: 12 ; -fx-font-size: 20 ");
             closeButton.setMinHeight(57);
             closeButton.setMinWidth(57);
+
             closeButton.setOnAction(_ -> {
                 page.setEffect(null);
                 this.hide();
@@ -70,32 +106,26 @@ public class SearchresultsView {
             this.container.setContent(this.subcontainer);
             this.getContent().add(container);
 
+            HelloApplication.getScene().getWindow().xProperty().addListener((_) ->{
+                this.setX(HelloApplication.getScene().getWindow().getX() + HelloApplication.getScene().getWidth()*0.5 - 250);
+            });
+
+            HelloApplication.getScene().getWindow().yProperty().addListener((_) ->{
+                this.setY(HelloApplication.getScene().getWindow().getY() + HelloApplication.getScene().getHeight()*0.5 - 250);
+            });
+
             initialize();
         }
         public void initialize()
         {
-            HelloApplication.scene.getWindow().xProperty().addListener((_) ->{
-                this.setX(HelloApplication.scene.getWindow().getX() + HelloApplication.scene.getWidth()*0.5 - 250);
-            });
-
-            HelloApplication.scene.getWindow().yProperty().addListener((_) ->{
-                this.setY(HelloApplication.scene.getWindow().getY() + HelloApplication.scene.getHeight()*0.5 - 250);
-            });
+            //Will contain the logic for changing the displayed data on click ; it's coming anytime Ilyass :]
         }
         public void updateId(int newId)
         {
             this.buttonId = newId;
-            initialize();
+            //initialize();
         }
     }
-
-    private Popup contextMenu ;
-    private bookPopup bp = null;
-    private final ArrayList<ArrayList<String>> Rows = new ArrayList<>();
-    private final HashMap<Button , Integer> buttonDictionnary = new HashMap<>();
-
-    public static String className = "Economy" , departure , arrival;
-    public static HashMap<String , Integer> passengers = new HashMap<>();
 
     @FXML
     protected void onBackButton()
@@ -117,6 +147,19 @@ public class SearchresultsView {
             GeneralUtils.initializeDatePicker(date);
             populateRows();
             displayRows();
+
+            TranslateTransition closeInPage = new TranslateTransition();
+
+            closeInPage.setFromY(HelloApplication.getScene().getWindow().getHeight() * 0.5 - 100);
+            closeInPage.setToY(0);
+            closeInPage.setNode(contentContainer);
+            closeInPage.setDuration(new Duration(500));
+
+            ParallelTransition pt = new ParallelTransition(closeInPage  ,
+                    GeneralUtils.fadeInAnimation(contentContainer , 1)  ,
+                    GeneralUtils.fadeInAnimation(content , 500) ,
+                    GeneralUtils.fadeInAnimation(scrollable , 500));
+            pt.playFromStart();
         });
     }
 
@@ -267,7 +310,7 @@ public class SearchresultsView {
                 }
                 BoxBlur bb = new BoxBlur(5,5,3);
                 page.setEffect(bb);
-                bp.show(HelloApplication.scene.getWindow());
+                bp.show(HelloApplication.getScene().getWindow());
             });
 
             buttonDictionnary.put(rowButton,i++);

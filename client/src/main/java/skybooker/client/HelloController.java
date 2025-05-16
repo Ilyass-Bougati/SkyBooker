@@ -1,5 +1,6 @@
 package skybooker.client;
 
+import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -62,16 +63,17 @@ public class HelloController {
     {
         Platform.runLater(()-> GeneralUtils.changeWindowTitle("Authentication for SkyBooker"));
         Platform.runLater(()->{
-                            Bounds graphicBounds = graphic.localToScene(graphic.getBoundsInLocal());
                             TranslateTransition closeInGraphic = new TranslateTransition();
                             closeInGraphic.setAutoReverse(false);
-                            closeInGraphic.setFromX(graphicBounds.getMinX() - 100);
-                            closeInGraphic.setToX(graphicBounds.getMinX());
+                            closeInGraphic.setFromX(-100);
+                            closeInGraphic.setToX(0);
                             closeInGraphic.setDuration(new Duration(800));
                             closeInGraphic.setNode(graphic);
 
-                            GeneralUtils.fadeInAnimation(container , 500).play();
-                            closeInGraphic.play();
+                            ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeInAnimation(container , 500),
+                                                                            closeInGraphic);
+
+                            pt.playFromStart();
         });
     }
 }

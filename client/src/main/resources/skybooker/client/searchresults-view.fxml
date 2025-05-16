@@ -9,7 +9,7 @@
 
 <VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.SearchresultsView">
     <HBox fx:id="page">
-        <VBox>
+        <VBox prefWidth="62.0">
             <HBox>
                 <Button maxHeight="57" maxWidth="57" mnemonicParsing="false" onAction="#onBackButton" prefHeight="57" prefWidth="57" style="-fx-effect: dropshadow(gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); ;-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-cursor: hand;" textFill="#FFFFFF">
                     <graphic>
@@ -18,22 +18,21 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Rectangle fill="TRANSPARENT" width="20" />
             </HBox>
             <Rectangle fill="TRANSPARENT" height="346.0" />
             <VBox alignment="BOTTOM_LEFT" prefWidth="98.0">
                 <Button maxHeight="57" maxWidth="57" mnemonicParsing="false" prefHeight="57" prefWidth="57" style="-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); -fx-cursor: hand;" textFill="#FFFFFF">
                     <graphic>
-                        <ImageView fitHeight="30" fitWidth="30" opacity="50" rotate="-90">
-                            <Image url="@assets/Arrow_icon.png" />
+                        <ImageView fitHeight="30" fitWidth="30" opacity="50">
+                            <Image url="@assets/logout_icon.png" />
                         </ImageView>
                     </graphic>
                 </Button>
             </VBox>
         </VBox>
-        <VBox alignment="CENTER_RIGHT" maxWidth="728" minWidth="728">
+        <VBox fx:id="contentContainer" opacity="0"  alignment="CENTER_RIGHT" maxWidth="728" minWidth="728">
             <HBox alignment="CENTER" maxWidth="728" minWidth="708" prefWidth="678.0">
-                <VBox alignment="CENTER">
+                <VBox fx:id="content" alignment="CENTER">
                     <VBox style="-fx-background-color: rgb(255,255,255) ; -fx-border-radius: 12 ; -fx-background-radius: 12 ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)">
                         <padding>
                             <Insets bottom="10" left="10" right="10" top="10" />
@@ -76,7 +75,7 @@
             </HBox>
             <Rectangle height="20" />
             <HBox alignment="CENTER" prefWidth="776.0">
-                <ScrollPane hbarPolicy="NEVER" maxHeight="444" prefHeight="308.0" prefWidth="708.0" style="-fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ;" stylesheets="@style.css" vbarPolicy="ALWAYS">
+                <ScrollPane fx:id="scrollable" hbarPolicy="NEVER" maxHeight="444" prefHeight="308.0" prefWidth="708.0" style="-fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ;" stylesheets="@style.css" vbarPolicy="ALWAYS">
                     <padding>
                         <Insets right="20" />
                     </padding>

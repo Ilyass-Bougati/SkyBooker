@@ -1,9 +1,11 @@
 package skybooker.client;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,7 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
-import javafx.stage.Stage;
+import javafx.util.Duration;
 import utils.GeneralUtils;
 
 import java.io.IOException;
@@ -44,10 +46,22 @@ public class LandingpageView {
     @FXML
     private StackPane container;
 
+    @FXML
+    private VBox imageContainer;
+
+    @FXML
+    private HBox content1;
+
+    @FXML
+    private HBox content2;
+
+    @FXML
+    private VBox contentContainer;
+
     private Popup contextMenu;
 
     @FXML
-    protected void onFindButton() throws IOException
+    protected void onFindButton()
     {
         if(departure.getValue().equals("Departure") || arrival.getValue().equals("Arrival"))
             return;
@@ -56,7 +70,31 @@ public class LandingpageView {
         SearchresultsView.departure = departure.getValue();
         SearchresultsView.className = classes.getValue();
 
-        GeneralUtils.loadView("searchresults-view.fxml");
+        FadeTransition fadeOutImage = GeneralUtils.fadeOutAnimation(imageContainer , 500);
+
+        FadeTransition fadeOutContent1 = GeneralUtils.fadeOutAnimation(content1 , 500);
+        FadeTransition fadeOutContent2 = GeneralUtils.fadeOutAnimation(content2 , 500);
+
+        ScaleTransition scaleDown = new ScaleTransition();
+        scaleDown.setFromX(1);
+        scaleDown.setToX(0.30);
+        scaleDown.setDuration(new Duration(1000));
+        scaleDown.setNode(contentContainer);
+
+        ParallelTransition pt = new ParallelTransition(fadeOutImage , fadeOutContent1 , fadeOutContent2 );
+
+
+        pt.setOnFinished(_-> {
+            try {
+                GeneralUtils.loadView("searchresults-view.fxml");
+            } catch (IOException e) {
+                throw new RuntimeException("An error occurred while loading view");
+            }
+        });
+
+        scaleDown.playFromStart();
+        pt.playFromStart();
+
     }
 
     @FXML
