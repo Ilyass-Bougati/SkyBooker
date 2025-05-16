@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}">Ajouter/Modifier un Aeroport</h1>
+
+
+    <form th:action="@{/admin/aeroports/save}" th:object="${aeroport}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="nom" class="form-label">Nom de l'Aéroport :</label>
+      <input type="text" th:field="*{nom}" id="nom" class="form-control" />
+      <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger">Erreur nom</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="iataCode" class="form-label">Code IATA :</label>
+      <input type="text" th:field="*{iataCode}" id="iataCode" class="form-control" />
+      <div th:if="${#fields.hasErrors('iataCode')}" th:errors="*{iataCode}" class="text-danger">Erreur IATA</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="icaoCode" class="form-label">Code ICAO :</label>
+      <input type="text" th:field="*{icaoCode}" id="icaoCode" class="form-control" />
+      <div th:if="${#fields.hasErrors('icaoCode')}" th:errors="*{icaoCode}" class="text-danger">Erreur ICAO</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="ville" class="form-label">Ville :</label>
+      <select th:field="*{ville.id}" id="ville" class="form-select">
+        <option value="">-- Sélectionner une ville --</option>
+        <option th:each="v : ${villes}"
+                th:value="${v.id}"
+                th:text="${v.nom}">Paris</option>
+      </select>
+      <div th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}" class="text-danger">Erreur ville</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="latitude" class="form-label">Latitude :</label>
+      <input type="number" th:field="*{latitude}" id="latitude" class="form-control" step="any" />
+      <div th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}" class="text-danger">Erreur latitude</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="longitude" class="form-label">Longitude :</label>
+      <input type="number" th:field="*{longitude}" id="longitude" class="form-control" step="any" />
+      <div th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}" class="text-danger">Erreur longitude</div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Sauvegarder</button>
+    <a th:href="@{/admin/aeroports}" class="btn btn-secondary">Annuler</a>
+  </form>
+</div>
+</body>
+</html>
