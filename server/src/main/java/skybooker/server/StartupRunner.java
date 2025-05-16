@@ -2,6 +2,8 @@ package skybooker.server;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Classe;
@@ -12,6 +14,8 @@ import skybooker.server.repository.ClasseRepository;
 import skybooker.server.repository.RoleRepository;
 import skybooker.server.service.ClientService;
 
+import javax.sql.DataSource;
+
 @Component
 public class StartupRunner implements CommandLineRunner {
 
@@ -19,12 +23,14 @@ public class StartupRunner implements CommandLineRunner {
     private final ClasseRepository classeRepository;
     private final ClientService clientService;
     private final RoleRepository roleRepository;
+    private final DataSource dataSource;
 
-    public StartupRunner(RoleRepository roleRepository, ClientService clientService, CategorieRepository categorieRepository, ClasseRepository classeRepository) {
+    public StartupRunner(RoleRepository roleRepository, ClientService clientService, CategorieRepository categorieRepository, ClasseRepository classeRepository, DataSource dataSource) {
         this.roleRepository = roleRepository;
         this.clientService = clientService;
         this.categorieRepository = categorieRepository;
         this.classeRepository = classeRepository;
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -86,5 +92,19 @@ public class StartupRunner implements CommandLineRunner {
         client.setPassword("123");
         client.setRole(role2);
         clientService.create(client);
+
+        executeSqlScript();
+    }
+
+    private void executeSqlScript() {
+        try {
+            ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
+            resourceDatabasePopulator.addScript(new ClassPathResource("data/mock_data.sql"));
+            resourceDatabasePopulator.execute(dataSource);
+            System.out.println("SQL script for mock data executed successfully");
+        } catch (Exception e) {
+            System.err.println("Failed to execute SQL script: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
