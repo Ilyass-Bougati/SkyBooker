@@ -38,7 +38,7 @@ public class AuthControllerTest {
     @Test
     void registerClient() throws Exception {
         RegisterRequestDTO requestContent = new RegisterRequestDTO();
-        requestContent.setEmail("amine@gmail.com");
+        requestContent.setEmail("newClient@gmail.com");
         requestContent.setPassword("123");
         requestContent.setAdresse("adresseAmine");
         requestContent.setCIN("cinAmine");
