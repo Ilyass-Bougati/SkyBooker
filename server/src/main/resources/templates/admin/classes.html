@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}">Classes</h1>
+
+  <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+  <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+  <a th:href="@{/admin/classes/add}" class="btn btn-primary mb-3">Add New Classe</a>
+
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Prix Par Km</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cl : ${classes}">
+      <td th:text="${cl.id}">1</td>
+      <td th:text="${cl.nom}"></td> <td th:text="${cl.prixParKm != null ? cl.prixParKm + '': 'N/A'}"></td> <td>
+      <a th:href="@{/admin/classes/edit/{id}(id=${cl.id})}" class="btn btn-sm btn-warning">Edit</a>
+      <a th:href="@{/admin/classes/delete/{id}(id=${cl.id})}"
+         onclick="return confirm('Are you sure you want to delete this classe?')"
+         class="btn btn-sm btn-danger">Delete</a>
+    </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(classes)}">
+      <td colspan="4" class="text-center">No classes found.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
