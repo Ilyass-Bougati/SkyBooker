@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+    <h1 th:text="${pageTitle}">Ajouter/Modifier une Ville</h1>
+
+    <form th:action="@{/admin/villes/save}" th:object="${ville}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="mb-3">
+            <label for="nom" class="form-label">Nom de la Ville:</label> <input type="text" th:field="*{nom}" id="nom" class="form-control" />
+            <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger">Erreur nom</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="pays" class="form-label">Pays:</label> <input type="text" th:field="*{pays}" id="pays" class="form-control" />
+            <div th:if="${#fields.hasErrors('pays')}" th:errors="*{pays}" class="text-danger">Erreur pays</div>
+        </div>
+
+
+        <button type="submit" class="btn btn-success">Sauvegarder</button>
+        <a th:href="@{/admin/villes}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+</body>
+</html>
