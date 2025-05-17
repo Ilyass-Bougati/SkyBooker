@@ -1,13 +1,12 @@
 package skybooker.server.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.entity.CompanieAerienne;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class CompanieAerienneDTO {
     private long id;
     private String nom;

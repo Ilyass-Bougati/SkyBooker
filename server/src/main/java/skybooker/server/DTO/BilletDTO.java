@@ -1,15 +1,14 @@
 package skybooker.server.DTO;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.entity.Billet;
 import skybooker.server.entity.Classe;
 import skybooker.server.entity.Passager;
 import skybooker.server.entity.Reservation;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class BilletDTO {

@@ -3,11 +3,14 @@ package skybooker.server.DTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegisterRequestDTO {
     @Email
     private String email;

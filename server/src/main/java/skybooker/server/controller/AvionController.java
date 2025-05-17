@@ -31,12 +31,12 @@ public class AvionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Avion> getAvionById(@PathVariable Long id) {
+    public ResponseEntity<AvionDTO> getAvionById(@PathVariable Long id) {
         Avion avion = avionService.findById(id);
         if (avion == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(avion);
+            return ResponseEntity.ok(new AvionDTO(avion));
         }
     }
 
