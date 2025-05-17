@@ -3,7 +3,8 @@
 <head th:fragment="common-header(pageTitle)">
   <meta charset="UTF-8">
   <title th:text="${pageTitle} + ' - Airline Admin'"></title>
-  <link rel="stylesheet" th:href="@{/css/admin-style.css}"> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/admin-style.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,6 +26,17 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" th:href="@{/admin/aeroports}">Gérer les Aéroports</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/admin/classes}">Gérer les Classes</a> </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/admin/companie_aerienne}">Gérer les Compagnies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/admin/avion}">Gérer les Avions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/admin/vol}">Gérer les Vols</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" th:href="@{/admin/statistics/occupancy}">Occupancy Stats</a>

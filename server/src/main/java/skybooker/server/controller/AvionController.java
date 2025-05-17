@@ -42,18 +42,22 @@ public class AvionController {
 
     @PostMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
-    public ResponseEntity<Avion> createAvion(@RequestBody @Valid AvionDTO avionDTO) {
-        return ResponseEntity.ok(avionService.createDTO(avionDTO));
+    public ResponseEntity<AvionDTO> createAvion(@RequestBody @Valid AvionDTO avionDTO) {
+        Avion savedAvion = avionService.createDTO(avionDTO);
+        if (savedAvion == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new AvionDTO(savedAvion));
     }
 
     @PutMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
-    public ResponseEntity<Avion> updateAvion(@RequestBody @Valid AvionDTO avionDTO) {
+    public ResponseEntity<AvionDTO> updateAvion(@RequestBody @Valid AvionDTO avionDTO) {
         Avion avion = avionService.updateDTO(avionDTO);
         if (avion == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(avion);
+            return ResponseEntity.ok(new AvionDTO(avion));
         }
     }
 

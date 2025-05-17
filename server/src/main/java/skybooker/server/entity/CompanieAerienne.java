@@ -24,6 +24,8 @@ public class CompanieAerienne {
 
     @JsonIgnore
     @OneToMany(mappedBy = "companieAerienne", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Avion> avions = new HashSet<>();
 
     public CompanieAerienne(CompanieAerienneDTO companieAerienneDTO) {

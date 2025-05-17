@@ -24,6 +24,7 @@ public class Ville {
     @JsonIgnore
     @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Aeroport> aeroports = new HashSet<>();
 
     public Ville(VilleDTO villeDTO) {

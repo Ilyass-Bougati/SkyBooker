@@ -28,8 +28,10 @@ public class Reservation {
     private double prixTotal;
 
     @JsonIgnore
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Client client;
 
     @Column(name = "reserved_at")
@@ -39,8 +41,10 @@ public class Reservation {
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Billet> billets = new HashSet<>();
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "vol_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Vol vol;
 
     public Reservation(ReservationDTO reservationDTO) {

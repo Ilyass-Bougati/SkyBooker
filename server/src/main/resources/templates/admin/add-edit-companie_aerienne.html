@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}">Add/Edit Companie Aeriennes</h1>
+
+  <form th:action="@{/admin/companie_aerienne/save}" th:object="${companieAerienne}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="nom" class="form-label">Companie Aeriennes Name:</label>
+      <input type="text" th:field="*{nom}" id="nom" class="form-control" /> <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger">Name Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="nom" class="form-label">IATA CODE:</label>
+      <input type="text" th:field="*{iataCode}" id="iataCode" class="form-control" /> <div th:if="${#fields.hasErrors('iataCode')}" th:errors="*{iataCode}" class="text-danger">Name Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="nom" class="form-label">ICAO CODE:</label>
+      <input type="text" th:field="*{icaoCode}" id="icaoCode" class="form-control" /> <div th:if="${#fields.hasErrors('icaoCode')}" th:errors="*{icaoCode}" class="text-danger">Name Error</div>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">Save Companie Aeriennes</button>
+    <a th:href="@{/admin/companie_aerienne}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+</body>
+</html>

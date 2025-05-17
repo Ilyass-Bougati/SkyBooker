@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+    <h1 th:text="${pageTitle}"></h1>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            Informations sur l'Avion
+        </div>
+        <div class="card-body">
+            <p><strong>ID:</strong> <span th:text="${avion.id}"></span></p>
+            <p><strong>Modèle:</strong> <span th:text="${avion.model}"></span></p>
+            <p><strong>IATA CODE:</strong> <span th:text="${avion.iataCode}"></span></p>
+            <p><strong>ICAO CODE:</strong> <span th:text="${avion.icaoCode}"></span></p>
+            <p><strong>Distance Maximale:</strong> <span th:text="${avion.maxDistance}"></span></p>
+            <p><strong>Compagnie Aérienne:</strong> <span th:text="${avion.companieAerienne != null ? avion.companieAerienne.nom : 'N/A'}"></span></p>
+        </div>
+        <div class="card-footer">
+            <a th:href="@{/admin/avion/edit/{id}(id=${avion.id})}" class="btn btn-warning me-2">Modifier cet Avion</a>
+            <a th:href="@{/admin/avion}" class="btn btn-secondary">Retour à la liste des Avions</a>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h2>Capacités</h2>
+        <a th:href="@{/admin/capacite/add(avionId=${avion.id})}" class="btn btn-primary mb-3">Ajouter une nouvelle Capacité pour cet Avion</a>
+
+
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Borne Inf</th>
+                <th>Borne Sup</th>
+                <th>Capacité</th>
+                <th>Classe</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="capacite : ${avion.capacites}"> <td th:text="${capacite.id}"></td>
+                <td th:text="${capacite.borneInf}"></td>
+                <td th:text="${capacite.borneSup}"></td>
+                <td th:text="${capacite.capacite}"></td>
+                <td th:text="${capacite.classe != null ? capacite.classe.nom : 'N/A'}"></td> <td>
+                    <a th:href="@{/admin/capacite/edit/{id}(id=${capacite.id})}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a th:href="@{/admin/capacite/delete/{id}(id=${capacite.id})}"
+                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette capacité ?')"
+                       class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(avion.capacites)}">
+                <td colspan="6" class="text-center">Aucune capacité trouvée pour cet avion.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

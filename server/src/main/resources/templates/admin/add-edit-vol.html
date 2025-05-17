@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <form th:action="@{/admin/vol/save}" th:object="${vol}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="aeroportDepart" class="form-label">Aéroport de Départ:</label>
+      <select th:field="*{aeroportDepart}" id="aeroportDepart" class="form-control">
+        <option th:each="aeroport : ${aeroports}"
+                th:value="${aeroport.id}"
+                th:text="${aeroport.nom + ' (' + aeroport.iataCode + ')'}"
+                th:selected="${vol.aeroportDepart != null && vol.aeroportDepart.id == aeroport.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('aeroportDepart')}" th:errors="*{aeroportDepart}" class="text-danger">Aéroport de Départ Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="aeroportArrive" class="form-label">Aéroport d'Arrivée:</label>
+      <select th:field="*{aeroportArrive}" id="aeroportArrive" class="form-control">
+        <option th:each="aeroport : ${aeroports}"
+                th:value="${aeroport.id}"
+                th:text="${aeroport.nom + ' (' + aeroport.iataCode + ')'}"
+                th:selected="${vol.aeroportArrive != null && vol.aeroportArrive.id == aeroport.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('aeroportArrive')}" th:errors="*{aeroportArrive}" class="text-danger">Aéroport d'Arrivée Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="avion" class="form-label">Avion:</label>
+      <select th:field="*{avion}" id="avion" class="form-control">
+        <option th:each="avionOption : ${avions}"
+                th:value="${avionOption.id}"
+                th:text="${avionOption.model + ' (' + avionOption.iataCode + ')'}"
+                th:selected="${vol.avion != null && vol.avion.id == avionOption.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('avion')}" th:errors="*{avion}" class="text-danger">Avion Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="dateDepart" class="form-label">Date Départ:</label>
+      <input type="date" th:field="*{dateDepart}" id="dateDepart" class="form-control" />
+      <div th:if="${#fields.hasErrors('dateDepart')}" th:errors="*{dateDepart}" class="text-danger">Date Départ Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="heureDepart" class="form-label">Heure Départ:</label>
+      <input type="time" th:field="*{heureDepart}" id="heureDepart" class="form-control" step="1" /> <div th:if="${#fields.hasErrors('heureDepart')}" th:errors="*{heureDepart}" class="text-danger">Heure Départ Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="dateArrive" class="form-label">Date Arrivée:</label>
+      <input type="date" th:field="*{dateArrive}" id="dateArrive" class="form-control" />
+      <div th:if="${#fields.hasErrors('dateArrive')}" th:errors="*{dateArrive}" class="text-danger">Date Arrivée Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="heureArrive" class="form-label">Heure Arrivee:</label>
+      <input type="time" th:field="*{heureArrive}" id="heureArrive" class="form-control" step="1" /> <div th:if="${#fields.hasErrors('heureArrive')}" th:errors="*{heureArrive}" class="text-danger">Heure Arrivee Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="prix" class="form-label">Prix:</label>
+      <input type="number" th:field="*{prix}" id="prix" class="form-control" step="0.01" />
+      <div th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}" class="text-danger">Prix Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="etat" class="form-label">État:</label>
+      <select th:field="*{etat}" id="etat" class="form-control">
+        <option value="">Sélectionner un état</option>
+        <option th:each="etatOption : ${etatsVol}"
+                th:value="${etatOption.name()}"  th:text="${etatOption.name()}"       th:selected="${vol.etat != null && vol.etat.name() == etatOption.name()}"></option> </select>
+      <div th:if="${#fields.hasErrors('etat')}" th:errors="*{etat}" class="text-danger">État Error</div>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">Sauvegarder Vol</button>
+    <a th:href="@{/admin/vol}" class="btn btn-secondary">Annuler</a>
+  </form>
+</div>
+</body>
+</html>
