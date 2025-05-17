@@ -29,13 +29,13 @@ public class Avion {
     private Set<Vol> vols = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Capacite> capacites = new HashSet<>();
 
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "companie_aerienne_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

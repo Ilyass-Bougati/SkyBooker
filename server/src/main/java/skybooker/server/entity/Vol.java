@@ -25,24 +25,26 @@ public class Vol {
     private Time heureDepart;
     private Date dateArrive;
     private Time heureArrive;
+
+    @Enumerated(EnumType.ORDINAL) // Map enum to integer ordinal in DB
     private EtatVol etat;
 
     @Min(0)
     private double prix;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "aeroport_depart_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Aeroport aeroportDepart;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "aeroport_arrive_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Aeroport aeroportArrive;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "avion_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

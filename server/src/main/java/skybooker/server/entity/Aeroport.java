@@ -23,7 +23,7 @@ public class Aeroport {
     private double latitude;
     private double longitude;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "ville_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

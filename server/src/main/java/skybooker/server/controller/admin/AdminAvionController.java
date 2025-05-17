@@ -32,7 +32,7 @@ public class AdminAvionController {
         List<Avion> avions = avionService.findAll();
         model.addAttribute("avions", avions);
         model.addAttribute("pageTitle", "Gérer les Avions");
-        return "admin/avion"; // Thymeleaf template for listing avions
+        return "admin/avion";
     }
 
     @GetMapping("/add")
@@ -40,7 +40,7 @@ public class AdminAvionController {
         model.addAttribute("avion", new Avion());
         model.addAttribute("companieAeriennes", companieAerienneService.findAll());
         model.addAttribute("pageTitle", "Ajouter un Avion");
-        return "admin/add-edit-avion"; // Thymeleaf template for add/edit form
+        return "admin/add-edit-avion";
     }
 
     @PostMapping("/save")
@@ -63,7 +63,6 @@ public class AdminAvionController {
             model.addAttribute("avion", avion);
             model.addAttribute("companieAeriennes", companieAerienneService.findAll());
             model.addAttribute("pageTitle", "Modifier un Avion");
-            // The add-edit-avion.html template will display capacities if avion.id != 0
             return "admin/add-edit-avion";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Avion n'existe pas ! :" + id);
@@ -71,13 +70,12 @@ public class AdminAvionController {
         }
     }
 
-    @GetMapping("/details/{id}") // New mapping for viewing details
+    @GetMapping("/details/{id}")
     public String viewAvionDetails(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        Avion avion = avionService.findById(id); // Fetch the Avion
+        Avion avion = avionService.findById(id);
         if (avion != null) {
             model.addAttribute("avion", avion);
             model.addAttribute("pageTitle", "Détails de l'Avion");
-            // Return the new template for viewing details
             return "admin/view-avion";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "Avion n'existe pas ! :" + id);
