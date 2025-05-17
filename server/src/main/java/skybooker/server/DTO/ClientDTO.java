@@ -2,9 +2,7 @@ package skybooker.server.DTO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
 import skybooker.server.entity.Reservation;
@@ -13,7 +11,8 @@ import skybooker.server.entity.Role;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClientDTO {

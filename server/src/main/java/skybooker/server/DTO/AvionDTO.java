@@ -1,13 +1,12 @@
 package skybooker.server.DTO;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.entity.Aeroport;
 import skybooker.server.entity.Avion;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AvionDTO {
