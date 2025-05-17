@@ -37,7 +37,9 @@ public class Passager {
     @Min(0)
     private int age;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @JoinColumn(name = "categorie_id", nullable = false)
     private Categorie categorie;
 

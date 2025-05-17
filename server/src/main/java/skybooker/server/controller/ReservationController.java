@@ -39,17 +39,21 @@ public class ReservationController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Reservation> createReservation(@RequestBody @Valid ReservationDTO reservationDTO) {
-        return ResponseEntity.ok(reservationService.createDTO(reservationDTO));
+    public ResponseEntity<ReservationDTO> createReservation(@RequestBody @Valid ReservationDTO reservationDTO) {
+        Reservation savedReservation = reservationService.createDTO(reservationDTO);
+        if (savedReservation == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(new ReservationDTO(savedReservation));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Reservation> updateReservation(@RequestBody @Valid ReservationDTO reservationDTO) {
-        Reservation reservation = reservationService.updateDTO(reservationDTO);
-        if (reservation == null) {
+    public ResponseEntity<ReservationDTO> updateReservation(@RequestBody @Valid ReservationDTO reservationDTO) {
+        Reservation updatedReservation = reservationService.updateDTO(reservationDTO);
+        if (updatedReservation == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(reservation);
+            return ResponseEntity.ok(new ReservationDTO(updatedReservation));
         }
     }
 

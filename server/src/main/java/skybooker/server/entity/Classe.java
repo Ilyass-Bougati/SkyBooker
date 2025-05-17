@@ -22,5 +22,7 @@ public class Classe {
 
     @JsonIgnore
     @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Billet> billets = new HashSet<>();
 }

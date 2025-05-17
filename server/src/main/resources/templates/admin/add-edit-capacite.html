@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <form th:action="@{/admin/capacite/save}" th:object="${capacite}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="avion" class="form-label">Avion:</label>
+      <select th:field="*{avion}" id="avion" class="form-control">
+        <option th:each="avionOption : ${avions}"
+                th:value="${avionOption.id}"
+                th:text="${avionOption.model + ' (' + avionOption.iataCode + ')'}"
+                th:selected="${capacite.avion != null && capacite.avion.id == avionOption.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('avion')}" th:errors="*{avion}" class="text-danger">Avion Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="classe" class="form-label">Classe:</label>
+      <select th:field="*{classe}" id="classe" class="form-control">
+        <option th:each="classeOption : ${classes}"
+                th:value="${classeOption.id}"
+                th:text="${classeOption.nom}"
+                th:selected="${capacite.classe != null && capacite.classe.id == classeOption.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('classe')}" th:errors="*{classe}" class="text-danger">Classe Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="borneInf" class="form-label">Borne Inf (Sièges):</label>
+      <input type="number" th:field="*{borneInf}" id="borneInf" class="form-control" />
+      <div th:if="${#fields.hasErrors('borneInf')}" th:errors="*{borneInf}" class="text-danger">Borne Inf Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="borneSup" class="form-label">Borne Sup (Sièges):</label>
+      <input type="number" th:field="*{borneSup}" id="borneSup" class="form-control" />
+      <div th:if="${#fields.hasErrors('borneSup')}" th:errors="*{borneSup}" class="text-danger">Borne Sup Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="capacite" class="form-label">Capacité (Nombre de sièges):</label>
+      <input type="number" th:field="*{capacite}" id="capacite" class="form-control" />
+      <div th:if="${#fields.hasErrors('capacite')}" th:errors="*{capacite}" class="text-danger">Capacité Error</div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Sauvegarder Capacité</button>
+    <a th:href="@{/admin/avion}" class="btn btn-secondary">Annuler</a> </form>
+</div>
+</body>
+</html>

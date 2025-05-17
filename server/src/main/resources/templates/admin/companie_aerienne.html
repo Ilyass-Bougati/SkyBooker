@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+    <h1 th:text="${pageTitle}">Companie Aeriennes</h1>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <a th:href="@{/admin/companie_aerienne/add}" class="btn btn-primary mb-3">Add New Companie Aeriennes</a>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>IATA CODE</th>
+            <th>ICAO CODE</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ca : ${companiesAerienne}">
+            <td th:text="${ca.id}">1</td>
+            <td th:text="${ca.nom}"></td>
+            <td th:text="${ca.iataCode}"></td>
+            <td th:text="${ca.icaoCode}"></td><td>
+            <a th:href="@{/admin/companie_aerienne/edit/{id}(id=${ca.id})}" class="btn btn-sm btn-warning">Edit</a>
+            <a th:href="@{/admin/companie_aerienne/delete/{id}(id=${ca.id})}"
+               onclick="return confirm('Are you sure you want to delete this companie aerienne?')"
+               class="btn btn-sm btn-danger">Delete</a>
+        </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(companiesAerienne)}">
+            <td colspan="5" class="text-center">No classes found.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

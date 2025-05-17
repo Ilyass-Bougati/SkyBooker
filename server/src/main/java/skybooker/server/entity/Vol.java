@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import skybooker.server.DTO.VolDTO;
 import skybooker.server.enums.EtatVol;
 import java.sql.Time;
@@ -22,29 +23,44 @@ public class Vol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateDepart;
+
     private Time heureDepart;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateArrive;
+
     private Time heureArrive;
+
+    @Enumerated(EnumType.STRING) // Map enum to String in DB
     private EtatVol etat;
 
     @Min(0)
     private double prix;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "aeroport_depart_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Aeroport aeroportDepart;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "aeroport_arrive_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Aeroport aeroportArrive;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "avion_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Avion avion;
 
     @JsonIgnore
     @OneToMany(mappedBy = "vol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Reservation> reservations = new HashSet<>();
 
     public Vol(VolDTO volDTO) {
