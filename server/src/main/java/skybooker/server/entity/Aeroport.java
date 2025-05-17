@@ -26,16 +26,19 @@ public class Aeroport {
     @ManyToOne(optional = false)
     @JoinColumn(name = "ville_id", nullable = false)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Ville ville;
 
     @JsonIgnore
     @OneToMany(mappedBy = "aeroportArrive", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Vol> volsArrive = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "aeroportDepart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Vol> volsDepart = new HashSet<>();
 
     public Aeroport(AeroportDTO aeroportDTO) {

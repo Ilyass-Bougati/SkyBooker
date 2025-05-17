@@ -3,9 +3,7 @@ package skybooker.server.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.DTO.VolDTO;
 import skybooker.server.enums.EtatVol;
 import java.sql.Time;
@@ -42,10 +40,12 @@ public class Vol {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "avion_id", nullable = false)
+    @EqualsAndHashCode.Exclude
     private Avion avion;
 
     @JsonIgnore
     @OneToMany(mappedBy = "vol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
     private Set<Reservation> reservations = new HashSet<>();
 
     public Vol(VolDTO volDTO) {

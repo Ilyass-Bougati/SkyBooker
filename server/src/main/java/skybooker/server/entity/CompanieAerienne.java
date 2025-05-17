@@ -2,9 +2,7 @@ package skybooker.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.DTO.CompanieAerienneDTO;
 
 import java.util.HashSet;
@@ -25,6 +23,8 @@ public class CompanieAerienne {
 
     @JsonIgnore
     @OneToMany(mappedBy = "companieAerienne", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Avion> avions = new HashSet<>();
 
     public CompanieAerienne(CompanieAerienneDTO companieAerienneDTO) {

@@ -2,9 +2,7 @@ package skybooker.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.DTO.CapaciteDTO;
 
 @AllArgsConstructor
@@ -25,6 +23,7 @@ public class Capacite {
     @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "avion_id", nullable = false)
+    @EqualsAndHashCode.Exclude
     private Avion avion;
 
     @ManyToOne
