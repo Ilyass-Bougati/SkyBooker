@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "reservations")
 public class Reservation {
@@ -39,8 +39,6 @@ public class Reservation {
     private LocalDateTime reservedAt;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<Billet> billets = new HashSet<>();
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

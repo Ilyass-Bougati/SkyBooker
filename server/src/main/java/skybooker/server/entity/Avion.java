@@ -10,7 +10,8 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "avions")
 public class Avion {
@@ -30,8 +31,6 @@ public class Avion {
 
     @JsonIgnore
     @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<Capacite> capacites = new HashSet<>();
 
 

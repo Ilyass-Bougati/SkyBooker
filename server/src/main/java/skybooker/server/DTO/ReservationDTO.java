@@ -2,15 +2,14 @@ package skybooker.server.DTO;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.entity.Reservation;
 import skybooker.server.enums.EtatReservation;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservationDTO {

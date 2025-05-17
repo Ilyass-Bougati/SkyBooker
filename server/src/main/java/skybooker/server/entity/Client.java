@@ -3,7 +3,7 @@ package skybooker.server.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -14,7 +14,10 @@ import skybooker.server.DTO.ClientDTO;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "clients")
 public class Client{
@@ -37,13 +40,12 @@ public class Client{
     private String adresse;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<Reservation> reservations = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
+    private Set<Reservation> reservations = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Passager passager;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

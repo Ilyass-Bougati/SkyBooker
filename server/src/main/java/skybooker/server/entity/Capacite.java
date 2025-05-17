@@ -7,7 +7,8 @@ import skybooker.server.DTO.CapaciteDTO;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "capacites", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"avion_id", "classe_id"})

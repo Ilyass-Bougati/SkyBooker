@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import skybooker.server.DTO.BilletDTO;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "billets")
 public class Billet {

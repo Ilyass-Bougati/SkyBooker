@@ -10,7 +10,8 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "companie_aerienne")
 public class CompanieAerienne {

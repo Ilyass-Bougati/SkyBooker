@@ -34,8 +34,7 @@ public class ReservationController {
         if (reservation == null) {
             return ResponseEntity.notFound().build();
         } else {
-            ReservationDTO reservationDTO = new ReservationDTO(reservation);
-            return ResponseEntity.ok(reservationDTO);
+            return ResponseEntity.ok(new ReservationDTO(reservation));
         }
     }
 
