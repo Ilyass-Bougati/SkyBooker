@@ -73,14 +73,9 @@
     <div class="mb-3">
       <label for="etat" class="form-label">État:</label>
       <select th:field="*{etat}" id="etat" class="form-control">
-        <option value="0">Prévu</option>
-        <option value="1">En vol</option>
-        <option value="2">Aterri</option>
-        <option value="3">Retardé</option>
-        <option value="4">Annulé</option>
-        <option value="5">Embarquement</option>
-        <option value="6">Fermé</option>
-      </select>
+        <option value="">Sélectionner un état</option>
+        <option th:each="etatOption : ${etatsVol}"
+                th:value="${etatOption.name()}"  th:text="${etatOption.name()}"       th:selected="${vol.etat != null && vol.etat.name() == etatOption.name()}"></option> </select>
       <div th:if="${#fields.hasErrors('etat')}" th:errors="*{etat}" class="text-danger">État Error</div>
     </div>
 

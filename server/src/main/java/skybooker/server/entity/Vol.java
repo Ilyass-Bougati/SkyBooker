@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import skybooker.server.DTO.VolDTO;
 import skybooker.server.enums.EtatVol;
 import java.sql.Time;
@@ -22,12 +23,17 @@ public class Vol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateDepart;
+
     private Time heureDepart;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateArrive;
+
     private Time heureArrive;
 
-    @Enumerated(EnumType.ORDINAL) // Map enum to integer ordinal in DB
+    @Enumerated(EnumType.STRING) // Map enum to String in DB
     private EtatVol etat;
 
     @Min(0)

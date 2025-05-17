@@ -169,125 +169,125 @@ INSERT INTO capacites (borne_inf, borne_sup, capacite, avion_id, classe_id) VALU
 
 -- Paris (CDG) to London (LHR)
 INSERT INTO vols (date_depart , date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-20', '2025-05-20', '07:30:00', '08:30:00', 0, 250.00,
+('2025-05-20', '2025-05-20', '07:30:00', '08:30:00', 'SCHEDULED', 250.00,
 (SELECT id FROM aeroports WHERE iata_code = 'CDG'),
 (SELECT id FROM aeroports WHERE iata_code = 'LHR'),
 (SELECT id FROM avions WHERE model = 'Airbus A320' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AF'))),
 
-('2025-05-20', '2025-05-20', '14:00:00', '15:00:00', 0, 270.00,
+('2025-05-20', '2025-05-20', '14:00:00', '15:00:00', 'SCHEDULED', 270.00,
 (SELECT id FROM aeroports WHERE iata_code = 'CDG'),
 (SELECT id FROM aeroports WHERE iata_code = 'LHR'),
 (SELECT id FROM avions WHERE model = 'Airbus A320' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AF'))),
 
-('2025-05-21', '2025-05-21', '08:15:00', '09:15:00', 0, 250.00,
+('2025-05-21', '2025-05-21', '08:15:00', '09:15:00', 'SCHEDULED', 250.00,
 (SELECT id FROM aeroports WHERE iata_code = 'LHR'),
 (SELECT id FROM aeroports WHERE iata_code = 'CDG'),
 (SELECT id FROM avions WHERE model = 'Boeing 747-400' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'BA')));
 
 -- Paris (CDG) to New York (JFK) - Arrival time is local NY time
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-20', '2025-05-20', '10:30:00', '13:30:00', 0, 1200.00, -- Departure 10:30 Paris, Arrival 13:30 NY time
+('2025-05-20', '2025-05-20', '10:30:00', '13:30:00', 'SCHEDULED', 1200.00, -- Departure 10:30 Paris, Arrival 13:30 NY time
 (SELECT id FROM aeroports WHERE iata_code = 'CDG'),
 (SELECT id FROM aeroports WHERE iata_code = 'JFK'),
 (SELECT id FROM avions WHERE model = 'Boeing 777-300ER' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AF'))),
 
-('2025-05-22', '2025-05-23', '18:00:00', '07:00:00', 0, 1350.00, -- Departure 18:00 NY, Arrival 07:00 next day Paris time
+('2025-05-22', '2025-05-23', '18:00:00', '07:00:00', 'SCHEDULED', 1350.00, -- Departure 18:00 NY, Arrival 07:00 next day Paris time
 (SELECT id FROM aeroports WHERE iata_code = 'JFK'),
 (SELECT id FROM aeroports WHERE iata_code = 'CDG'),
 (SELECT id FROM avions WHERE model = 'Boeing 777-300ER' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AF')));
 
 -- Dubai (DXB) to Tokyo (HND) - Arrival time is local Tokyo time
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-21', '2025-05-22', '23:45:00', '15:30:00', 0, 1800.00, -- Departure 23:45 Dubai, Arrival 15:30 next day Tokyo
+('2025-05-21', '2025-05-22', '23:45:00', '15:30:00', 'BOARDING', 1800.00, -- Departure 23:45 Dubai, Arrival 15:30 next day Tokyo
 (SELECT id FROM aeroports WHERE iata_code = 'DXB'),
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM avions WHERE model = 'Airbus A380-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'EK'))),
 
-('2025-05-24', '2025-05-24', '01:30:00', '17:15:00', 0, 1750.00, -- Departure 01:30 Tokyo, Arrival 17:15 same day Dubai (after time zone conversion and flight)
+('2025-05-24', '2025-05-24', '01:30:00', '17:15:00', 'BOARDING', 1750.00, -- Departure 01:30 Tokyo, Arrival 17:15 same day Dubai (after time zone conversion and flight)
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM aeroports WHERE iata_code = 'DXB'),
 (SELECT id FROM avions WHERE model = 'Airbus A380-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'EK')));
 
 -- London (LHR) to Berlin (BER)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-22', '2025-05-22', '06:45:00', '09:30:00', 0, 320.00,
+('2025-05-22', '2025-05-22', '06:45:00', '09:30:00', 'BOARDING', 320.00,
 (SELECT id FROM aeroports WHERE iata_code = 'LHR'),
 (SELECT id FROM aeroports WHERE iata_code = 'BER'),
 (SELECT id FROM avions WHERE model = 'Airbus A321neo' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'LH'))),
 
-('2025-05-23', '2025-05-23', '17:15:00', '20:00:00', 0, 290.00,
+('2025-05-23', '2025-05-23', '17:15:00', '20:00:00', 'CANCELLED', 290.00,
 (SELECT id FROM aeroports WHERE iata_code = 'BER'),
 (SELECT id FROM aeroports WHERE iata_code = 'LHR'),
 (SELECT id FROM avions WHERE model = 'Airbus A321neo' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'LH')));
 
 -- New York (JFK) to Rome (FCO)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-25', '2025-05-26', '19:20:00', '10:15:00', 0, 1450.00, -- Dep 19:20 NY, Arr 10:15 next day Rome
+('2025-05-25', '2025-05-26', '19:20:00', '10:15:00', 'CANCELLED', 1450.00, -- Dep 19:20 NY, Arr 10:15 next day Rome
 (SELECT id FROM aeroports WHERE iata_code = 'JFK'),
 (SELECT id FROM aeroports WHERE iata_code = 'FCO'),
 (SELECT id FROM avions WHERE model = 'Boeing 787-9 Dreamliner' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AA'))),
 
-('2025-05-28', '2025-05-28', '12:10:00', '17:05:00', 0, 1400.00, -- Dep 12:10 Rome, Arr 17:05 NY (after time zone & flight)
+('2025-05-28', '2025-05-28', '12:10:00', '17:05:00', 'CANCELLED', 1400.00, -- Dep 12:10 Rome, Arr 17:05 NY (after time zone & flight)
 (SELECT id FROM aeroports WHERE iata_code = 'FCO'),
 (SELECT id FROM aeroports WHERE iata_code = 'JFK'),
 (SELECT id FROM avions WHERE model = 'Boeing 787-9 Dreamliner' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AA')));
 
 -- Madrid (MAD) to Casablanca (CMN)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-21', '2025-05-21', '11:40:00', '13:20:00', 0, 410.00,
+('2025-05-21', '2025-05-21', '11:40:00', '13:20:00', 'DELAYED', 410.00,
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM aeroports WHERE iata_code = 'CMN'),
 (SELECT id FROM avions WHERE model = 'Airbus A350-900' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'QR'))),
 
-('2025-05-22', '2025-05-22', '15:30:00', '17:10:00', 0, 395.00,
+('2025-05-22', '2025-05-22', '15:30:00', '17:10:00', 'DELAYED', 395.00,
 (SELECT id FROM aeroports WHERE iata_code = 'CMN'),
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM avions WHERE model = 'Airbus A350-900' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'QR')));
 
 -- Singapore (SIN) to Sydney (SYD)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-24', '2025-05-25', '21:15:00', '07:45:00', 0, 980.00,
+('2025-05-24', '2025-05-25', '21:15:00', '07:45:00', 'SCHEDULED', 980.00,
 (SELECT id FROM aeroports WHERE iata_code = 'SIN'),
 (SELECT id FROM aeroports WHERE iata_code = 'SYD'),
 (SELECT id FROM avions WHERE model = 'Boeing 737-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'SQ'))),
 
-('2025-05-26', '2025-05-26', '09:20:00', '17:50:00', 0, 950.00, -- Dep SYD, Arr SIN same day
+('2025-05-26', '2025-05-26', '09:20:00', '17:50:00', 'SCHEDULED', 950.00, -- Dep SYD, Arr SIN same day
 (SELECT id FROM aeroports WHERE iata_code = 'SYD'),
 (SELECT id FROM aeroports WHERE iata_code = 'SIN'),
 (SELECT id FROM avions WHERE model = 'Boeing 737-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'SQ')));
 
 -- Cairo (CAI) to Moscow (SVO)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-23', '2025-05-23', '08:30:00', '14:15:00', 0, 660.00,
+('2025-05-23', '2025-05-23', '08:30:00', '14:15:00', 'SCHEDULED', 660.00,
 (SELECT id FROM aeroports WHERE iata_code = 'CAI'),
 (SELECT id FROM aeroports WHERE iata_code = 'SVO'),
 (SELECT id FROM avions WHERE model = 'Airbus A330-300' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'LH'))),
 
-('2025-05-25', '2025-05-25', '16:40:00', '22:25:00', 0, 680.00,
+('2025-05-25', '2025-05-25', '16:40:00', '22:25:00', 'SCHEDULED', 680.00,
 (SELECT id FROM aeroports WHERE iata_code = 'SVO'),
 (SELECT id FROM aeroports WHERE iata_code = 'CAI'),
 (SELECT id FROM avions WHERE model = 'Airbus A330-300' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'LH')));
 
 -- Rio de Janeiro (GIG) to Madrid (MAD)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-22', '2025-05-23', '23:10:00', '14:30:00', 0, 1650.00, -- Dep GIG, Arr MAD next day
+('2025-05-22', '2025-05-23', '23:10:00', '14:30:00', 'SCHEDULED', 1650.00, -- Dep GIG, Arr MAD next day
 (SELECT id FROM aeroports WHERE iata_code = 'GIG'),
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM avions WHERE model = 'Boeing 777-300ER' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AF'))),
 
-('2025-05-26', '2025-05-27', '16:45:00', '08:05:00', 0, 1620.00, -- Dep MAD, Arr GIG next day
+('2025-05-26', '2025-05-27', '16:45:00', '08:05:00', 'SCHEDULED', 1620.00, -- Dep MAD, Arr GIG next day
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM aeroports WHERE iata_code = 'GIG'),
 (SELECT id FROM avions WHERE model = 'Boeing 777-300ER' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AF')));
 
 -- Bangkok (BKK) to Tokyo (HND)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-20', '2025-05-20', '10:15:00', '18:40:00', 0, 890.00,
+('2025-05-20', '2025-05-20', '10:15:00', '18:40:00', 'SCHEDULED', 890.00,
 (SELECT id FROM aeroports WHERE iata_code = 'BKK'),
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM avions WHERE model = 'Boeing 787-9 Dreamliner' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AA'))),
 
-('2025-05-23', '2025-05-23', '13:50:00', '22:15:00', 0, 860.00,
+('2025-05-23', '2025-05-23', '13:50:00', '22:15:00', 'SCHEDULED', 860.00,
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM aeroports WHERE iata_code = 'BKK'),
 (SELECT id FROM avions WHERE model = 'Boeing 787-9 Dreamliner' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AA')));
@@ -295,60 +295,60 @@ INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, pr
 -- Add more flights for more diversity
 -- Paris (ORY) to Madrid (MAD)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-26', '2025-05-26', '09:15:00', '11:30:00', 0, 280.00,
+('2025-05-26', '2025-05-26', '09:15:00', '11:30:00', 'SCHEDULED', 280.00,
 (SELECT id FROM aeroports WHERE iata_code = 'ORY'),
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM avions WHERE model = 'Airbus A320' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AF'))),
 
-('2025-05-26', '2025-05-26', '16:20:00', '18:35:00', 0, 310.00,
+('2025-05-26', '2025-05-26', '16:20:00', '18:35:00', 'SCHEDULED', 310.00,
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM aeroports WHERE iata_code = 'ORY'),
 (SELECT id FROM avions WHERE model = 'Airbus A320' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AF')));
 
 -- Tokyo (HND) to Singapore (SIN)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-27', '2025-05-27', '11:05:00', '17:40:00', 0, 920.00,
+('2025-05-27', '2025-05-27', '11:05:00', '17:40:00', 'SCHEDULED', 920.00,
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM aeroports WHERE iata_code = 'SIN'),
 (SELECT id FROM avions WHERE model = 'Boeing 737-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'SQ'))), 
 
-('2025-05-29', '2025-05-29', '09:30:00', '16:05:00', 0, 890.00,
+('2025-05-29', '2025-05-29', '09:30:00', '16:05:00', 'SCHEDULED', 890.00,
 (SELECT id FROM aeroports WHERE iata_code = 'SIN'),
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM avions WHERE model = 'Boeing 737-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'SQ'))); 
 
 -- London (LHR) to Dubai (DXB)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-28', '2025-05-29', '22:10:00', '08:45:00', 0, 850.00, -- Dep LHR, Arr DXB next day
+('2025-05-28', '2025-05-29', '22:10:00', '08:45:00', 'SCHEDULED', 850.00, -- Dep LHR, Arr DXB next day
 (SELECT id FROM aeroports WHERE iata_code = 'LHR'),
 (SELECT id FROM aeroports WHERE iata_code = 'DXB'),
 (SELECT id FROM avions WHERE model = 'Boeing 747-400' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'BA'))), 
 
-('2025-05-30', '2025-05-30', '01:30:00', '06:05:00', 0, 820.00, -- Dep DXB, Arr LHR same day
+('2025-05-30', '2025-05-30', '01:30:00', '06:05:00', 'SCHEDULED', 820.00, -- Dep DXB, Arr LHR same day
 (SELECT id FROM aeroports WHERE iata_code = 'DXB'),
 (SELECT id FROM aeroports WHERE iata_code = 'LHR'),
 (SELECT id FROM avions WHERE model = 'Boeing 747-400' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'BA'))); 
 
 -- New York (JFK) to Los Angeles (LAX)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-25', '2025-05-25', '07:20:00', '11:05:00', 0, 680.00, 
+('2025-05-25', '2025-05-25', '07:20:00', '11:05:00', 'SCHEDULED', 680.00,
 (SELECT id FROM aeroports WHERE iata_code = 'JFK'),
 (SELECT id FROM aeroports WHERE iata_code = 'LAX'),
 (SELECT id FROM avions WHERE model = 'Boeing 767-300ER' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AA'))),
 
-('2025-05-27', '2025-05-27', '14:45:00', '22:30:00', 0, 650.00, 
+('2025-05-27', '2025-05-27', '14:45:00', '22:30:00', 'SCHEDULED', 650.00,
 (SELECT id FROM aeroports WHERE iata_code = 'LAX'),
 (SELECT id FROM aeroports WHERE iata_code = 'JFK'),
 (SELECT id FROM avions WHERE model = 'Boeing 767-300ER' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'AA')));
 
 -- Sydney (SYD) to Bangkok (BKK)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-26', '2025-05-27', '20:15:00', '03:50:00', 0, 1120.00, -- Dep SYD, Arr BKK next day
+('2025-05-26', '2025-05-27', '20:15:00', '03:50:00', 'SCHEDULED', 1120.00, -- Dep SYD, Arr BKK next day
 (SELECT id FROM aeroports WHERE iata_code = 'SYD'),
 (SELECT id FROM aeroports WHERE iata_code = 'BKK'),
 (SELECT id FROM avions WHERE model = 'Boeing 737-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'SQ'))),
 
-('2025-05-28', '2025-05-28', '01:40:00', '15:15:00', 0, 1080.00, -- Dep BKK, Arr SYD same day
+('2025-05-28', '2025-05-28', '01:40:00', '15:15:00', 'SCHEDULED', 1080.00, -- Dep BKK, Arr SYD same day
 (SELECT id FROM aeroports WHERE iata_code = 'BKK'),
 (SELECT id FROM aeroports WHERE iata_code = 'SYD'),
 (SELECT id FROM avions WHERE model = 'Boeing 737-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'SQ'))); 
