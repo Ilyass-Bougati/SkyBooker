@@ -1,7 +1,7 @@
 package skybooker.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import skybooker.server.DTO.RegisterRequestDTO;
+import skybooker.server.utils.Auth;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -18,24 +19,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AuthControllerTest {
 
     @Autowired
     MockMvc mvc;
 
+
     @Test
+    @Order(1)
     void login() throws Exception {
-        mvc.perform(post("/api/v1/auth/login").with(httpBasic("ilyass@gmail.com", "123")))
-                .andExpect(status().isOk());
+        Auth.login("ilyass@gmail.com", "123", mvc);
     }
 
     @Test
+    @Order(2)
     void loginNeeded() throws Exception {
         mvc.perform(post("/api/v1/aeroport/"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
+    @Order(3)
     void registerClient() throws Exception {
         RegisterRequestDTO requestContent = new RegisterRequestDTO();
         requestContent.setEmail("newClient@gmail.com");
@@ -55,10 +60,9 @@ public class AuthControllerTest {
     }
 
     @Test
+    @Order(4)
     void checkAuthentication() throws Exception {
-        ResultActions res = mvc.perform(post("/api/v1/auth/login").with(httpBasic("ilyass@gmail.com", "123")))
-                .andExpect(status().isOk());
-        String token = res.andReturn().getResponse().getContentAsString();
+        String token = Auth.login("ilyass@gmail.com", "123", mvc);
 
         mvc.perform(get("/api/v1/aeroport/").header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
