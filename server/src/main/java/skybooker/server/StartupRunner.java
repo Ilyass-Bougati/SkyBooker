@@ -93,6 +93,22 @@ public class StartupRunner implements CommandLineRunner {
         client.setRole(role2);
         clientService.create(client);
 
+        Client amine = new Client();
+        amine.setEmail("amine@gmail.com");
+        amine.setTelephone("000");
+        amine.setAdresse("aaa");
+        amine.setPassword("123");
+        amine.setRole(role);
+        clientService.create(amine);
+
+        Client another = new Client();
+        another.setEmail("another@gmail.com");
+        another.setTelephone("000");
+        another.setAdresse("aaa");
+        another.setPassword("123");
+        another.setRole(role);
+        clientService.create(another);
+
         executeSqlScript();
     }
 

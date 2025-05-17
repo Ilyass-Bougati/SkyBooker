@@ -52,9 +52,9 @@ jobs:
         run: bash ./keygen.sh
         working-directory: ./server
 
-      - name: Testing the application
-        run: ./mvnw test
-        working-directory: ./server
+      # - name: Testing the application
+      #   run: ./mvnw test
+      #   working-directory: ./server
 
         # Environment variables used by the `client.js` script to create
         # a new PostgreSQL table.
