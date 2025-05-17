@@ -2,9 +2,7 @@ package skybooker.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.enums.EtatReservation;
@@ -30,19 +28,25 @@ public class Reservation {
     private double prixTotal;
 
     @JsonIgnore
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Client client;
 
     @Column(name = "reserved_at")
     @CreationTimestamp
     private LocalDateTime reservedAt;
 
-    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Billet> billets = new HashSet<>();
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "vol_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Vol vol;
 
     public Reservation(ReservationDTO reservationDTO) {

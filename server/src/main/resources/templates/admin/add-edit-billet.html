@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <form th:action="@{/admin/billet/save}" th:object="${billet}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="siege" class="form-label">Siège:</label>
+      <input type="number" th:field="*{siege}" id="siege" class="form-control" />
+      <div th:if="${#fields.hasErrors('siege')}" th:errors="*{siege}" class="text-danger">Siège Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="classe" class="form-label">Classe:</label>
+      <select th:field="*{classe}" id="classe" class="form-control">
+        <option th:each="classeOption : ${classes}"
+                th:value="${classeOption.id}"
+                th:text="${classeOption.nom}"
+                th:selected="${billet.classe != null && billet.classe.id == classeOption.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('classe')}" th:errors="*{classe}" class="text-danger">Classe Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="passager" class="form-label">Passager:</label>
+      <select th:field="*{passager}" id="passager" class="form-control">
+        <option th:each="passagerOption : ${passagers}"
+                th:value="${passagerOption.id}"
+                th:text="${passagerOption.prenom + ' ' + passagerOption.nom + ' (' + passagerOption.CIN + ')'}"
+                th:selected="${billet.passager != null && billet.passager.id == passagerOption.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('passager')}" th:errors="*{passager}" class="text-danger">Passager Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="reservation" class="form-label">Réservation:</label>
+      <select th:field="*{reservation}" id="reservation" class="form-control">
+        <option th:each="reservationOption : ${reservations}"
+                th:value="${reservationOption.id}"
+                th:text="${'ID: ' + reservationOption.id + ' - Client: ' + (reservationOption.client != null ? reservationOption.client.email : 'N/A') + ' - Vol ID: ' + (reservationOption.vol != null ? reservationOption.vol.id : 'N/A')}"
+                th:selected="${billet.reservation != null && billet.reservation.id == reservationOption.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('reservation')}" th:errors="*{reservation}" class="text-danger">Réservation Error</div>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">Sauvegarder Billet</button>
+    <a th:href="@{/admin/billet}" class="btn btn-secondary">Annuler</a>
+  </form>
+</div>
+</body>
+</html>
