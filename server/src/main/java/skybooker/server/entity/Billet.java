@@ -2,9 +2,7 @@ package skybooker.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.DTO.BilletDTO;
 
 @Data
@@ -18,16 +16,22 @@ public class Billet {
     private long id;
     private int siege;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "classe_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Classe classe;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "passager_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Passager passager;
 
     @JsonIgnore
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Reservation reservation;
 }

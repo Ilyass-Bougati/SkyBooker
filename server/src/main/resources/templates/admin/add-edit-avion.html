@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <form th:action="@{/admin/avion/save}" th:object="${avion}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="model" class="form-label">Modèle:</label>
+      <input type="text" th:field="*{model}" id="model" class="form-control" />
+      <div th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="text-danger">Modèle Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="iataCode" class="form-label">IATA CODE:</label>
+      <input type="text" th:field="*{iataCode}" id="iataCode" class="form-control" />
+      <div th:if="${#fields.hasErrors('iataCode')}" th:errors="*{iataCode}" class="text-danger">IATA Code Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="icaoCode" class="form-label">ICAO CODE:</label>
+      <input type="text" th:field="*{icaoCode}" id="icaoCode" class="form-control" />
+      <div th:if="${#fields.hasErrors('icaoCode')}" th:errors="*{icaoCode}" class="text-danger">ICAO Code Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="maxDistance" class="form-label">Distance Maximale:</label>
+      <input type="number" th:field="*{maxDistance}" id="maxDistance" class="form-control" step="0.01" />
+      <div th:if="${#fields.hasErrors('maxDistance')}" th:errors="*{maxDistance}" class="text-danger">Distance Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="companieAerienne" class="form-label">Compagnie Aérienne:</label>
+      <select th:field="*{companieAerienne}" id="companieAerienne" class="form-control">
+        <option th:each="company : ${companieAeriennes}"
+                th:value="${company.id}"
+                th:text="${company.nom}"
+                th:selected="${avion.companieAerienne != null && avion.companieAerienne.id == company.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('companieAerienne')}" th:errors="*{companieAerienne}" class="text-danger">Compagnie Error</div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Sauvegarder Avion</button>
+    <a th:href="@{/admin/avion}" class="btn btn-secondary">Annuler</a>
+  </form>
+
+  <div th:if="${avion.id != 0}" class="mt-5">
+    <h2>Capacités</h2>
+    <a th:href="@{/admin/capacite/add(avionId=${avion.id})}" class="btn btn-primary mb-3">Ajouter une nouvelle Capacité pour cet Avion</a>
+
+    <table class="table table-striped table-bordered">
+      <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Borne Inf</th>
+        <th>Borne Sup</th>
+        <th>Capacité</th>
+        <th>Classe</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="capacite : ${avion.capacites}"> <td th:text="${capacite.id}"></td>
+        <td th:text="${capacite.borneInf}"></td>
+        <td th:text="${capacite.borneSup}"></td>
+        <td th:text="${capacite.capacite}"></td>
+        <td th:text="${capacite.classe.nom}"></td> <td>
+          <a th:href="@{/admin/capacite/edit/{id}(id=${capacite.id})}" class="btn btn-sm btn-warning">Modifier</a>
+          <a th:href="@{/admin/capacite/delete/{id}(id=${capacite.id})}"
+             onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette capacité ?')"
+             class="btn btn-sm btn-danger">Supprimer</a>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(avion.capacites)}">
+        <td colspan="6" class="text-center">Aucune capacité trouvée pour cet avion.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

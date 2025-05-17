@@ -32,19 +32,25 @@ public class Vol {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "aeroport_depart_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Aeroport aeroportDepart;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "aeroport_arrive_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Aeroport aeroportArrive;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "avion_id", nullable = false)
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Avion avion;
 
     @JsonIgnore
     @OneToMany(mappedBy = "vol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Reservation> reservations = new HashSet<>();
 
