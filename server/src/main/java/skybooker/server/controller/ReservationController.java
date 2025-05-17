@@ -29,12 +29,12 @@ public class ReservationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reservation> getReservationById(@PathVariable Long id) {
+    public ResponseEntity<ReservationDTO> getReservationById(@PathVariable Long id) {
         Reservation reservation = reservationService.findById(id);
         if (reservation == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(reservation);
+            return ResponseEntity.ok(new ReservationDTO(reservation));
         }
     }
 

@@ -2,6 +2,7 @@ package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.AeroportDTO;
 import skybooker.server.entity.Aeroport;
 import skybooker.server.repository.AeroportRepository;
@@ -24,22 +25,26 @@ public class AeroportServiceImpl implements AeroportService {
     private final VilleService villeService;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Aeroport> findAll() {
         return aeroportRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Aeroport findById(Long aLong) {
         Optional<Aeroport> aeroport = aeroportRepository.findById(aLong);
         return aeroport.orElse(null);
     }
 
     @Override
+    @Transactional
     public Aeroport create(Aeroport entity) {
         return aeroportRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public Aeroport createDTO(AeroportDTO entity) {
         Aeroport aeroport = new Aeroport(entity);
         aeroport.setVille(villeService.findById(entity.getVilleId()));
@@ -47,6 +52,7 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
+    @Transactional
     public Aeroport update(Aeroport entity) {
         Aeroport aeroport = findById(entity.getId());
         if (aeroport != null) {
@@ -66,6 +72,7 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
+    @Transactional
     public Aeroport updateDTO(AeroportDTO entity) {
         Aeroport aeroport = findById(entity.getId());
         if (aeroport != null) {
@@ -85,11 +92,13 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long aLong) {
         aeroportRepository.deleteById(aLong);
     }
 
     @Override
+    @Transactional
     public void delete(Aeroport entity) {
         aeroportRepository.delete(entity);
     }

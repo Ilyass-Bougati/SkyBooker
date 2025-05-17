@@ -2,9 +2,7 @@ package skybooker.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import skybooker.server.DTO.AvionDTO;
 
 import java.util.HashSet;
@@ -12,7 +10,8 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "avions")
 public class Avion {
@@ -29,7 +28,7 @@ public class Avion {
     private Set<Vol> vols = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Capacite> capacites = new HashSet<>();
 
 
