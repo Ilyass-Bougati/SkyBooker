@@ -43,9 +43,6 @@ public class Client{
     private Set<Reservation> reservations = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Reservation> reservations = new HashSet<>();
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Passager passager;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
