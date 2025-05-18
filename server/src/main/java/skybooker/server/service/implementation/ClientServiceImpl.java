@@ -129,4 +129,9 @@ public class ClientServiceImpl implements ClientService {
         passagerService.create(passager);
         return ResponseEntity.ok(new ClientDTO(client));
     }
+
+    @Override
+    public Boolean passagerAddedByClient(Long clientId, Long passagerId) {
+        return clientRepository.passagerAddedByClient(passagerId, clientId);
+    }
 }

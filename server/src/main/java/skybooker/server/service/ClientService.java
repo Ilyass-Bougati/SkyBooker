@@ -10,4 +10,5 @@ public interface ClientService extends CrudService<Client, Long>{
     Client findByEmail(String email);
     Client update(Client client, ClientDTO clientDTO);
     ResponseEntity<ClientDTO> register(RegisterRequestDTO registerRequestDTO);
+    Boolean passagerAddedByClient(Long clientId, Long passagerId);
 }

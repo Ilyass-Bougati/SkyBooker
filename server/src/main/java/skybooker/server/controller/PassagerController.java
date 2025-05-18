@@ -12,6 +12,7 @@ import skybooker.server.UserDetailsImpl;
 import skybooker.server.entity.Billet;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
+import skybooker.server.service.ClientService;
 import skybooker.server.service.PassagerService;
 
 import java.security.Principal;
@@ -23,14 +24,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/passager")
 public class PassagerController {
 
+    private final ClientService clientService;
     Logger logger = LoggerFactory.getLogger(PassagerController.class);
 
     private final PassagerService passagerService;
     private final UserDetailsService userDetailsService;
 
-    public PassagerController(PassagerService passagerService, UserDetailsService userDetailsService) {
+    public PassagerController(PassagerService passagerService, UserDetailsService userDetailsService, ClientService clientService) {
         this.passagerService = passagerService;
         this.userDetailsService = userDetailsService;
+        this.clientService = clientService;
     }
 
     @GetMapping("/")
@@ -46,7 +49,7 @@ public class PassagerController {
     public ResponseEntity<List<BilletDTO>> getAllPassagersBillets(Principal principal, @PathVariable Long passagerId) {
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
         Client client = userDetails.getClient();
-        if (!client.getPassagers().stream().filter(p -> p.getId() == passagerId).toList().isEmpty() || client.isAdmin()) {
+        if (clientService.passagerAddedByClient(client.getId(), passagerId) || client.isAdmin()) {
             Passager passager = passagerService.findById(passagerId);
             if (passager != null) {
                 Set<Billet> billets =  passager.getBillets();
@@ -68,6 +71,7 @@ public class PassagerController {
             // checking if the passager was originally added by the client
             UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
             Client client = userDetails.getClient();
+
 
             if (!client.getPassagers().stream().filter(p -> p.getId() == id).toList().isEmpty() || client.isAdmin()) {
                 return ResponseEntity.ok(new PassagerDTO(passager));
