@@ -109,7 +109,7 @@ public class StartupRunner implements CommandLineRunner {
         another.setRole(role);
         clientService.create(another);
 
-        executeSqlScript();
+//        executeSqlScript();
     }
 
     private void executeSqlScript() {
