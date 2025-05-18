@@ -61,19 +61,17 @@ public class HelloController {
     @FXML
     protected void initialize()
     {
-        Platform.runLater(()-> GeneralUtils.changeWindowTitle("Authentication for SkyBooker"));
         Platform.runLater(()->{
-                            TranslateTransition closeInGraphic = new TranslateTransition();
-                            closeInGraphic.setAutoReverse(false);
-                            closeInGraphic.setFromX(-100);
-                            closeInGraphic.setToX(0);
-                            closeInGraphic.setDuration(new Duration(800));
-                            closeInGraphic.setNode(graphic);
+                TranslateTransition closeInGraphic = new TranslateTransition();
+                closeInGraphic.setAutoReverse(false);
+                closeInGraphic.setFromX(-100);
+                closeInGraphic.setToX(0);
+                closeInGraphic.setDuration(new Duration(800));
+                closeInGraphic.setNode(graphic);
 
-                            ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeInAnimation(container , 500),
-                                                                            closeInGraphic);
+                ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeInAnimation(container , 500),closeInGraphic);
 
-                            pt.playFromStart();
+                pt.playFromStart();
         });
     }
 }

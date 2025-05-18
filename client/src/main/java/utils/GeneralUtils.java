@@ -46,6 +46,4 @@ public class GeneralUtils {
     {
         date.getEditor().setDisable(true);
     }
-
-    public static void changeWindowTitle(String newTitle) { ((Stage)HelloApplication.getScene().getWindow()).setTitle(newTitle); }
 }

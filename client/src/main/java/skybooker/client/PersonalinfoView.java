@@ -1,11 +1,9 @@
 package skybooker.client;
 
 import DTO.RegisterRequestDTOBuilder;
-import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -14,12 +12,10 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Popup;
-import javafx.util.Duration;
 import okhttp3.Response;
 import requests.Client;
 import utils.GeneralUtils;
@@ -105,16 +101,20 @@ public class PersonalinfoView {
         );
         button_icon.setEffect(blend);
 
-        Platform.runLater(() -> GeneralUtils.fadeInAnimation(container , 500).play());
-        Platform.runLater(() -> GeneralUtils.initializeDatePicker(birthDate));
+        Platform.runLater(() ->
+        {
+            GeneralUtils.fadeInAnimation(container , 500).play();
+            GeneralUtils.initializeDatePicker(birthDate);
+            initializeCardinals();
+            addPhoneNumberConstraint();
+            addToolTip(password , "Password must be at least 8 characters , \n contain lower and upper case characters ,  \n as well as numerals and a special character");
+            addToolTip(confirmedPassword , "Passwords must match");
 
-        initializeCardinals();
-        addPhoneNumberConstraint();
-        addToolTip(password , "Password must be at least 8 characters , \n contain lower and upper case characters ,  \n as well as numerals and a special character");
-        addToolTip(confirmedPassword , "Passwords must match");
+            initializeErrorPopup(password , "Password must be at least 8 characters , contain upper and lower case , numeral and special characters" , this::verifyPasswordValidity);
+            initializeErrorPopup(confirmedPassword , "Passwords must match" , this::verifyConfirmedPasswordValidity);
+        });
 
-        initializeErrorPopup(password , "Password must be at least 8 characters , contain upper and lower case , numeral and special characters" , this::verifyPasswordValidity);
-        initializeErrorPopup(confirmedPassword , "Passwords must match" , this::verifyConfirmedPasswordValidity);
+
 
     }
     private boolean verifyPasswordValidity()
