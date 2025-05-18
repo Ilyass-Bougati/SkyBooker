@@ -9,6 +9,7 @@ import skybooker.server.entity.Reservation;
 import skybooker.server.entity.Role;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -31,8 +32,6 @@ public class ClientDTO {
 
     private Set<Reservation> reservations = new HashSet<>();
 
-    private Passager passager;
-
     private Role role;
 
     public ClientDTO(Client client) {
@@ -41,7 +40,6 @@ public class ClientDTO {
         setTelephone(client.getTelephone());
         setAdresse(client.getAdresse());
         setReservations(client.getReservations());
-        setPassager(client.getPassager());
         setRole(client.getRole());
     }
 }

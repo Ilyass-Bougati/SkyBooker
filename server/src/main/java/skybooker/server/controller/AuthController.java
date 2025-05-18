@@ -64,16 +64,18 @@ public class AuthController {
             return ResponseEntity.badRequest().body(null);
         }
         passager.setCategorie(defaultCategorie);
-        passagerService.create(passager);
-
         Client client = registerRequest.client();
 
         // giving USER_ROLE
         Role userRole = roleService.findById(1L);
         client.setRole(userRole);
+        client.getPassagers().add(passager);
 
-        client.setPassager(passager);
+        // adding the passager to the client
+        passager.setClient(client);
+
         clientService.create(client);
+        passagerService.create(passager);
         return ResponseEntity.ok(new ClientDTO(client));
     }
 

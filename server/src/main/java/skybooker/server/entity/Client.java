@@ -42,8 +42,8 @@ public class Client{
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Passager passager;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Passager> passagers = new HashSet<>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", nullable = false)
@@ -59,7 +59,6 @@ public class Client{
         setPassword(BCrypt.hashpw(client.getPassword(), BCrypt.gensalt()));
         setTelephone(client.getTelephone());
         setAdresse(client.getAdresse());
-        setPassager(client.getPassager());
     }
 
     /**
