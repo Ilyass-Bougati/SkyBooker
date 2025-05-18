@@ -38,29 +38,49 @@ INSERT INTO villes (nom, pays) VALUES
 ('Mumbai', 'India');
 
 
+-- Populate Clients
+INSERT INTO clients (role_id, adresse, email, password, telephone) VALUES
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '123 Rue de Paris, Paris', 'jacques.durand@email.com', 'hash_password_1', '+33612345678'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '456 Oxford Street, London', 'emma.wilson@email.com', 'hash_password_2', '+44712345678'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '789 Fifth Avenue, New York', 'robert.brown@email.com', 'hash_password_3', '+12123456789'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '101 Unter den Linden, Berlin', 'laura.klein@email.com', 'hash_password_4', '+49301234567'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '202 Via Roma, Rome', 'alessio.ricci@email.com', 'hash_password_5', '+39612345678'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '303 Calle Mayor, Madrid', 'carlos.fernandez@email.com', 'hash_password_6', '+34612345678'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '404 Sukhumvit Road, Bangkok', 'li.chen@email.com', 'hash_password_7', '+66812345678'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '505 Sheikh Zayed Road, Dubai', 'mohammed.alfarsi@email.com', 'hash_password_8', '+97150123456'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '606 Ginza, Tokyo', 'akira.nakamura@email.com', 'hash_password_9', '+81312345678'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '707 Avenue Mohammed V, Casablanca', 'fatima.benali@email.com', 'hash_password_10', '+212612345678'),
+-- Adding clients for new passengers needed for reservations
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), 'Via Nazionale 10, Rome', 'marco.rossi@email.com', 'hash_password_11', '+39061234567'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '100 Main St, Anytown, USA', 'john.smith@email.com', 'hash_password_12', '+15551234567'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '1 Beijing Road, Beijing', 'chai.wang@email.com', 'hash_password_13', '+861012345678'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), 'Hauptstrasse 5, Berlin', 'anna.schmidt@email.com', 'hash_password_14', '+491512345678'),
+((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '25 Nile Corniche, Cairo', 'omar.hassan@email.com', 'hash_password_15', '+201001234567');
+
+
 -- Populate Passengers of various categories
-INSERT INTO passagers (nom, prenom, cin, age, categorie_id) VALUES
-('Durand', 'Jacques', 'FR567890', 52, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Wilson', 'Emma', 'UK123456', 24, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Brown', 'Robert', 'US789012', 99, (SELECT id FROM categories WHERE nom = 'Senior')),
-('Klein', 'Laura', 'DE345678', 43, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Ricci', 'Alessio', 'IT901234', 20, (SELECT id FROM categories WHERE nom = 'Junior')),
-('Fernandez', 'Carlos', 'ES567890', 32, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Chen', 'Li', 'TH123789', 17, (SELECT id FROM categories WHERE nom = 'Student')),
-('Al-Farsi', 'Mohammed', 'AE456012', 90, (SELECT id FROM categories WHERE nom = 'Senior')),
-('Nakamura', 'Akira', 'JP789345', 55, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Benali', 'Fatima', 'MA012678', 18, (SELECT id FROM categories WHERE nom = 'Junior')),
-('Kim', 'Min-Ji', 'KR345901', 21, (SELECT id FROM categories WHERE nom = 'Student')),
--- Removed Igor Petrov (Military)
-('Silva', 'Maria', 'BR012345', 22, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Johnson', 'David', 'US567890', 40, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Lee', 'Soo-Jin', 'KR123456', 12, (SELECT id FROM categories WHERE nom = 'Junior')),
+INSERT INTO passagers (nom, prenom, cin, age, categorie_id, client_id) VALUES
+('Durand', 'Jacques', 'FR567890', 52, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'jacques.durand@email.com')),
+('Wilson', 'Emma', 'UK123456', 24, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'emma.wilson@email.com')),
+('Brown', 'Robert', 'US789012', 99, (SELECT id FROM categories WHERE nom = 'Senior'), (SELECT id FROM clients WHERE email = 'robert.brown@email.com')),
+('Klein', 'Laura', 'DE345678', 43, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'laura.klein@email.com')),
+('Ricci', 'Alessio', 'IT901234', 20, (SELECT id FROM categories WHERE nom = 'Junior'), (SELECT id FROM clients WHERE email = 'alessio.ricci@email.com')),
+('Fernandez', 'Carlos', 'ES567890', 32, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'carlos.fernandez@email.com')),
+('Chen', 'Li', 'TH123789', 17, (SELECT id FROM categories WHERE nom = 'Student'), (SELECT id FROM clients WHERE email = 'li.chen@email.com')),
+('Al-Farsi', 'Mohammed', 'AE456012', 90, (SELECT id FROM categories WHERE nom = 'Senior'), (SELECT id FROM clients WHERE email = 'mohammed.alfarsi@email.com')),
+('Nakamura', 'Akira', 'JP789345', 55, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'akira.nakamura@email.com')),
+('Benali', 'Fatima', 'MA012678', 18, (SELECT id FROM categories WHERE nom = 'Junior'), (SELECT id FROM clients WHERE email = 'fatima.benali@email.com')),
+('Kim', 'Min-Ji', 'KR345901', 21, (SELECT id FROM categories WHERE nom = 'Student'), (SELECT id FROM clients WHERE email = 'li.chen@email.com')),
+('Silva', 'Maria', 'BR012345', 22, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'robert.brown@email.com')),
+('Johnson', 'David', 'US567890', 40, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'robert.brown@email.com')),
+('Lee', 'Soo-Jin', 'KR123456', 12, (SELECT id FROM categories WHERE nom = 'Junior'), (SELECT id FROM clients WHERE email = 'emma.wilson@email.com')),
 -- Adding passengers for new clients needed for reservations
-('Rossi', 'Marco', 'IT112233', 45, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Smith', 'John', 'US998877', 38, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Wang', 'Chai', 'CN776655', 29, (SELECT id FROM categories WHERE nom = 'Student')),
-('Schmidt', 'Anna', 'DE101010', 33, (SELECT id FROM categories WHERE nom = 'Standard')),
-('Hassan', 'Omar', 'EG202020', 50, (SELECT id FROM categories WHERE nom = 'Standard'));
+('Rossi', 'Marco', 'IT112233', 45, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'marco.rossi@email.com')),
+('Smith', 'John', 'US998877', 38, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'john.smith@email.com')),
+('Wang', 'Chai', 'CN776655', 29, (SELECT id FROM categories WHERE nom = 'Student'), (SELECT id FROM clients WHERE email = 'chai.wang@email.com')),
+('Schmidt', 'Anna', 'DE101010', 33, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'anna.schmidt@email.com')),
+('Hassan', 'Omar', 'EG202020', 50, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'omar.hassan@email.com'));
+
 
 
 -- Populate Airports
@@ -96,25 +116,6 @@ INSERT INTO avions (iata_code, icao_code, model, max_distance, companie_aerienne
 ('B737', 'B738', 'Boeing 737-800', 5765, (SELECT id FROM companie_aerienne WHERE iata_code = 'SQ')),
 ('A321', 'A321', 'Airbus A321neo', 7400, (SELECT id FROM companie_aerienne WHERE iata_code = 'LH')),
 ('B767', 'B763', 'Boeing 767-300ER', 11093, (SELECT id FROM companie_aerienne WHERE iata_code = 'AA'));
-
--- Populate Clients
-INSERT INTO clients (passager_id, role_id, adresse, email, password, telephone) VALUES
-((SELECT id FROM passagers WHERE cin = 'FR567890'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '123 Rue de Paris, Paris', 'jacques.durand@email.com', 'hash_password_1', '+33612345678'),
-((SELECT id FROM passagers WHERE cin = 'UK123456'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '456 Oxford Street, London', 'emma.wilson@email.com', 'hash_password_2', '+44712345678'),
-((SELECT id FROM passagers WHERE cin = 'US789012'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '789 Fifth Avenue, New York', 'robert.brown@email.com', 'hash_password_3', '+12123456789'),
-((SELECT id FROM passagers WHERE cin = 'DE345678'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '101 Unter den Linden, Berlin', 'laura.klein@email.com', 'hash_password_4', '+49301234567'),
-((SELECT id FROM passagers WHERE cin = 'IT901234'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '202 Via Roma, Rome', 'alessio.ricci@email.com', 'hash_password_5', '+39612345678'),
-((SELECT id FROM passagers WHERE cin = 'ES567890'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '303 Calle Mayor, Madrid', 'carlos.fernandez@email.com', 'hash_password_6', '+34612345678'),
-((SELECT id FROM passagers WHERE cin = 'TH123789'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '404 Sukhumvit Road, Bangkok', 'li.chen@email.com', 'hash_password_7', '+66812345678'),
-((SELECT id FROM passagers WHERE cin = 'AE456012'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '505 Sheikh Zayed Road, Dubai', 'mohammed.alfarsi@email.com', 'hash_password_8', '+97150123456'),
-((SELECT id FROM passagers WHERE cin = 'JP789345'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '606 Ginza, Tokyo', 'akira.nakamura@email.com', 'hash_password_9', '+81312345678'),
-((SELECT id FROM passagers WHERE cin = 'MA012678'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '707 Avenue Mohammed V, Casablanca', 'fatima.benali@email.com', 'hash_password_10', '+212612345678'),
--- Adding clients for new passengers needed for reservations
-((SELECT id FROM passagers WHERE cin = 'IT112233'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), 'Via Nazionale 10, Rome', 'marco.rossi@email.com', 'hash_password_11', '+39061234567'),
-((SELECT id FROM passagers WHERE cin = 'US998877'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '100 Main St, Anytown, USA', 'john.smith@email.com', 'hash_password_12', '+15551234567'),
-((SELECT id FROM passagers WHERE cin = 'CN776655'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '1 Beijing Road, Beijing', 'chai.wang@email.com', 'hash_password_13', '+861012345678'),
-((SELECT id FROM passagers WHERE cin = 'DE101010'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), 'Hauptstrasse 5, Berlin', 'anna.schmidt@email.com', 'hash_password_14', '+491512345678'),
-((SELECT id FROM passagers WHERE cin = 'EG202020'), (SELECT id FROM roles WHERE nom = 'ROLE_USER'), '25 Nile Corniche, Cairo', 'omar.hassan@email.com', 'hash_password_15', '+201001234567');
 
 
 -- Populate Capacities for each aircraft and class
