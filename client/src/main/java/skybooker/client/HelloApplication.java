@@ -37,12 +37,9 @@ public class HelloApplication extends Application {
         fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         scene = new Scene(fxmlLoader.load(), 825, 600 , false , SceneAntialiasing.BALANCED);
 
-        stage.setTitle("Authentication for SkyBooker");
+        stage.setTitle("SkyBooker");
         stage.setScene(scene);
         stage.setResizable(false);
-
-        stage.setX(0);
-        stage.setY(0);
 
         stage.setHeight(600);
         stage.setWidth(825);

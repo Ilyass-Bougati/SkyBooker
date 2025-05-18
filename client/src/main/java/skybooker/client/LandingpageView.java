@@ -1,8 +1,6 @@
 package skybooker.client;
 
-import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -19,7 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
-import javafx.util.Duration;
 import utils.GeneralUtils;
 
 import java.io.IOException;
@@ -70,18 +67,9 @@ public class LandingpageView {
         SearchresultsView.departure = departure.getValue();
         SearchresultsView.className = classes.getValue();
 
-        FadeTransition fadeOutImage = GeneralUtils.fadeOutAnimation(imageContainer , 500);
 
-        FadeTransition fadeOutContent1 = GeneralUtils.fadeOutAnimation(content1 , 500);
-        FadeTransition fadeOutContent2 = GeneralUtils.fadeOutAnimation(content2 , 500);
-
-        ScaleTransition scaleDown = new ScaleTransition();
-        scaleDown.setFromX(1);
-        scaleDown.setToX(0.30);
-        scaleDown.setDuration(new Duration(1000));
-        scaleDown.setNode(contentContainer);
-
-        ParallelTransition pt = new ParallelTransition(fadeOutImage , fadeOutContent1 , fadeOutContent2 );
+        ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeOutAnimation(imageContainer , 500) ,
+                GeneralUtils.fadeOutAnimation(contentContainer , 500));
 
 
         pt.setOnFinished(_-> {
@@ -92,7 +80,6 @@ public class LandingpageView {
             }
         });
 
-        scaleDown.playFromStart();
         pt.playFromStart();
 
     }
@@ -100,12 +87,14 @@ public class LandingpageView {
     @FXML
     public void initialize()
     {
-        GeneralUtils.changeWindowTitle("Welcome to SkyBooker");
-        Platform.runLater(() -> GeneralUtils.fadeInAnimation(container , 500).play());
-        Platform.runLater(this::initializeClasses);
-        Platform.runLater(this::initializeLocations);
-        Platform.runLater(this::initializePopup);
-        Platform.runLater(() -> GeneralUtils.initializeDatePicker(date));
+        Platform.runLater(() ->
+        {
+            GeneralUtils.fadeInAnimation(container , 500).play();
+            initializeClasses();
+            initializeLocations();
+            initializePopup();
+            GeneralUtils.initializeDatePicker(date);
+        });
     }
 
 

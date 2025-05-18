@@ -81,9 +81,6 @@ public class SignupView {
     @FXML
     public void initialize()
     {
-        //Changes the window title
-        GeneralUtils.changeWindowTitle("Sign up to SkyBooker");
-
         //Sets the icon on the button to white
         Blend blend = new Blend(
                 BlendMode.SRC_ATOP,
@@ -92,23 +89,25 @@ public class SignupView {
         );
         button_icon.setEffect(blend);
 
-        Platform.runLater(()-> GeneralUtils.fadeInAnimation(container , 500).play());
+        Platform.runLater(()->
+        {
+            GeneralUtils.fadeInAnimation(container , 500).play();
 
-        initializeErrorPopup(fName, "Name should only contain characters ", ()->{
-            String text = fName.getText() ;
-            return Validator.checkNameValidity(text);
+            initializeErrorPopup(fName, "Name should only contain characters ", ()->{
+                String text = fName.getText() ;
+                return Validator.checkNameValidity(text);
+            });
+
+            initializeErrorPopup(lName, "Name should only contain characters ", ()->{
+                String text = lName.getText() ;
+                return Validator.checkNameValidity(text);
+            });
+
+            initializeErrorPopup(email, "Invalid Email", ()->{
+                String text = email.getText() ;
+                return Validator.checkEmailValidity(text);
+            });
         });
-
-        initializeErrorPopup(lName, "Name should only contain characters ", ()->{
-            String text = lName.getText() ;
-            return Validator.checkNameValidity(text);
-        });
-
-        initializeErrorPopup(email, "Invalid Email", ()->{
-            String text = email.getText() ;
-            return Validator.checkEmailValidity(text);
-        });
-
     }
 
     private void initializeErrorPopup(Control c , String Error , controlCheck chk)
