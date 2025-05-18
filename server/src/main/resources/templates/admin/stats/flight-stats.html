@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <h2>Statistiques de Vol (Occupation, Réservations & Revenue)</h2>
+
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>Vol ID</th> <th>Billets Réservés</th>
+      <th>Capacité Totale</th>
+      <th>Taux d'Occupation (%)</th>
+      <th>Revenue Total (Réservations)</th> </tr>
+    </thead>
+    <tbody>
+    <tr th:each="stat : ${flightStats}">
+      <td th:text="${stat.volIdentifier}">Vol ID</td>
+      <td th:text="${stat.bookedCount}">Booked Count</td>
+      <td th:text="${stat.totalCapacity}">Capacity</td>
+      <td th:text="${#numbers.formatDecimal(stat.occupancyRate, 0, 2)} + '%'">Occupancy %</td>
+      <td th:text="${#numbers.formatDecimal(stat.revenue, 0, 2)}">Revenue</td> </tr>
+    <tr th:if="${#lists.isEmpty(flightStats)}">
+      <td colspan="5" class="text-center">Aucune statistique de vol disponible.</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>
