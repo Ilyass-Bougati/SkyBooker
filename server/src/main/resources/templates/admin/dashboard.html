@@ -6,17 +6,37 @@
 <div class="container mt-4">
     <h1 th:text="${pageTitle}">Dashboard</h1>
     <p>Welcome to the Airline Administration Panel.</p>
+
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">View Statistics</h5>
-                    <p class="card-text">Analyze occupancy rates and other metrics.</p>
-                    <a th:href="@{/admin/statistics/occupancy}" class="btn btn-primary">View Occupancy Stats</a>
+                    <h5 class="card-title">Statistiques de Vol</h5>
+                    <p class="card-text">Voir les statistiques d'occupation, réservations, revenue, etc.</p>
+                    <a th:href="@{/admin/statistics/occupancy}" class="btn btn-primary">Voir les Stats</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Stats Passagers par Route</h5>
+                    <p class="card-text">Analyser les routes les plus fréquentées.</p>
+                    <a th:href="@{/admin/statistics/passengers}" class="btn btn-primary">Voir les Stats</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <h5 class="card-title">Stats Revenue par Classe</h5>
+                <p class="card-text">Analyser le revenue généré par chaque classe.</p>
+                <a th:href="@{/admin/statistics/revenue}" class="btn btn-primary">Voir les Stats</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Categories</h5>
@@ -25,36 +45,37 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Villes</h5>
-                    <p class="card-text">Add, edit, or delete villes.</p>
+                    <p class="card-text">Add, edit, or delete cities.</p>
                     <a th:href="@{/admin/villes}" class="btn btn-primary">Go to Villes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Aéroports</h5>
+                    <p class="card-text">Add, edit, or delete airports.</p>
+                    <a th:href="@{/admin/aeroports}" class="btn btn-primary">Go to Aéroports</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-md-4">
+    <div class="row">
+        <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Manage Aéroports</h5>
-                    <p class="card-text">Add, edit, or delete Aéroports.</p>
-                    <a th:href="@{/admin/aeroports}" class="btn btn-primary">Go to Aéroports</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Manage Classes</h5> <p class="card-text">Add, edit, or delete passenger classes.</p>
+                    <h5 class="card-title">Manage Classes</h5>
+                    <p class="card-text">Add, edit, or delete passenger classes.</p>
                     <a th:href="@{/admin/classes}" class="btn btn-primary">Go to Classes</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Compagnies</h5>
@@ -63,10 +84,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row mt-4">
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Avions</h5>
@@ -75,12 +93,63 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Manage Vols</h5>
                     <p class="card-text">Add, edit, or delete flights.</p>
                     <a th:href="@{/admin/vol}" class="btn btn-primary">Go to Vols</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Clients</h5>
+                    <p class="card-text">Add, edit, or delete client accounts.</p>
+                    <a th:href="@{/admin/client}" class="btn btn-primary">Go to Clients</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Passagers</h5>
+                    <p class="card-text">Add, edit, or delete passengers.</p>
+                    <a th:href="@{/admin/passager}" class="btn btn-primary">Go to Passagers</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Réservations</h5>
+                    <p class="card-text">View and manage flight reservations.</p>
+                    <a th:href="@{/admin/reservation}" class="btn btn-primary">Go to Réservations</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Billets</h5>
+                    <p class="card-text">View and manage individual flight tickets.</p>
+                    <a th:href="@{/admin/billet}" class="btn btn-primary">Go to Billets</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">View Statistics</h5>
+                    <p class="card-text">Analyze occupancy rates and other metrics.</p>
+                    <a th:href="@{/admin/statistics/occupancy}" class="btn btn-primary">View Occupancy Stats</a>
                 </div>
             </div>
         </div>
