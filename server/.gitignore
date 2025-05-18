@@ -34,3 +34,6 @@ build/
 
 ### The openssl certificates ###
 src/main/resources/certs/
+
+### The logs ###
+logs
