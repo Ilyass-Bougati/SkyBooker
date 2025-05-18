@@ -1,12 +1,20 @@
 package skybooker.server.service.implementation;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClientDTO;
+import skybooker.server.DTO.RegisterRequestDTO;
+import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Client;
+import skybooker.server.entity.Passager;
+import skybooker.server.entity.Role;
 import skybooker.server.repository.ClientRepository;
+import skybooker.server.service.CategorieService;
 import skybooker.server.service.ClientService;
+import skybooker.server.service.PassagerService;
+import skybooker.server.service.RoleService;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +23,17 @@ import java.util.Optional;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final PassagerService passagerService;
     private final PasswordEncoder passwordEncoder;
+    private final CategorieService categorieService;
+    private final RoleService roleService;
 
-    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+    public ClientServiceImpl(ClientRepository clientRepository, PassagerService passagerService, PasswordEncoder passwordEncoder, CategorieService categorieService, RoleService roleService) {
         this.clientRepository = clientRepository;
+        this.passagerService = passagerService;
         this.passwordEncoder = passwordEncoder;
+        this.categorieService = categorieService;
+        this.roleService = roleService;
     }
 
     @Override
@@ -87,5 +101,32 @@ public class ClientServiceImpl implements ClientService {
         client.updateFields(clientDTO);
         client.setEmail(client.getEmail().toLowerCase());
         return clientRepository.save(client);
+    }
+
+    // TODO : refactor this
+    @Override
+    @Transactional
+    public ResponseEntity<ClientDTO> register(RegisterRequestDTO registerRequestDTO) {
+        Passager passager = registerRequestDTO.passager();
+
+        // giving the user the default category
+        Categorie defaultCategorie = categorieService.findById(1L);
+        if (defaultCategorie == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        passager.setCategorie(defaultCategorie);
+        Client client = registerRequestDTO.client();
+
+        // giving USER_ROLE
+        Role userRole = roleService.findById(1L);
+        client.setRole(userRole);
+        client.getPassagers().add(passager);
+
+        // adding the passager to the client
+        passager.setClient(client);
+
+        create(client);
+        passagerService.create(passager);
+        return ResponseEntity.ok(new ClientDTO(client));
     }
 }

@@ -37,11 +37,13 @@ public class Passager {
     @Min(0)
     private int age;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
+    @ManyToOne(optional = false)
     @JoinColumn(name = "categorie_id", nullable = false)
     private Categorie categorie;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 
     @JsonIgnore
     @OneToMany(mappedBy = "passager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

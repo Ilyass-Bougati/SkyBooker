@@ -1,7 +1,6 @@
 package skybooker.server.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -51,7 +50,6 @@ public class ClientController {
             return ResponseEntity.badRequest().build();
         } else {
             // checking if the user is authorized to make the action
-            // TODO : check if the user is admin, and just make this shit better
             client.updateFields(clientDTO);
             clientService.update(client);
             return ResponseEntity.ok().build();
