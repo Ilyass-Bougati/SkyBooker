@@ -87,7 +87,8 @@ public class AdminBilletController {
             billetService.deleteById(id);
             redirectAttributes.addFlashAttribute("successMessage", "Billet supprimé avec succès !");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression du Billet :" + e.getMessage());
+            System.err.println("Error deleting billet: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression du Billet : " + e.getMessage());
         }
         return "redirect:/admin/billet";
     }
