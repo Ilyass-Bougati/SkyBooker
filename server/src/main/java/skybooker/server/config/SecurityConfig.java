@@ -44,7 +44,7 @@ public class SecurityConfig {
         http
                 .securityMatcher(new AntPathRequestMatcher("/admin/**"))
                 .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers("/admin/login", "/admin/css/**", "/admin/stats/**", "/admin/fragments/**").permitAll()
+                                .requestMatchers("/admin/login", "/admin/stats/**", "/admin/fragments/**").permitAll()
                                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 )
                 .formLogin(formLogin -> formLogin
@@ -76,7 +76,6 @@ public class SecurityConfig {
                 .requestMatchers("/api-docs").permitAll()
                 .requestMatchers("/swagger").permitAll()
                 .requestMatchers("/swagger-ui/*").permitAll()
-//                .requestMatchers("/admin/**").permitAll()
                 .anyRequest().authenticated();
         });
 
