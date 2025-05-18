@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+  <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+  <a th:href="@{/admin/reservation/add}" class="btn btn-primary mb-3">Ajouter une nouvelle Réservation</a>
+
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Client</th>
+      <th>Vol ID</th>
+      <th>Prix Total</th>
+      <th>État</th>
+      <th>Réservé le</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="reservation : ${reservations}">
+      <td th:text="${reservation.id}">1</td>
+      <td th:text="${reservation.client != null ? reservation.client.email : 'N/A'}"></td>
+      <td th:text="${reservation.vol != null ? reservation.vol.id : 'N/A'}"></td>
+      <td th:text="${reservation.prixTotal}"></td>
+      <td th:text="${reservation.etat}"></td>
+      <td th:text="${reservation.reservedAt}"></td>
+      <td>
+        <a th:href="@{/admin/reservation/edit/{id}(id=${reservation.id})}" class="btn btn-sm btn-warning">Modifier</a>
+        <a th:href="@{/admin/reservation/delete/{id}(id=${reservation.id})}"
+           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?')"
+           class="btn btn-sm btn-danger">Supprimer</a>
+      </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(reservations)}">
+      <td colspan="7" class="text-center">Aucune réservation trouvée.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

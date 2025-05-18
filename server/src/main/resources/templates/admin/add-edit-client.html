@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <form th:action="@{/admin/client/save}" th:object="${client}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input type="email" th:field="*{email}" id="email" class="form-control" />
+      <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger">Email Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Mot de passe:</label>
+      <input type="password" th:field="*{password}" id="password" class="form-control" />
+      <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger">Mot de passe Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="telephone" class="form-label">Téléphone:</label>
+      <input type="text" th:field="*{telephone}" id="telephone" class="form-control" />
+      <div th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="text-danger">Téléphone Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="adresse" class="form-label">Adresse:</label>
+      <input type="text" th:field="*{adresse}" id="adresse" class="form-control" />
+      <div th:if="${#fields.hasErrors('adresse')}" th:errors="*{adresse}" class="text-danger">Adresse Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="role" class="form-label">Rôle:</label>
+      <select th:field="*{role}" id="role" class="form-control">
+        <option th:each="roleOption : ${roles}"
+                th:value="${roleOption.id}"
+                th:text="${roleOption.nom}"
+                th:selected="${client.role != null && client.role.id == roleOption.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-danger">Rôle Error</div>
+    </div>
+
+    <div th:if="${client.id != 0}">
+      <h4>Passagers Associés</h4>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>CIN</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Âge</th>
+          <th>Catégorie</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="passager : ${client.passagers}">
+          <td th:text="${passager.id}"></td>
+          <td th:text="${passager.CIN}"></td>
+          <td th:text="${passager.nom}"></td>
+          <td th:text="${passager.prenom}"></td>
+          <td th:text="${passager.age}"></td>
+          <td th:text="${passager.categorie != null ? passager.categorie.nom : 'N/A'}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(client.passagers)}">
+          <td colspan="6" class="text-center">Aucun passager associé à ce client.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">Sauvegarder Client</button>
+    <a th:href="@{/admin/client}" class="btn btn-secondary">Annuler</a>
+  </form>
+</div>
+</body>
+</html>

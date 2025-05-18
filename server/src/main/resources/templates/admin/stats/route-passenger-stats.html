@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <h2>Statistiques Passagers par Route</h2>
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Nombre de Passagers par Route</div>
+        <div class="card-body">
+          <canvas id="routePassengerChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mt-4">Détails par Route (Tableau)</h3>
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>Aéroport de Départ</th>
+      <th>Aéroport d'Arrivée</th>
+      <th>Nombre de Passagers</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="stat : ${routeStats}">
+      <td th:text="${stat.departureAirportCode}">Departure</td>
+      <td th:text="${stat.arrivalAirportCode}">Arrival</td>
+      <td th:text="${stat.passengerCount}">Passenger Count</td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(routeStats)}">
+      <td colspan="3" class="text-center">Aucune statistique par route disponible.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const routeStatsData = /*[[${routeStats}]]*/ [];
+
+    const routePassengerLabels = routeStatsData.map(stat => stat.departureAirportCode + '-' + stat.arrivalAirportCode);
+    const routePassengerData = routeStatsData.map(stat => stat.passengerCount);
+
+    const ctx = document.getElementById('routePassengerChart').getContext('2d');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: routePassengerLabels,
+        datasets: [{
+          label: 'Nombre de Passagers',
+          data: routePassengerData,
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Nombre de Passagers'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Route'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: true
+          },
+          title: {
+            display: false
+          }
+        }
+      }
+    });
+    /*]]>*/
+  </script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <h2>Statistiques Revenue par Route (Basé sur le total des Réservations)</h2>
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Revenue Total par Route</div>
+        <div class="card-body">
+          <canvas id="routeRevenueChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <h3 class="mt-4">Détails par Route (Tableau)</h3>
+  <table class="table table-striped table-bordered">
+    <thead class="table-dark">
+    <tr>
+      <th>Aéroport de Départ</th>
+      <th>Aéroport d'Arrivée</th>
+      <th>Revenue Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="stat : ${routeRevenueStats}">
+      <td th:text="${stat.departureAirportCode}">Departure</td>
+      <td th:text="${stat.arrivalAirportCode}">Arrival</td>
+      <td th:text="${#numbers.formatDecimal(stat.totalRevenue, 0, 2)}">Total Revenue</td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(routeRevenueStats)}">
+      <td colspan="3" class="text-center">Aucune statistique revenue par route disponible.</td></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const routeRevenueStatsData = /*[[${routeRevenueStats}]]*/ [];
+
+    const routeRevenueLabels = routeRevenueStatsData.map(stat => stat.departureAirportCode + '-' + stat.arrivalAirportCode);
+    const routeRevenueData = routeRevenueStatsData.map(stat => stat.totalRevenue);
+
+    const ctx = document.getElementById('routeRevenueChart').getContext('2d');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: routeRevenueLabels,
+        datasets: [{
+          label: 'Revenue Total',
+          data: routeRevenueData,
+          backgroundColor: 'rgba(255, 159, 64, 0.6)',
+          borderColor: 'rgba(255, 159, 64, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Revenue Total '
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Route'
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: true
+          },
+          title: {
+            display: false
+          }
+        }
+      }
+    });
+    /*]]>*/
+  </script>
+
+</div>
+</body>
+</html>

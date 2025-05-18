@@ -93,6 +93,14 @@ public class StartupRunner implements CommandLineRunner {
         client.setRole(role2);
         clientService.create(client);
 
+        Client client1 = new Client();
+        client1.setEmail("abde@gmail.com");
+        client1.setTelephone("000");
+        client1.setAdresse("aaa");
+        client1.setPassword("123");
+        client1.setRole(role2);
+        clientService.create(client1);
+
         Client amine = new Client();
         amine.setEmail("amine@gmail.com");
         amine.setTelephone("000");
@@ -109,7 +117,7 @@ public class StartupRunner implements CommandLineRunner {
         another.setRole(role);
         clientService.create(another);
 
-//        executeSqlScript();
+        executeSqlScript();
     }
 
     private void executeSqlScript() {

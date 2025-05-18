@@ -5,86 +5,154 @@
 <nav th:replace="~{admin/fragments/header :: navbar}"></nav>
 <div class="container mt-4">
     <h1 th:text="${pageTitle}">Dashboard</h1>
-    <p>Welcome to the Airline Administration Panel.</p>
-    <div class="row">
-        <div class="col-md-4">
+    <p>Welcome to the Airline Administration Dashboard. View key statistics visualizations below.</p>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
             <div class="card">
+                <div class="card-header">Taux d'Occupation par Vol</div>
                 <div class="card-body">
-                    <h5 class="card-title">View Statistics</h5>
-                    <p class="card-text">Analyze occupancy rates and other metrics.</p>
-                    <a th:href="@{/admin/statistics/occupancy}" class="btn btn-primary">View Occupancy Stats</a>
+                    <canvas id="occupancyChart"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="card">
+                <div class="card-header">Revenue Total par Vol</div>
                 <div class="card-body">
-                    <h5 class="card-title">Manage Categories</h5>
-                    <p class="card-text">Add, edit, or delete passenger categories.</p>
-                    <a th:href="@{/admin/categories}" class="btn btn-primary">Go to Categories</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Manage Villes</h5>
-                    <p class="card-text">Add, edit, or delete villes.</p>
-                    <a th:href="@{/admin/villes}" class="btn btn-primary">Go to Villes</a>
+                    <canvas id="revenueChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row mt-4">
-        <div class="col-md-4">
+        <div class="col-md-12">
             <div class="card">
+                <div class="card-header">Nombre de Passagers par Route</div>
                 <div class="card-body">
-                    <h5 class="card-title">Manage Aéroports</h5>
-                    <p class="card-text">Add, edit, or delete Aéroports.</p>
-                    <a th:href="@{/admin/aeroports}" class="btn btn-primary">Go to Aéroports</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Manage Classes</h5> <p class="card-text">Add, edit, or delete passenger classes.</p>
-                    <a th:href="@{/admin/classes}" class="btn btn-primary">Go to Classes</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Manage Compagnies</h5>
-                    <p class="card-text">Add, edit, or delete airline companies.</p>
-                    <a th:href="@{/admin/companie_aerienne}" class="btn btn-primary">Go to Compagnies</a>
+                    <canvas id="routePassengerChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row mt-4">
-        <div class="col-md-4">
+        <div class="col-md-12">
             <div class="card">
+                <div class="card-header">Revenue Total par Route</div>
                 <div class="card-body">
-                    <h5 class="card-title">Manage Avions</h5>
-                    <p class="card-text">Add, edit, or delete aircraft.</p>
-                    <a th:href="@{/admin/avion}" class="btn btn-primary">Go to Avions</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Manage Vols</h5>
-                    <p class="card-text">Add, edit, or delete flights.</p>
-                    <a th:href="@{/admin/vol}" class="btn btn-primary">Go to Vols</a>
+                    <canvas id="routeRevenueChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // Safely embed the statistics data from the model into JavaScript
+        const flightStatsData = /*[[${flightStats}]]*/ [];
+        const routeStatsData = /*[[${routeStats}]]*/ [];
+        const routeRevenueStatsData = /*[[${routeRevenueStats}]]*/ [];
+
+
+        // --- Flight Occupancy Chart ---
+        const occupancyLabels = flightStatsData.map(stat => stat.volIdentifier);
+        const occupancyData = flightStatsData.map(stat => stat.occupancyRate);
+        const occupancyCtx = document.getElementById('occupancyChart').getContext('2d');
+        new Chart(occupancyCtx, {
+            type: 'bar',
+            data: {
+                labels: occupancyLabels,
+                datasets: [{
+                    label: 'Occupancy Rate (%)',
+                    data: occupancyData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: 'Occupancy (%)' } }, x: { title: { display: true, text: 'Vol' } } },
+                plugins: { legend: { display: true }, title: { display: false } }
+            }
+        });
+
+        // --- Flight Revenue Chart ---
+        const revenueLabels = flightStatsData.map(stat => stat.volIdentifier);
+        const revenueData = flightStatsData.map(stat => stat.revenue);
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'bar',
+            data: {
+                labels: revenueLabels,
+                datasets: [{
+                    label: 'Total Revenue (€)',
+                    data: revenueData,
+                    backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Revenue Total (€)' } }, x: { title: { display: true, text: 'Vol' } } },
+                plugins: { legend: { display: true }, title: { display: false } }
+            }
+        });
+
+        // --- Route Passenger Chart ---
+        const routePassengerLabels = routeStatsData.map(stat => stat.departureAirportCode + '-' + stat.arrivalAirportCode);
+        const routePassengerData = routeStatsData.map(stat => stat.passengerCount);
+        const routePassengerCtx = document.getElementById('routePassengerChart').getContext('2d');
+        new Chart(routePassengerCtx, {
+            type: 'bar',
+            data: {
+                labels: routePassengerLabels,
+                datasets: [{
+                    label: 'Nombre de Passagers',
+                    data: routePassengerData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Nombre de Passagers' } }, x: { title: { display: true, text: 'Route' } } },
+                plugins: { legend: { display: true }, title: { display: false } }
+            }
+        });
+
+        // --- Route Revenue Chart ---
+        const routeRevenueLabels = routeRevenueStatsData.map(stat => stat.departureAirportCode + '-' + stat.arrivalAirportCode);
+        const routeRevenueData = routeRevenueStatsData.map(stat => stat.totalRevenue);
+        const routeRevenueCtx = document.getElementById('routeRevenueChart').getContext('2d');
+        new Chart(routeRevenueCtx, {
+            type: 'bar',
+            data: {
+                labels: routeRevenueLabels,
+                datasets: [{
+                    label: 'Revenue Total (€)',
+                    data: routeRevenueData,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Revenue Total (€)' } }, x: { title: { display: true, text: 'Route' } } },
+                plugins: { legend: { display: true }, title: { display: false } }
+            }
+        });
+
+        /*]]>*/
+    </script>
+
 </div>
 </body>
 </html>

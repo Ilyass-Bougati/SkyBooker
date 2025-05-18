@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <form th:action="@{/admin/reservation/save}" th:object="${reservation}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="client" class="form-label">Client:</label>
+      <select th:field="*{client}" id="client" class="form-control">
+        <option th:each="clientOption : ${clients}"
+                th:value="${clientOption.id}"
+                th:text="${clientOption.email}"
+                th:selected="${reservation.client != null && reservation.client.id == clientOption.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('client')}" th:errors="*{client}" class="text-danger">Client Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="vol" class="form-label">Vol:</label>
+      <select th:field="*{vol}" id="vol" class="form-control">
+        <option th:each="volOption : ${vols}"
+                th:value="${volOption.id}"
+                th:text="${'ID: ' + volOption.id + ' - ' + (volOption.aeroportDepart != null ? volOption.aeroportDepart.iataCode : '') + ' to ' + (volOption.aeroportArrive != null ? volOption.aeroportArrive.iataCode : '')}"
+                th:selected="${reservation.vol != null && reservation.vol.id == volOption.id}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('vol')}" th:errors="*{vol}" class="text-danger">Vol Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="etat" class="form-label">État:</label>
+      <select th:field="*{etat}" id="etat" class="form-control">
+        <option value="">Sélectionner un état</option>
+        <option th:each="etatOption : ${etatsReservation}"
+                th:value="${etatOption}" th:text="${etatOption.name()}"
+                th:selected="${reservation.etat != null && reservation.etat == etatOption}"></option> </select>
+      <div th:if="${#fields.hasErrors('etat')}" th:errors="*{etat}" class="text-danger">État Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="prixTotal" class="form-label">Prix Total:</label>
+      <input type="number" th:field="*{prixTotal}" id="prixTotal" class="form-control" step="0.01" />
+      <div th:if="${#fields.hasErrors('prixTotal')}" th:errors="*{prixTotal}" class="text-danger">Prix Total Error</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="reservedAt" class="form-label">Réservé le:</label>
+      <input type="datetime-local" th:field="*{reservedAt}" id="reservedAt" class="form-control" />
+      <div th:if="${#fields.hasErrors('reservedAt')}" th:errors="*{reservedAt}" class="text-danger">Reserved At Error</div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Sauvegarder Réservation</button>
+    <a th:href="@{/admin/reservation}" class="btn btn-secondary">Annuler</a>
+  </form>
+
+  <div th:if="${reservation.id != 0}"> <h4 class="mt-4">Billets et Passagers Associés</h4>
+
+    <div th:if="${#lists.isEmpty(reservation.billets)}" class="alert alert-info">
+      Aucun billet associé à cette réservation.
+    </div>
+
+    <div th:if="${!#lists.isEmpty(reservation.billets)}">
+      <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+          <th>Billet ID</th>
+          <th>Siège</th>
+          <th>Classe</th>
+          <th>Passager CIN</th>
+          <th>Passager Nom</th>
+          <th>Passager Prénom</th>
+          <th>Passager Âge</th>
+          <th>Passager Catégorie</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="billet : ${reservation.billets}"> <td th:text="${billet.id}">Billet ID</td>
+          <td th:text="${billet.siege}">Siège</td>
+          <td th:text="${billet.classe != null ? billet.classe.nom : 'N/A'}">Classe</td>
+          <td th:text="${billet.passager != null ? billet.passager.CIN : 'N/A'}">Passager CIN</td>
+          <td th:text="${billet.passager != null ? billet.passager.nom : 'N/A'}">Passager Nom</td>
+          <td th:text="${billet.passager != null ? billet.passager.prenom : 'N/A'}">Passager Prénom</td>
+          <td th:text="${billet.passager != null ? billet.passager.age : 'N/A'}">Passager Âge</td>
+          <td th:text="${billet.passager != null && billet.passager.categorie != null ? billet.passager.categorie.nom : 'N/A'}">Passager Catégorie</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>
