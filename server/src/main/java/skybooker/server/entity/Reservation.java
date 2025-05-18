@@ -30,8 +30,6 @@ public class Reservation {
     @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Client client;
 
     @Column(name = "reserved_at")
@@ -43,8 +41,6 @@ public class Reservation {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "vol_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Vol vol;
 
     public Reservation(ReservationDTO reservationDTO) {

@@ -33,6 +33,4 @@ public interface VolRepository extends JpaRepository<Vol, Long> {
             "GROUP BY v.aeroportDepart.iataCode, v.aeroportArrive.iataCode " +
             "ORDER BY SUM(r.prixTotal) DESC")
     List<Object[]> findTotalRevenuePerRoute();
-
-
 }
