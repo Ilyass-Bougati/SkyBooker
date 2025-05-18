@@ -45,7 +45,7 @@ public class PassagerController {
     }
 
     // TODO : This definitely needs to be refactored
-    @GetMapping("/billets/{passagerId}")
+    @GetMapping("/{passagerId}/billets")
     public ResponseEntity<List<BilletDTO>> getAllPassagersBillets(Principal principal, @PathVariable Long passagerId) {
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
         Client client = userDetails.getClient();

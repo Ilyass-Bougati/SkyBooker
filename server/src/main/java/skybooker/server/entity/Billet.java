@@ -19,20 +19,14 @@ public class Billet {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "classe_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Classe classe;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "passager_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Passager passager;
 
     @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Reservation reservation;
 }
