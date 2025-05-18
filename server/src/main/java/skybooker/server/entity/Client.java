@@ -45,10 +45,8 @@ public class Client{
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Passager passager;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Role role;
 
 
