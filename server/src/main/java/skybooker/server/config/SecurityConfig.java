@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,6 +22,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import skybooker.server.service.implementation.CustomUserDetailsService;
 
 @Configuration
@@ -37,6 +39,34 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Order(1)
+    public SecurityFilterChain adminSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher(new AntPathRequestMatcher("/admin/**"))
+                .authorizeHttpRequests(authorize -> authorize
+                                .requestMatchers("/admin/login", "/admin/css/**", "/admin/stats/**", "/admin/fragments/**").permitAll()
+                                .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                )
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/admin/login")
+                        .loginProcessingUrl("/admin/perform_login")
+                        .defaultSuccessUrl("/admin", true)
+                        .failureUrl("/admin/login?error=true")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout", "POST"))
+                        .logoutSuccessUrl("/admin/login?logout=true")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                );
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Note that this is not safe, CSRF shouldn't be disabled but should be configured
         // But it's fine since we're disabling session management
@@ -46,7 +76,7 @@ public class SecurityConfig {
                 .requestMatchers("/api-docs").permitAll()
                 .requestMatchers("/swagger").permitAll()
                 .requestMatchers("/swagger-ui/*").permitAll()
-                .requestMatchers("/admin/**").permitAll()
+//                .requestMatchers("/admin/**").permitAll()
                 .anyRequest().authenticated();
         });
 
