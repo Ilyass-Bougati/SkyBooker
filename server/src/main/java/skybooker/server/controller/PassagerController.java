@@ -6,14 +6,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import skybooker.server.DTO.BilletDTO;
 import skybooker.server.DTO.PassagerDTO;
 import skybooker.server.UserDetailsImpl;
+import skybooker.server.entity.Billet;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
 import skybooker.server.service.PassagerService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,10 +34,29 @@ public class PassagerController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<PassagerDTO>> getAllPassager() {
-        List<Passager> passagers = passagerService.findAll();
+    public ResponseEntity<List<PassagerDTO>> getAllPassager(Principal principal) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
+        Set<Passager> passagers = userDetails.getClient().getPassagers();
         List<PassagerDTO> passagerDTOs = passagers.stream().map(PassagerDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(passagerDTOs);
+    }
+
+    // TODO : This definitely needs to be refactored
+    @GetMapping("/billets/{passagerId}")
+    public ResponseEntity<List<BilletDTO>> getAllPassagersBillets(Principal principal, @PathVariable Long passagerId) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
+        Client client = userDetails.getClient();
+        if (!client.getPassagers().stream().filter(p -> p.getId() == passagerId).toList().isEmpty() || client.isAdmin()) {
+            Passager passager = passagerService.findById(passagerId);
+            if (passager != null) {
+                Set<Billet> billets =  passager.getBillets();
+                List<BilletDTO> billetDTOS = billets.stream().map(BilletDTO::new).toList();
+                return ResponseEntity.ok(billetDTOS);
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{id}")
