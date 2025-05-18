@@ -9,6 +9,7 @@ import skybooker.server.DTO.CapaciteDTO;
 import skybooker.server.entity.Capacite;
 import skybooker.server.service.CapaciteService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,8 +23,10 @@ public class CapaciteController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Capacite>> getAllCapacite() {
-        return ResponseEntity.ok(capaciteService.findAll());
+    public ResponseEntity<List<CapaciteDTO>> getAllCapacite() {
+        List<Capacite> capacites = capaciteService.findAll();
+        List<CapaciteDTO> capaciteDTOs = new ArrayList<>();
+        return ResponseEntity.ok(capaciteDTOs);
     }
 
     @GetMapping("/{id}")

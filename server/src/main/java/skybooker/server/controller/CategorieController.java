@@ -7,10 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import skybooker.server.DTO.CategorieDTO;
 import skybooker.server.entity.Categorie;
 import skybooker.server.service.CategorieService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -23,35 +26,45 @@ public class CategorieController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Categorie>> getCategories() {
-        return ResponseEntity.ok(categorieService.findAll());
+    public ResponseEntity<List<CategorieDTO>> getCategories() {
+        List<Categorie> categories = categorieService.findAll();
+        List<CategorieDTO> categoriesDTO = categories.stream()
+                .map(CategorieDTO::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(categoriesDTO);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<Categorie> getCategory(@PathVariable Long id) {
+    public ResponseEntity<CategorieDTO> getCategory(@PathVariable Long id) {
         Categorie categorie = categorieService.findById(id);
         if (categorie == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(categorie);
+        return ResponseEntity.ok(new CategorieDTO(categorie));
     }
 
     @PostMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
-    public ResponseEntity<Categorie> createCategory(@RequestBody @Valid Categorie categorie) {
+    public ResponseEntity<CategorieDTO> createCategory(@RequestBody @Valid CategorieDTO categorieDTO) {
         // Check if category with same name already exists
-        if (categorieService.findByNom(categorie.getNom()) != null) {
+        if (categorieService.findByNom(categorieDTO.getNom()) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        Categorie savedCategorie = categorieService.create(categorie);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedCategorie);
+        Categorie categorieToSave = new Categorie();
+        categorieToSave.setNom(categorieDTO.getNom());
+        categorieToSave.setReduction(categorieDTO.getReduction());
+
+        Categorie savedCategorie = categorieService.create(categorieToSave);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CategorieDTO(savedCategorie));
     }
 
     @PutMapping("/{id}")
     @Secured("SCOPE_ROLE_ADMIN")
-    public ResponseEntity<Categorie> updateCategory(@PathVariable Long id, @RequestBody @Valid Categorie categorie) {
-        if (!id.equals(categorie.getId())) {
+    public ResponseEntity<CategorieDTO> updateCategory(@PathVariable Long id, @RequestBody @Valid CategorieDTO categorieDTO) {
+        if (!id.equals(categorieDTO.getId())) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -61,13 +74,18 @@ public class CategorieController {
         }
 
         // Check if changing the name would create a duplicate
-        Categorie categorieWithSameName = categorieService.findByNom(categorie.getNom());
+        Categorie categorieWithSameName = categorieService.findByNom(categorieDTO.getNom());
         if (categorieWithSameName != null && !Long.valueOf(categorieWithSameName.getId()).equals(id)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        Categorie updatedCategorie = categorieService.update(categorie);
-        return ResponseEntity.ok(updatedCategorie);
+        existingCategorie.setNom(categorieDTO.getNom());
+        existingCategorie.setReduction(categorieDTO.getReduction());
+
+        Categorie updatedCategorie = categorieService.update(existingCategorie);
+
+
+        return ResponseEntity.ok(new CategorieDTO(updatedCategorie));
     }
 
     @DeleteMapping("/{id}")
