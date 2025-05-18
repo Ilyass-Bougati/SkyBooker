@@ -24,16 +24,10 @@ public class AuthController {
 
     private final TokenService tokenService;
     private final ClientService clientService;
-    private final PassagerService passagerService;
-    private final CategorieService categorieService;
-    private final RoleService roleService;
 
-    public AuthController(TokenService tokenService, ClientService clientService, PassagerService passagerService, CategorieService categorieService, RoleService roleService) {
+    public AuthController(TokenService tokenService, ClientService clientService) {
         this.tokenService = tokenService;
         this.clientService = clientService;
-        this.passagerService = passagerService;
-        this.categorieService = categorieService;
-        this.roleService = roleService;
     }
 
     @GetMapping("/")
@@ -56,27 +50,7 @@ public class AuthController {
         if (authentication!= null) {
             return ResponseEntity.badRequest().build();
         }
-        Passager passager = registerRequest.passager();
-
-        // giving the user the default category
-        Categorie defaultCategorie = categorieService.findById(1L);
-        if (defaultCategorie == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
-        passager.setCategorie(defaultCategorie);
-        Client client = registerRequest.client();
-
-        // giving USER_ROLE
-        Role userRole = roleService.findById(1L);
-        client.setRole(userRole);
-        client.getPassagers().add(passager);
-
-        // adding the passager to the client
-        passager.setClient(client);
-
-        clientService.create(client);
-        passagerService.create(passager);
-        return ResponseEntity.ok(new ClientDTO(client));
+        return clientService.register(registerRequest);
     }
 
 }
