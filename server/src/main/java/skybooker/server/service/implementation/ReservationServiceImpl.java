@@ -2,6 +2,7 @@ package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.entity.Reservation;
 import skybooker.server.repository.ReservationRepository;
@@ -26,37 +27,44 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Reservation> findAll() {
         return reservationRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Reservation findById(Long aLong) {
         Optional<Reservation> reservation = reservationRepository.findById(aLong);
         return reservation.orElse(null);
     }
 
     @Override
+    @Transactional
     public Reservation create(Reservation entity) {
         return reservationRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public Reservation update(Reservation entity) {
         return reservationRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long aLong) {
         reservationRepository.deleteById(aLong);
     }
 
     @Override
+    @Transactional
     public void delete(Reservation entity) {
         reservationRepository.delete(entity);
     }
 
     @Override
+    @Transactional
     public Reservation createDTO(ReservationDTO reservationDTO) {
         Reservation reservation = new Reservation(reservationDTO);
         reservation.setClient(clientService.findById(reservationDTO.getClientId()));
@@ -65,6 +73,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional
     public Reservation updateDTO(ReservationDTO reservationDTO) {
         Reservation reservation = findById(reservationDTO.getId());
         if (reservationDTO.getClientId() != null) {
