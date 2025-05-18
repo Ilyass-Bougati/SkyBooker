@@ -2,7 +2,6 @@ package skybooker.server.controller;
 
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -11,7 +10,6 @@ import skybooker.server.DTO.CategorieDTO;
 import skybooker.server.entity.Categorie;
 import skybooker.server.service.CategorieService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
