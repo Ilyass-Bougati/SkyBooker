@@ -74,6 +74,7 @@ public class SearchresultsView {
             this.container.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             this.container.setMinHeight(680);
             this.container.setMaxHeight(680);
+            this.container.setMouseTransparent(false);
 
             this.container.setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.45) , 10 , 0 , 0 , 0) ; -fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ;");
 
@@ -84,17 +85,19 @@ public class SearchresultsView {
 
             this.subcontainer = new VBox();
             this.subcontainer.setStyle("-fx-background-color: white ; -fx-background-radius: 12 ; -fx-border-radius: 12");
-            this.subcontainer.setMouseTransparent(false);
             this.subcontainer.setMinWidth(650);
             this.subcontainer.setMaxWidth(650);
             this.subcontainer.setSpacing(20);
 
+
             this.container.getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toExternalForm());
 
             closeButton = new Button("x");
-            closeButton.setStyle("-fx-background-color: rgba(0,166,255,0.38) ;-fx-text-fill: white ; -fx-background-radius: 12 ; -fx-border-radius: 12 ; -fx-font-size: 20 ");
-            closeButton.setMinHeight(57);
-            closeButton.setMinWidth(57);
+            closeButton.setStyle("-fx-background-color: #80abeb ;-fx-text-fill: white ; -fx-background-radius: 20 ; -fx-border-radius: 20 ;");
+            closeButton.setMinHeight(30);
+            closeButton.setMinWidth(30);
+            closeButton.setMaxHeight(30);
+            closeButton.setMaxWidth(30);
 
             closeButton.setOnAction(_ -> {
                 page.setEffect(null);
@@ -121,37 +124,44 @@ public class SearchresultsView {
             int passengerAmount = Integer.parseInt(contextMenuTrigger.getText());
             for(int i = 0 ; i < passengerAmount ; i++)
             {
+                VBox inputsContainer = new VBox();
+                inputsContainer.setAlignment(Pos.CENTER);
+                inputsContainer.setSpacing(5);
+
                 Label inputLabel = new Label("Passenger number :" + ((Integer)(i+1)));
 
                 inputLabel.setStyle("-fx-font-family: 'Roboto Light';-fx-font-size: 22.5 ; -fx-font-weight: bold ;");
 
                 TextField fName = new TextField();
                 fName.setPromptText("First name");
-                fName.setStyle("-fx-font-family: 'Roboto Light';-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
+                fName.setStyle("-fx-font-family: 'Roboto Light';-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
                 fName.setMaxWidth(257);
                 fName.setMinWidth(257);
 
 
                 TextField lName = new TextField();
                 lName.setPromptText("Last name");
-                lName.setStyle("-fx-font-family: 'Roboto Light';-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
+                lName.setStyle("-fx-font-family: 'Roboto Light';-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
                 lName.setMaxWidth(257);
                 lName.setMinWidth(257);
 
                 TextField CIN = new TextField();
                 CIN.setPromptText("CIN");
-                CIN.setStyle(" -fx-font-family: 'Roboto Light'; -fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
+                CIN.setStyle(" -fx-font-family: 'Roboto Light'; -fx-background-color: white ; -fx-font-size: 22.5 ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
                 CIN.setMaxWidth(157);
                 CIN.setMinWidth(157);
 
-                HBox inputsContainer = new HBox(fName , lName , CIN);
-                inputsContainer.setSpacing(20);
-                inputsContainer.setAlignment(Pos.CENTER);
+                HBox inputsSubcontainer = new HBox(fName , lName , CIN);
+                inputsSubcontainer.setSpacing(20);
+                inputsSubcontainer.setPadding(new Insets(0,20,0,20));
+                inputsSubcontainer.setAlignment(Pos.CENTER);
 
-                this.subcontainer.getChildren().addAll(inputLabel , inputsContainer , new Separator());
+                inputsContainer.getChildren().addAll(inputLabel , inputsSubcontainer , new Separator());
+
+                this.subcontainer.getChildren().add(inputsContainer);
             }
-            this.subcontainer.getChildren().removeLast();
-
+            ((VBox)(this.subcontainer.getChildren().getLast())).getChildren().removeLast();
+            this.subcontainer.requestFocus();
         }
         public void updateId(int newId)
         {
@@ -347,7 +357,7 @@ public class SearchresultsView {
                 else{
                     bp.updateId(id);
                 }
-                BoxBlur bb = new BoxBlur(5,5,3);
+                BoxBlur bb = new BoxBlur(5,5,2);
                 page.setEffect(bb);
                 bp.show(HelloApplication.getScene().getWindow());
             });
