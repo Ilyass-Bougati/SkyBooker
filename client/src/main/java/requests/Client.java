@@ -54,6 +54,16 @@ public class Client {
         return call.execute();
     }
 
+    public static Response get(String route) throws IOException {
+        Request request = new Request.Builder()
+                .url(url + route)
+                .header("Authorization", "Bearer " + token)
+                .build();
+
+        Call call = client.newCall(request);
+        return call.execute();
+    }
+
     public static Response unAuthorizedPost(String route, Object object) throws IOException {
         // turning to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();

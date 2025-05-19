@@ -1,5 +1,8 @@
 package skybooker.client;
 
+import DTO.VilleDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -17,10 +20,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import requests.Client;
 import utils.GeneralUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class LandingpageView {
@@ -206,17 +213,23 @@ public class LandingpageView {
         classes.setItems(FXCollections.observableArrayList("Economy" , "Business" , "First"));
     }
 
-    private void initializeLocations()
-    {
-        ArrayList<String> locations = new ArrayList<>();
+    private void initializeLocations() {
+        // fetching the cities
+        // TODO : refactor later
+        List<VilleDTO> villes;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ResponseBody res = Client.get("/ville/").body();
+            assert res != null;
+            villes = mapper.readValue(res.string(), new TypeReference<List<VilleDTO>>(){});
+        } catch (Exception e) {
+            // TODO : Remove this
+            e.printStackTrace();
+            return;
+        }
 
-        locations.add("Casablanca");
-        locations.add("Marrakech");
-        locations.add("Rabat");
-        locations.add("Brussels");
-        locations.add("Rome");
-        locations.add("Paris");
-        locations.add("Barcelona");
+        ArrayList<String> locations = new ArrayList<>();
+        villes.forEach(v -> locations.add(v.getNom()));
 
         departure.setItems(FXCollections.observableArrayList(locations));
         arrival.setItems(FXCollections.observableArrayList(locations));
