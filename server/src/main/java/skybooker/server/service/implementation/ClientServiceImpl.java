@@ -1,11 +1,13 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
+import skybooker.server.UserDetailsImpl;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
@@ -16,6 +18,7 @@ import skybooker.server.service.ClientService;
 import skybooker.server.service.PassagerService;
 import skybooker.server.service.RoleService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +29,15 @@ public class ClientServiceImpl implements ClientService {
     private final PassagerService passagerService;
     private final PasswordEncoder passwordEncoder;
     private final CategorieService categorieService;
+    private final UserDetailsService userDetailsService;
     private final RoleService roleService;
 
-    public ClientServiceImpl(ClientRepository clientRepository, PassagerService passagerService, PasswordEncoder passwordEncoder, CategorieService categorieService, RoleService roleService) {
+    public ClientServiceImpl(ClientRepository clientRepository, PassagerService passagerService, PasswordEncoder passwordEncoder, CategorieService categorieService, UserDetailsService userDetailsService, RoleService roleService) {
         this.clientRepository = clientRepository;
         this.passagerService = passagerService;
         this.passwordEncoder = passwordEncoder;
         this.categorieService = categorieService;
+        this.userDetailsService = userDetailsService;
         this.roleService = roleService;
     }
 
@@ -133,5 +138,15 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Boolean passagerAddedByClient(Long clientId, Long passagerId) {
         return clientRepository.passagerAddedByClient(passagerId, clientId);
+    }
+
+    @Override
+    public Client getFromPrincipal(Principal principal) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
+        if (userDetails == null) {
+            return null;
+        } else {
+            return userDetails.getClient();
+        }
     }
 }

@@ -8,6 +8,7 @@ import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.UserDetailsImpl;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Reservation;
+import skybooker.server.service.ClientService;
 import skybooker.server.service.ReservationService;
 
 import java.security.Principal;
@@ -20,23 +21,25 @@ public class ReservationController {
 
     private final ReservationService reservationService;
     private final UserDetailsService userDetailsService;
+    private final ClientService clientService;
 
-    public ReservationController(ReservationService reservationService, UserDetailsService userDetailsService) {
+    public ReservationController(ReservationService reservationService, UserDetailsService userDetailsService, ClientService clientService) {
         this.reservationService = reservationService;
         this.userDetailsService = userDetailsService;
+        this.clientService = clientService;
     }
 
     @GetMapping("/")
     public ResponseEntity<List<ReservationDTO>> getAllReservation(Principal principal) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
-        Set<Reservation> reservations = userDetails.getClient().getReservations();
+        Client client = clientService.getFromPrincipal(principal);
+        Set<Reservation> reservations = client.getReservations();
         List<ReservationDTO> reservationDTOs = reservations.stream().map(ReservationDTO::new).toList();
         return ResponseEntity.ok(reservationDTOs);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ReservationDTO> getReservationById(Principal principal, @PathVariable Long id) {
-        Client client =  ((UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName())).getClient();
+        Client client =  clientService.getFromPrincipal(principal);
         Reservation reservation = reservationService.findById(id);
 
         // checking if the reservation was made by the client
@@ -50,7 +53,7 @@ public class ReservationController {
     @PostMapping("/")
     public ResponseEntity<ReservationDTO> createReservation(Principal principal, @RequestBody @Valid ReservationDTO reservationDTO) {
         // making sure we're creating a reservation for the logged in client
-        Client client =  ((UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName())).getClient();
+        Client client =  clientService.getFromPrincipal(principal);
         reservationDTO.setClientId(client.getId());
 
         // saving the reservation
@@ -64,7 +67,7 @@ public class ReservationController {
     @PutMapping("/")
     public ResponseEntity<ReservationDTO> updateReservation(Principal principal, @RequestBody @Valid ReservationDTO reservationDTO) {
         // making sure we're creating a reservation for the logged in client
-        Client client =  ((UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName())).getClient();
+        Client client =  clientService.getFromPrincipal(principal);
         reservationDTO.setClientId(client.getId());
 
         // updating the reservation
