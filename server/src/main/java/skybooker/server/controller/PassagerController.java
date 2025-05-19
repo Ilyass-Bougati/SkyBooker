@@ -38,8 +38,8 @@ public class PassagerController {
 
     @GetMapping("/")
     public ResponseEntity<List<PassagerDTO>> getAllPassager(Principal principal) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
-        Set<Passager> passagers = userDetails.getClient().getPassagers();
+        Client client = clientService.getFromPrincipal(principal);
+        Set<Passager> passagers = client.getPassagers();
         List<PassagerDTO> passagerDTOs = passagers.stream().map(PassagerDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok(passagerDTOs);
     }
@@ -47,8 +47,7 @@ public class PassagerController {
     // TODO : This definitely needs to be refactored
     @GetMapping("/{passagerId}/billets")
     public ResponseEntity<List<BilletDTO>> getAllPassagersBillets(Principal principal, @PathVariable Long passagerId) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
-        Client client = userDetails.getClient();
+        Client client = clientService.getFromPrincipal(principal);
         if (clientService.passagerAddedByClient(client.getId(), passagerId) || client.isAdmin()) {
             Passager passager = passagerService.findById(passagerId);
             if (passager != null) {
@@ -69,8 +68,7 @@ public class PassagerController {
             return ResponseEntity.notFound().build();
         } else {
             // checking if the passager was originally added by the client
-            UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
-            Client client = userDetails.getClient();
+            Client client = clientService.getFromPrincipal(principal);
 
 
             if (!client.getPassagers().stream().filter(p -> p.getId() == id).toList().isEmpty() || client.isAdmin()) {

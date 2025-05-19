@@ -1,10 +1,9 @@
 package skybooker.client;
 
-import DTO.RegisterRequestDTOBuilder;
+import DTO.register.RegisterRequestDTOBuilder;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.control.Control;
@@ -18,8 +17,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 import utils.GeneralUtils;
 import utils.Validator;
 
