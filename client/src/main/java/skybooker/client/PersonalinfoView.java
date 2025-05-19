@@ -1,6 +1,6 @@
 package skybooker.client;
 
-import DTO.RegisterRequestDTOBuilder;
+import DTO.register.RegisterRequestDTOBuilder;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
