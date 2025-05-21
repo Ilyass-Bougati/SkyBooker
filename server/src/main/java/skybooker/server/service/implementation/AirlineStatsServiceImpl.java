@@ -3,7 +3,6 @@ package skybooker.server.service.implementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// Make sure these DTO imports are correct (lowercase 'dto' if that's your package name)
 import skybooker.server.DTO.stats.FlightStatsDTO;
 import skybooker.server.DTO.stats.RouteStatsDTO;
 import skybooker.server.DTO.stats.RouteRevenueStatsDTO;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors; // Keep if needed elsewhere
 
 @Service
 public class AirlineStatsServiceImpl implements AirlineStatsService {
@@ -40,7 +38,6 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
         this.avionRepository = avionRepository;
     }
 
-    // --- Existing Service Methods ---
 
     @Override
     public List<FlightStatsDTO> getFlightOccupancyAndRevenueStats() {
@@ -50,7 +47,6 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
         for (Object[] result : bookedCountAndRevenueResults) {
             Long volId = (Long) result[0];
             Long bookedCount = (Long) result[1];
-            // Safely cast the revenue result
             Double totalRevenue = ((Number) result[2]).doubleValue();
 
 
@@ -65,12 +61,11 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
         List<Object[]> capacityResults = volRepository.findVolCapacities();
         for (Object[] result : capacityResults) {
             Long volId = (Long) result[0];
-            // Safely cast the capacity result
             Double totalCapacity = ((Number) result[1]).doubleValue();
 
 
             FlightStatsDTO dto = statsMap.getOrDefault(volId, new FlightStatsDTO());
-            dto.setVolId(volId); // Ensure volId is set here too
+            dto.setVolId(volId);
 
             dto.setTotalCapacity(totalCapacity);
 
@@ -124,7 +119,6 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
         for (Object[] result : results) {
             String depAirportCode = (String) result[0];
             String arrAirportCode = (String) result[1];
-            // Safely cast the revenue result
             Double totalRevenue = ((Number) result[2]).doubleValue();
 
             routeRevenueStats.add(new RouteRevenueStatsDTO(depAirportCode, arrAirportCode, totalRevenue));
@@ -132,7 +126,6 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
         return routeRevenueStats;
     }
 
-    // --- Modified Service Methods for New Stats (Corrected Casting) ---
 
     @Override
     public PlaneOccupancyStatsDTO getPlaneOccupancyStats(Long avionId, Integer year, Integer quarter) {
@@ -154,7 +147,6 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
         if (!results.isEmpty()) {
             Object[] result = results.get(0);
             Long totalPassengers = (Long) result[1];
-            // Safely cast the capacity sum result
             Double totalCapacity = ((Number) result[2]).doubleValue();
 
 
@@ -168,10 +160,8 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
             }
         }
 
-        // Get Avion identifier for the DTO (assuming avionRepository is injected)
         Avion avion = avionRepository.findById(avionId).orElse(null);
         if (avion != null) {
-            // Corrected 'getModel()' to 'getModele()' based on previous entity discussion
             stats.setAvionIdentifier("Avion ID: " + avion.getId() + " (" + (avion.getModel() != null ? avion.getModel() : "N/A") + ")");
         } else {
             stats.setAvionIdentifier("Avion ID: " + avionId + " (Not Found)");
@@ -197,7 +187,6 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
         for (Object[] result : results) {
             Long volId = (Long) result[0];
             Long bookedCount = (Long) result[1];
-            // Safely cast the capacity sum result
             Double totalCapacity = ((Number) result[2]).doubleValue();
 
             Double occupancyRate = 0.0;
@@ -205,7 +194,6 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
                 occupancyRate = (bookedCount.doubleValue() / totalCapacity) * 100.0;
             }
 
-            // Check if threshold is not null before comparison
             if (threshold != null && occupancyRate < threshold) {
                 FlightThresholdStatsDTO dto = new FlightThresholdStatsDTO();
                 dto.setVolId(volId);
@@ -213,15 +201,13 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
                 dto.setTotalCapacity(totalCapacity);
                 dto.setOccupancyRate(occupancyRate);
 
-                // Get Vol details for the DTO (route, date - assuming volRepository is injected)
                 Vol vol = volRepository.findById(volId).orElse(null);
                 if (vol != null) {
                     dto.setVolIdentifier("Vol ID: " + vol.getId());
                     String depCode = (vol.getAeroportDepart() != null ? vol.getAeroportDepart().getIataCode() : "N/A");
                     String arrCode = (vol.getAeroportArrive() != null ? vol.getAeroportArrive().getIataCode() : "N/A");
                     dto.setRoute(depCode + "-" + arrCode);
-                    // Safely handle null dateDepart and convert to String
-                    dto.setDate(vol.getDateDepart() != null ? vol.getDateDepart().toString() : "N/A"); // Or format date as needed
+                    dto.setDate(vol.getDateDepart() != null ? vol.getDateDepart().toString() : "N/A");
                 } else {
                     dto.setVolIdentifier("Vol ID: " + volId + " (Not Found)");
                     dto.setRoute("N/A");
@@ -233,7 +219,6 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
             }
         }
 
-        // Sort by occupancy rate (lowest first) for better presentation, only if results are not null/empty
         if (!flightsBelowThreshold.isEmpty()) {
             flightsBelowThreshold.sort((s1, s2) -> Double.compare(s1.getOccupancyRate(), s2.getOccupancyRate()));
         }
@@ -251,18 +236,13 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
         for (Object[] result : reservationStatsResults) {
             Long clientId = (Long) result[0];
             Long reservationCount = (Long) result[1];
-            // Safely get and cast the revenue sum result
-            Double totalSpent; // Declare here
+            Double totalSpent;
 
-            // --- Add Null Check Here ---
             if (result[2] != null) {
-                // Only cast and get doubleValue() if the result is not null
                 totalSpent = ((Number) result[2]).doubleValue();
             } else {
-                // If result[2] is null (client has no reservations), set totalSpent to 0.0
                 totalSpent = 0.0;
             }
-            // --- End Null Check ---
 
             String clientEmail = (String) result[3];
 
@@ -270,12 +250,11 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
             dto.setClientId(clientId);
             dto.setClientEmail(clientEmail);
             dto.setReservationCount(reservationCount);
-            dto.setTotalSpent(totalSpent); // Use the safely obtained totalSpent value
+            dto.setTotalSpent(totalSpent);
 
             clientStatsMap.put(clientId, dto);
         }
 
-        // ... (rest of the getClientStatistics method for passenger stats) ...
         List<Object[]> passengerStatsResults = clientRepository.countPassengersPerClient();
         for (Object[] result : passengerStatsResults) {
             Long clientId = (Long) result[0];
@@ -290,17 +269,9 @@ public class AirlineStatsServiceImpl implements AirlineStatsService {
             clientStatsMap.put(clientId, dto);
         }
 
-
         List<ClientStatsDTO> clientStats = new ArrayList<>(clientStatsMap.values());
-
-        // Sort by Client Email or ID for consistency (optional)
-        // clientStats.sort(Comparator.comparing(ClientStatsDTO::getClientEmail));
 
 
         return clientStats;
     }
-
-    // Method for Department of Origin stats would go here if implemented
-    // @Override
-    // List<DepartmentStatsDTO> getStatsByClientDepartment() { ... }
 }
