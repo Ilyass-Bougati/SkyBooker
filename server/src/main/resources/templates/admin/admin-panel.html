@@ -3,6 +3,7 @@
 <head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
 <body>
 <nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+
 <div class="container mt-4">
   <h1 th:text="${pageTitle}">Admin Panel</h1>
   <p>Manage data entities and access detailed statistics reports.</p>
@@ -33,6 +34,33 @@
           <h5 class="card-title">Stats Revenue par Route</h5>
           <p class="card-text">Rapport détaillé du revenue généré par chaque route.</p>
           <a th:href="@{/admin/statistics/revenue}" class="btn btn-primary">Voir le Rapport</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Stats Occupation par Avion</h5>
+          <p class="card-text">Calculer le taux d'occupation pour un avion sur une période.</p>
+          <a th:href="@{/admin/statistics/plane-occupancy}" class="btn btn-primary">Voir le Rapport</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Vols en dessous Seuil Occupation</h5>
+          <p class="card-text">Lister les vols sous un seuil donné pour une période.</p>
+          <a th:href="@{/admin/statistics/flights-below-threshold}" class="btn btn-primary">Voir le Rapport</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Statistiques par Client</h5>
+          <p class="card-text">Voir les stats de réservation, dépense, passagers par client.</p>
+          <a th:href="@{/admin/statistics/client-stats}" class="btn btn-primary">Voir le Rapport</a>
         </div>
       </div>
     </div>
@@ -151,5 +179,6 @@
   </div>
 
 </div>
+<div th:replace="~{admin/fragments/header :: scripts}"></div>
 </body>
 </html>

@@ -52,7 +52,6 @@
 
     <script th:inline="javascript">
         /*<![CDATA[*/
-        // Safely embed the statistics data from the model into JavaScript
         const flightStatsData = /*[[${flightStats}]]*/ [];
         const routeStatsData = /*[[${routeStats}]]*/ [];
         const routeRevenueStatsData = /*[[${routeRevenueStats}]]*/ [];
@@ -154,5 +153,6 @@
     </script>
 
 </div>
+<div th:replace="~{admin/fragments/header :: scripts}"></div>
 </body>
 </html>
