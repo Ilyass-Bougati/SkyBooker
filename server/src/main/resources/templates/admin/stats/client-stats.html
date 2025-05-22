@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+    <h1 th:text="${pageTitle}"></h1>
+
+    <h2>Statistiques par Client</h2>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Client Email</th>
+            <th>Nombre de Réservations</th>
+            <th>Revenue Total Dépensé</th>
+            <th>Nombre de Passagers Associés</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="client : ${clientStats}">
+            <td th:text="${client.clientEmail}">Client Email</td>
+            <td th:text="${client.reservationCount}">Reservation Count</td>
+            <td th:text="${#numbers.formatDecimal(client.totalSpent, 0, 2)}">Total Spent</td>
+            <td th:text="${client.passengerCount}">Passenger Count</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(clientStats)}">
+            <td colspan="4" class="text-center">Aucune statistique client disponible.</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<div th:replace="~{admin/fragments/header :: scripts}"></div>
+</body>
+</html>
