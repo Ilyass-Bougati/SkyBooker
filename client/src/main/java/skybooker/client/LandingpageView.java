@@ -1,8 +1,9 @@
 package skybooker.client;
 
-import javafx.animation.FadeTransition;
+import DTO.VilleDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -19,11 +20,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
-import javafx.util.Duration;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import requests.Client;
 import utils.GeneralUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class LandingpageView {
@@ -70,18 +74,9 @@ public class LandingpageView {
         SearchresultsView.departure = departure.getValue();
         SearchresultsView.className = classes.getValue();
 
-        FadeTransition fadeOutImage = GeneralUtils.fadeOutAnimation(imageContainer , 500);
 
-        FadeTransition fadeOutContent1 = GeneralUtils.fadeOutAnimation(content1 , 500);
-        FadeTransition fadeOutContent2 = GeneralUtils.fadeOutAnimation(content2 , 500);
-
-        ScaleTransition scaleDown = new ScaleTransition();
-        scaleDown.setFromX(1);
-        scaleDown.setToX(0.30);
-        scaleDown.setDuration(new Duration(1000));
-        scaleDown.setNode(contentContainer);
-
-        ParallelTransition pt = new ParallelTransition(fadeOutImage , fadeOutContent1 , fadeOutContent2 );
+        ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeOutAnimation(imageContainer , 500) ,
+                GeneralUtils.fadeOutAnimation(contentContainer , 500));
 
 
         pt.setOnFinished(_-> {
@@ -92,7 +87,6 @@ public class LandingpageView {
             }
         });
 
-        scaleDown.playFromStart();
         pt.playFromStart();
 
     }
@@ -100,12 +94,14 @@ public class LandingpageView {
     @FXML
     public void initialize()
     {
-        GeneralUtils.changeWindowTitle("Welcome to SkyBooker");
-        Platform.runLater(() -> GeneralUtils.fadeInAnimation(container , 500).play());
-        Platform.runLater(this::initializeClasses);
-        Platform.runLater(this::initializeLocations);
-        Platform.runLater(this::initializePopup);
-        Platform.runLater(() -> GeneralUtils.initializeDatePicker(date));
+        Platform.runLater(() ->
+        {
+            GeneralUtils.fadeInAnimation(container , 500).play();
+            initializeClasses();
+            initializeLocations();
+            initializePopup();
+            GeneralUtils.initializeDatePicker(date);
+        });
     }
 
 
@@ -217,17 +213,23 @@ public class LandingpageView {
         classes.setItems(FXCollections.observableArrayList("Economy" , "Business" , "First"));
     }
 
-    private void initializeLocations()
-    {
-        ArrayList<String> locations = new ArrayList<>();
+    private void initializeLocations() {
+        // fetching the cities
+        // TODO : refactor later
+        List<VilleDTO> villes;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            ResponseBody res = Client.get("/ville/").body();
+            assert res != null;
+            villes = mapper.readValue(res.string(), new TypeReference<List<VilleDTO>>(){});
+        } catch (Exception e) {
+            // TODO : Remove this
+            e.printStackTrace();
+            return;
+        }
 
-        locations.add("Casablanca");
-        locations.add("Marrakech");
-        locations.add("Rabat");
-        locations.add("Brussels");
-        locations.add("Rome");
-        locations.add("Paris");
-        locations.add("Barcelona");
+        ArrayList<String> locations = new ArrayList<>();
+        villes.forEach(v -> locations.add(v.getNom()));
 
         departure.setItems(FXCollections.observableArrayList(locations));
         arrival.setItems(FXCollections.observableArrayList(locations));

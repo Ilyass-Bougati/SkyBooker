@@ -1,4 +1,4 @@
-package DTO;
+package DTO.register;
 
 public class RegisterRequestDTOBuilder {
     private static String email;

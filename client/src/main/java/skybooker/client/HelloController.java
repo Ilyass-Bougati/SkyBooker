@@ -45,13 +45,14 @@ public class HelloController {
     @FXML
     protected void onLogInButton() throws IOException
     {
-        if (email.getText().isEmpty() || password.getText().isEmpty()) {return;}
+        if (email.getText().isEmpty() || password.getText().isEmpty()) {
+            return;
+        }
 
         try {
             Client.login(email.getText(), password.getText());
         } catch (IOException ex) {
-           Logger.getLogger(HelloController.class.getName()).log(Level.SEVERE, null, ex);
-            return;
+           return;
         }
 
         GeneralUtils.loadView("landingpage-view.fxml");
@@ -61,19 +62,17 @@ public class HelloController {
     @FXML
     protected void initialize()
     {
-        Platform.runLater(()-> GeneralUtils.changeWindowTitle("Authentication for SkyBooker"));
         Platform.runLater(()->{
-                            TranslateTransition closeInGraphic = new TranslateTransition();
-                            closeInGraphic.setAutoReverse(false);
-                            closeInGraphic.setFromX(-100);
-                            closeInGraphic.setToX(0);
-                            closeInGraphic.setDuration(new Duration(800));
-                            closeInGraphic.setNode(graphic);
+                TranslateTransition closeInGraphic = new TranslateTransition();
+                closeInGraphic.setAutoReverse(false);
+                closeInGraphic.setFromX(-100);
+                closeInGraphic.setToX(0);
+                closeInGraphic.setDuration(new Duration(800));
+                closeInGraphic.setNode(graphic);
 
-                            ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeInAnimation(container , 500),
-                                                                            closeInGraphic);
+                ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeInAnimation(container , 500),closeInGraphic);
 
-                            pt.playFromStart();
+                pt.playFromStart();
         });
     }
 }

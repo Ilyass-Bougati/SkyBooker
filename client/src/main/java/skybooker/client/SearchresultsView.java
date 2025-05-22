@@ -58,6 +58,7 @@ public class SearchresultsView {
     public static HashMap<String , Integer> passengers = new HashMap<>();
 
     private class bookPopup extends Popup{
+        private Button closeButton;
         private int buttonId ;
         private final ScrollPane container;
         private final VBox subcontainer;
@@ -69,28 +70,29 @@ public class SearchresultsView {
             this.container = new ScrollPane();
 
             this.container.setMinWidth(500);
-            this.container.setMinHeight(500);
+            this.container.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+            this.container.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            this.container.setMinHeight(680);
+            this.container.setMaxHeight(680);
+
             this.container.setStyle("-fx-effect: dropshadow(gaussian , rgba(0,0,0,0.45) , 10 , 0 , 0 , 0) ; -fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ;");
 
             this.buttonId = buttonId;
 
-            this.setX(HelloApplication.getScene().getWindow().getX() + HelloApplication.getScene().getWidth()*0.5 - 250);
-            this.setY(HelloApplication.getScene().getWindow().getY() + HelloApplication.getScene().getHeight()*0.5 - 250);
+            this.setX(HelloApplication.getScene().getWindow().getX() + HelloApplication.getScene().getWidth()*0.5 - 340);
+            this.setY(HelloApplication.getScene().getWindow().getY() + HelloApplication.getScene().getHeight()*0.5 - 340);
 
             this.subcontainer = new VBox();
             this.subcontainer.setStyle("-fx-background-color: white ; -fx-background-radius: 12 ; -fx-border-radius: 12");
             this.subcontainer.setMouseTransparent(false);
-            this.subcontainer.setMinWidth(480);
-            this.subcontainer.setMaxWidth(480);
-            this.subcontainer.setAlignment(Pos.TOP_CENTER);
+            this.subcontainer.setMinWidth(650);
+            this.subcontainer.setMaxWidth(650);
+            this.subcontainer.setSpacing(20);
 
             this.container.getStylesheets().add(Objects.requireNonNull(getClass().getResource("style.css")).toExternalForm());
 
-            this.subcontainer.setMinHeight(800);
-            this.subcontainer.setMaxHeight(800);
-
-            Button closeButton = new Button("x");
-            closeButton.setStyle("-fx-background-color: rgba(0,102,255,0.98) ;-fx-text-fill: white ; -fx-background-radius: 12 ; -fx-border-radius: 12 ; -fx-font-size: 20 ");
+            closeButton = new Button("x");
+            closeButton.setStyle("-fx-background-color: rgba(0,166,255,0.38) ;-fx-text-fill: white ; -fx-background-radius: 12 ; -fx-border-radius: 12 ; -fx-font-size: 20 ");
             closeButton.setMinHeight(57);
             closeButton.setMinWidth(57);
 
@@ -99,43 +101,80 @@ public class SearchresultsView {
                 this.hide();
             });
 
-            Label testLabel1 = new Label("test : ");
-            testLabel1.setStyle("-fx-font-family: 'Roboto Light' ; -fx-font-size: 25 ;");
-
-            this.subcontainer.getChildren().addAll(closeButton, testLabel1 );
+            this.subcontainer.getChildren().add(closeButton);
             this.container.setContent(this.subcontainer);
             this.getContent().add(container);
 
             HelloApplication.getScene().getWindow().xProperty().addListener((_) ->{
-                this.setX(HelloApplication.getScene().getWindow().getX() + HelloApplication.getScene().getWidth()*0.5 - 250);
+                this.setX(HelloApplication.getScene().getWindow().getX() + HelloApplication.getScene().getWidth()*0.5 - 340);
             });
 
             HelloApplication.getScene().getWindow().yProperty().addListener((_) ->{
-                this.setY(HelloApplication.getScene().getWindow().getY() + HelloApplication.getScene().getHeight()*0.5 - 250);
+                this.setY(HelloApplication.getScene().getWindow().getY() + HelloApplication.getScene().getHeight()*0.5 - 340);
             });
 
             initialize();
         }
         public void initialize()
         {
-            //Will contain the logic for changing the displayed data on click ; it's coming anytime Ilyass :]
+            this.subcontainer.getChildren().retainAll(this.closeButton);
+            int passengerAmount = Integer.parseInt(contextMenuTrigger.getText());
+            for(int i = 0 ; i < passengerAmount ; i++)
+            {
+                Label inputLabel = new Label("Passenger number :" + ((Integer)(i+1)));
+
+                inputLabel.setStyle("-fx-font-family: 'Roboto Light';-fx-font-size: 22.5 ; -fx-font-weight: bold ;");
+
+                TextField fName = new TextField();
+                fName.setPromptText("First name");
+                fName.setStyle("-fx-font-family: 'Roboto Light';-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
+                fName.setMaxWidth(257);
+                fName.setMinWidth(257);
+
+
+                TextField lName = new TextField();
+                lName.setPromptText("Last name");
+                lName.setStyle("-fx-font-family: 'Roboto Light';-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
+                lName.setMaxWidth(257);
+                lName.setMinWidth(257);
+
+                TextField CIN = new TextField();
+                CIN.setPromptText("CIN");
+                CIN.setStyle(" -fx-font-family: 'Roboto Light'; -fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;");
+                CIN.setMaxWidth(157);
+                CIN.setMinWidth(157);
+
+                HBox inputsContainer = new HBox(fName , lName , CIN);
+                inputsContainer.setSpacing(20);
+                inputsContainer.setAlignment(Pos.CENTER);
+
+                this.subcontainer.getChildren().addAll(inputLabel , inputsContainer , new Separator());
+            }
+            this.subcontainer.getChildren().removeLast();
+
         }
         public void updateId(int newId)
         {
             this.buttonId = newId;
-            //initialize();
+            initialize();
         }
     }
 
     @FXML
     protected void onBackButton()
     {
-        try{
-            GeneralUtils.loadView("landingpage-view.fxml");
-        }catch (IOException ioe)
-        {
-            throw new RuntimeException("An error occured while loading view");
-        }
+        ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeOutAnimation(contentContainer , 500)  ,
+                GeneralUtils.fadeOutAnimation(content , 500) ,
+                GeneralUtils.fadeOutAnimation(scrollable , 500));
+        pt.setOnFinished(_->{
+            try{
+                GeneralUtils.loadView("landingpage-view.fxml");
+            }catch (IOException ioe)
+            {
+                throw new RuntimeException("An error occured while loading view");
+            }
+        });
+        pt.playFromStart();
     }
 
     @FXML
@@ -156,7 +195,7 @@ public class SearchresultsView {
             closeInPage.setDuration(new Duration(500));
 
             ParallelTransition pt = new ParallelTransition(closeInPage  ,
-                    GeneralUtils.fadeInAnimation(contentContainer , 1)  ,
+                    GeneralUtils.fadeInAnimation(contentContainer , 500)  ,
                     GeneralUtils.fadeInAnimation(content , 500) ,
                     GeneralUtils.fadeInAnimation(scrollable , 500));
             pt.playFromStart();
@@ -272,7 +311,7 @@ public class SearchresultsView {
 
     private void populateRows()
     {
-        for(int i = 0 ; i < 2 ; i ++)
+        for(int i = 0 ; i < 200 ; i ++)
         {
             ArrayList<String> Row = new ArrayList<>();
             Row.add("Airline" + i );
