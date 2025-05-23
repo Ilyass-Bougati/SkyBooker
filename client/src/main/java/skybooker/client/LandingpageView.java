@@ -54,12 +54,6 @@ public class LandingpageView {
     private VBox imageContainer;
 
     @FXML
-    private HBox content1;
-
-    @FXML
-    private HBox content2;
-
-    @FXML
     private VBox contentContainer;
 
     private Popup contextMenu;
