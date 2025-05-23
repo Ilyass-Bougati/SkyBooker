@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragments/header :: common-header(pageTitle=${pageTitle})}"></head>
+<body>
+<nav th:replace="~{admin/fragments/header :: navbar}"></nav>
+<div class="container mt-4">
+  <h1 th:text="${pageTitle}"></h1>
+
+  <h2>Statistiques Occupation par Avion pour une Période</h2>
+
+  <form th:action="@{/admin/statistics/plane-occupancy}" method="get" class="mb-4">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-4">
+        <label for="avion" class="form-label">Sélectionner un Avion:</label>
+        <select id="avion" name="avionId" class="form-select" required>
+          <option value="">-- Choisissez un Avion --</option>
+          <option th:each="avion : ${avions}"
+                  th:value="${avion.id}"
+                  th:text="|ID: ${avion.id} - ${avion.model ?: 'N/A'}|"  th:selected="${selectedAvionId != null && selectedAvionId == avion.id}">
+          </option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="year" class="form-label">Année:</label>
+        <input type="number" id="year" name="year" class="form-control" th:value="${selectedYear}" required min="2000" max="2100">
+      </div>
+      <div class="col-md-3">
+        <label for="quarter" class="form-label">Trimestre (Optionnel):</label>
+        <select id="quarter" name="quarter" class="form-select">
+          <option value="">-- Tous les Trimestres --</option>
+          <option value="1" th:selected="${selectedQuarter != null && selectedQuarter == 1}">T1</option>
+          <option value="2" th:selected="${selectedQuarter != null && selectedQuarter == 2}">T2</option>
+          <option value="3" th:selected="${selectedQuarter != null && selectedQuarter == 3}">T3</option>
+          <option value="4" th:selected="${selectedQuarter != null && selectedQuarter == 4}">T4</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">Afficher les Stats</button>
+      </div>
+    </div>
+  </form>
+
+  <div th:if="${planeStats != null}">
+    <h3>Résultats pour l'Avion "<span th:text="${planeStats.avionIdentifier}">Avion ID</span>" en <span th:text="${selectedYear}">YYYY</span> <span th:if="${selectedQuarter != null}" th:text="${'T' + selectedQuarter}">TQ</span></h3>
+    <table class="table table-striped table-bordered mt-3">
+      <thead class="table-dark">
+      <tr>
+        <th>Avion</th>
+        <th>Total Passagers Réservés</th>
+        <th>Capacité Totale dans la Période</th>
+        <th>Taux d'Occupation (%)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td th:text="${planeStats.avionIdentifier}">Avion ID</td>
+        <td th:text="${planeStats.totalPassengers}">Total Passengers</td>
+        <td th:text="${#numbers.formatDecimal(planeStats.totalCapacity, 0, 0)}">Total Capacity</td>
+        <td th:text="${#numbers.formatDecimal(planeStats.occupancyRate, 0, 2)} + '%'">Occupancy %</td>
+      </tr>
+      <tr th:if="${planeStats.totalPassengers == 0 && planeStats.totalCapacity == 0}">
+        <td colspan="4" class="text-center">Aucun vol trouvé pour cet avion dans la période spécifiée.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:if="${planeStats == null && selectedAvionId != null && selectedYear != null}" class="alert alert-info">
+    Sélectionnez un Avion et une Année ci-dessus pour afficher les statistiques.
+  </div>
+
+
+</div>
+<div th:replace="~{admin/fragments/header :: scripts}"></div>
+</body>
+</html>
