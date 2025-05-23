@@ -1,6 +1,7 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import skybooker.server.DTO.AvionDTO;
 import skybooker.server.entity.Avion;
@@ -28,8 +29,9 @@ public class AvionServiceImpl implements AvionService {
     }
 
     @Override
-    public Avion findById(Long aLong) {
-        Optional<Avion> avion = avionRepository.findById(aLong);
+    @Cacheable(value = "avionCache", key = "#id")
+    public Avion findById(Long id) {
+        Optional<Avion> avion = avionRepository.findById(id);
         return avion.orElse(null);
     }
 

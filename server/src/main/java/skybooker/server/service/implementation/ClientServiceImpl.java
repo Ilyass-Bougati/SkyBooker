@@ -1,5 +1,6 @@
 package skybooker.server.service.implementation;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,6 +50,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "clientCache", key = "#id")
     public Client findById(Long id) {
         Optional<Client> optionalClient = clientRepository.findById(id);
         return optionalClient.orElse(null);
@@ -95,9 +97,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional(readOnly = true)
-    public Client findByEmail(String email) {
+    public ClientDTO findByEmail(String email) {
         Optional<Client> clientOptional = clientRepository.findByEmail(email);
-        return clientOptional.orElse(null);
+        return clientOptional.map(ClientDTO::new).orElse(null);
     }
 
     @Override
@@ -141,6 +143,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @Cacheable(value = "clientCache", key = "#principal.name")
     public Client getFromPrincipal(Principal principal) {
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
         if (userDetails == null) {

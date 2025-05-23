@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.entity.Client;
@@ -16,9 +17,11 @@ import java.security.Principal;
 public class ClientController {
 
     private final ClientService clientService;
+    private final UserDetailsService userDetailsService;
 
-    public ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService, UserDetailsService userDetailsService) {
         this.clientService = clientService;
+        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping("/{id}")
@@ -34,7 +37,7 @@ public class ClientController {
 
     @GetMapping("/")
     public ResponseEntity<ClientDTO> client(Principal principal) {
-        Client client = clientService.findByEmail(principal.getName());
+        Client client = clientService.getFromPrincipal(principal);
         if (client == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -44,7 +47,7 @@ public class ClientController {
 
     @PutMapping("/")
     public ResponseEntity<Void> updateClient(Principal principal, @RequestBody @Valid ClientDTO clientDTO) {
-        Client client = clientService.findByEmail(principal.getName());
+        Client client = clientService.getFromPrincipal(principal);
         if (client == null) {
             // shouldn't reveal that the client doesn't exist
             return ResponseEntity.badRequest().build();

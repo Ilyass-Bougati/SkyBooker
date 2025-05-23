@@ -1,6 +1,7 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import skybooker.server.DTO.CompanieAerienneDTO;
 import skybooker.server.entity.CompanieAerienne;
@@ -25,8 +26,9 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
     }
 
     @Override
-    public CompanieAerienne findById(Long aLong) {
-        Optional<CompanieAerienne> companieAerienne = companieAerienneRepository.findById(aLong);
+    @Cacheable(value = "companieAerienneCache", key = "#id")
+    public CompanieAerienne findById(Long id) {
+        Optional<CompanieAerienne> companieAerienne = companieAerienneRepository.findById(id);
         return companieAerienne.orElse(null);
     }
 

@@ -76,10 +76,10 @@ public class StartupRunner implements CommandLineRunner {
 
         // Create the roles
         Role role = new Role();
-        role.setNom("ROLE_USER");
+        role.setAuthority("ROLE_USER");
 
         Role role2 = new Role();
-        role2.setNom("ROLE_ADMIN");
+        role2.setAuthority("ROLE_ADMIN");
 
         roleRepository.save(role);
         roleRepository.save(role2);

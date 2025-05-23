@@ -35,8 +35,8 @@ public class AuthController {
         if (principal == null) {
             return ResponseEntity.status(401).build();
         } else {
-            Client client = clientService.findByEmail(principal.getName());
-            return ResponseEntity.ok(new ClientDTO(client));
+            ClientDTO client = clientService.findByEmail(principal.getName());
+            return ResponseEntity.ok(client);
         }
     }
 

@@ -1,6 +1,7 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.AeroportDTO;
@@ -32,15 +33,16 @@ public class AeroportServiceImpl implements AeroportService {
 
     @Override
     @Transactional(readOnly = true)
-    public Aeroport findById(Long aLong) {
-        Optional<Aeroport> aeroport = aeroportRepository.findById(aLong);
+    @Cacheable(value = "aeroportCache", key = "#id")
+    public Aeroport findById(Long id) {
+        Optional<Aeroport> aeroport = aeroportRepository.findById(id);
         return aeroport.orElse(null);
     }
 
     @Override
     @Transactional
-    public Aeroport create(Aeroport entity) {
-        return aeroportRepository.save(entity);
+    public Aeroport create(Aeroport aeroport) {
+        return aeroportRepository.save(aeroport);
     }
 
     @Override

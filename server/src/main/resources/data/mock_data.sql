@@ -40,22 +40,22 @@ INSERT INTO villes (nom, pays) VALUES
 
 -- Populate Clients
 INSERT INTO clients (role_id, adresse, email, password, telephone) VALUES
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '123 Rue de Paris, Paris', 'jacques.durand@email.com', 'hash_password_1', '+33612345678'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '456 Oxford Street, London', 'emma.wilson@email.com', 'hash_password_2', '+44712345678'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '789 Fifth Avenue, New York', 'robert.brown@email.com', 'hash_password_3', '+12123456789'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '101 Unter den Linden, Berlin', 'laura.klein@email.com', 'hash_password_4', '+49301234567'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '202 Via Roma, Rome', 'alessio.ricci@email.com', 'hash_password_5', '+39612345678'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '303 Calle Mayor, Madrid', 'carlos.fernandez@email.com', 'hash_password_6', '+34612345678'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '404 Sukhumvit Road, Bangkok', 'li.chen@email.com', 'hash_password_7', '+66812345678'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '505 Sheikh Zayed Road, Dubai', 'mohammed.alfarsi@email.com', 'hash_password_8', '+97150123456'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '606 Ginza, Tokyo', 'akira.nakamura@email.com', 'hash_password_9', '+81312345678'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '707 Avenue Mohammed V, Casablanca', 'fatima.benali@email.com', 'hash_password_10', '+212612345678'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '123 Rue de Paris, Paris', 'jacques.durand@email.com', 'hash_password_1', '+33612345678'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '456 Oxford Street, London', 'emma.wilson@email.com', 'hash_password_2', '+44712345678'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '789 Fifth Avenue, New York', 'robert.brown@email.com', 'hash_password_3', '+12123456789'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '101 Unter den Linden, Berlin', 'laura.klein@email.com', 'hash_password_4', '+49301234567'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '202 Via Roma, Rome', 'alessio.ricci@email.com', 'hash_password_5', '+39612345678'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '303 Calle Mayor, Madrid', 'carlos.fernandez@email.com', 'hash_password_6', '+34612345678'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '404 Sukhumvit Road, Bangkok', 'li.chen@email.com', 'hash_password_7', '+66812345678'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '505 Sheikh Zayed Road, Dubai', 'mohammed.alfarsi@email.com', 'hash_password_8', '+97150123456'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '606 Ginza, Tokyo', 'akira.nakamura@email.com', 'hash_password_9', '+81312345678'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '707 Avenue Mohammed V, Casablanca', 'fatima.benali@email.com', 'hash_password_10', '+212612345678'),
 -- Adding clients for new passengers needed for reservations
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), 'Via Nazionale 10, Rome', 'marco.rossi@email.com', 'hash_password_11', '+39061234567'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '100 Main St, Anytown, USA', 'john.smith@email.com', 'hash_password_12', '+15551234567'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '1 Beijing Road, Beijing', 'chai.wang@email.com', 'hash_password_13', '+861012345678'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), 'Hauptstrasse 5, Berlin', 'anna.schmidt@email.com', 'hash_password_14', '+491512345678'),
-((SELECT id FROM roles WHERE nom = 'ROLE_USER'), '25 Nile Corniche, Cairo', 'omar.hassan@email.com', 'hash_password_15', '+201001234567');
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), 'Via Nazionale 10, Rome', 'marco.rossi@email.com', 'hash_password_11', '+39061234567'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '100 Main St, Anytown, USA', 'john.smith@email.com', 'hash_password_12', '+15551234567'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '1 Beijing Road, Beijing', 'chai.wang@email.com', 'hash_password_13', '+861012345678'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), 'Hauptstrasse 5, Berlin', 'anna.schmidt@email.com', 'hash_password_14', '+491512345678'),
+((SELECT id FROM roles WHERE authority = 'ROLE_USER'), '25 Nile Corniche, Cairo', 'omar.hassan@email.com', 'hash_password_15', '+201001234567');
 
 
 -- Populate Passengers of various categories
