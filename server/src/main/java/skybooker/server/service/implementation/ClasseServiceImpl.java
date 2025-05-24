@@ -1,7 +1,11 @@
 package skybooker.server.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.entity.Classe;
 import skybooker.server.repository.ClasseRepository;
 import skybooker.server.service.ClasseService;
@@ -19,33 +23,44 @@ public class ClasseServiceImpl implements ClasseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Classe> findAll() {
         return classeRepository.findAll();
     }
 
     @Override
-    public Classe findById(Long aLong) {
-        Optional<Classe> classe = classeRepository.findById(aLong);
+    @Transactional(readOnly = true)
+    @Cacheable(value = "classeCache", key = "#id")
+    public Classe findById(Long id) {
+        Optional<Classe> classe = classeRepository.findById(id);
         return classe.orElse(null);
     }
 
     @Override
-    public Classe create(Classe entity) {
-        return classeRepository.save(entity);
+    @Transactional
+    @CachePut(value = "classeCache", key = "#classe.id")
+    public Classe create(Classe classe) {
+        return classeRepository.save(classe);
     }
 
     @Override
-    public Classe update(Classe entity) {
-        return classeRepository.save(entity);
+    @Transactional
+    @CachePut(value = "classeCache", key = "#classe.id")
+    public Classe update(Classe classe) {
+        return classeRepository.save(classe);
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        classeRepository.deleteById(aLong);
+    @Transactional
+    @CacheEvict(value = "classeCache", key = "#id")
+    public void deleteById(Long id) {
+        classeRepository.deleteById(id);
     }
 
     @Override
-    public void delete(Classe entity) {
-        classeRepository.delete(entity);
+    @Transactional
+    @CacheEvict(value = "classeCache", key = "#classe.id")
+    public void delete(Classe classe) {
+        classeRepository.delete(classe);
     }
 }

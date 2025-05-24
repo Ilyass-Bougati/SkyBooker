@@ -1,5 +1,6 @@
 package skybooker.server;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<Role> roleList = new ArrayList<>();
         roleList.add(client.getRole());
@@ -31,11 +33,13 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return client.getPassword();
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return client.getEmail();
     }

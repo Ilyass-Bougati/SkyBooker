@@ -33,6 +33,12 @@ public class AvionDTO {
         this.icaoCode = avion.getIcaoCode();
         this.model = avion.getModel();
         this.maxDistance = avion.getMaxDistance();
-        setCompanieAerienneId(avion.getCompanieAerienne().getId());
+
+        // checking if we have a companieAerienne
+        if (avion.getCompanieAerienne() != null) {
+            setCompanieAerienneId(avion.getCompanieAerienne().getId());
+        } else {
+            setCompanieAerienneId(-1);
+        }
     }
 }

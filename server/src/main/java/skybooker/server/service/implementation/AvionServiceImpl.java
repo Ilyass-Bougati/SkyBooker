@@ -1,7 +1,11 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.AvionDTO;
 import skybooker.server.entity.Avion;
 import skybooker.server.repository.AvionRepository;
@@ -23,37 +27,49 @@ public class AvionServiceImpl implements AvionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Avion> findAll() {
         return avionRepository.findAll();
     }
 
     @Override
-    public Avion findById(Long aLong) {
-        Optional<Avion> avion = avionRepository.findById(aLong);
+    @Transactional(readOnly = true)
+    @Cacheable(value = "avionCache", key = "#id")
+    public Avion findById(Long id) {
+        Optional<Avion> avion = avionRepository.findById(id);
         return avion.orElse(null);
     }
 
     @Override
-    public Avion create(Avion entity) {
-        return avionRepository.save(entity);
+    @Transactional
+    @CachePut(value = "avionCache", key = "#avion.id")
+    public Avion create(Avion avion) {
+        return avionRepository.save(avion);
     }
 
     @Override
-    public Avion update(Avion entity) {
-        return avionRepository.save(entity);
+    @Transactional
+    @CachePut(value = "avionCache", key = "#avion.id")
+    public Avion update(Avion avion) {
+        return avionRepository.save(avion);
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        avionRepository.deleteById(aLong);
+    @Transactional
+    @CacheEvict(value = "avionCache", key = "#id")
+    public void deleteById(Long id) {
+        avionRepository.deleteById(id);
     }
 
     @Override
-    public void delete(Avion entity) {
-        avionRepository.delete(entity);
+    @Transactional
+    @CacheEvict(value = "avionCache", key = "#avion.id")
+    public void delete(Avion avion) {
+        avionRepository.delete(avion);
     }
 
     @Override
+    @Transactional
     public Avion createDTO(AvionDTO avionDTO) {
         Avion avion = new Avion(avionDTO);
         avion.setCompanieAerienne(companieAerienneService.findById(avionDTO.getCompanieAerienneId()));
@@ -61,6 +77,8 @@ public class AvionServiceImpl implements AvionService {
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "avionCache", key = "#avionDTO.id")
     public Avion updateDTO(AvionDTO avionDTO) {
         Avion avion = findById(avionDTO.getId());
         if (avion != null) {

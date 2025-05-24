@@ -1,6 +1,9 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.PassagerDTO;
@@ -44,33 +47,38 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(readOnly = true)
-    public Reservation findById(Long aLong) {
-        Optional<Reservation> reservation = reservationRepository.findById(aLong);
+    @Cacheable(value = "reservationCache", key = "#id")
+    public Reservation findById(Long id) {
+        Optional<Reservation> reservation = reservationRepository.findById(id);
         return reservation.orElse(null);
     }
 
     @Override
     @Transactional
-    public Reservation create(Reservation entity) {
-        return reservationRepository.save(entity);
+    @CachePut(value = "reservationCache", key = "#reservation.id")
+    public Reservation create(Reservation reservation) {
+        return reservationRepository.save(reservation);
     }
 
     @Override
     @Transactional
-    public Reservation update(Reservation entity) {
-        return reservationRepository.save(entity);
+    @CachePut(value = "reservationCache", key = "#reservation.id")
+    public Reservation update(Reservation reservation) {
+        return reservationRepository.save(reservation);
     }
 
     @Override
     @Transactional
-    public void deleteById(Long aLong) {
-        reservationRepository.deleteById(aLong);
+    @CacheEvict(value = "reservationCache", key = "#id")
+    public void deleteById(Long id) {
+        reservationRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void delete(Reservation entity) {
-        reservationRepository.delete(entity);
+    @CacheEvict(value = "reservationCache", key = "#reservation.id")
+    public void delete(Reservation reservation) {
+        reservationRepository.delete(reservation);
     }
 
     @Override
@@ -112,6 +120,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional
+    @CachePut(value = "reservationCache", key = "#reservationDTO.id")
     public Reservation updateDTO(ReservationDTO reservationDTO) {
         Reservation reservation = findById(reservationDTO.getId());
         if (reservationDTO.getClientId() != null) {

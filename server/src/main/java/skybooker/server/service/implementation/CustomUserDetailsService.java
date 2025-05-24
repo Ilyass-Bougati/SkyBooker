@@ -1,5 +1,6 @@
 package skybooker.server.service.implementation;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     @Override
+    @Cacheable(value = "userDetailsCache", key = "#email")
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Client> optionalClient = clientRepository.getByEmail(email);
         if (optionalClient.isPresent()) {

@@ -39,9 +39,11 @@ public class Client{
     @NotNull
     private String adresse;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Reservation> reservations = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Passager> passagers = new HashSet<>();
 
@@ -79,6 +81,7 @@ public class Client{
      *
      * @return boolean that indicates if the client is admin
      */
+    @JsonIgnore
     public boolean isAdmin() {
         return getRole().getId() == 2;
     }

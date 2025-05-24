@@ -36,6 +36,10 @@ public class AeroportDTO {
         setNom(aeroport.getNom());
         setLatitude(aeroport.getLatitude());
         setLongitude(aeroport.getLongitude());
-        setVilleId(aeroport.getVille().getId());
+        if (aeroport.getVille() != null) {
+            setVilleId(aeroport.getVille().getId());
+        } else {
+            setVilleId(-1);
+        }
     }
 }

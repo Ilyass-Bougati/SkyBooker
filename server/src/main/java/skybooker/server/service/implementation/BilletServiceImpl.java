@@ -1,7 +1,11 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.BilletDTO;
 import skybooker.server.entity.Billet;
 import skybooker.server.repository.BilletRepository;
@@ -30,37 +34,49 @@ public class BilletServiceImpl implements BilletService {
     private final ReservationService reservationService;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Billet> findAll() {
         return billetRepository.findAll();
     }
 
     @Override
-    public Billet findById(Long aLong) {
-        Optional<Billet> billet = billetRepository.findById(aLong);
+    @Transactional(readOnly = true)
+    @Cacheable(value = "billetCache", key = "#id")
+    public Billet findById(Long id) {
+        Optional<Billet> billet = billetRepository.findById(id);
         return billet.orElse(null);
     }
 
     @Override
-    public Billet create(Billet entity) {
-        return billetRepository.save(entity);
+    @Transactional
+    @CachePut(value = "billetCache", key = "#billet.id")
+    public Billet create(Billet billet) {
+        return billetRepository.save(billet);
     }
 
     @Override
-    public Billet update(Billet entity) {
-        return billetRepository.save(entity);
+    @Transactional
+    @CachePut(value = "billetCache", key = "#billet.id")
+    public Billet update(Billet billet) {
+        return billetRepository.save(billet);
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        billetRepository.deleteById(aLong);
+    @Transactional
+    @CacheEvict(value = "billetCache", key = "#id")
+    public void deleteById(Long id) {
+        billetRepository.deleteById(id);
     }
 
     @Override
-    public void delete(Billet entity) {
-        billetRepository.delete(entity);
+    @Transactional
+    @CacheEvict(value = "billetCache", key = "#billet.id")
+    public void delete(Billet billet) {
+        billetRepository.delete(billet);
     }
 
     @Override
+    @Transactional
     public Billet createDTO(BilletDTO billetDTO) {
         Billet billet = new Billet();
         // TODO : change this to implement the siege logic
@@ -72,6 +88,8 @@ public class BilletServiceImpl implements BilletService {
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "billetCache", key = "#billetDTO.id")
     public Billet updateDTO(BilletDTO billetDTO) {
         Billet billet = findById(billetDTO.getId());
         if (billet != null) {

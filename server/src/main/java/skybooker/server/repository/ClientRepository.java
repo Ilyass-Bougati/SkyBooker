@@ -20,7 +20,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("SELECT c.id, COUNT(r.id), SUM(r.prixTotal), c.email " +
             "FROM Client c LEFT JOIN Reservation r ON c.id = r.client.id " +
             "JOIN c.role ro " +
-            "WHERE ro.nom != 'ROLE_ADMIN' " +
+            "WHERE ro.authority != 'ROLE_ADMIN' " +
             "GROUP BY c.id, c.email " +
             "ORDER BY c.email")
     List<Object[]> countReservationsAndTotalSpentPerClient();
@@ -28,7 +28,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("SELECT c.id, COUNT(p.id), c.email " +
             "FROM Client c LEFT JOIN Passager p ON c.id = p.client.id " +
             "JOIN c.role ro " +
-            "WHERE ro.nom != 'ROLE_ADMIN' " +
+            "WHERE ro.authority != 'ROLE_ADMIN' " +
             "GROUP BY c.id, c.email " +
             "ORDER BY c.email")
     List<Object[]> countPassengersPerClient();

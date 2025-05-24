@@ -37,3 +37,4 @@ src/main/resources/certs/
 
 ### The logs ###
 logs
+err.json
