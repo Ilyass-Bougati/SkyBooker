@@ -1,7 +1,11 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.PassagerDTO;
 import skybooker.server.entity.Passager;
 import skybooker.server.repository.PassagerRepository;
@@ -23,23 +27,30 @@ public class PassagerServiceImpl implements PassagerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Passager> findAll() {
         return passagerRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "passagerCache", key = "#id")
     public Passager findById(Long id) {
         Optional<Passager> optionalPassager = passagerRepository.findById(id);
         return optionalPassager.orElse(null);
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "passagerCache", key = "#passager.id")
     public Passager create(Passager passager) {
         passager.lowerCase();
         return passagerRepository.save(passager);
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "passagerCache", key = "#passager.id")
     public Passager update(Passager passager) {
         Passager oldPassager = this.findById(passager.getId());
         if (oldPassager != null) {
@@ -52,16 +63,21 @@ public class PassagerServiceImpl implements PassagerService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "passagerCache", key = "#id")
     public void deleteById(Long id) {
         passagerRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "passagerCache", key = "#passager.id")
     public void delete(Passager passager) {
         passagerRepository.delete(passager);
     }
 
     @Override
+    @Transactional
     public Passager createDTO(PassagerDTO passagerDTO) {
         Passager passager = new Passager(passagerDTO);
         passager.updateCategorie(categorieService);
@@ -70,6 +86,8 @@ public class PassagerServiceImpl implements PassagerService {
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "passagerCache", key = "#passagerDTO.id")
     public Passager updateDTO(PassagerDTO passagerDTO) {
         Passager passager = findById(passagerDTO.getId());
         if (passager != null) {

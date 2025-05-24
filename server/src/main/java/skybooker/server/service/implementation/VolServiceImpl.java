@@ -1,7 +1,11 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.VolDTO;
 import skybooker.server.entity.Vol;
 import skybooker.server.entity.Classe;
@@ -28,22 +32,29 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Vol> findAll(){
         return volRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "volCache", key = "#id")
     public Vol findById(Long id){
         Optional<Vol> vol = volRepository.findById(id);
         return vol.orElse(null);
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "volCache", key = "#vol.id")
     public Vol create(Vol vol){
         return volRepository.save(vol);
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "volCache", key = "#vol.id")
     public Vol update(Vol vol){
         Vol oldVol = this.findById(vol.getId());
         if(oldVol != null){
@@ -54,16 +65,21 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "volCache", key = "#id")
     public void deleteById(Long id){
         volRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "volCache", key = "#vol.id")
     public void delete(Vol vol){
         volRepository.delete(vol);
     }
 
     @Override
+    @Transactional
     public Vol createDTO(VolDTO volDTO) {
         Vol vol = new Vol(volDTO);
         vol.setAvion(avionService.findById(volDTO.getAvionId()));
@@ -73,6 +89,8 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "volCache", key = "#volDTO.id")
     public Vol updateDTO(VolDTO volDTO) {
         Vol oldVol = this.findById(volDTO.getId());
         if(oldVol != null){
@@ -95,6 +113,7 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
+    @Transactional
     public Double calculatePrice(Long volId, Long classeId) {
         //Récupérer le vol et la classe
         Vol vol = findById(volId);

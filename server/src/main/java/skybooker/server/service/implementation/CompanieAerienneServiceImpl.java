@@ -1,8 +1,11 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.CompanieAerienneDTO;
 import skybooker.server.entity.CompanieAerienne;
 import skybooker.server.repository.CompanieAerienneRepository;
@@ -21,11 +24,13 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CompanieAerienne> findAll() {
         return companieAerienneRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     @Cacheable(value = "companieAerienneCache", key = "#id")
     public CompanieAerienne findById(Long id) {
         Optional<CompanieAerienne> companieAerienne = companieAerienneRepository.findById(id);
@@ -33,31 +38,42 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
     }
 
     @Override
-    public CompanieAerienne create(CompanieAerienne entity) {
-        return companieAerienneRepository.save(entity);
+    @Transactional
+    @CachePut(value = "companieAerienneCache", key = "#companieAerienne.id")
+    public CompanieAerienne create(CompanieAerienne companieAerienne) {
+        return companieAerienneRepository.save(companieAerienne);
     }
 
     @Override
-    public CompanieAerienne update(CompanieAerienne entity) {
-        return companieAerienneRepository.save(entity);
+    @Transactional
+    @CachePut(value = "companieAerienneCache", key = "#companieAerienne.id")
+    public CompanieAerienne update(CompanieAerienne companieAerienne) {
+        return companieAerienneRepository.save(companieAerienne);
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        companieAerienneRepository.deleteById(aLong);
+    @Transactional
+    @CacheEvict(value = "companieAerienneCache", key = "#id")
+    public void deleteById(Long id) {
+        companieAerienneRepository.deleteById(id);
     }
 
     @Override
-    public void delete(CompanieAerienne entity) {
-        companieAerienneRepository.delete(entity);
+    @Transactional
+    @CacheEvict(value = "companieAerienneCache", key = "#companieAerienne.id")
+    public void delete(CompanieAerienne companieAerienne) {
+        companieAerienneRepository.delete(companieAerienne);
     }
 
     @Override
+    @Transactional
     public CompanieAerienne createDTO(CompanieAerienneDTO companieAerienneDTO) {
         return create(new CompanieAerienne(companieAerienneDTO));
     }
 
     @Override
+    @Transactional
+    @CachePut(value = "companieAerienneCache", key = "#companieAerienneDTO.id")
     public CompanieAerienne updateDTO(CompanieAerienneDTO companieAerienneDTO) {
         CompanieAerienne companieAerienne = findById(companieAerienneDTO.getId());
         if (companieAerienne != null) {
