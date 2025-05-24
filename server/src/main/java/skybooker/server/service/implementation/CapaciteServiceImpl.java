@@ -1,7 +1,9 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.CapaciteDTO;
 import skybooker.server.entity.Capacite;
 import skybooker.server.repository.CapaciteRepository;
@@ -31,32 +33,38 @@ public class CapaciteServiceImpl implements CapaciteService {
     }
 
     @Override
-    public Capacite findById(Long aLong) {
-        Optional<Capacite> capacite = capaciteRepository.findById(aLong);
+    @Transactional(readOnly = true)
+    public Capacite findById(Long id) {
+        Optional<Capacite> capacite = capaciteRepository.findById(id);
         return capacite.orElse(null);
     }
 
     @Override
+    @Transactional
     public Capacite create(Capacite entity) {
         return capaciteRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public Capacite update(Capacite entity) {
         return capaciteRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long aLong) {
         capaciteRepository.deleteById(aLong);
     }
 
     @Override
+    @Transactional
     public void delete(Capacite entity) {
         capaciteRepository.delete(entity);
     }
 
     @Override
+    @Transactional
     public Capacite createDTO(CapaciteDTO capaciteDTO) {
         Capacite capacite = new Capacite(capaciteDTO);
         capacite.setAvion(avionService.findById(capaciteDTO.getAvionId()));
@@ -65,6 +73,7 @@ public class CapaciteServiceImpl implements CapaciteService {
     }
 
     @Override
+    @Transactional
     public Capacite updateDTO(CapaciteDTO capaciteDTO) {
         Capacite capacite = findById(capaciteDTO.getId());
         if (capacite != null) {

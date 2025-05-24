@@ -1,7 +1,10 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.entity.Categorie;
 import skybooker.server.repository.CategorieRepository;
 import skybooker.server.service.CategorieService;
@@ -24,23 +27,31 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    public Categorie findById(Long aLong) {
-        Optional<Categorie> categorie = categorieRepository.findById(aLong);
+    @Transactional(readOnly = true)
+    @Cacheable(value = "categorieIdCache", key = "#id")
+    public Categorie findById(Long id) {
+        Optional<Categorie> categorie = categorieRepository.findById(id);
         return categorie.orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "categorieNameCache", key = "#name")
     public Categorie findByNom(String name) {
         Optional<Categorie> categorie = categorieRepository.findByNom(name);
         return categorie.orElse(null);
     }
 
     @Override
+    @Transactional
+    @Cacheable(value = "categorieIdCache", key = "#id")
     public Categorie create(Categorie categorie) {
         return categorieRepository.save(categorie);
     }
 
     @Override
+    @Transactional
+    @Cacheable(value = "categorieIdCache", key = "#categorie.id")
     public Categorie update(Categorie categorie) {
         Categorie oldCategorie = this.findById(categorie.getId());
         if (oldCategorie != null) {
@@ -52,12 +63,16 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "categorieIdCache", key = "#id")
     public void deleteById(Long id) {
         categorieRepository.deleteById(id);
     }
 
     @Override
-    public void delete(Categorie entity) {
-        categorieRepository.delete(entity);
+    @Transactional
+    @CacheEvict(value = "categorieIdCache", key = "#categorie.id")
+    public void delete(Categorie categorie) {
+        categorieRepository.delete(categorie);
     }
 }

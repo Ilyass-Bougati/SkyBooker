@@ -1,6 +1,8 @@
 package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,27 +49,28 @@ public class AeroportServiceImpl implements AeroportService {
 
     @Override
     @Transactional
-    public Aeroport createDTO(AeroportDTO entity) {
-        Aeroport aeroport = new Aeroport(entity);
-        aeroport.setVille(villeService.findById(entity.getVilleId()));
+    public Aeroport createDTO(AeroportDTO aeroportDTO) {
+        Aeroport aeroport = new Aeroport(aeroportDTO);
+        aeroport.setVille(villeService.findById(aeroportDTO.getVilleId()));
         return aeroportRepository.save(aeroport);
     }
 
     @Override
     @Transactional
-    public Aeroport update(Aeroport entity) {
-        Aeroport aeroport = findById(entity.getId());
-        if (aeroport != null) {
+    @CachePut(value = "aeroportCache", key = "#aeroport.id")
+    public Aeroport update(Aeroport aeroport) {
+        Aeroport newAeroport = findById(aeroport.getId());
+        if (newAeroport != null) {
             // modifying the airport
-            aeroport.setVille(entity.getVille());
-            aeroport.setNom(entity.getNom());
-            aeroport.setIataCode(entity.getIataCode());
-            aeroport.setIcaoCode(entity.getIcaoCode());
-            aeroport.setLatitude(entity.getLatitude());
-            aeroport.setLongitude(entity.getLongitude());
+            newAeroport.setVille(aeroport.getVille());
+            newAeroport.setNom(aeroport.getNom());
+            newAeroport.setIataCode(aeroport.getIataCode());
+            newAeroport.setIcaoCode(aeroport.getIcaoCode());
+            newAeroport.setLatitude(aeroport.getLatitude());
+            newAeroport.setLongitude(aeroport.getLongitude());
 
             // saving the modifications
-            return aeroportRepository.save(aeroport);
+            return aeroportRepository.save(newAeroport);
         } else {
             return null;
         }
@@ -75,19 +78,20 @@ public class AeroportServiceImpl implements AeroportService {
 
     @Override
     @Transactional
-    public Aeroport updateDTO(AeroportDTO entity) {
-        Aeroport aeroport = findById(entity.getId());
-        if (aeroport != null) {
+    @CachePut(value = "aeroportCache", key = "#aeroport.id")
+    public Aeroport updateDTO(AeroportDTO aeroport) {
+        Aeroport newAeroport = findById(aeroport.getId());
+        if (newAeroport != null) {
             // modifying the airport
-            aeroport.setNom(entity.getNom());
-            aeroport.setIataCode(entity.getIataCode());
-            aeroport.setIcaoCode(entity.getIcaoCode());
-            aeroport.setLatitude(entity.getLatitude());
-            aeroport.setLongitude(entity.getLongitude());
-            aeroport.setVille(villeService.findById(entity.getVilleId()));
+            newAeroport.setNom(aeroport.getNom());
+            newAeroport.setIataCode(aeroport.getIataCode());
+            newAeroport.setIcaoCode(aeroport.getIcaoCode());
+            newAeroport.setLatitude(aeroport.getLatitude());
+            newAeroport.setLongitude(aeroport.getLongitude());
+            newAeroport.setVille(villeService.findById(aeroport.getVilleId()));
 
             // saving the modifications
-            return aeroportRepository.save(aeroport);
+            return aeroportRepository.save(newAeroport);
         } else {
             return null;
         }
@@ -95,14 +99,16 @@ public class AeroportServiceImpl implements AeroportService {
 
     @Override
     @Transactional
-    public void deleteById(Long aLong) {
-        aeroportRepository.deleteById(aLong);
+    @CacheEvict(value = "aeroportCache", key = "#id")
+    public void deleteById(Long id) {
+        aeroportRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public void delete(Aeroport entity) {
-        aeroportRepository.delete(entity);
+    @CacheEvict(value = "aeroportCache", key = "#aeroport.id")
+    public void delete(Aeroport aeroport) {
+        aeroportRepository.delete(aeroport);
     }
 
 }

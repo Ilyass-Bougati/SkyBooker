@@ -1,5 +1,7 @@
 package skybooker.server.service.implementation;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -50,7 +52,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "clientCache", key = "#id")
+    @Cacheable(value = "clientIdCache", key = "#id")
     public Client findById(Long id) {
         Optional<Client> optionalClient = clientRepository.findById(id);
         return optionalClient.orElse(null);
@@ -58,6 +60,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
+    @CachePut(value = "clientEmailCache", key = "#client.email")
     public Client create(Client client) {
         client.setPassword(passwordEncoder.encode(client.getPassword()));
         client.setEmail(client.getEmail().toLowerCase());
@@ -66,6 +69,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
+    @CachePut(value = "clientEmailCache", key = "#client.email")
     public Client update(Client client) {
         Client oldClient = findById(client.getId());
         if (oldClient != null) {
@@ -79,24 +83,29 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "clientIdCache", key = "#id")
     public void deleteById(Long id) {
         clientRepository.deleteById(id);
     }
 
+    // TODO : This could cause an issue, we should remove this method
     @Override
     @Transactional
+    @CacheEvict(value = "clientEmailCache", key = "#client.email")
     public void delete(Client client) {
         clientRepository.delete(client);
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = "clientEmailCache", key = "#client.email")
     public void deleteByEmail(String email) {
         clientRepository.deleteByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "clientEmailCache", key = "#client.email")
     public ClientDTO findByEmail(String email) {
         Optional<Client> clientOptional = clientRepository.findByEmail(email);
         return clientOptional.map(ClientDTO::new).orElse(null);
@@ -104,6 +113,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
+    @CachePut(value = "clientEmailCache", key = "#clientDTO.email")
     public Client update(Client client, ClientDTO clientDTO) {
         client.updateFields(clientDTO);
         client.setEmail(client.getEmail().toLowerCase());
@@ -113,6 +123,7 @@ public class ClientServiceImpl implements ClientService {
     // TODO : refactor this
     @Override
     @Transactional
+    @CachePut(value = "clientEmailCache", key = "#registerRequestDTO.email")
     public ResponseEntity<ClientDTO> register(RegisterRequestDTO registerRequestDTO) {
         Passager passager = registerRequestDTO.passager();
 
@@ -143,7 +154,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Cacheable(value = "clientCache", key = "#principal.name")
+    @Cacheable(value = "clientIdCache", key = "#principal.name")
     public Client getFromPrincipal(Principal principal) {
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
         if (userDetails == null) {
