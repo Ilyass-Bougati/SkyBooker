@@ -36,9 +36,11 @@ public class Reservation {
     @CreationTimestamp
     private LocalDateTime reservedAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Billet> billets = new HashSet<>();
 
+    @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "vol_id", nullable = false)
     private Vol vol;

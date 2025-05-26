@@ -1,9 +1,7 @@
 package skybooker.server.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.VolDTO;
@@ -18,6 +16,8 @@ import java.util.*;
 
 @Service
 public class VolServiceImpl implements VolService {
+
+    Logger logger = LoggerFactory.getLogger(VolServiceImpl.class);
 
     private final VolRepository volRepository;
     private final ClasseRepository classeRepository;
@@ -39,7 +39,6 @@ public class VolServiceImpl implements VolService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "volCache", key = "#id")
     public Vol findById(Long id){
         Optional<Vol> vol = volRepository.findById(id);
         return vol.orElse(null);
@@ -47,16 +46,14 @@ public class VolServiceImpl implements VolService {
 
     @Override
     @Transactional
-    @CachePut(value = "volCache", key = "#vol.id")
     public Vol create(Vol vol){
         return volRepository.save(vol);
     }
 
     @Override
     @Transactional
-    @CachePut(value = "volCache", key = "#vol.id")
     public Vol update(Vol vol){
-        Vol oldVol = this.findById(vol.getId());
+        Vol oldVol = findById(vol.getId());
         if(oldVol != null){
             return volRepository.save(oldVol);
         }else{
@@ -66,14 +63,12 @@ public class VolServiceImpl implements VolService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "volCache", key = "#id")
     public void deleteById(Long id){
         volRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "volCache", key = "#vol.id")
     public void delete(Vol vol){
         volRepository.delete(vol);
     }
@@ -90,9 +85,8 @@ public class VolServiceImpl implements VolService {
 
     @Override
     @Transactional
-    @CachePut(value = "volCache", key = "#volDTO.id")
     public Vol updateDTO(VolDTO volDTO) {
-        Vol oldVol = this.findById(volDTO.getId());
+        Vol oldVol = findById(volDTO.getId());
         if(oldVol != null){
             // updating the vol
             oldVol.setAvion(avionService.findById(volDTO.getAvionId()));

@@ -34,7 +34,6 @@ public class PassagerServiceImpl implements PassagerService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "passagerCache", key = "#id")
     public Passager findById(Long id) {
         Optional<Passager> optionalPassager = passagerRepository.findById(id);
         return optionalPassager.orElse(null);
@@ -42,7 +41,6 @@ public class PassagerServiceImpl implements PassagerService {
 
     @Override
     @Transactional
-    @CachePut(value = "passagerCache", key = "#passager.id")
     public Passager create(Passager passager) {
         passager.lowerCase();
         return passagerRepository.save(passager);
@@ -50,7 +48,6 @@ public class PassagerServiceImpl implements PassagerService {
 
     @Override
     @Transactional
-    @CachePut(value = "passagerCache", key = "#passager.id")
     public Passager update(Passager passager) {
         Passager oldPassager = this.findById(passager.getId());
         if (oldPassager != null) {
@@ -64,14 +61,12 @@ public class PassagerServiceImpl implements PassagerService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "passagerCache", key = "#id")
     public void deleteById(Long id) {
         passagerRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "passagerCache", key = "#passager.id")
     public void delete(Passager passager) {
         passagerRepository.delete(passager);
     }
@@ -87,7 +82,6 @@ public class PassagerServiceImpl implements PassagerService {
 
     @Override
     @Transactional
-    @CachePut(value = "passagerCache", key = "#passagerDTO.id")
     public Passager updateDTO(PassagerDTO passagerDTO) {
         Passager passager = findById(passagerDTO.getId());
         if (passager != null) {

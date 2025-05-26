@@ -1,5 +1,7 @@
 package skybooker.server.service.implementation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -22,6 +24,8 @@ import java.util.Set;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
+
+    Logger logger = LoggerFactory.getLogger(ReservationServiceImpl.class);
 
     private final ReservationRepository reservationRepository;
     private final ClientService clientService;
@@ -47,7 +51,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "reservationCache", key = "#id")
     public Reservation findById(Long id) {
         Optional<Reservation> reservation = reservationRepository.findById(id);
         return reservation.orElse(null);
@@ -55,28 +58,24 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional
-    @CachePut(value = "reservationCache", key = "#reservation.id")
     public Reservation create(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
 
     @Override
     @Transactional
-    @CachePut(value = "reservationCache", key = "#reservation.id")
     public Reservation update(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "reservationCache", key = "#id")
     public void deleteById(Long id) {
         reservationRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "reservationCache", key = "#reservation.id")
     public void delete(Reservation reservation) {
         reservationRepository.delete(reservation);
     }
@@ -111,6 +110,7 @@ public class ReservationServiceImpl implements ReservationService {
             // TODO : Should be looked into better ways
             billet.setSiege(maxSiege == null || maxSiege < capacite.getBorneInf() ? capacite.getBorneInf() : maxSiege + 1);
 
+            logger.info("saving billet : " + billet.getPassager().getId());
             Billet savedBillet = billetRepository.save(billet);
             savedReservation.getBillets().add(savedBillet);
         }
@@ -120,7 +120,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional
-    @CachePut(value = "reservationCache", key = "#reservationDTO.id")
     public Reservation updateDTO(ReservationDTO reservationDTO) {
         Reservation reservation = findById(reservationDTO.getId());
         if (reservationDTO.getClientId() != null) {
