@@ -106,8 +106,7 @@ public class ReservationServiceImpl implements ReservationService {
 
             Integer maxSiege = billetRepository.getMaxSiege(passagerData.getClassId(), reservationDTO.getVolId());
 
-            // This could fail miserably
-            // TODO : Should be looked into better ways
+            // FIXME : This could fail miserably
             billet.setSiege(maxSiege == null || maxSiege < capacite.getBorneInf() ? capacite.getBorneInf() : maxSiege + 1);
 
             logger.info("saving billet : " + billet.getPassager().getId());

@@ -66,7 +66,6 @@ public class Passager {
         billets = new HashSet<>();
     }
 
-    // TODO : WTF is this????
     /**
      * This function updates the categorie based on the age
      * @param categorieService the categorie service, I hate this

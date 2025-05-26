@@ -1,5 +1,7 @@
 package skybooker.server.service.implementation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,6 +29,8 @@ import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService {
+
+    Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
 
     private final ClientRepository clientRepository;
     private final PassagerService passagerService;
@@ -88,24 +92,23 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.deleteById(id);
     }
 
-    // TODO : This could cause an issue, we should remove this method
     @Override
-    @Transactional
-    @CacheEvict(value = "clientEmailCache", key = "#client.email")
+    @Deprecated
     public void delete(Client client) {
-        clientRepository.delete(client);
+        logger.warn("delete method does nothing, use deleteByEmail");
+        return;
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "clientEmailCache", key = "#client.email")
+    @CacheEvict(value = "clientEmailCache", key = "#email")
     public void deleteByEmail(String email) {
         clientRepository.deleteByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "clientEmailCache", key = "#client.email")
+    @Cacheable(value = "clientEmailCache", key = "#email")
     public ClientDTO findByEmail(String email) {
         Optional<Client> clientOptional = clientRepository.findByEmail(email);
         return clientOptional.map(ClientDTO::new).orElse(null);
@@ -120,7 +123,6 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.save(client);
     }
 
-    // TODO : refactor this
     @Override
     @Transactional
     @CachePut(value = "clientEmailCache", key = "#registerRequestDTO.email")
