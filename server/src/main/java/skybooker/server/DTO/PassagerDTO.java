@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
 
 @Getter
@@ -13,6 +14,8 @@ import skybooker.server.entity.Passager;
 public class PassagerDTO {
 
     private long id;
+
+    Client client;
 
     @NotNull
     private String nom;
@@ -33,5 +36,6 @@ public class PassagerDTO {
         setPrenom(passager.getPrenom());
         setCIN(passager.getCIN());
         setAge(passager.getAge());
+        client = null;
     }
 }

@@ -80,14 +80,17 @@ public class PassagerController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<PassagerDTO> createPassager(@RequestBody @Valid PassagerDTO passagerDTO) {
+    public ResponseEntity<PassagerDTO> createPassager(Principal principal, @RequestBody @Valid PassagerDTO passagerDTO) {
+        Client client = clientService.getFromPrincipal(principal);
+        passagerDTO.setClient(client);
         Passager passager = passagerService.createDTO(passagerDTO);
         return ResponseEntity.ok(new PassagerDTO(passager));
     }
 
     @PutMapping("/")
-    public ResponseEntity<PassagerDTO> updatePassager(@RequestBody @Valid PassagerDTO passagerDTO) {
-        Passager passager = passagerService.updateDTO(passagerDTO);
+    public ResponseEntity<PassagerDTO> updatePassager(Principal principal, @RequestBody @Valid PassagerDTO passagerDTO) {
+        Client client = clientService.getFromPrincipal(principal);
+        passagerDTO.setClient(client);Passager passager = passagerService.updateDTO(passagerDTO);
         if (passager == null) {
             return ResponseEntity.notFound().build();
         } else {
