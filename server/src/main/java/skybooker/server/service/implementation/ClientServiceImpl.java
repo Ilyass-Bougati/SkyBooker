@@ -98,14 +98,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional
-    @CacheEvict(value = "clientEmailCache", key = "#client.email")
+    @CacheEvict(value = "clientEmailCache", key = "#email")
     public void deleteByEmail(String email) {
         clientRepository.deleteByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "clientEmailCache", key = "#client.email")
+    @Cacheable(value = "clientEmailCache", key = "#email")
     public ClientDTO findByEmail(String email) {
         Optional<Client> clientOptional = clientRepository.findByEmail(email);
         return clientOptional.map(ClientDTO::new).orElse(null);
