@@ -104,7 +104,15 @@ public class PersonalinfoView {
         Platform.runLater(() ->
         {
             GeneralUtils.fadeInAnimation(container , 500).play();
-            GeneralUtils.initializeDatePicker(birthDate);
+            GeneralUtils.initializeDatePicker(birthDate, new GeneralUtils.DateVerifier() {
+                @Override
+                public Boolean call() {
+                    if(getCell() != null){
+                        return getCell().getItem().isBefore(LocalDate.now());
+                    }
+                    throw new RuntimeException();
+                }
+            });
             initializeCardinals();
             addPhoneNumberConstraint();
             addToolTip(password , "Password must be at least 8 characters , \n contain lower and upper case characters ,  \n as well as numerals and a special character");

@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import utils.GeneralUtils;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class SearchresultsView {
@@ -193,7 +194,15 @@ public class SearchresultsView {
         Platform.runLater(()->{
             initializePopup();
             initializeClasses();
-            GeneralUtils.initializeDatePicker(date);
+            GeneralUtils.initializeDatePicker(date, new GeneralUtils.DateVerifier() {
+                @Override
+                public Boolean call() {
+                    if(getCell() != null){
+                        return getCell().getItem().isAfter(LocalDate.now());
+                    }
+                    throw new RuntimeException();
+                }
+            });
             populateRows();
             displayRows();
 
