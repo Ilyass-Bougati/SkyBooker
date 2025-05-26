@@ -39,28 +39,23 @@ public class Vol {
     @Min(0)
     private double prix;
 
+    @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "aeroport_depart_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Aeroport aeroportDepart;
 
+    @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "aeroport_arrive_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Aeroport aeroportArrive;
 
+    @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "avion_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Avion avion;
 
     @JsonIgnore
     @OneToMany(mappedBy = "vol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<Reservation> reservations = new HashSet<>();
 
     public Vol(VolDTO volDTO) {

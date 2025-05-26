@@ -41,7 +41,6 @@ public class BilletServiceImpl implements BilletService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "billetCache", key = "#id")
     public Billet findById(Long id) {
         Optional<Billet> billet = billetRepository.findById(id);
         return billet.orElse(null);
@@ -49,28 +48,24 @@ public class BilletServiceImpl implements BilletService {
 
     @Override
     @Transactional
-    @CachePut(value = "billetCache", key = "#billet.id")
     public Billet create(Billet billet) {
         return billetRepository.save(billet);
     }
 
     @Override
     @Transactional
-    @CachePut(value = "billetCache", key = "#billet.id")
     public Billet update(Billet billet) {
         return billetRepository.save(billet);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "billetCache", key = "#id")
     public void deleteById(Long id) {
         billetRepository.deleteById(id);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "billetCache", key = "#billet.id")
     public void delete(Billet billet) {
         billetRepository.delete(billet);
     }
@@ -89,7 +84,6 @@ public class BilletServiceImpl implements BilletService {
 
     @Override
     @Transactional
-    @CachePut(value = "billetCache", key = "#billetDTO.id")
     public Billet updateDTO(BilletDTO billetDTO) {
         Billet billet = findById(billetDTO.getId());
         if (billet != null) {

@@ -45,7 +45,7 @@ public class CapaciteController {
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<CapaciteDTO> createCapacite(@RequestBody @Valid CapaciteDTO capaciteDTO) {
         Capacite createdCapacite = capaciteService.createDTO(capaciteDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CapaciteDTO(createdCapacite));
+        return ResponseEntity.ok(new CapaciteDTO(createdCapacite));
     }
 
     @PutMapping("/")

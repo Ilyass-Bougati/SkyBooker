@@ -56,7 +56,7 @@ public class CategorieController {
 
         Categorie savedCategorie = categorieService.create(categorieToSave);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CategorieDTO(savedCategorie));
+        return ResponseEntity.ok(new CategorieDTO(savedCategorie));
     }
 
     @PutMapping("/{id}")

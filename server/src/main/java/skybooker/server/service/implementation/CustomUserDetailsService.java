@@ -27,7 +27,6 @@ public class CustomUserDetailsService implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     @Override
-    @Cacheable(value = "userDetailsCache", key = "#email")
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Client> optionalClient = clientRepository.getByEmail(email);
         if (optionalClient.isPresent()) {
