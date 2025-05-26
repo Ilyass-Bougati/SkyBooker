@@ -44,10 +44,12 @@ public class PassagerController {
         return ResponseEntity.ok(passagerDTOs);
     }
 
-    // TODO : This definitely needs to be refactored
     @GetMapping("/{passagerId}/billets")
     public ResponseEntity<List<BilletDTO>> getAllPassagersBillets(Principal principal, @PathVariable Long passagerId) {
+        // getting the passager
         Client client = clientService.getFromPrincipal(principal);
+
+        // checking if the passager was added by the client or that the client is admin
         if (clientService.passagerAddedByClient(client.getId(), passagerId) || client.isAdmin()) {
             Passager passager = passagerService.findById(passagerId);
             if (passager != null) {

@@ -74,8 +74,7 @@ public class BilletServiceImpl implements BilletService {
     @Transactional
     public Billet createDTO(BilletDTO billetDTO) {
         Billet billet = new Billet();
-        // TODO : change this to implement the siege logic
-        billet.setSiege(1);
+        billet.setSiege(billetDTO.getSiege());
         billet.setClasse(classeService.findById(billetDTO.getClasseId()));
         billet.setPassager(passagerService.findById(billetDTO.getPassagerId()));
         billet.setReservation(reservationService.findById(billetDTO.getReservationId()));
