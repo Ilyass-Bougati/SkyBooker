@@ -36,11 +36,11 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        
+
         fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         scene = new Scene(fxmlLoader.load(), 825, 600 , false , SceneAntialiasing.BALANCED);
 
-        stage.getIcons().add(new Image(this.getClass().getResourceAsStream("assets/images/Vector.png")));
+        stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("assets/images/Vector.png"))));
 
         stage.setTitle("SkyBooker");
         stage.setScene(scene);

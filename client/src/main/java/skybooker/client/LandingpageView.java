@@ -20,12 +20,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import requests.Client;
 import utils.GeneralUtils;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +94,15 @@ public class LandingpageView {
             initializeClasses();
             initializeLocations();
             initializePopup();
-            GeneralUtils.initializeDatePicker(date);
+            GeneralUtils.initializeDatePicker(date, new GeneralUtils.DateVerifier() {
+                @Override
+                public Boolean call() {
+                    if(getCell() != null){
+                        return getCell().getItem().isAfter(LocalDate.now());
+                    }
+                    throw new RuntimeException();
+                }
+            });
         });
     }
 
