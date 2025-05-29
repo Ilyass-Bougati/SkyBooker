@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ClientServiceImpl implements ClientService {
 
     Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
@@ -63,7 +64,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "clientEmailCache", key = "#client.email")
     public Client create(Client client) {
         client.setPassword(passwordEncoder.encode(client.getPassword()));
@@ -72,7 +72,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "clientEmailCache", key = "#client.email")
     public Client update(Client client) {
         Client oldClient = findById(client.getId());
@@ -86,7 +85,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "clientIdCache", key = "#id")
     public void deleteById(Long id) {
         clientRepository.deleteById(id);
@@ -100,7 +98,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "clientEmailCache", key = "#email")
     public void deleteByEmail(String email) {
         clientRepository.deleteByEmail(email);
@@ -115,7 +112,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "clientEmailCache", key = "#clientDTO.email")
     public Client update(Client client, ClientDTO clientDTO) {
         client.updateFields(clientDTO);
@@ -124,7 +120,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "clientEmailCache", key = "#registerRequestDTO.email")
     public ResponseEntity<ClientDTO> register(RegisterRequestDTO registerRequestDTO) {
         Passager passager = registerRequestDTO.passager();

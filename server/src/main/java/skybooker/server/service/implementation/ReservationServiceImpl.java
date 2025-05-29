@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.PassagerDTO;
@@ -14,6 +15,7 @@ import skybooker.server.entity.Billet;
 import skybooker.server.entity.Capacite;
 import skybooker.server.entity.Passager;
 import skybooker.server.entity.Reservation;
+import skybooker.server.enums.EtatReservation;
 import skybooker.server.repository.BilletRepository;
 import skybooker.server.repository.ReservationRepository;
 import skybooker.server.service.*;
@@ -23,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class ReservationServiceImpl implements ReservationService {
 
     Logger logger = LoggerFactory.getLogger(ReservationServiceImpl.class);
@@ -57,31 +60,26 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    @Transactional
     public Reservation create(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
 
     @Override
-    @Transactional
     public Reservation update(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id) {
         reservationRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     public void delete(Reservation reservation) {
         reservationRepository.delete(reservation);
     }
 
     @Override
-    @Transactional
     public Reservation createDTO(ReservationDTO reservationDTO) {
         Reservation reservation = new Reservation(reservationDTO);
         reservation.setClient(clientService.findById(reservationDTO.getClientId()));
@@ -118,7 +116,6 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    @Transactional
     public Reservation updateDTO(ReservationDTO reservationDTO) {
         Reservation reservation = findById(reservationDTO.getId());
         if (reservationDTO.getClientId() != null) {
@@ -133,6 +130,17 @@ public class ReservationServiceImpl implements ReservationService {
             return reservationRepository.save(reservation);
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public void checkInClient(Long reservationId) {
+        reservationRepository.modifyEtat(reservationId, EtatReservation.CHECKED_IN);
+        Reservation reservation = findById(reservationId); // this could cause NullPtrException
+        Set<Billet> billets = reservation.getBillets();
+        // TODO : Not sure if we want to delete the billets
+        for (Billet billet : billets) {
+            billetRepository.deleteById(billet.getId());
         }
     }
 }

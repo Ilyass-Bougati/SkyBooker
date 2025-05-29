@@ -15,6 +15,7 @@ import skybooker.server.service.VolService;
 import java.util.*;
 
 @Service
+@Transactional
 public class VolServiceImpl implements VolService {
 
     Logger logger = LoggerFactory.getLogger(VolServiceImpl.class);
@@ -45,13 +46,11 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
-    @Transactional
     public Vol create(Vol vol){
         return volRepository.save(vol);
     }
 
     @Override
-    @Transactional
     public Vol update(Vol vol){
         Vol oldVol = findById(vol.getId());
         if(oldVol != null){
@@ -62,19 +61,16 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id){
         volRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     public void delete(Vol vol){
         volRepository.delete(vol);
     }
 
     @Override
-    @Transactional
     public Vol createDTO(VolDTO volDTO) {
         Vol vol = new Vol(volDTO);
         vol.setAvion(avionService.findById(volDTO.getAvionId()));
@@ -84,7 +80,6 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
-    @Transactional
     public Vol updateDTO(VolDTO volDTO) {
         Vol oldVol = findById(volDTO.getId());
         if(oldVol != null){
@@ -107,7 +102,6 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
-    @Transactional
     public Double calculatePrice(Long volId, Long classeId) {
         //Récupérer le vol et la classe
         Vol vol = findById(volId);

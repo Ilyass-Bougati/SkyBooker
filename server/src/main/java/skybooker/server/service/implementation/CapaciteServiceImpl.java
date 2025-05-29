@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CapaciteServiceImpl implements CapaciteService {
 
     private final CapaciteRepository capaciteRepository;
@@ -28,6 +29,7 @@ public class CapaciteServiceImpl implements CapaciteService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Capacite> findAll() {
         return capaciteRepository.findAll();
     }
@@ -40,31 +42,26 @@ public class CapaciteServiceImpl implements CapaciteService {
     }
 
     @Override
-    @Transactional
     public Capacite create(Capacite entity) {
         return capaciteRepository.save(entity);
     }
 
     @Override
-    @Transactional
     public Capacite update(Capacite entity) {
         return capaciteRepository.save(entity);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long aLong) {
         capaciteRepository.deleteById(aLong);
     }
 
     @Override
-    @Transactional
     public void delete(Capacite entity) {
         capaciteRepository.delete(entity);
     }
 
     @Override
-    @Transactional
     public Capacite createDTO(CapaciteDTO capaciteDTO) {
         Capacite capacite = new Capacite(capaciteDTO);
         capacite.setAvion(avionService.findById(capaciteDTO.getAvionId()));
@@ -73,7 +70,6 @@ public class CapaciteServiceImpl implements CapaciteService {
     }
 
     @Override
-    @Transactional
     public Capacite updateDTO(CapaciteDTO capaciteDTO) {
         Capacite capacite = findById(capaciteDTO.getId());
         if (capacite != null) {

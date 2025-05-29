@@ -1,6 +1,5 @@
 package skybooker.server.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class AeroportServiceImpl implements AeroportService {
 
     private final AeroportRepository aeroportRepository;
@@ -42,13 +42,11 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
-    @Transactional
     public Aeroport create(Aeroport aeroport) {
         return aeroportRepository.save(aeroport);
     }
 
     @Override
-    @Transactional
     public Aeroport createDTO(AeroportDTO aeroportDTO) {
         Aeroport aeroport = new Aeroport(aeroportDTO);
         aeroport.setVille(villeService.findById(aeroportDTO.getVilleId()));
@@ -56,7 +54,6 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "aeroportCache", key = "#aeroport.id")
     public Aeroport update(Aeroport aeroport) {
         Aeroport newAeroport = findById(aeroport.getId());
@@ -77,7 +74,6 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "aeroportCache", key = "#aeroport.id")
     public Aeroport updateDTO(AeroportDTO aeroport) {
         Aeroport newAeroport = findById(aeroport.getId());
@@ -98,14 +94,12 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "aeroportCache", key = "#id")
     public void deleteById(Long id) {
         aeroportRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "aeroportCache", key = "#aeroport.id")
     public void delete(Aeroport aeroport) {
         aeroportRepository.delete(aeroport);

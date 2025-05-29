@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ClasseServiceImpl implements ClasseService {
 
     private final ClasseRepository classeRepository;
@@ -37,28 +38,24 @@ public class ClasseServiceImpl implements ClasseService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "classeCache", key = "#classe.id")
     public Classe create(Classe classe) {
         return classeRepository.save(classe);
     }
 
     @Override
-    @Transactional
     @CachePut(value = "classeCache", key = "#classe.id")
     public Classe update(Classe classe) {
         return classeRepository.save(classe);
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "classeCache", key = "#id")
     public void deleteById(Long id) {
         classeRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "classeCache", key = "#classe.id")
     public void delete(Classe classe) {
         classeRepository.delete(classe);

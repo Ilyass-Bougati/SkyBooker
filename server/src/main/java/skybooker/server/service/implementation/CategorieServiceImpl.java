@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CategorieServiceImpl implements CategorieService {
 
     private final CategorieRepository categorieRepository;
@@ -43,14 +44,12 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    @Transactional
     @Cacheable(value = "categorieIdCache", key = "#id")
     public Categorie create(Categorie categorie) {
         return categorieRepository.save(categorie);
     }
 
     @Override
-    @Transactional
     @Cacheable(value = "categorieIdCache", key = "#categorie.id")
     public Categorie update(Categorie categorie) {
         Categorie oldCategorie = this.findById(categorie.getId());
@@ -63,14 +62,12 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "categorieIdCache", key = "#id")
     public void deleteById(Long id) {
         categorieRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "categorieIdCache", key = "#categorie.id")
     public void delete(Categorie categorie) {
         categorieRepository.delete(categorie);
