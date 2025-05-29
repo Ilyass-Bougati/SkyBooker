@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.entity.Vol;
 import skybooker.server.enums.EtatVol;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -66,6 +67,6 @@ public interface VolRepository extends JpaRepository<Vol, Long> {
 
     @Transactional
     @Modifying
-    @Query("delete from Vol vol where vol.etat=:etatVol")
-    void purgeEtat(EtatVol etatVol);
+    @Query("delete from Vol vol where vol.dateArrive < :oneYearAgo")
+    void purge(LocalDateTime oneYearAgo);
 }
