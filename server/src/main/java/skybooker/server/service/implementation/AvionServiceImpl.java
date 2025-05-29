@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class AvionServiceImpl implements AvionService {
 
     private final AvionRepository avionRepository;
@@ -41,35 +42,30 @@ public class AvionServiceImpl implements AvionService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "avionCache", key = "#avion.id")
     public Avion create(Avion avion) {
         return avionRepository.save(avion);
     }
 
     @Override
-    @Transactional
     @CachePut(value = "avionCache", key = "#avion.id")
     public Avion update(Avion avion) {
         return avionRepository.save(avion);
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "avionCache", key = "#id")
     public void deleteById(Long id) {
         avionRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "avionCache", key = "#avion.id")
     public void delete(Avion avion) {
         avionRepository.delete(avion);
     }
 
     @Override
-    @Transactional
     public Avion createDTO(AvionDTO avionDTO) {
         Avion avion = new Avion(avionDTO);
         avion.setCompanieAerienne(companieAerienneService.findById(avionDTO.getCompanieAerienneId()));
@@ -77,7 +73,6 @@ public class AvionServiceImpl implements AvionService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "avionCache", key = "#avionDTO.id")
     public Avion updateDTO(AvionDTO avionDTO) {
         Avion avion = findById(avionDTO.getId());

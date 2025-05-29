@@ -199,19 +199,19 @@ INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, pr
 
 -- Dubai (DXB) to Tokyo (HND) - Arrival time is local Tokyo time
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-21', '2025-05-22', '23:45:00', '15:30:00', 'BOARDING', 1800.00, -- Departure 23:45 Dubai, Arrival 15:30 next day Tokyo
+('2025-05-21', '2025-05-22', '23:45:00', '15:30:00', 'SCHEDULED', 1800.00, -- Departure 23:45 Dubai, Arrival 15:30 next day Tokyo
 (SELECT id FROM aeroports WHERE iata_code = 'DXB'),
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM avions WHERE model = 'Airbus A380-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'EK'))),
 
-('2025-05-24', '2025-05-24', '01:30:00', '17:15:00', 'BOARDING', 1750.00, -- Departure 01:30 Tokyo, Arrival 17:15 same day Dubai (after time zone conversion and flight)
+('2025-05-24', '2025-05-24', '01:30:00', '17:15:00', 'SCHEDULED', 1750.00, -- Departure 01:30 Tokyo, Arrival 17:15 same day Dubai (after time zone conversion and flight)
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM aeroports WHERE iata_code = 'DXB'),
 (SELECT id FROM avions WHERE model = 'Airbus A380-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'EK')));
 
 -- London (LHR) to Berlin (BER)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-22', '2025-05-22', '06:45:00', '09:30:00', 'BOARDING', 320.00,
+('2025-05-22', '2025-05-22', '06:45:00', '09:30:00', 'SCHEDULED', 320.00,
 (SELECT id FROM aeroports WHERE iata_code = 'LHR'),
 (SELECT id FROM aeroports WHERE iata_code = 'BER'),
 (SELECT id FROM avions WHERE model = 'Airbus A321neo' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'LH'))),
@@ -235,12 +235,12 @@ INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, pr
 
 -- Madrid (MAD) to Casablanca (CMN)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-21', '2025-05-21', '11:40:00', '13:20:00', 'DELAYED', 410.00,
+('2025-05-21', '2025-05-21', '11:40:00', '13:20:00', 'SCHEDULED', 410.00,
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM aeroports WHERE iata_code = 'CMN'),
 (SELECT id FROM avions WHERE model = 'Airbus A350-900' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'QR'))),
 
-('2025-05-22', '2025-05-22', '15:30:00', '17:10:00', 'DELAYED', 395.00,
+('2025-05-22', '2025-05-22', '15:30:00', '17:10:00', 'SCHEDULED', 395.00,
 (SELECT id FROM aeroports WHERE iata_code = 'CMN'),
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM avions WHERE model = 'Airbus A350-900' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'QR')));

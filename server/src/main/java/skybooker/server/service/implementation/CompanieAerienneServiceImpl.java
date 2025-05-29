@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CompanieAerienneServiceImpl implements CompanieAerienneService {
 
     private final CompanieAerienneRepository companieAerienneRepository;
@@ -38,41 +39,35 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
     }
 
     @Override
-    @Transactional
     @CachePut(value = "companieAerienneCache", key = "#companieAerienne.id")
     public CompanieAerienne create(CompanieAerienne companieAerienne) {
         return companieAerienneRepository.save(companieAerienne);
     }
 
     @Override
-    @Transactional
     @CachePut(value = "companieAerienneCache", key = "#companieAerienne.id")
     public CompanieAerienne update(CompanieAerienne companieAerienne) {
         return companieAerienneRepository.save(companieAerienne);
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "companieAerienneCache", key = "#id")
     public void deleteById(Long id) {
         companieAerienneRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     @CacheEvict(value = "companieAerienneCache", key = "#companieAerienne.id")
     public void delete(CompanieAerienne companieAerienne) {
         companieAerienneRepository.delete(companieAerienne);
     }
 
     @Override
-    @Transactional
     public CompanieAerienne createDTO(CompanieAerienneDTO companieAerienneDTO) {
         return create(new CompanieAerienne(companieAerienneDTO));
     }
 
     @Override
-    @Transactional
     @CachePut(value = "companieAerienneCache", key = "#companieAerienneDTO.id")
     public CompanieAerienne updateDTO(CompanieAerienneDTO companieAerienneDTO) {
         CompanieAerienne companieAerienne = findById(companieAerienneDTO.getId());

@@ -1,4 +1,12 @@
 # SkyBooker
+
+## The architecture
+This application uses server-client architecture, where the server is created using [the spring framework](https://spring.io/projects/spring-framework) and the client is created using [JavaFX](https://openjfx.io/). We also use [Redis](https://redis.io/) for caching
+
+![image](img/architecture.png)
+
+
+
 ## Database
 This is the current schema of the database
 

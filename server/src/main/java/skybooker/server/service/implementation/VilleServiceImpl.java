@@ -2,6 +2,7 @@ package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.VilleDTO;
 import skybooker.server.entity.Ville;
 import skybooker.server.repository.VilleRepository;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class VilleServiceImpl implements VilleService {
 
     private final VilleRepository villeRepository;
@@ -20,11 +22,13 @@ public class VilleServiceImpl implements VilleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Ville> findAll() {
         return villeRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Ville findById(Long aLong) {
         Optional<Ville> ville = villeRepository.findById(aLong);
         return ville.orElse(null);

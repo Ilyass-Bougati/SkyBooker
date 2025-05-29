@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PassagerServiceImpl implements PassagerService {
 
     private final PassagerRepository passagerRepository;
@@ -40,14 +41,12 @@ public class PassagerServiceImpl implements PassagerService {
     }
 
     @Override
-    @Transactional
     public Passager create(Passager passager) {
         passager.lowerCase();
         return passagerRepository.save(passager);
     }
 
     @Override
-    @Transactional
     public Passager update(Passager passager) {
         Passager oldPassager = this.findById(passager.getId());
         if (oldPassager != null) {
@@ -60,19 +59,16 @@ public class PassagerServiceImpl implements PassagerService {
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id) {
         passagerRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     public void delete(Passager passager) {
         passagerRepository.delete(passager);
     }
 
     @Override
-    @Transactional
     public Passager createDTO(PassagerDTO passagerDTO) {
         Passager passager = new Passager(passagerDTO);
         passager.updateCategorie(categorieService);
@@ -81,7 +77,6 @@ public class PassagerServiceImpl implements PassagerService {
     }
 
     @Override
-    @Transactional
     public Passager updateDTO(PassagerDTO passagerDTO) {
         Passager passager = findById(passagerDTO.getId());
         if (passager != null) {

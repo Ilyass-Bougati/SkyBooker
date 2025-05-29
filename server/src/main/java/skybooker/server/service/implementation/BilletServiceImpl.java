@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class BilletServiceImpl implements BilletService {
 
     private final BilletRepository billetRepository;
@@ -47,31 +48,26 @@ public class BilletServiceImpl implements BilletService {
     }
 
     @Override
-    @Transactional
     public Billet create(Billet billet) {
         return billetRepository.save(billet);
     }
 
     @Override
-    @Transactional
     public Billet update(Billet billet) {
         return billetRepository.save(billet);
     }
 
     @Override
-    @Transactional
     public void deleteById(Long id) {
         billetRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
     public void delete(Billet billet) {
         billetRepository.delete(billet);
     }
 
     @Override
-    @Transactional
     public Billet createDTO(BilletDTO billetDTO) {
         Billet billet = new Billet();
         billet.setSiege(billetDTO.getSiege());
@@ -82,7 +78,6 @@ public class BilletServiceImpl implements BilletService {
     }
 
     @Override
-    @Transactional
     public Billet updateDTO(BilletDTO billetDTO) {
         Billet billet = findById(billetDTO.getId());
         if (billet != null) {
