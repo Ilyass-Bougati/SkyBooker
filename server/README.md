@@ -1,11 +1,6 @@
 # Server
-To run this server you'll need to generate the private and public keys necessary for encoding and decoding the JWT.
-That could be done following the commands.
+to run the backend of this project all you need is to have [Docker](https://docs.docker.com/desktop/setup/install/windows-install/) installed in your machine and run the command
 ```bash
-mkdir src/main/resources/certs
-cd src/main/resources/certs
-openssl genrsa -out keypair.pem 2048
-openssl rsa -in keypair.pem -pubout -out public.pem
-openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in keypair.pem -out private.pem
+docker compose up
 ```
-And you should have a running postgreSQL server. you can also update the `application.properties` to change the connection port and the database name...
+Docker will build the application, pull the necessary images and run the whole projects ensuring that everything will work correctly on all machines.
