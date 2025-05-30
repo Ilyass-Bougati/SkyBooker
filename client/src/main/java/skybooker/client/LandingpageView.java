@@ -3,6 +3,7 @@ package skybooker.client;
 import DTO.VilleDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exceptions.UnauthorizedException;
 import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -86,13 +87,16 @@ public class LandingpageView {
     }
 
     @FXML
-    public void initialize()
-    {
+    public void initialize() {
         Platform.runLater(() ->
         {
             GeneralUtils.fadeInAnimation(container , 500).play();
             initializeClasses();
-            initializeLocations();
+            try {
+                initializeLocations();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             initializePopup();
             GeneralUtils.initializeDatePicker(date, new GeneralUtils.DateVerifier() {
                 @Override
@@ -215,18 +219,20 @@ public class LandingpageView {
         classes.setItems(FXCollections.observableArrayList("Economy" , "Business" , "First"));
     }
 
-    private void initializeLocations() {
-        // fetching the cities
-        // TODO : refactor later
+    private void initializeLocations() throws IOException {
+        // Fetching the cities
         List<VilleDTO> villes;
         ObjectMapper mapper = new ObjectMapper();
         try {
-            ResponseBody res = Client.get("/ville/").body();
-            assert res != null;
-            villes = mapper.readValue(res.string(), new TypeReference<List<VilleDTO>>(){});
+            String res = Client.get("/ville/");
+            villes = mapper.readValue(res, new TypeReference<List<VilleDTO>>(){});
         } catch (Exception e) {
-            // TODO : Remove this
-            e.printStackTrace();
+            /*
+             TODO : here we should redirect the user to a page that tells them
+             that we're out of service for now, since that's the only reason for
+             an exception to show up here, maybe we can add another route
+             that checks the health of the backend
+             */
             return;
         }
 

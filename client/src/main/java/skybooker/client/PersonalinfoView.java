@@ -1,6 +1,8 @@
 package skybooker.client;
 
+import DTO.register.RegisterRequestDTO;
 import DTO.register.RegisterRequestDTOBuilder;
+import exceptions.UnauthorizedException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -77,14 +79,20 @@ public class PersonalinfoView {
             RegisterRequestDTOBuilder.setAge((int) ChronoUnit.YEARS.between(birthDate.getValue(), LocalDate.now()));
 
             try {
-                Response response = Client.unAuthorizedPost("/auth/register", RegisterRequestDTOBuilder.build());
-                if (response.isSuccessful()) {
-                    System.out.println("Successfully registered");
-                } else {
-                    System.out.println("We got a problem");
-                }
-            } catch (IOException e) {
+                RegisterRequestDTO request = RegisterRequestDTOBuilder.build();
+                Client.unAuthorizedPost("/auth/register", request);
+                Client.login(request.getEmail(), request.getPassword());
+                GeneralUtils.loadView("landingpage-view.fxml");
+            } catch (UnauthorizedException e) {
+                System.out.println("Unauthorized");
+                /*
+                    The user is already logged in
+                */
+                return;
+            } catch (Exception e) {
+                // TODO : Take the user to an error page...
                 e.printStackTrace();
+                return;
             }
         }
 
