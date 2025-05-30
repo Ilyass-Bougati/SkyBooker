@@ -13,7 +13,7 @@ public class ScheduledTasks {
         this.dataPurgeService = dataPurgeService;
     }
 
-    @Scheduled(cron = "0 0 0 1 1 ?", zone = "Africa/Casablanca")
+    @Scheduled(cron = "0 0 3 * * *", zone = "Africa/Casablanca")
     public void purge() {
         dataPurgeService.purgeReservations();
         dataPurgeService.purgeVols();

@@ -10,6 +10,7 @@ import skybooker.server.repository.ReservationRepository;
 import skybooker.server.repository.VolRepository;
 import skybooker.server.service.ReservationService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static skybooker.server.enums.EtatReservation.CHECKED_IN;
@@ -30,14 +31,16 @@ public class DataPurgeService {
     @Async("purgeTask")
     @Transactional
     public void purgeReservations() {
-        reservationRepository.purgeEtat(CHECKED_IN);
+        LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(1);
+        reservationRepository.purge(oneYearAgo);
         logger.info("Purged the reservations");
     }
 
     @Async("purgeTask")
     @Transactional
     public void purgeVols() {
-        volRepository.purgeEtat(COMPLETED);
+        LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(1);
+        volRepository.purge(oneYearAgo);
         logger.info("Purged the vols");
     }
 }

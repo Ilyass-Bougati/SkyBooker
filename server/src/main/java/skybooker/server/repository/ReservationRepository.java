@@ -9,6 +9,7 @@ import skybooker.server.entity.Billet;
 import skybooker.server.entity.Reservation;
 import skybooker.server.enums.EtatReservation;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -21,6 +22,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Transactional
     @Modifying
-    @Query("delete Reservation r where r.etat=:etat")
-    void purgeEtat(EtatReservation etat);
+    @Query("delete Reservation r where r.reservedAt < :oneYearAgo")
+    void purge(LocalDateTime oneYearAgo);
 }
