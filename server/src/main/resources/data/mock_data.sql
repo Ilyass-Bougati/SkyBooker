@@ -247,7 +247,7 @@ INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, pr
 
 -- Singapore (SIN) to Sydney (SYD)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-24', '2025-05-25', '21:15:00', '07:45:00', 'SCHEDULED', 980.00,
+('2025-05-24', '2020-05-25', '21:15:00', '07:45:00', 'SCHEDULED', 980.00,
 (SELECT id FROM aeroports WHERE iata_code = 'SIN'),
 (SELECT id FROM aeroports WHERE iata_code = 'SYD'),
 (SELECT id FROM avions WHERE model = 'Boeing 737-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'SQ'))),

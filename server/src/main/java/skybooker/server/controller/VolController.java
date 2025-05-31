@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import skybooker.server.DTO.AeroportDTO;
 import skybooker.server.DTO.PriceDTO;
 import skybooker.server.DTO.VolDTO;
 import skybooker.server.entity.Vol;
 import skybooker.server.service.VolService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/vol")
@@ -19,6 +22,13 @@ public class VolController {
 
     public VolController(VolService volService) {
         this.volService = volService;
+    }
+
+    @GetMapping("/getFromVilles/{villeAriveeId}/{villeDepartId}")
+    public ResponseEntity<List<VolDTO>> getVols(@PathVariable Long villeAriveeId, @PathVariable Long villeDepartId) {
+        List<Vol> vols = volService.getTrajetVols(villeDepartId, villeAriveeId);
+        List<VolDTO> volDTOS = vols.stream().map(VolDTO::new).toList();
+        return ResponseEntity.ok(volDTOS);
     }
 
     @GetMapping("/price/{volId}/{classeId}")
