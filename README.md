@@ -1,4 +1,14 @@
 # SkyBooker
+## Execution
+Ce projet s'exécute en deux étapes. pour exécuter le serveur, vous devez avoir Docker installé sur votre machine. Si tel est le cas, vous pouvez exécuter le serveur en exécutant la commande suivante à partir du répertoire `serveur`
+```bash
+docker compose up
+```
+pour exécuter le client, vous exécutez les commandes suivantes dans le répertoire `client`
+```bash
+./mvnw javafx:run
+```
+Notez que le client ne peut pas fonctionner correctement sans que le serveur ne soit en cours d'exécution
 
 ## The architecture
 This application uses server-client architecture, where the server is created using [the spring framework](https://spring.io/projects/spring-framework) and the client is created using [JavaFX](https://openjfx.io/). We also use [Redis](https://redis.io/) for caching
