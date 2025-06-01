@@ -1,5 +1,9 @@
 package skybooker.client;
 
+import DTO.VilleDTO;
+import DTO.VolDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -17,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import javafx.util.Duration;
+import requests.Client;
 import utils.GeneralUtils;
 
 import java.io.IOException;
@@ -54,7 +59,8 @@ public class SearchresultsView {
     private bookPopup bp = null;
     private final ArrayList<ArrayList<String>> Rows = new ArrayList<>();
     private final HashMap<Button , Integer> buttonDictionnary = new HashMap<>();
-    public static String className = "Economy" , departure , arrival;
+    public static String className = "Economy";
+    public static Long departure, arrival;
 
     public static HashMap<String , Integer> passengers = new HashMap<>();
 
@@ -330,17 +336,45 @@ public class SearchresultsView {
 
     private void populateRows()
     {
-        for(int i = 0 ; i < 200 ; i ++)
-        {
-            ArrayList<String> Row = new ArrayList<>();
-            Row.add("Airline" + i );
-            Row.add("\t\tDPT" + i);
-            Row.add("\t00:00");
-            Row.add("\t00:00");
-            Row.add("\tARR" + i);
-            Row.add("\t\t100" + i + "$");
-            Rows.add(Row);
+        // fetching the vols
+        List<VolDTO> vols;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String res = Client.get("/vol/getFromVilles/" + departure + "/" + arrival);
+            vols = mapper.readValue(res, new TypeReference<List<VolDTO>>(){});
+            for (VolDTO v : vols) {
+
+                // this is building on the way @Amine did it in the past
+                ArrayList<String> Row = new ArrayList<>();
+                Row.add("Airline" + "a" );
+                Row.add("\t\tDPT" + v.getAeroportDepartId());
+                Row.add("\t" + v.getHeureDepart());
+                Row.add("\t" + v.getHeureArrive());
+                Row.add("\tARR" + v.getAeroportDepartId());
+                Row.add("\t\t100$");
+                Rows.add(Row);
+            }
+        } catch (Exception e) {
+            /*
+             TODO : here we should redirect the user to a page that tells them
+             that we're out of service for now, since that's the only reason for
+             an exception to show up here, maybe we can add another route
+             that checks the health of the backend
+             */
+            e.printStackTrace();
+            return;
         }
+//        for(int i = 0 ; i < 200 ; i ++)
+//        {
+//            ArrayList<String> Row = new ArrayList<>();
+//            Row.add("Airline" + i );
+//            Row.add("\t\tDPT" + i);
+//            Row.add("\t00:00");
+//            Row.add("\t00:00");
+//            Row.add("\tARR" + i);
+//            Row.add("\t\t100" + i + "$");
+//            Rows.add(Row);
+//        }
     }
 
     private void displayRows()

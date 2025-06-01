@@ -19,4 +19,5 @@ module skybooker.client {
     exports skybooker.client;
     exports DTO;
     exports DTO.register;
+    exports enums;
 }
