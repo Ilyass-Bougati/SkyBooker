@@ -1,5 +1,6 @@
 package skybooker.client;
 
+import DTO.AeroportDTO;
 import DTO.VilleDTO;
 import DTO.VolDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,6 +23,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import javafx.util.Duration;
 import requests.Client;
+import requests.ClientCache;
 import utils.GeneralUtils;
 
 import java.io.IOException;
@@ -343,14 +345,14 @@ public class SearchresultsView {
             String res = Client.get("/vol/getFromVilles/" + departure + "/" + arrival);
             vols = mapper.readValue(res, new TypeReference<List<VolDTO>>(){});
             for (VolDTO v : vols) {
-
                 // this is building on the way @Amine did it in the past
+                // Note that this can't throw an exception (I guess...)
                 ArrayList<String> Row = new ArrayList<>();
-                Row.add("Airline" + "a" );
-                Row.add("\t\tDPT" + v.getAeroportDepartId());
+                Row.add("Airline " + "a" );
+                Row.add("\t\tDPT " + ClientCache.get(v.getAeroportDepartId(), AeroportDTO.class).getNom());
                 Row.add("\t" + v.getHeureDepart());
                 Row.add("\t" + v.getHeureArrive());
-                Row.add("\tARR" + v.getAeroportDepartId());
+                Row.add("\tARR " + ClientCache.get(v.getAeroportDepartId(), AeroportDTO.class).getNom());
                 Row.add("\t\t100$");
                 Rows.add(Row);
             }

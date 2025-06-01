@@ -23,6 +23,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import okhttp3.ResponseBody;
 import requests.Client;
+import requests.ClientCache;
 import utils.GeneralUtils;
 
 import java.io.IOException;
@@ -245,6 +246,10 @@ public class LandingpageView {
         try {
             String res = Client.get("/ville/");
             villes = mapper.readValue(res, new TypeReference<List<VilleDTO>>(){});
+            // caching the villes
+            for (VilleDTO ville : villes) {
+                ClientCache.add(ville);
+            }
         } catch (Exception e) {
             /*
              TODO : here we should redirect the user to a page that tells them
