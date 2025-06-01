@@ -47,6 +47,7 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
+    @CachePut(value = "aeroportCache", key = "#result.id")
     public Aeroport createDTO(AeroportDTO aeroportDTO) {
         Aeroport aeroport = new Aeroport(aeroportDTO);
         aeroport.setVille(villeService.findById(aeroportDTO.getVilleId()));

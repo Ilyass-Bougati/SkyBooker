@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
-import skybooker.server.UserDetailsImpl;
+import skybooker.server.security.UserDetailsImpl;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;

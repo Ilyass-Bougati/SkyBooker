@@ -66,6 +66,7 @@ public class AvionServiceImpl implements AvionService {
     }
 
     @Override
+    @CachePut(value = "avionCache", key = "#result.id")
     public Avion createDTO(AvionDTO avionDTO) {
         Avion avion = new Avion(avionDTO);
         avion.setCompanieAerienne(companieAerienneService.findById(avionDTO.getCompanieAerienneId()));
