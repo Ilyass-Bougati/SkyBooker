@@ -17,11 +17,9 @@ import java.security.Principal;
 public class ClientController {
 
     private final ClientService clientService;
-    private final UserDetailsService userDetailsService;
 
-    public ClientController(ClientService clientService, UserDetailsService userDetailsService) {
+    public ClientController(ClientService clientService) {
         this.clientService = clientService;
-        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping("/{id}")
