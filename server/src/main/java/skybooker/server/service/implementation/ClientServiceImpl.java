@@ -2,6 +2,7 @@ package skybooker.server.service.implementation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -29,6 +30,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@CacheConfig(cacheNames = {"clientCache"})
 public class ClientServiceImpl implements ClientService {
 
     Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
@@ -63,7 +65,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @CachePut(value = "clientCache", key = "#client.email")
+    @CachePut(key = "#client.email")
     public Client create(Client client) {
         client.setPassword(passwordEncoder.encode(client.getPassword()));
         client.setEmail(client.getEmail().toLowerCase());
@@ -71,7 +73,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @CachePut(value = "clientCache", key = "#client.email")
+    @CachePut(key = "#client.email")
     public Client update(Client client) {
         Client oldClient = findById(client.getId());
         if (oldClient != null) {
@@ -96,21 +98,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @CacheEvict(value = "clientCache", key = "#email")
+    @CacheEvict(key = "#email")
     public void deleteByEmail(String email) {
         clientRepository.deleteByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "clientCache", key = "#email")
+    @Cacheable(key = "#email")
     public ClientDTO findByEmail(String email) {
         Optional<Client> clientOptional = clientRepository.findByEmail(email);
         return clientOptional.map(ClientDTO::new).orElse(null);
     }
 
     @Override
-    @CachePut(value = "clientCache", key = "#clientDTO.email")
+    @CachePut(key = "#clientDTO.email")
     public Client update(Client client, ClientDTO clientDTO) {
         client.updateFields(clientDTO);
         client.setEmail(client.getEmail().toLowerCase());
@@ -118,7 +120,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @CachePut(value = "clientCache", key = "#registerRequestDTO.email")
+    @CachePut(key = "#registerRequestDTO.email")
     public ResponseEntity<ClientDTO> register(RegisterRequestDTO registerRequestDTO) {
         Passager passager = registerRequestDTO.passager();
 
@@ -149,7 +151,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @Cacheable(value = "clientCache", key = "#principal.name")
+    @Cacheable(key = "#principal.name")
     public Client getFromPrincipal(Principal principal) {
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
         if (userDetails == null) {
