@@ -42,6 +42,7 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
+    @CachePut(value = "aeroportCache", key = "#aeroport.id")
     public Aeroport create(Aeroport aeroport) {
         return aeroportRepository.save(aeroport);
     }
