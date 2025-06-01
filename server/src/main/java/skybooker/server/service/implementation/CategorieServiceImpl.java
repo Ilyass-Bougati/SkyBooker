@@ -2,6 +2,7 @@ package skybooker.server.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,13 +45,13 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    @Cacheable(value = "categorieIdCache", key = "#id")
+    @CachePut(value = "categorieIdCache", key = "#result.id")
     public Categorie create(Categorie categorie) {
         return categorieRepository.save(categorie);
     }
 
     @Override
-    @Cacheable(value = "categorieIdCache", key = "#categorie.id")
+    @CachePut(value = "categorieIdCache", key = "#categorie.id")
     public Categorie update(Categorie categorie) {
         Categorie oldCategorie = this.findById(categorie.getId());
         if (oldCategorie != null) {
