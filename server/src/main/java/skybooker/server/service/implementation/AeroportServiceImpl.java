@@ -47,6 +47,7 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
+    @CachePut(value = "aeroportCache", key = "#result.id")
     public Aeroport createDTO(AeroportDTO aeroportDTO) {
         Aeroport aeroport = new Aeroport(aeroportDTO);
         aeroport.setVille(villeService.findById(aeroportDTO.getVilleId()));
@@ -74,17 +75,17 @@ public class AeroportServiceImpl implements AeroportService {
     }
 
     @Override
-    @CachePut(value = "aeroportCache", key = "#aeroport.id")
-    public Aeroport updateDTO(AeroportDTO aeroport) {
-        Aeroport newAeroport = findById(aeroport.getId());
+    @CachePut(value = "aeroportCache", key = "#aeroportDTO.id")
+    public Aeroport updateDTO(AeroportDTO aeroportDTO) {
+        Aeroport newAeroport = findById(aeroportDTO.getId());
         if (newAeroport != null) {
             // modifying the airport
-            newAeroport.setNom(aeroport.getNom());
-            newAeroport.setIataCode(aeroport.getIataCode());
-            newAeroport.setIcaoCode(aeroport.getIcaoCode());
-            newAeroport.setLatitude(aeroport.getLatitude());
-            newAeroport.setLongitude(aeroport.getLongitude());
-            newAeroport.setVille(villeService.findById(aeroport.getVilleId()));
+            newAeroport.setNom(aeroportDTO.getNom());
+            newAeroport.setIataCode(aeroportDTO.getIataCode());
+            newAeroport.setIcaoCode(aeroportDTO.getIcaoCode());
+            newAeroport.setLatitude(aeroportDTO.getLatitude());
+            newAeroport.setLongitude(aeroportDTO.getLongitude());
+            newAeroport.setVille(villeService.findById(aeroportDTO.getVilleId()));
 
             // saving the modifications
             return aeroportRepository.save(newAeroport);

@@ -23,12 +23,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import okhttp3.ResponseBody;
 import requests.Client;
+import requests.ClientCache;
 import utils.GeneralUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class LandingpageView {
@@ -59,15 +61,33 @@ public class LandingpageView {
 
     private Popup contextMenu;
 
-    @FXML
-    protected void onFindButton()
-    {
-        if(departure.getValue().equals("Departure") || arrival.getValue().equals("Arrival"))
-            return;
+    List<VilleDTO> villes;
 
-        SearchresultsView.arrival = arrival.getValue();
-        SearchresultsView.departure = departure.getValue();
+    @FXML
+    protected void onFindButton() {
+        String arrivalCityName = arrival.getValue();
+        String departureCityName = departure.getValue();
+
+        if(arrivalCityName.equals("Departure") || departureCityName.equals("Arrival")) {
+            // TODO : add some error handling here
+            return;
+        }
+
         SearchresultsView.className = classes.getValue();
+
+        // TODO : this could be refactored but I'm not very familliar with this code
+        // getting the ids of the cities
+        Optional<VilleDTO> arrivalCity = villes.stream().filter(v -> v.getNom().equals(arrivalCityName)).findFirst();
+        Optional<VilleDTO> departureCity = villes.stream().filter(v -> v.getNom().equals(departureCityName)).findFirst();
+
+        if (arrivalCity.isPresent() && departureCity.isPresent()) {
+            SearchresultsView.arrival = arrivalCity.get().getId();
+            SearchresultsView.departure = departureCity.get().getId();
+        } else {
+            // TODO : add some error handling
+            return;
+        }
+
 
 
         ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeOutAnimation(imageContainer , 500) ,
@@ -216,16 +236,20 @@ public class LandingpageView {
 
     private void initializeClasses()
     {
+        // TODO : fetch the classes
         classes.setItems(FXCollections.observableArrayList("Economy" , "Business" , "First"));
     }
 
     private void initializeLocations() throws IOException {
         // Fetching the cities
-        List<VilleDTO> villes;
         ObjectMapper mapper = new ObjectMapper();
         try {
             String res = Client.get("/ville/");
             villes = mapper.readValue(res, new TypeReference<List<VilleDTO>>(){});
+            // caching the villes
+            for (VilleDTO ville : villes) {
+                ClientCache.add(ville);
+            }
         } catch (Exception e) {
             /*
              TODO : here we should redirect the user to a page that tells them

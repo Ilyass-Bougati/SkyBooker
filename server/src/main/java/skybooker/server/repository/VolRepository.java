@@ -69,4 +69,7 @@ public interface VolRepository extends JpaRepository<Vol, Long> {
     @Modifying
     @Query("delete from Vol vol where vol.dateArrive < :oneYearAgo")
     void purge(LocalDateTime oneYearAgo);
+
+    @Query("SELECT vol FROM Vol vol WHERE vol.aeroportArrive.ville.id=:villeArriveeId AND vol.aeroportDepart.ville.id=:villeDepartId")
+    List<Vol> findByVilles(Long villeDepartId, Long villeArriveeId);
 }

@@ -1,11 +1,14 @@
 package DTO;
 
-public class VilleDTO {
+import java.util.HashMap;
+import java.util.Map;
+
+public class VilleDTO implements Cacheable<VilleDTO> {
     private long id;
     private String nom;
     private String pays;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -27,5 +30,20 @@ public class VilleDTO {
 
     public void setPays(String pays) {
         this.pays = pays;
+    }
+
+
+    // for caching
+    private final static HashMap<Long, VilleDTO> cache = new HashMap<>();
+    private final static String route = "/ville/";
+
+    @Override
+    public Map<Long, VilleDTO> getCache() {
+        return cache;
+    }
+
+    @Override
+    public String getRoute() {
+        return route;
     }
 }

@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.ReservationDTO;
-import skybooker.server.UserDetailsImpl;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Reservation;
 import skybooker.server.service.ClientService;

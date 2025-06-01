@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.BilletDTO;
 import skybooker.server.DTO.PassagerDTO;
-import skybooker.server.UserDetailsImpl;
 import skybooker.server.entity.Billet;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;

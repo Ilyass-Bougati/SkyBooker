@@ -123,6 +123,11 @@ public class VolServiceImpl implements VolService {
         return distance * classe.getPrixParKm();
     }
 
+    @Override
+    public List<Vol> getTrajetVols(Long villeDepartId, Long villeArriveeId) {
+        return volRepository.findByVilles(villeDepartId, villeArriveeId);
+    }
+
     //(formule Haversine)
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371;

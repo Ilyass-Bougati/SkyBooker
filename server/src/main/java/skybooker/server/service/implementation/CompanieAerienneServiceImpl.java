@@ -63,6 +63,7 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
     }
 
     @Override
+    @CachePut(value = "companieAerienneCache", key = "#result.id")
     public CompanieAerienne createDTO(CompanieAerienneDTO companieAerienneDTO) {
         return create(new CompanieAerienne(companieAerienneDTO));
     }
