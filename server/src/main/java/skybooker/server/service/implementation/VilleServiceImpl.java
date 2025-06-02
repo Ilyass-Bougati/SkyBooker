@@ -1,10 +1,10 @@
 package skybooker.server.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.VilleDTO;
 import skybooker.server.entity.Ville;
+import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.VilleRepository;
 import skybooker.server.service.VilleService;
 
@@ -21,27 +21,19 @@ public class VilleServiceImpl implements VilleService {
         this.villeRepository = villeRepository;
     }
 
+    @Transactional(readOnly = true)
+    public List<VilleDTO> getAllVille() {
+        List<Ville> villes = villeRepository.findAll();
+        return villes.stream().map(VilleDTO::new).toList();
+    }
+
     @Override
     @Transactional(readOnly = true)
-    public List<Ville> findAll() {
-        return villeRepository.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Ville findById(Long aLong) {
-        Optional<Ville> ville = villeRepository.findById(aLong);
-        return ville.orElse(null);
-    }
-
-    @Override
-    public Ville create(Ville entity) {
-        return villeRepository.save(entity);
-    }
-
-    @Override
-    public Ville update(Ville entity) {
-        return villeRepository.save(entity);
+    public VilleDTO findById(Long id) {
+        Optional<Ville> ville = villeRepository.findById(id);
+        return ville
+                .map(VilleDTO::new)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -50,25 +42,27 @@ public class VilleServiceImpl implements VilleService {
     }
 
     @Override
-    public void delete(Ville entity) {
-        villeRepository.delete(entity);
+    public List<VilleDTO> findAll() {
+        return villeRepository.findAll()
+                .stream().map(VilleDTO::new).toList();
     }
 
     @Override
-    public Ville createDTO(VilleDTO villeDTO) {
-        return villeRepository.save(new Ville(villeDTO));
+    public VilleDTO createDTO(VilleDTO villeDTO) {
+        return new VilleDTO(villeRepository.save(new Ville(villeDTO)));
     }
 
     @Override
-    public Ville updateDTO(VilleDTO villeDTO) {
-        Ville ville = findById(villeDTO.getId());
-        if (ville != null) {
+    public VilleDTO updateDTO(VilleDTO villeDTO) {
+        Optional<Ville> villeOptional = villeRepository.findById(villeDTO.getId());
+        if (villeOptional.isPresent()) {
+            Ville ville = villeOptional.get();
             // updating the city
             ville.setNom(villeDTO.getNom());
             ville.setPays(villeDTO.getPays());
 
             // saving the updates
-            return villeRepository.save(ville);
+            return new VilleDTO(villeRepository.save(ville));
         } else {
             return null;
         }

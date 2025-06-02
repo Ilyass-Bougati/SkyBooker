@@ -16,7 +16,7 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+      
   skybooker:
     container_name: skybooker_appserver
     build:
@@ -38,3 +38,4 @@ services:
 
 volumes:
   pgdata:
+  prom_data:

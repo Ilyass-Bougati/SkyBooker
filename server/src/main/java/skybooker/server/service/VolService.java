@@ -6,7 +6,7 @@ import skybooker.server.entity.Vol;
 import java.util.List;
 
 
-public interface VolService extends CrudService<Vol, Long>, CrudDTO<Vol, VolDTO> {
+public interface VolService extends CrudDTO<VolDTO, Long> {
     Double calculatePrice(Long volId, Long classeId);
-    List<Vol> getTrajetVols(Long villeDepartId, Long villeArriveeId);
+    List<VolDTO> getTrajetVols(Long villeDepartId, Long villeArriveeId);
 }

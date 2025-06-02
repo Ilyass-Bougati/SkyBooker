@@ -5,59 +5,44 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.VolDTO;
+import skybooker.server.entity.Aeroport;
+import skybooker.server.entity.Avion;
 import skybooker.server.entity.Vol;
 import skybooker.server.entity.Classe;
+import skybooker.server.exception.NotFoundException;
+import skybooker.server.repository.AeroportRepository;
+import skybooker.server.repository.AvionRepository;
 import skybooker.server.repository.VolRepository;
 import skybooker.server.repository.ClasseRepository;
-import skybooker.server.service.AeroportService;
-import skybooker.server.service.AvionService;
 import skybooker.server.service.VolService;
+
 import java.util.*;
 
 @Service
 @Transactional
 public class VolServiceImpl implements VolService {
 
+    private final AvionRepository avionRepository;
+    private final AeroportRepository aeroportRepository;
     Logger logger = LoggerFactory.getLogger(VolServiceImpl.class);
 
     private final VolRepository volRepository;
     private final ClasseRepository classeRepository;
-    private final AvionService avionService;
-    private final AeroportService aeroportService;
 
-    public VolServiceImpl(VolRepository volRepository, ClasseRepository classeRepository, AvionService avionService, AeroportService aeroportService) {
+    public VolServiceImpl(VolRepository volRepository, ClasseRepository classeRepository, AvionRepository avionRepository, AeroportRepository aeroportRepository) {
         this.volRepository = volRepository;
         this.classeRepository = classeRepository;
-        this.avionService = avionService;
-        this.aeroportService = aeroportService;
+        this.avionRepository = avionRepository;
+        this.aeroportRepository = aeroportRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Vol> findAll(){
-        return volRepository.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Vol findById(Long id){
+    public VolDTO findById(Long id){
         Optional<Vol> vol = volRepository.findById(id);
-        return vol.orElse(null);
-    }
-
-    @Override
-    public Vol create(Vol vol){
-        return volRepository.save(vol);
-    }
-
-    @Override
-    public Vol update(Vol vol){
-        Vol oldVol = findById(vol.getId());
-        if(oldVol != null){
-            return volRepository.save(oldVol);
-        }else{
-            return null;
-        }
+        return vol
+                .map(VolDTO::new)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -66,50 +51,64 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
-    public void delete(Vol vol){
-        volRepository.delete(vol);
+    public List<VolDTO> findAll() {
+        return volRepository.findAll()
+                .stream().map(VolDTO::new).toList();
     }
 
     @Override
-    public Vol createDTO(VolDTO volDTO) {
+    public VolDTO createDTO(VolDTO volDTO) {
         Vol vol = new Vol(volDTO);
-        vol.setAvion(avionService.findById(volDTO.getAvionId()));
-        vol.setAeroportArrive(aeroportService.findById(volDTO.getAeroportArriveId()));
-        vol.setAeroportDepart(aeroportService.findById(volDTO.getAeroportDepartId()));
-        return volRepository.save(vol);
+        Avion avion = avionRepository.findById(volDTO.getAvionId())
+                .orElseThrow(() -> new NotFoundException("Avion not found"));
+        Aeroport aeroportArrive = aeroportRepository.findById(volDTO.getAeroportArriveId())
+                .orElseThrow(() -> new NotFoundException("Aeroport arrive not found"));
+        Aeroport aeroportDepart = aeroportRepository.findById(volDTO.getAeroportDepartId())
+                .orElseThrow(() -> new NotFoundException("Aeroport depart not found"));
+
+        vol.setAvion(avion);
+        vol.setAeroportArrive(aeroportArrive);
+        vol.setAeroportDepart(aeroportDepart);
+        return new VolDTO(volRepository.save(vol));
     }
 
     @Override
-    public Vol updateDTO(VolDTO volDTO) {
-        Vol oldVol = findById(volDTO.getId());
-        if(oldVol != null){
+    public VolDTO updateDTO(VolDTO volDTO) {
+        Optional<Vol> volOptional = volRepository.findById(volDTO.getId());
+        if(volOptional.isPresent()){
+            Avion avion = avionRepository.findById(volDTO.getAvionId())
+                    .orElseThrow(() -> new NotFoundException("Avion not found"));
+            Aeroport aeroportArrive = aeroportRepository.findById(volDTO.getAeroportArriveId())
+                    .orElseThrow(() -> new NotFoundException("Aeroport arrive not found"));
+            Aeroport aeroportDepart = aeroportRepository.findById(volDTO.getAeroportDepartId())
+                    .orElseThrow(() -> new NotFoundException("Aeroport depart not found"));
+
+            Vol vol = volOptional.get();
             // updating the vol
-            oldVol.setAvion(avionService.findById(volDTO.getAvionId()));
-            oldVol.setEtat(volDTO.getEtat());
-            oldVol.setAeroportDepart(aeroportService.findById(volDTO.getAeroportDepartId()));
-            oldVol.setAeroportArrive(aeroportService.findById(volDTO.getAeroportArriveId()));
-            oldVol.setPrix(volDTO.getPrix());
-            oldVol.setDateArrive(volDTO.getDateArrive());
-            oldVol.setDateDepart(volDTO.getDateDepart());
-            oldVol.setHeureArrive(volDTO.getHeureArrive());
-            oldVol.setHeureDepart(volDTO.getHeureDepart());
+            vol.setAvion(avion);
+            vol.setEtat(volDTO.getEtat());
+            vol.setAeroportDepart(aeroportDepart);
+            vol.setAeroportArrive(aeroportArrive);
+            vol.setPrix(volDTO.getPrix());
+            vol.setDateArrive(volDTO.getDateArrive());
+            vol.setDateDepart(volDTO.getDateDepart());
+            vol.setHeureArrive(volDTO.getHeureArrive());
+            vol.setHeureDepart(volDTO.getHeureDepart());
 
             // saving the update
-            return volRepository.save(oldVol);
+            return new VolDTO(volRepository.save(vol));
         } else {
-            return null;
+            throw new NotFoundException("Vol not found");
         }
     }
 
     @Override
     public Double calculatePrice(Long volId, Long classeId) {
         //Récupérer le vol et la classe
-        Vol vol = findById(volId);
-        Classe classe = classeRepository.findById(classeId).orElse(null);
-
-        if (vol == null || classe == null) {
-            return null;
-        }
+        Vol vol = volRepository.findById(volId)
+                .orElseThrow(() -> new NotFoundException("Vol not found"));
+        Classe classe = classeRepository.findById(classeId)
+                .orElseThrow(() -> new NotFoundException("Classe not found"));
 
         //Calculer la distance entre aéroports (méthode à implémenter)
         double distance = calculateDistance(
@@ -124,11 +123,12 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
-    public List<Vol> getTrajetVols(Long villeDepartId, Long villeArriveeId) {
-        return volRepository.findByVilles(villeDepartId, villeArriveeId);
+    public List<VolDTO> getTrajetVols(Long villeDepartId, Long villeArriveeId) {
+        return volRepository.findByVilles(villeDepartId, villeArriveeId)
+                .stream().map(VolDTO::new).toList();
     }
 
-    //(formule Haversine)
+
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371;
         double latDistance = Math.toRadians(lat2 - lat1);

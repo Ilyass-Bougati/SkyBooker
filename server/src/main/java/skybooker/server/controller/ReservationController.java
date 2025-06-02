@@ -2,11 +2,11 @@ package skybooker.server.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Reservation;
+import skybooker.server.exception.NotFoundException;
 import skybooker.server.service.ClientService;
 import skybooker.server.service.ReservationService;
 
@@ -19,12 +19,10 @@ import java.util.Set;
 public class ReservationController {
 
     private final ReservationService reservationService;
-    private final UserDetailsService userDetailsService;
     private final ClientService clientService;
 
-    public ReservationController(ReservationService reservationService, UserDetailsService userDetailsService, ClientService clientService) {
+    public ReservationController(ReservationService reservationService, ClientService clientService) {
         this.reservationService = reservationService;
-        this.userDetailsService = userDetailsService;
         this.clientService = clientService;
     }
 
@@ -39,13 +37,13 @@ public class ReservationController {
     @GetMapping("/{id}")
     public ResponseEntity<ReservationDTO> getReservationById(Principal principal, @PathVariable Long id) {
         Client client =  clientService.getFromPrincipal(principal);
-        Reservation reservation = reservationService.findById(id);
+        ReservationDTO reservation = reservationService.findById(id);
 
         // checking if the reservation was made by the client
-        if (reservation == null || reservation.getClient().getId() != client.getId()) {
-            return ResponseEntity.notFound().build();
+        if (reservation.getClientId() != client.getId()) {
+            throw new NotFoundException("Reservation not found");
         } else {
-            return ResponseEntity.ok(new ReservationDTO(reservation));
+            return ResponseEntity.ok(reservation);
         }
     }
 
@@ -56,11 +54,11 @@ public class ReservationController {
         reservationDTO.setClientId(client.getId());
 
         // saving the reservation
-        Reservation savedReservation = reservationService.createDTO(reservationDTO);
+        ReservationDTO savedReservation = reservationService.createDTO(reservationDTO);
         if (savedReservation == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(new ReservationDTO(savedReservation));
+        return ResponseEntity.ok(savedReservation);
     }
 
     @PutMapping("/")
@@ -70,11 +68,11 @@ public class ReservationController {
         reservationDTO.setClientId(client.getId());
 
         // updating the reservation
-        Reservation updatedReservation = reservationService.updateDTO(reservationDTO);
+        ReservationDTO updatedReservation = reservationService.updateDTO(reservationDTO);
         if (updatedReservation == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(new ReservationDTO(updatedReservation));
+            return ResponseEntity.ok(updatedReservation);
         }
     }
 

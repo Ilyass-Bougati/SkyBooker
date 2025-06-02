@@ -24,39 +24,21 @@ public class AeroportController {
         this.aeroportService = aeroportService;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<AeroportDTO>> getAllAeroport() {
-        List<Aeroport> aeroports = aeroportService.findAll();
-        List<AeroportDTO> aeroportDTOS = aeroports.stream().map(AeroportDTO::new).toList();
-        return ResponseEntity.ok(aeroportDTOS);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<AeroportDTO> getAeroportById(@PathVariable Long id) {
-        Aeroport aeroport = aeroportService.findById(id);
-        if (aeroport == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(new AeroportDTO(aeroport));
-        }
+        return ResponseEntity.ok(aeroportService.findById(id));
     }
 
     @PostMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<AeroportDTO> createAeroport(@RequestBody @Valid AeroportDTO aeroportDTO) {
-        Aeroport aeroport = aeroportService.createDTO(aeroportDTO);
-        return ResponseEntity.ok(new AeroportDTO(aeroport));
+        return ResponseEntity.ok(aeroportService.createDTO(aeroportDTO));
     }
 
     @PutMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<AeroportDTO> updateAeroport(@RequestBody @Valid AeroportDTO aeroportDTO) {
-        Aeroport aeroport = aeroportService.updateDTO(aeroportDTO);
-        if (aeroport == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(new AeroportDTO(aeroport));
-        }
+        return ResponseEntity.ok(aeroportService.updateDTO(aeroportDTO));
     }
 
     @DeleteMapping("/{id}")

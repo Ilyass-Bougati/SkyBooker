@@ -15,7 +15,7 @@ public class PassagerDTO {
 
     private long id;
 
-    Client client;
+    Long clientId;
 
     @NotNull
     private String nom;
@@ -36,6 +36,6 @@ public class PassagerDTO {
         setPrenom(passager.getPrenom());
         setCIN(passager.getCIN());
         setAge(passager.getAge());
-        client = null;
+        setClientId(passager.getClient().getId());
     }
 }

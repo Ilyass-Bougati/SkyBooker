@@ -1,12 +1,14 @@
 package skybooker.server.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import skybooker.server.DTO.CategorieDTO;
 import skybooker.server.entity.Categorie;
+import skybooker.server.enums.CategorieNameEnum;
+import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.CategorieRepository;
 import skybooker.server.service.CategorieService;
 
@@ -24,41 +26,56 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    public List<Categorie> findAll() {
-        return categorieRepository.findAll();
+    public List<CategorieDTO> findAll() {
+        return categorieRepository.findAll()
+                .stream().map(CategorieDTO::new).toList();
+    }
+
+    @Override
+    public CategorieDTO createDTO(CategorieDTO categorieDTO) {
+        Categorie categorie = new Categorie(categorieDTO);
+        return new CategorieDTO(categorieRepository.save(categorie));
     }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "categorieIdCache", key = "#id")
-    public Categorie findById(Long id) {
+    public CategorieDTO findById(Long id) {
         Optional<Categorie> categorie = categorieRepository.findById(id);
-        return categorie.orElse(null);
+        return categorie
+                .map(CategorieDTO::new)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "categorieNameCache", key = "#name")
-    public Categorie findByNom(String name) {
+    public CategorieDTO findByNom(CategorieNameEnum name) {
         Optional<Categorie> categorie = categorieRepository.findByNom(name);
-        return categorie.orElse(null);
+        return categorie
+                .map(CategorieDTO::new)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
-    @CachePut(value = "categorieIdCache", key = "#result.id")
-    public Categorie create(Categorie categorie) {
-        return categorieRepository.save(categorie);
+    public List<CategorieDTO> getAllCategories() {
+        List<Categorie> categories = categorieRepository.findAll();
+        return categories.stream().map(CategorieDTO::new).toList();
     }
 
     @Override
-    @CachePut(value = "categorieIdCache", key = "#categorie.id")
-    public Categorie update(Categorie categorie) {
-        Categorie oldCategorie = this.findById(categorie.getId());
-        if (oldCategorie != null) {
-            oldCategorie.updateFields(categorie);
-            return categorieRepository.save(oldCategorie);
+    @CachePut(value = "categorieIdCache", key = "#categorieDTO.id")
+    public CategorieDTO updateDTO(CategorieDTO categorieDTO) {
+        Optional<Categorie> oldCategorieOptional = categorieRepository.findById(categorieDTO.getId());
+        if (oldCategorieOptional.isPresent()) {
+            Categorie oldCategorie = oldCategorieOptional.get();
+
+            // updating the categorie
+            oldCategorie.setReduction(categorieDTO.getReduction());
+            oldCategorie.setNom(categorieDTO.getNom());
+            return new CategorieDTO(categorieRepository.save(oldCategorie));
         } else {
-            return null;
+            throw new NotFoundException("Categorie not found");
         }
     }
 
@@ -66,11 +83,5 @@ public class CategorieServiceImpl implements CategorieService {
     @CacheEvict(value = "categorieIdCache", key = "#id")
     public void deleteById(Long id) {
         categorieRepository.deleteById(id);
-    }
-
-    @Override
-    @CacheEvict(value = "categorieIdCache", key = "#categorie.id")
-    public void delete(Categorie categorie) {
-        categorieRepository.delete(categorie);
     }
 }

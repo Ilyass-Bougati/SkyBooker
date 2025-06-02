@@ -24,37 +24,25 @@ public class VilleController {
 
     @GetMapping("/")
     public ResponseEntity<List<VilleDTO>> getAllVille() {
-        List<Ville> villes = villeService.findAll();
-        List<VilleDTO> villeDTOs = villes.stream().map(VilleDTO::new).toList();
-        return ResponseEntity.ok(villeDTOs);
+        return ResponseEntity.ok(villeService.getAllVille());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<VilleDTO> getVilleById(@PathVariable Long id) {
-        Ville ville = villeService.findById(id);
-        if (ville == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(new VilleDTO(ville));
-        }
+        return ResponseEntity.ok(villeService.findById(id));
     }
 
     @PostMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<VilleDTO> createVille(@RequestBody @Valid VilleDTO villeDTO) {
-        Ville ville = villeService.createDTO(villeDTO);
-        return ResponseEntity.ok(new VilleDTO(ville));
+        return ResponseEntity.ok(villeService.createDTO(villeDTO));
     }
 
     @PutMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<VilleDTO> updateVille(@RequestBody @Valid VilleDTO villeDTO) {
-        Ville ville = villeService.updateDTO(villeDTO);
-        if (ville == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(new VilleDTO(ville));
-        }
+        return ResponseEntity.ok(villeService.updateDTO(villeDTO));
+
     }
 
     @DeleteMapping("/{id}")

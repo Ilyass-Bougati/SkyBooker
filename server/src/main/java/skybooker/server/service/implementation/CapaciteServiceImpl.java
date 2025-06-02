@@ -1,15 +1,16 @@
 package skybooker.server.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.CapaciteDTO;
+import skybooker.server.entity.Avion;
 import skybooker.server.entity.Capacite;
+import skybooker.server.entity.Classe;
+import skybooker.server.exception.NotFoundException;
+import skybooker.server.repository.AvionRepository;
 import skybooker.server.repository.CapaciteRepository;
-import skybooker.server.service.AvionService;
+import skybooker.server.repository.ClasseRepository;
 import skybooker.server.service.CapaciteService;
-import skybooker.server.service.ClasseService;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,36 +20,23 @@ import java.util.Optional;
 public class CapaciteServiceImpl implements CapaciteService {
 
     private final CapaciteRepository capaciteRepository;
-    private final AvionService avionService;
-    private final ClasseService classeService;
+    private final AvionRepository avionRepository;
+    private final ClasseRepository classeRepository;
 
-    public CapaciteServiceImpl(CapaciteRepository capaciteRepository, AvionService avionService, ClasseService classeService) {
+    public CapaciteServiceImpl(CapaciteRepository capaciteRepository, AvionRepository avionRepository, ClasseRepository classeRepository) {
         this.capaciteRepository = capaciteRepository;
-        this.avionService = avionService;
-        this.classeService = classeService;
+        this.avionRepository = avionRepository;
+        this.classeRepository = classeRepository;
     }
+
 
     @Override
     @Transactional(readOnly = true)
-    public List<Capacite> findAll() {
-        return capaciteRepository.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Capacite findById(Long id) {
+    public CapaciteDTO findById(Long id) {
         Optional<Capacite> capacite = capaciteRepository.findById(id);
-        return capacite.orElse(null);
-    }
-
-    @Override
-    public Capacite create(Capacite entity) {
-        return capaciteRepository.save(entity);
-    }
-
-    @Override
-    public Capacite update(Capacite entity) {
-        return capaciteRepository.save(entity);
+        return capacite
+                .map(CapaciteDTO::new)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -57,33 +45,40 @@ public class CapaciteServiceImpl implements CapaciteService {
     }
 
     @Override
-    public void delete(Capacite entity) {
-        capaciteRepository.delete(entity);
+    public List<CapaciteDTO> findAll() {
+        return List.of();
     }
 
     @Override
-    public Capacite createDTO(CapaciteDTO capaciteDTO) {
+    public CapaciteDTO createDTO(CapaciteDTO capaciteDTO) {
+        Avion avion = avionRepository.findById(capaciteDTO.getAvionId())
+                .orElseThrow(() -> new NotFoundException("Avion not found"));
+        Classe classe = classeRepository.findById(capaciteDTO.getClasseId())
+                .orElseThrow(() -> new NotFoundException("Classe not found"));
+
         Capacite capacite = new Capacite(capaciteDTO);
-        capacite.setAvion(avionService.findById(capaciteDTO.getAvionId()));
-        capacite.setClasse(classeService.findById(capaciteDTO.getClasseId()));
-        return capaciteRepository.save(capacite);
+        capacite.setAvion(avion);
+        capacite.setClasse(classe);
+        return new CapaciteDTO(capaciteRepository.save(capacite));
     }
 
     @Override
-    public Capacite updateDTO(CapaciteDTO capaciteDTO) {
-        Capacite capacite = findById(capaciteDTO.getId());
-        if (capacite != null) {
-            // modifying the capacity
-            capacite.setClasse(classeService.findById(capaciteDTO.getClasseId()));
-            capacite.setAvion(avionService.findById(capaciteDTO.getAvionId()));
-            capacite.setBorneInf(capaciteDTO.getBorneInf());
-            capacite.setBorneSup(capaciteDTO.getBorneSup());
-            capacite.setCapacite(capaciteDTO.getCapacite());
+    public CapaciteDTO updateDTO(CapaciteDTO capaciteDTO) {
+        Capacite capacite = capaciteRepository.findById(capaciteDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Capacite not found"));
+        Avion avion = avionRepository.findById(capaciteDTO.getAvionId())
+                .orElseThrow(() -> new NotFoundException("Avion not found"));
+        Classe classe = classeRepository.findById(capaciteDTO.getClasseId())
+                .orElseThrow(() -> new NotFoundException("Classe not found"));
 
-            // saving the changes
-            return capaciteRepository.save(capacite);
-        } else {
-            return null;
-        }
+        // modifying the capacity
+        capacite.setClasse(classe);
+        capacite.setAvion(avion);
+        capacite.setBorneInf(capaciteDTO.getBorneInf());
+        capacite.setBorneSup(capaciteDTO.getBorneSup());
+        capacite.setCapacite(capaciteDTO.getCapacite());
+
+        // saving the changes
+        return new CapaciteDTO(capaciteRepository.save(capacite));
     }
 }

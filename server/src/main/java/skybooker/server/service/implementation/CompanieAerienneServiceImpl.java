@@ -1,6 +1,5 @@
 package skybooker.server.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -8,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.CompanieAerienneDTO;
 import skybooker.server.entity.CompanieAerienne;
+import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.CompanieAerienneRepository;
 import skybooker.server.service.CompanieAerienneService;
 
@@ -24,31 +24,18 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
         this.companieAerienneRepository = companieAerienneRepository;
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<CompanieAerienne> findAll() {
-        return companieAerienneRepository.findAll();
-    }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "companieAerienneCache", key = "#id")
-    public CompanieAerienne findById(Long id) {
+    public CompanieAerienneDTO findById(Long id) {
         Optional<CompanieAerienne> companieAerienne = companieAerienneRepository.findById(id);
-        return companieAerienne.orElse(null);
+        return companieAerienne
+                .map(CompanieAerienneDTO::new)
+                .orElseThrow(NotFoundException::new);
     }
 
-    @Override
-    @CachePut(value = "companieAerienneCache", key = "#companieAerienne.id")
-    public CompanieAerienne create(CompanieAerienne companieAerienne) {
-        return companieAerienneRepository.save(companieAerienne);
-    }
 
-    @Override
-    @CachePut(value = "companieAerienneCache", key = "#companieAerienne.id")
-    public CompanieAerienne update(CompanieAerienne companieAerienne) {
-        return companieAerienneRepository.save(companieAerienne);
-    }
 
     @Override
     @CacheEvict(value = "companieAerienneCache", key = "#id")
@@ -56,32 +43,34 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
         companieAerienneRepository.deleteById(id);
     }
 
+
     @Override
-    @CacheEvict(value = "companieAerienneCache", key = "#companieAerienne.id")
-    public void delete(CompanieAerienne companieAerienne) {
-        companieAerienneRepository.delete(companieAerienne);
+    public List<CompanieAerienneDTO> findAll() {
+        return companieAerienneRepository.findAll()
+                .stream().map(CompanieAerienneDTO::new).toList();
     }
 
     @Override
     @CachePut(value = "companieAerienneCache", key = "#result.id")
-    public CompanieAerienne createDTO(CompanieAerienneDTO companieAerienneDTO) {
-        return create(new CompanieAerienne(companieAerienneDTO));
+    public CompanieAerienneDTO createDTO(CompanieAerienneDTO companieAerienneDTO) {
+        return new CompanieAerienneDTO(companieAerienneRepository.save(new CompanieAerienne(companieAerienneDTO)));
     }
 
     @Override
     @CachePut(value = "companieAerienneCache", key = "#companieAerienneDTO.id")
-    public CompanieAerienne updateDTO(CompanieAerienneDTO companieAerienneDTO) {
-        CompanieAerienne companieAerienne = findById(companieAerienneDTO.getId());
-        if (companieAerienne != null) {
+    public CompanieAerienneDTO updateDTO(CompanieAerienneDTO companieAerienneDTO) {
+        Optional<CompanieAerienne> companieAerienneOptional = companieAerienneRepository.findById(companieAerienneDTO.getId());
+        if (companieAerienneOptional.isPresent()) {
+            CompanieAerienne companieAerienne = companieAerienneOptional.get();
             // updating the airline
             companieAerienne.setNom(companieAerienneDTO.getNom());
             companieAerienne.setIcaoCode(companieAerienneDTO.getIcaoCode());
             companieAerienne.setIataCode(companieAerienneDTO.getIataCode());
 
             // saving the updated airline
-            return companieAerienneRepository.save(companieAerienne);
+            return new CompanieAerienneDTO(companieAerienneRepository.save(companieAerienne));
         } else {
-            return null;
+            throw new NotFoundException("Companie arienne not found");
         }
     }
 }

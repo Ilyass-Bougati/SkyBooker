@@ -6,9 +6,12 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import skybooker.server.DTO.PassagerDTO;
-import skybooker.server.service.CategorieService;
+import skybooker.server.enums.CategorieNameEnum;
+import skybooker.server.exception.NotFoundException;
+import skybooker.server.repository.CategorieRepository;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -62,22 +65,28 @@ public class Passager {
         setPrenom(passagerDTO.getPrenom());
         setCIN(passagerDTO.getCIN());
         setAge(passagerDTO.getAge());
-        setClient(passagerDTO.getClient());
         billets = new HashSet<>();
     }
 
     /**
      * This function updates the categorie based on the age
-     * @param categorieService the categorie service, I hate this
+     * @param categorieRepository the categorie repository, I hate this (yes I still do)
      */
-    public void updateCategorie(CategorieService categorieService) {
+    public void updateCategorie(CategorieRepository categorieRepository) {
         // setting the categorie
+        Optional<Categorie> categorie;
         if (getAge() < 18) {
-            setCategorie(categorieService.findById(1L));
+            categorie = categorieRepository.findByNom(CategorieNameEnum.JUNIOR);
         } else if (getAge() < 65) {
-            setCategorie(categorieService.findById(2L));
+            categorie = categorieRepository.findByNom(CategorieNameEnum.STANDARD);
         } else {
-            setCategorie(categorieService.findById(3L));
+            categorie = categorieRepository.findByNom(CategorieNameEnum.SENIOR);
+        }
+
+        if (categorie.isPresent()) {
+            setCategorie(categorie.get());
+        } else {
+            throw new NotFoundException("Categorie not found");
         }
     }
 
