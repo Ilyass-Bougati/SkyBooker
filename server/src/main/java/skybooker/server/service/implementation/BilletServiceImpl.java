@@ -1,20 +1,19 @@
 package skybooker.server.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.BilletDTO;
 import skybooker.server.entity.Billet;
+import skybooker.server.entity.Classe;
+import skybooker.server.entity.Passager;
+import skybooker.server.entity.Reservation;
+import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.BilletRepository;
+import skybooker.server.repository.ClasseRepository;
+import skybooker.server.repository.PassagerRepository;
+import skybooker.server.repository.ReservationRepository;
 import skybooker.server.service.BilletService;
-import skybooker.server.service.ClasseService;
-import skybooker.server.service.PassagerService;
-import skybooker.server.service.ReservationService;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,39 +21,26 @@ import java.util.Optional;
 public class BilletServiceImpl implements BilletService {
 
     private final BilletRepository billetRepository;
-    private final ClasseService classeService;
-    private final PassagerService passagerService;
+    private final ClasseRepository classeRepository;
+    private final PassagerRepository passagerRepository;
+    private final ReservationRepository reservationRepository;
 
-    public BilletServiceImpl(BilletRepository billetRepository, ClasseService classeService, PassagerService passagerService, ReservationService reservationService) {
+    public BilletServiceImpl(BilletRepository billetRepository, ClasseRepository classeRepository, PassagerRepository passagerRepository, ReservationRepository reservationRepository) {
         this.billetRepository = billetRepository;
-        this.classeService = classeService;
-        this.passagerService = passagerService;
-        this.reservationService = reservationService;
+        this.classeRepository = classeRepository;
+        this.passagerRepository = passagerRepository;
+        this.reservationRepository = reservationRepository;
     }
 
-    private final ReservationService reservationService;
+
 
     @Override
     @Transactional(readOnly = true)
-    public List<Billet> findAll() {
-        return billetRepository.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Billet findById(Long id) {
+    public BilletDTO findById(Long id) {
         Optional<Billet> billet = billetRepository.findById(id);
-        return billet.orElse(null);
-    }
-
-    @Override
-    public Billet create(Billet billet) {
-        return billetRepository.save(billet);
-    }
-
-    @Override
-    public Billet update(Billet billet) {
-        return billetRepository.save(billet);
+        return billet
+                .map(BilletDTO::new)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -63,34 +49,40 @@ public class BilletServiceImpl implements BilletService {
     }
 
     @Override
-    public void delete(Billet billet) {
-        billetRepository.delete(billet);
-    }
+    public BilletDTO createDTO(BilletDTO billetDTO) {
+        Classe classe = classeRepository.findById(billetDTO.getClasseId())
+                .orElseThrow(() -> new NotFoundException("Classe not found"));
+        Passager passager = passagerRepository.findById(billetDTO.getPassagerId())
+                .orElseThrow(() -> new NotFoundException("Passager not found"));
+        Reservation reservation = reservationRepository.findById(billetDTO.getReservationId())
+                .orElseThrow(() -> new NotFoundException("Reservation not found"));
 
-    @Override
-    public Billet createDTO(BilletDTO billetDTO) {
         Billet billet = new Billet();
         billet.setSiege(billetDTO.getSiege());
-        billet.setClasse(classeService.findById(billetDTO.getClasseId()));
-        billet.setPassager(passagerService.findById(billetDTO.getPassagerId()));
-        billet.setReservation(reservationService.findById(billetDTO.getReservationId()));
-        return billetRepository.save(billet);
+        billet.setClasse(classe);
+        billet.setPassager(passager);
+        billet.setReservation(reservation);
+        return new BilletDTO(billetRepository.save(billet));
     }
 
     @Override
-    public Billet updateDTO(BilletDTO billetDTO) {
-        Billet billet = findById(billetDTO.getId());
-        if (billet != null) {
-            // updating the billet
-            billet.setSiege(billetDTO.getSiege());
-            billet.setClasse(classeService.findById(billetDTO.getClasseId()));
-            billet.setReservation(reservationService.findById(billetDTO.getReservationId()));
-            billet.setPassager(passagerService.findById(billetDTO.getPassagerId()));
+    public BilletDTO updateDTO(BilletDTO billetDTO) {
+        Billet billet = billetRepository.findById(billetDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Billet not found"));
+        Classe classe = classeRepository.findById(billetDTO.getClasseId())
+                .orElseThrow(() -> new NotFoundException("Classe not found"));
+        Passager passager = passagerRepository.findById(billetDTO.getPassagerId())
+                .orElseThrow(() -> new NotFoundException("Passager not found"));
+        Reservation reservation = reservationRepository.findById(billetDTO.getReservationId())
+                .orElseThrow(() -> new NotFoundException("Reservation not found"));
 
-            // saving the updates
-            return billetRepository.save(billet);
-        } else {
-            return null;
-        }
+        // updating the billet
+        billet.setSiege(billetDTO.getSiege());
+        billet.setClasse(classe);
+        billet.setReservation(reservation);
+        billet.setPassager(passager);
+
+        // saving the updates
+        return new BilletDTO(billetRepository.save(billet));
     }
 }

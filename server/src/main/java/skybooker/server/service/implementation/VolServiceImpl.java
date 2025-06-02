@@ -53,22 +53,16 @@ public class VolServiceImpl implements VolService {
     @Override
     public VolDTO createDTO(VolDTO volDTO) {
         Vol vol = new Vol(volDTO);
-        Optional<Avion> avion = avionRepository.findById(volDTO.getAvionId());
-        if (avion.isEmpty()) {
-            throw new NotFoundException("Avion not found");
-        }
-        Optional<Aeroport> aeroportArrive = aeroportRepository.findById(volDTO.getAeroportArriveId());
-        if (aeroportArrive.isEmpty()) {
-            throw new NotFoundException("Aeroport arrive not found");
-        }
-        Optional<Aeroport> aeroportDepart = aeroportRepository.findById(volDTO.getAeroportDepartId());
-        if (aeroportDepart.isEmpty()) {
-            throw new NotFoundException("Aeroport depart not found");
-        }
+        Avion avion = avionRepository.findById(volDTO.getAvionId())
+                .orElseThrow(() -> new NotFoundException("Avion not found"));
+        Aeroport aeroportArrive = aeroportRepository.findById(volDTO.getAeroportArriveId())
+                .orElseThrow(() -> new NotFoundException("Aeroport arrive not found"));
+        Aeroport aeroportDepart = aeroportRepository.findById(volDTO.getAeroportDepartId())
+                .orElseThrow(() -> new NotFoundException("Aeroport depart not found"));
 
-        vol.setAvion(avion.get());
-        vol.setAeroportArrive(aeroportArrive.get());
-        vol.setAeroportDepart(aeroportDepart.get());
+        vol.setAvion(avion);
+        vol.setAeroportArrive(aeroportArrive);
+        vol.setAeroportDepart(aeroportDepart);
         return new VolDTO(volRepository.save(vol));
     }
 
@@ -76,24 +70,19 @@ public class VolServiceImpl implements VolService {
     public VolDTO updateDTO(VolDTO volDTO) {
         Optional<Vol> volOptional = volRepository.findById(volDTO.getId());
         if(volOptional.isPresent()){
-            Optional<Avion> avion = avionRepository.findById(volDTO.getAvionId());
-            if (avion.isEmpty()) {
-                throw new NotFoundException("Avion not found");
-            }
-            Optional<Aeroport> aeroportArrive = aeroportRepository.findById(volDTO.getAeroportArriveId());
-            if (aeroportArrive.isEmpty()) {
-                throw new NotFoundException("Aeroport arrive not found");
-            }
-            Optional<Aeroport> aeroportDepart = aeroportRepository.findById(volDTO.getAeroportDepartId());
-            if (aeroportDepart.isEmpty()) {
-                throw new NotFoundException("Aeroport depart not found");
-            }
+            Avion avion = avionRepository.findById(volDTO.getAvionId())
+                    .orElseThrow(() -> new NotFoundException("Avion not found"));
+            Aeroport aeroportArrive = aeroportRepository.findById(volDTO.getAeroportArriveId())
+                    .orElseThrow(() -> new NotFoundException("Aeroport arrive not found"));
+            Aeroport aeroportDepart = aeroportRepository.findById(volDTO.getAeroportDepartId())
+                    .orElseThrow(() -> new NotFoundException("Aeroport depart not found"));
+
             Vol vol = volOptional.get();
             // updating the vol
-            vol.setAvion(avion.get());
+            vol.setAvion(avion);
             vol.setEtat(volDTO.getEtat());
-            vol.setAeroportDepart(aeroportDepart.get());
-            vol.setAeroportArrive(aeroportArrive.get());
+            vol.setAeroportDepart(aeroportDepart);
+            vol.setAeroportArrive(aeroportArrive);
             vol.setPrix(volDTO.getPrix());
             vol.setDateArrive(volDTO.getDateArrive());
             vol.setDateDepart(volDTO.getDateDepart());
@@ -112,7 +101,6 @@ public class VolServiceImpl implements VolService {
         //Récupérer le vol et la classe
         Vol vol = volRepository.findById(volId)
                 .orElseThrow(() -> new NotFoundException("Vol not found"));
-
         Classe classe = classeRepository.findById(classeId)
                 .orElseThrow(() -> new NotFoundException("Classe not found"));
 

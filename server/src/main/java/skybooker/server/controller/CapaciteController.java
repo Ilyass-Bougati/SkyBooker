@@ -22,52 +22,27 @@ public class CapaciteController {
         this.capaciteService = capaciteService;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<CapaciteDTO>> getAllCapacite() {
-        List<Capacite> capacites = capaciteService.findAll();
-        List<CapaciteDTO> capaciteDTOs = capacites.stream()
-                .map(CapaciteDTO::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(capaciteDTOs);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<CapaciteDTO> getCapaciteById(@PathVariable Long id) {
-        Capacite capacite = capaciteService.findById(id);
-        if (capacite == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(new CapaciteDTO(capacite));
-        }
+        return ResponseEntity.ok(capaciteService.findById(id));
     }
 
     @PostMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<CapaciteDTO> createCapacite(@RequestBody @Valid CapaciteDTO capaciteDTO) {
-        Capacite createdCapacite = capaciteService.createDTO(capaciteDTO);
-        return ResponseEntity.ok(new CapaciteDTO(createdCapacite));
+        return ResponseEntity.ok(capaciteService.createDTO(capaciteDTO));
     }
 
     @PutMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<CapaciteDTO> updateCapacite(@RequestBody @Valid CapaciteDTO capaciteDTO) {
-        Capacite updatedCapacite = capaciteService.updateDTO(capaciteDTO);
-        if (updatedCapacite == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(new CapaciteDTO(updatedCapacite));
-        }
+        return ResponseEntity.ok(capaciteService.updateDTO(capaciteDTO));
+
     }
 
     @DeleteMapping("/{id}")
     @Secured("SCOPE_ROLE_ADMIN")
-    public ResponseEntity<Void> deleteCapacite(@PathVariable Long id) {
-        Capacite capacite = capaciteService.findById(id);
-        if (capacite == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public void deleteCapacite(@PathVariable Long id) {
         capaciteService.deleteById(id);
-        return ResponseEntity.noContent().build();
     }
 }
