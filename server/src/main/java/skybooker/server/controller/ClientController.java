@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.entity.Client;
@@ -25,12 +24,7 @@ public class ClientController {
     @GetMapping("/{id}")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<ClientDTO> client(@PathVariable long id) {
-        Client client = clientService.findById(id);
-        if (client == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(new ClientDTO(client));
-        }
+        return ResponseEntity.ok(clientService.findById(id));
     }
 
     @GetMapping("/")
@@ -44,16 +38,16 @@ public class ClientController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> updateClient(Principal principal, @RequestBody @Valid ClientDTO clientDTO) {
+    public ResponseEntity<ClientDTO> updateClient(Principal principal, @RequestBody @Valid ClientDTO clientDTO) {
         Client client = clientService.getFromPrincipal(principal);
         if (client == null) {
             // shouldn't reveal that the client doesn't exist
             return ResponseEntity.badRequest().build();
         } else {
             // checking if the user is authorized to make the action
+            clientDTO.setId(client.getId());
             client.updateFields(clientDTO);
-            clientService.update(client);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(clientService.updateDTO(clientDTO));
         }
     }
 
