@@ -14,6 +14,7 @@ import skybooker.server.repository.PassagerRepository;
 import skybooker.server.repository.ReservationRepository;
 import skybooker.server.service.BilletService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,6 +47,11 @@ public class BilletServiceImpl implements BilletService {
     @Override
     public void deleteById(Long id) {
         billetRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BilletDTO> findAll() {
+        return List.of();
     }
 
     @Override

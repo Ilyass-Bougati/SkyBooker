@@ -11,6 +11,7 @@ import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.CompanieAerienneRepository;
 import skybooker.server.service.CompanieAerienneService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,6 +43,12 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
         companieAerienneRepository.deleteById(id);
     }
 
+
+    @Override
+    public List<CompanieAerienneDTO> findAll() {
+        return companieAerienneRepository.findAll()
+                .stream().map(CompanieAerienneDTO::new).toList();
+    }
 
     @Override
     @CachePut(value = "companieAerienneCache", key = "#result.id")

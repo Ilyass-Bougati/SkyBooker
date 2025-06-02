@@ -12,6 +12,7 @@ import skybooker.server.repository.CapaciteRepository;
 import skybooker.server.repository.ClasseRepository;
 import skybooker.server.service.CapaciteService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,6 +42,11 @@ public class CapaciteServiceImpl implements CapaciteService {
     @Override
     public void deleteById(Long aLong) {
         capaciteRepository.deleteById(aLong);
+    }
+
+    @Override
+    public List<CapaciteDTO> findAll() {
+        return List.of();
     }
 
     @Override

@@ -51,6 +51,12 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
+    public List<VolDTO> findAll() {
+        return volRepository.findAll()
+                .stream().map(VolDTO::new).toList();
+    }
+
+    @Override
     public VolDTO createDTO(VolDTO volDTO) {
         Vol vol = new Vol(volDTO);
         Avion avion = avionRepository.findById(volDTO.getAvionId())

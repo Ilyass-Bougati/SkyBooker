@@ -21,6 +21,7 @@ import skybooker.server.service.ClientService;
 import skybooker.server.service.RoleService;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,6 +43,11 @@ public class ClientServiceImpl implements ClientService {
         this.roleService = roleService;
         this.categorieRepository = categorieRepository;
         this.passagerRepository = passagerRepository;
+    }
+
+    @Override
+    public List<ClientDTO> findAll() {
+        return List.of();
     }
 
     /**

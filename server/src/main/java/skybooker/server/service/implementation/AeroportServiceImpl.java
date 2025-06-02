@@ -14,6 +14,7 @@ import skybooker.server.repository.VilleRepository;
 import skybooker.server.service.AeroportService;
 import skybooker.server.service.VilleService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,13 +24,11 @@ public class AeroportServiceImpl implements AeroportService {
     private final AeroportRepository aeroportRepository;
     private final VilleRepository villeRepository;
 
-    public AeroportServiceImpl(AeroportRepository aeroportRepository, VilleService villeService, VilleRepository villeRepository) {
+    public AeroportServiceImpl(AeroportRepository aeroportRepository, VilleRepository villeRepository) {
         this.aeroportRepository = aeroportRepository;
-        this.villeService = villeService;
         this.villeRepository = villeRepository;
     }
 
-    private final VilleService villeService;
 
 
     @Override
@@ -42,6 +41,12 @@ public class AeroportServiceImpl implements AeroportService {
                 .orElseThrow(NotFoundException::new);
     }
 
+
+    @Override
+    public List<AeroportDTO> findAll() {
+        return aeroportRepository.findAll()
+                .stream().map(AeroportDTO::new).toList();
+    }
 
     @Override
     @CachePut(value = "aeroportCache", key = "#result.id")

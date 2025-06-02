@@ -27,6 +27,12 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
+    public List<CategorieDTO> findAll() {
+        return categorieRepository.findAll()
+                .stream().map(CategorieDTO::new).toList();
+    }
+
+    @Override
     public CategorieDTO createDTO(CategorieDTO categorieDTO) {
         Categorie categorie = new Categorie(categorieDTO);
         return new CategorieDTO(categorieRepository.save(categorie));

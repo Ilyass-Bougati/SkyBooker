@@ -15,7 +15,6 @@ import skybooker.server.service.PassagerService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -45,6 +44,11 @@ public class PassagerServiceImpl implements PassagerService {
     @Override
     public void deleteById(Long id) {
         passagerRepository.deleteById(id);
+    }
+
+    @Override
+    public List<PassagerDTO> findAll() {
+        return List.of();
     }
 
     @Override

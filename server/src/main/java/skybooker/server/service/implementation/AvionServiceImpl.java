@@ -16,6 +16,7 @@ import skybooker.server.repository.AvionRepository;
 import skybooker.server.repository.CompanieAerienneRepository;
 import skybooker.server.service.AvionService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,6 +49,12 @@ public class AvionServiceImpl implements AvionService {
         avionRepository.deleteById(id);
     }
 
+
+    @Override
+    public List<AvionDTO> findAll() {
+        return avionRepository.findAll()
+                .stream().map(AvionDTO::new).toList();
+    }
 
     @Override
     @CachePut(value = "avionCache", key = "#result.id")

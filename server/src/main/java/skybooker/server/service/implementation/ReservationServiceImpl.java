@@ -11,6 +11,7 @@ import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.*;
 import skybooker.server.service.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -49,6 +50,11 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void deleteById(Long id) {
         reservationRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ReservationDTO> findAll() {
+        return List.of();
     }
 
     @Override

@@ -42,6 +42,12 @@ public class VilleServiceImpl implements VilleService {
     }
 
     @Override
+    public List<VilleDTO> findAll() {
+        return villeRepository.findAll()
+                .stream().map(VilleDTO::new).toList();
+    }
+
+    @Override
     public VilleDTO createDTO(VilleDTO villeDTO) {
         return new VilleDTO(villeRepository.save(new Ville(villeDTO)));
     }

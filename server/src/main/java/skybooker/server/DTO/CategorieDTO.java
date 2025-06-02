@@ -1,5 +1,6 @@
 package skybooker.server.DTO;
 
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
