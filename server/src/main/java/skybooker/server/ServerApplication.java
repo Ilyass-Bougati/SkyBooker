@@ -3,11 +3,14 @@ package skybooker.server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import skybooker.server.config.RsaKeyProperties;
+import skybooker.server.records.DefaultAdminProperties;
+import skybooker.server.records.RsaKeyProperties;
 
-@EnableConfigurationProperties(RsaKeyProperties.class)
+@EnableConfigurationProperties({
+        RsaKeyProperties.class,
+        DefaultAdminProperties.class
+})
 @SpringBootApplication
 @EnableScheduling
 public class ServerApplication {

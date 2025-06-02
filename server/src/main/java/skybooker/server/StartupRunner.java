@@ -10,6 +10,7 @@ import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Classe;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Role;
+import skybooker.server.records.DefaultAdminProperties;
 import skybooker.server.repository.CategorieRepository;
 import skybooker.server.repository.ClasseRepository;
 import skybooker.server.repository.ClientRepository;
@@ -29,14 +30,16 @@ public class StartupRunner implements CommandLineRunner {
     private final RoleRepository roleRepository;
     private final DataSource dataSource;
     private final ClientRepository clientRepository;
+    private final DefaultAdminProperties defaultAdmin;
 
-    public StartupRunner(RoleRepository roleRepository, ClientService clientService, CategorieRepository categorieRepository, ClasseRepository classeRepository, DataSource dataSource, ClientRepository clientRepository) {
+    public StartupRunner(RoleRepository roleRepository, ClientService clientService, CategorieRepository categorieRepository, ClasseRepository classeRepository, DataSource dataSource, ClientRepository clientRepository, DefaultAdminProperties defaultAdminProperties) {
         this.roleRepository = roleRepository;
         this.clientService = clientService;
         this.categorieRepository = categorieRepository;
         this.classeRepository = classeRepository;
         this.dataSource = dataSource;
         this.clientRepository = clientRepository;
+        this.defaultAdmin = defaultAdminProperties;
     }
 
     @Override
@@ -88,14 +91,14 @@ public class StartupRunner implements CommandLineRunner {
         // creating the admin user
         // TODO : make this application property
         RegisterRequestDTO registerRequest = new RegisterRequestDTO();
-        registerRequest.setNom("Bougati");
-        registerRequest.setPrenom("Ilyass");
-        registerRequest.setEmail("ilyass@gmail.com");
-        registerRequest.setPassword("123");
-        registerRequest.setAge(21);
-        registerRequest.setTelephone("0000000000000");
+        registerRequest.setNom("Default");
+        registerRequest.setPrenom("Admin");
+        registerRequest.setEmail(defaultAdmin.email());
+        registerRequest.setPassword(defaultAdmin.password());
+        registerRequest.setAge(99);
+        registerRequest.setTelephone("tel00000");
         registerRequest.setCIN("CIN00000");
-        registerRequest.setAdresse("Adresse 0000");
+        registerRequest.setAdresse("Adresse0000");
 
         ClientDTO client = clientService.register(registerRequest).getBody();
         assert client != null;

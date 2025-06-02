@@ -23,6 +23,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import skybooker.server.records.RsaKeyProperties;
 import skybooker.server.security.CustomUserDetailsService;
 
 @Configuration
