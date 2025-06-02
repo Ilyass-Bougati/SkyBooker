@@ -7,7 +7,7 @@ import skybooker.server.entity.Client;
 
 import java.security.Principal;
 
-public interface ClientService extends CrudService<Client, Long>{
+public interface ClientService extends CrudDTO<ClientDTO, Long> {
     void deleteByEmail(String email);
     ClientDTO findByEmail(String email);
     Client update(Client client, ClientDTO clientDTO);

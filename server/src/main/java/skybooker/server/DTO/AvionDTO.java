@@ -1,7 +1,10 @@
 package skybooker.server.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import skybooker.server.entity.Aeroport;
 import skybooker.server.entity.Avion;
 
@@ -10,6 +13,10 @@ import skybooker.server.entity.Avion;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AvionDTO {
+
+    @JsonIgnore
+    Logger logger = LoggerFactory.getLogger(AvionDTO.class);
+
     private long id;
 
     @NotNull
@@ -38,6 +45,7 @@ public class AvionDTO {
         if (avion.getCompanieAerienne() != null) {
             setCompanieAerienneId(avion.getCompanieAerienne().getId());
         } else {
+            logger.warn("Companie aerienne for avion {} is null", getId());
             setCompanieAerienneId(-1);
         }
     }

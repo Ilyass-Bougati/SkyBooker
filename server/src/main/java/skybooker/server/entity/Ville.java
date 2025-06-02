@@ -30,5 +30,6 @@ public class Ville {
     public Ville(VilleDTO villeDTO) {
         setNom(villeDTO.getNom());
         setPays(villeDTO.getPays());
+        setAeroports(new HashSet<>());
     }
 }

@@ -6,7 +6,9 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import skybooker.server.DTO.ClasseDTO;
 import skybooker.server.entity.Classe;
+import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.ClasseRepository;
 import skybooker.server.service.ClasseService;
 
@@ -25,39 +27,45 @@ public class ClasseServiceImpl implements ClasseService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Classe> findAll() {
-        return classeRepository.findAll();
+    public List<ClasseDTO> findAll() {
+        List<Classe> classes = classeRepository.findAll();
+        return classes.stream().map(ClasseDTO::new).toList();
+    }
+
+    @Override
+    public ClasseDTO createDTO(ClasseDTO classeDTO) {
+        Classe classe = new Classe(classeDTO);
+        return new ClasseDTO(classeRepository.save(classe));
+    }
+
+    @Override
+    public ClasseDTO updateDTO(ClasseDTO classeDTO) {
+        Optional<Classe> classeOptional = classeRepository.findById(classeDTO.getId());
+        if (classeOptional.isPresent()) {
+            Classe clase = classeOptional.get();
+            // updating the classe
+            classeDTO.setId(classeDTO.getId());
+            classeDTO.setNom(classeDTO.getNom());
+            classeDTO.setPrixParKm(classeDTO.getPrixParKm());
+            return new ClasseDTO(classeRepository.save(clase));
+        } else {
+            throw new NotFoundException("Classe not found");
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "classeCache", key = "#id")
-    public Classe findById(Long id) {
+    public ClasseDTO findById(Long id) {
         Optional<Classe> classe = classeRepository.findById(id);
-        return classe.orElse(null);
-    }
-
-    @Override
-    @CachePut(value = "classeCache", key = "#classe.id")
-    public Classe create(Classe classe) {
-        return classeRepository.save(classe);
-    }
-
-    @Override
-    @CachePut(value = "classeCache", key = "#classe.id")
-    public Classe update(Classe classe) {
-        return classeRepository.save(classe);
+        return classe
+                .map(ClasseDTO::new)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
     @CacheEvict(value = "classeCache", key = "#id")
     public void deleteById(Long id) {
         classeRepository.deleteById(id);
-    }
-
-    @Override
-    @CacheEvict(value = "classeCache", key = "#classe.id")
-    public void delete(Classe classe) {
-        classeRepository.delete(classe);
     }
 }

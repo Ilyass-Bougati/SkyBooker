@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.AeroportDTO;
 import skybooker.server.entity.Aeroport;
+import skybooker.server.entity.Ville;
+import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.AeroportRepository;
+import skybooker.server.repository.VilleRepository;
 import skybooker.server.service.AeroportService;
 import skybooker.server.service.VilleService;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,79 +21,64 @@ import java.util.Optional;
 public class AeroportServiceImpl implements AeroportService {
 
     private final AeroportRepository aeroportRepository;
+    private final VilleRepository villeRepository;
 
-    public AeroportServiceImpl(AeroportRepository aeroportRepository, VilleService villeService) {
+    public AeroportServiceImpl(AeroportRepository aeroportRepository, VilleService villeService, VilleRepository villeRepository) {
         this.aeroportRepository = aeroportRepository;
         this.villeService = villeService;
+        this.villeRepository = villeRepository;
     }
 
     private final VilleService villeService;
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Aeroport> findAll() {
-        return aeroportRepository.findAll();
-    }
 
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "aeroportCache", key = "#id")
-    public Aeroport findById(Long id) {
+    public AeroportDTO findById(Long id) {
         Optional<Aeroport> aeroport = aeroportRepository.findById(id);
-        return aeroport.orElse(null);
+        return aeroport
+                .map(AeroportDTO::new)
+                .orElseThrow(NotFoundException::new);
     }
 
-    @Override
-    @CachePut(value = "aeroportCache", key = "#aeroport.id")
-    public Aeroport create(Aeroport aeroport) {
-        return aeroportRepository.save(aeroport);
-    }
 
     @Override
     @CachePut(value = "aeroportCache", key = "#result.id")
-    public Aeroport createDTO(AeroportDTO aeroportDTO) {
-        Aeroport aeroport = new Aeroport(aeroportDTO);
-        aeroport.setVille(villeService.findById(aeroportDTO.getVilleId()));
-        return aeroportRepository.save(aeroport);
-    }
-
-    @Override
-    @CachePut(value = "aeroportCache", key = "#aeroport.id")
-    public Aeroport update(Aeroport aeroport) {
-        Aeroport newAeroport = findById(aeroport.getId());
-        if (newAeroport != null) {
-            // modifying the airport
-            newAeroport.setVille(aeroport.getVille());
-            newAeroport.setNom(aeroport.getNom());
-            newAeroport.setIataCode(aeroport.getIataCode());
-            newAeroport.setIcaoCode(aeroport.getIcaoCode());
-            newAeroport.setLatitude(aeroport.getLatitude());
-            newAeroport.setLongitude(aeroport.getLongitude());
-
-            // saving the modifications
-            return aeroportRepository.save(newAeroport);
+    public AeroportDTO createDTO(AeroportDTO aeroportDTO) {
+        Optional<Ville> villeOptional = villeRepository.findById(aeroportDTO.getVilleId());
+        if (villeOptional.isPresent()) {
+            Aeroport aeroport = new Aeroport(aeroportDTO);
+            aeroport.setVille(villeOptional.get());
+            return new AeroportDTO(aeroportRepository.save(aeroport));
         } else {
-            return null;
+            throw new NotFoundException("Ville not found");
         }
     }
 
     @Override
     @CachePut(value = "aeroportCache", key = "#aeroportDTO.id")
-    public Aeroport updateDTO(AeroportDTO aeroportDTO) {
-        Aeroport newAeroport = findById(aeroportDTO.getId());
-        if (newAeroport != null) {
+    public AeroportDTO updateDTO(AeroportDTO aeroportDTO) {
+        Optional<Aeroport> newAeroportOpt = aeroportRepository.findById(aeroportDTO.getId());
+        if (newAeroportOpt.isEmpty()) {
+            throw new NotFoundException("Aeroport not found");
+        } else {
+            Aeroport newAeroport = newAeroportOpt.get();
+            Optional<Ville> villeOptional = villeRepository.findById(aeroportDTO.getVilleId());
+            if (villeOptional.isEmpty()) {
+                throw new NotFoundException("Ville not found");
+            }
+
             // modifying the airport
             newAeroport.setNom(aeroportDTO.getNom());
             newAeroport.setIataCode(aeroportDTO.getIataCode());
             newAeroport.setIcaoCode(aeroportDTO.getIcaoCode());
             newAeroport.setLatitude(aeroportDTO.getLatitude());
             newAeroport.setLongitude(aeroportDTO.getLongitude());
-            newAeroport.setVille(villeService.findById(aeroportDTO.getVilleId()));
+            newAeroport.setVille(villeOptional.get());
 
             // saving the modifications
-            return aeroportRepository.save(newAeroport);
-        } else {
-            return null;
+            return new AeroportDTO(aeroportRepository.save(newAeroport));
         }
     }
 
@@ -100,11 +87,4 @@ public class AeroportServiceImpl implements AeroportService {
     public void deleteById(Long id) {
         aeroportRepository.deleteById(id);
     }
-
-    @Override
-    @CacheEvict(value = "aeroportCache", key = "#aeroport.id")
-    public void delete(Aeroport aeroport) {
-        aeroportRepository.delete(aeroport);
-    }
-
 }

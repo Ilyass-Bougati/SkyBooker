@@ -1,12 +1,14 @@
 package skybooker.server.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.AvionDTO;
+import skybooker.server.controller.AvionController;
 import skybooker.server.entity.Avion;
 import skybooker.server.repository.AvionRepository;
 import skybooker.server.service.AvionService;
@@ -18,6 +20,8 @@ import java.util.Optional;
 @Service
 @Transactional
 public class AvionServiceImpl implements AvionService {
+
+    Logger logger = LoggerFactory.getLogger(AvionController.class);
 
     private final AvionRepository avionRepository;
     private final CompanieAerienneService companieAerienneService;
@@ -37,8 +41,13 @@ public class AvionServiceImpl implements AvionService {
     @Transactional(readOnly = true)
     @Cacheable(value = "avionCache", key = "#id")
     public Avion findById(Long id) {
-        Optional<Avion> avion = avionRepository.findById(id);
-        return avion.orElse(null);
+        Optional<Avion> avionOpt = avionRepository.findById(id);
+        if (avionOpt.isPresent()) {
+            Avion avion = avionOpt.get();
+            return avion;
+        } else {
+            return null;
+        }
     }
 
     @Override

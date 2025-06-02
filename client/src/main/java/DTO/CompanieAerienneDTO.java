@@ -3,7 +3,7 @@ package DTO;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CompanieAerienneDTO {
+public class CompanieAerienneDTO implements Cacheable<CompanieAerienneDTO>{
     private long id;
     private String nom;
     private String iataCode;
@@ -39,5 +39,19 @@ public class CompanieAerienneDTO {
 
     public void setIcaoCode(String icaoCode) {
         this.icaoCode = icaoCode;
+    }
+
+    // for caching
+    private final static HashMap<Long, CompanieAerienneDTO> cache = new HashMap<>();
+    private final static String route = "/companie-aerienne/";
+
+    @Override
+    public Map<Long, CompanieAerienneDTO> getCache() {
+        return cache;
+    }
+
+    @Override
+    public String getRoute() {
+        return route;
     }
 }
