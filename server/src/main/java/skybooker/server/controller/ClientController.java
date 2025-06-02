@@ -46,8 +46,7 @@ public class ClientController {
         } else {
             // checking if the user is authorized to make the action
             clientDTO.setId(client.getId());
-            client.updateFields(clientDTO);
-            return ResponseEntity.ok(clientService.updateDTO(clientDTO));
+            return ResponseEntity.ok(clientService.updateDTO(clientDTO, client.getEmail()));
         }
     }
 

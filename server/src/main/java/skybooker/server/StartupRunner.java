@@ -4,11 +4,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
+import skybooker.server.DTO.ClientDTO;
+import skybooker.server.DTO.RegisterRequestDTO;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Classe;
+import skybooker.server.entity.Client;
 import skybooker.server.entity.Role;
 import skybooker.server.repository.CategorieRepository;
 import skybooker.server.repository.ClasseRepository;
+import skybooker.server.repository.ClientRepository;
 import skybooker.server.repository.RoleRepository;
 import skybooker.server.service.ClientService;
 
@@ -24,13 +28,15 @@ public class StartupRunner implements CommandLineRunner {
     private final ClientService clientService;
     private final RoleRepository roleRepository;
     private final DataSource dataSource;
+    private final ClientRepository clientRepository;
 
-    public StartupRunner(RoleRepository roleRepository, ClientService clientService, CategorieRepository categorieRepository, ClasseRepository classeRepository, DataSource dataSource) {
+    public StartupRunner(RoleRepository roleRepository, ClientService clientService, CategorieRepository categorieRepository, ClasseRepository classeRepository, DataSource dataSource, ClientRepository clientRepository) {
         this.roleRepository = roleRepository;
         this.clientService = clientService;
         this.categorieRepository = categorieRepository;
         this.classeRepository = classeRepository;
         this.dataSource = dataSource;
+        this.clientRepository = clientRepository;
     }
 
     @Override
@@ -77,7 +83,27 @@ public class StartupRunner implements CommandLineRunner {
         role2.setAuthority("ROLE_ADMIN");
 
         roleRepository.save(role);
-        roleRepository.save(role2);
+        role2 = roleRepository.save(role2);
+
+        // creating the admin user
+        // TODO : make this application property
+        RegisterRequestDTO registerRequest = new RegisterRequestDTO();
+        registerRequest.setNom("Bougati");
+        registerRequest.setPrenom("Ilyass");
+        registerRequest.setEmail("ilyass@gmail.com");
+        registerRequest.setPassword("123");
+        registerRequest.setAge(21);
+        registerRequest.setTelephone("0000000000000");
+        registerRequest.setCIN("CIN00000");
+        registerRequest.setAdresse("Adresse 0000");
+
+        ClientDTO client = clientService.register(registerRequest).getBody();
+        assert client != null;
+        Client clientEntity = clientRepository.findById(client.getId()).orElse(null);
+        if (clientEntity != null) {
+            clientEntity.setRole(role2);
+            clientRepository.save(clientEntity);
+        }
 
         executeSqlScript();
     }

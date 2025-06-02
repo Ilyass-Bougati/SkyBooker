@@ -60,13 +60,10 @@ public class AvionServiceImpl implements AvionService {
     @CachePut(value = "avionCache", key = "#result.id")
     public AvionDTO createDTO(AvionDTO avionDTO) {
         Avion avion = new Avion(avionDTO);
-        Optional<CompanieAerienne> companieAerienneOptional= companieAerienneRepository.findById(avionDTO.getId());
-        if (companieAerienneOptional.isPresent()) {
-            avion.setCompanieAerienne(companieAerienneOptional.get());
-            return new AvionDTO(avionRepository.save(avion));
-        } else {
-            throw new NotFoundException("Companie arienne not found");
-        }
+        CompanieAerienne companieAerienne= companieAerienneRepository.findById(avionDTO.getCompanieAerienneId())
+                .orElseThrow(() -> new NotFoundException("Companie arienne not found"));
+        avion.setCompanieAerienne(companieAerienne);
+        return new AvionDTO(avionRepository.save(avion));
     }
 
     @Override
