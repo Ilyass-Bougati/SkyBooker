@@ -14,7 +14,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     void deleteByEmail(String email);
     Optional<Client> findByEmail(String email);
 
-    @Query("select count(p) > 0 from Passager p where p.client.id = :clientId and p.id = :passagerId")
+    @Query("select case when count(p) > 0 then true else false end " +
+            "from Passager p where p.client.id = :clientId and p.id = :passagerId")
     Boolean passagerAddedByClient(Long clientId, Long passagerId);
 
     @Query("SELECT c.id, COUNT(r.id), SUM(r.prixTotal), c.email " +

@@ -149,7 +149,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Boolean passagerAddedByClient(Long clientId, Long passagerId) {
-        return clientRepository.passagerAddedByClient(passagerId, clientId);
+        return clientRepository.passagerAddedByClient(clientId, passagerId);
     }
 
     @Override
