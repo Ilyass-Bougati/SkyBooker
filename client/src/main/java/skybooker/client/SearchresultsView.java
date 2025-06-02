@@ -1,8 +1,6 @@
 package skybooker.client;
 
-import DTO.AeroportDTO;
-import DTO.VilleDTO;
-import DTO.VolDTO;
+import DTO.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.ParallelTransition;
@@ -347,12 +345,21 @@ public class SearchresultsView {
             for (VolDTO v : vols) {
                 // this is building on the way @Amine did it in the past
                 // Note that this can't throw an exception (I guess...)
+                // Here I'm fetching the values and putting them in variables
+                // so that if we want to change the layout later we don't have to rewrite
+                // the fetching logic
                 ArrayList<String> Row = new ArrayList<>();
-                Row.add("Airline " + "a" );
-                Row.add("\t\tDPT " + ClientCache.get(v.getAeroportDepartId(), AeroportDTO.class).getNom());
+                AvionDTO avion = ClientCache.get(v.getAvionId(), AvionDTO.class);
+                CompanieAerienneDTO companieAerienne = ClientCache.get(avion.getCompanieAerienneId(), CompanieAerienneDTO.class);
+                AeroportDTO aeroportDepart = ClientCache.get(v.getAeroportDepartId(), AeroportDTO.class);
+                AeroportDTO aeroportArrive = ClientCache.get(v.getAeroportArriveId(), AeroportDTO.class);
+
+                // Here's the layout, change here
+                Row.add("Airline " + companieAerienne.getNom());
+                Row.add("\t\tDPT " + aeroportDepart.getNom());
                 Row.add("\t" + v.getHeureDepart());
                 Row.add("\t" + v.getHeureArrive());
-                Row.add("\tARR " + ClientCache.get(v.getAeroportDepartId(), AeroportDTO.class).getNom());
+                Row.add("\tARR " + aeroportArrive.getNom());
                 Row.add("\t\t100$");
                 Rows.add(Row);
             }
@@ -366,17 +373,6 @@ public class SearchresultsView {
             e.printStackTrace();
             return;
         }
-//        for(int i = 0 ; i < 200 ; i ++)
-//        {
-//            ArrayList<String> Row = new ArrayList<>();
-//            Row.add("Airline" + i );
-//            Row.add("\t\tDPT" + i);
-//            Row.add("\t00:00");
-//            Row.add("\t00:00");
-//            Row.add("\tARR" + i);
-//            Row.add("\t\t100" + i + "$");
-//            Rows.add(Row);
-//        }
     }
 
     private void displayRows()
