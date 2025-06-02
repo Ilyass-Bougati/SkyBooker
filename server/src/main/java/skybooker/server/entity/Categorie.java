@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import lombok.*;
 import skybooker.server.DTO.CategorieDTO;
+import skybooker.server.enums.CategoryNameEnum;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +16,7 @@ public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String nom;
+    private CategoryNameEnum nom;
 
     @Max(1)
     private double reduction;

@@ -2,14 +2,11 @@ package skybooker.server.controller;
 
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import skybooker.server.DTO.AeroportDTO;
 import skybooker.server.DTO.PriceDTO;
 import skybooker.server.DTO.VolDTO;
-import skybooker.server.entity.Vol;
 import skybooker.server.service.VolService;
 
 import java.util.List;
@@ -26,9 +23,7 @@ public class VolController {
 
     @GetMapping("/getFromVilles/{villeAriveeId}/{villeDepartId}")
     public ResponseEntity<List<VolDTO>> getVols(@PathVariable Long villeAriveeId, @PathVariable Long villeDepartId) {
-        List<Vol> vols = volService.getTrajetVols(villeDepartId, villeAriveeId);
-        List<VolDTO> volDTOS = vols.stream().map(VolDTO::new).toList();
-        return ResponseEntity.ok(volDTOS);
+        return ResponseEntity.ok(volService.getTrajetVols(villeDepartId, villeAriveeId));
     }
 
     @GetMapping("/price/{volId}/{classeId}")
@@ -45,40 +40,25 @@ public class VolController {
 
     @GetMapping("/{id}")
     public ResponseEntity<VolDTO> vol(@PathVariable long id){
-        Vol vol = volService.findById(id);
-        if(vol == null){
-            return ResponseEntity.notFound().build();
-        }else{
-            return ResponseEntity.ok(new VolDTO(vol));
-        }
+        return ResponseEntity.ok(volService.findById(id));
     }
 
     @PostMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<VolDTO> addVol(@RequestBody @Valid VolDTO volDTO){
-        Vol vol = volService.createDTO(volDTO);
-        if(vol == null){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(new VolDTO(vol));
-        }
+        return ResponseEntity.ok(volService.createDTO(volDTO));
     }
 
     @PutMapping("/")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<VolDTO> updateVol(@RequestBody @Valid VolDTO volDTO){
-        Vol updatedVol = volService.updateDTO(volDTO);
-        if(updatedVol == null){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(new VolDTO(updatedVol));
-        }
+        return ResponseEntity.ok(volService.updateDTO(volDTO));
+
     }
 
     @DeleteMapping("/{id}")
     @Secured("SCOPE_ROLE_ADMIN")
-    public ResponseEntity<Void> deleteVol(@PathVariable long id){
+    public void deleteVol(@PathVariable long id){
         volService.deleteById(id);
-        return ResponseEntity.ok().build();
     }
 }
