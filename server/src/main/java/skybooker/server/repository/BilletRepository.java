@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import skybooker.server.entity.Billet;
 
+import java.util.List;
+
 @Repository
 public interface BilletRepository extends JpaRepository<Billet, Long> {
 
@@ -13,6 +15,8 @@ public interface BilletRepository extends JpaRepository<Billet, Long> {
 
     @Query("SELECT MAX(b.siege) FROM Billet b WHERE " +
             "b.classe.id = :classeId AND b.reservation.vol.id = :volId")
-
     Integer getMaxSiege(Long classeId, Long volId);
+
+    @Query("SELECT b from Billet b WHERE b.passager.id=:passagerId")
+    List<Billet> passagerBillets(Long passagerId);
 }

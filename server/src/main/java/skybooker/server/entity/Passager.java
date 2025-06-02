@@ -66,7 +66,6 @@ public class Passager {
         setPrenom(passagerDTO.getPrenom());
         setCIN(passagerDTO.getCIN());
         setAge(passagerDTO.getAge());
-        setClient(passagerDTO.getClient());
         billets = new HashSet<>();
     }
 

@@ -81,39 +81,6 @@ public class StartupRunner implements CommandLineRunner {
         roleRepository.save(role);
         roleRepository.save(role2);
 
-        // Creating a default user
-        Client client = new Client();
-        client.setEmail("ilyass@gmail.com");
-        client.setTelephone("000");
-        client.setAdresse("aaa");
-        client.setPassword("123");
-        client.setRole(role2);
-        clientService.create(client);
-
-        Client client1 = new Client();
-        client1.setEmail("abde@gmail.com");
-        client1.setTelephone("000");
-        client1.setAdresse("aaa");
-        client1.setPassword("123");
-        client1.setRole(role2);
-        clientService.create(client1);
-
-        Client amine = new Client();
-        amine.setEmail("amine@gmail.com");
-        amine.setTelephone("000");
-        amine.setAdresse("aaa");
-        amine.setPassword("123");
-        amine.setRole(role);
-        clientService.create(amine);
-
-        Client another = new Client();
-        another.setEmail("another@gmail.com");
-        another.setTelephone("000");
-        another.setAdresse("aaa");
-        another.setPassword("123");
-        another.setRole(role);
-        clientService.create(another);
-
         executeSqlScript();
     }
 
