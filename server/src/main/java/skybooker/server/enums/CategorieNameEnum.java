@@ -1,6 +1,6 @@
 package skybooker.server.enums;
 
-public enum CategoryNameEnum {
+public enum CategorieNameEnum {
     JUNIOR,
     SENIOR,
     STANDARD

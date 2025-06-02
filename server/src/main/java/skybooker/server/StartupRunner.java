@@ -1,13 +1,11 @@
 package skybooker.server;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Classe;
-import skybooker.server.entity.Client;
 import skybooker.server.entity.Role;
 import skybooker.server.repository.CategorieRepository;
 import skybooker.server.repository.ClasseRepository;
@@ -16,7 +14,7 @@ import skybooker.server.service.ClientService;
 
 import javax.sql.DataSource;
 
-import static skybooker.server.enums.CategoryNameEnum.*;
+import static skybooker.server.enums.CategorieNameEnum.*;
 
 @Component
 public class StartupRunner implements CommandLineRunner {
