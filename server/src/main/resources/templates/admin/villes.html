@@ -28,9 +28,11 @@
       <td>
         <a th:href="@{/admin/villes/edit/{id}(id=${v.id})}"
            class="btn btn-sm btn-warning">Modifier</a>
-        <a th:href="@{/admin/villes/delete/{id}(id=${v.id})}"
-           onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette ville ?')"
-           class="btn btn-sm btn-danger">Supprimer</a>
+        <form th:action="@{/admin/villes/delete/{id}(id=${v.id})}" method="post" style="display:inline;">
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit" class="btn btn-sm btn-danger"
+                  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette ville ?')">Supprimer</button>
+        </form>
       </td>
     </tr>
     <tr th:if="${#lists.isEmpty(villes)}">
