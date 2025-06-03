@@ -9,7 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClientDTO;
+import skybooker.server.DTO.PassagerDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
+import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.entity.*;
 import skybooker.server.enums.EtatReservation;
 import skybooker.server.exception.NotFoundException;
@@ -22,8 +24,10 @@ import skybooker.server.service.RoleService;
 import skybooker.server.repository.ReservationRepository;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,11 +54,6 @@ public class ClientServiceImpl implements ClientService {
         this.passwordEncoder = passwordEncoder;
         this.reservationRepository = reservationRepository;
     }
-
-//    @Override
-//    public List<ClientDTO> findAllDTO() {
-//        return List.of();
-//    }
 
     @Override
     @Transactional(readOnly = true)
@@ -145,6 +144,25 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<Client> findAll() {
         return clientRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReservationDTO> getReservations(long id) {
+        return clientRepository.getReservations(id).stream()
+                .map(ReservationDTO::new).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PassagerDTO> getPassagers(long id) {
+        return clientRepository.getPassagers(id)
+                .stream().map(PassagerDTO::new).toList();
+    }
+
+    @Override
+    public boolean clientMadeReservation(long clientId, long reservationId) {
+        return clientRepository.clientMadeReservation(clientId, reservationId);
     }
 
     @Override

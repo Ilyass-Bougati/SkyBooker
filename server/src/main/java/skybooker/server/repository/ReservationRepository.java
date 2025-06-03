@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import skybooker.server.DTO.BilletDTO;
 import skybooker.server.entity.Billet;
 import skybooker.server.entity.Reservation;
 import skybooker.server.enums.EtatReservation;
@@ -24,4 +25,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Modifying
     @Query("delete Reservation r where r.reservedAt < :oneYearAgo")
     void purge(LocalDateTime oneYearAgo);
+
+    @Query("select b from Billet b where b.reservation.id=:idReservation")
+    List<BilletDTO> getBillets(long idReservation);
 }
