@@ -72,29 +72,10 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional(readOnly = true)
     @Override
-    public ClientDTO findClientDetailsDTO(Long id) {
+    public ClientDTO findbyIdDTO(Long id) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Client not found with ID: " + id));
 
-        if (client.getReservations() != null) {
-            client.getReservations().size(); // Force initialization of client's reservations
-            for (Reservation reservation : client.getReservations()) {
-                if (reservation.getBillets() != null) {
-                    reservation.getBillets().size();
-
-                    for (Billet billet : reservation.getBillets()) {
-                        if (billet.getPassager() != null) {
-                            billet.getPassager().getId();
-                            billet.getPassager().getNom();
-                        }
-                        if (billet.getClasse() != null) {
-                            billet.getClasse().getId();
-                            billet.getClasse().getNom();
-                        }
-                    }
-                }
-            }
-        }
         return new ClientDTO(client);
     }
 

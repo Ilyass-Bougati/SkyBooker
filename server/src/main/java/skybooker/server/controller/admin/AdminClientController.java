@@ -45,7 +45,7 @@ public class AdminClientController {
     @GetMapping("/details/{id}")
     public String viewClientDetails(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
-            ClientDTO client = clientService.findClientDetailsDTO(id);
+            ClientDTO client = clientService.findbyIdDTO(id);
             model.addAttribute("client", client);
 
             Set<ReservationDTO> reservationDTOs = client.getReservations().stream()
