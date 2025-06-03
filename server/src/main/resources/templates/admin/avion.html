@@ -24,18 +24,20 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="avion : ${avions}">
-      <td th:text="${avion.id}">1</td>
+    <tr th:each="avion : ${avions}"> <td th:text="${avion.id}">1</td>
       <td th:text="${avion.model}"></td>
       <td th:text="${avion.iataCode}"></td>
       <td th:text="${avion.icaoCode}"></td>
       <td th:text="${avion.maxDistance}"></td>
-      <td th:text="${avion.companieAerienne != null ? avion.companieAerienne.nom : 'N/A'}"></td> <td>
-      <a th:href="@{/admin/avion/details/{id}(id=${avion.id})}" class="btn btn-sm btn-info">Détails</a> <a th:href="@{/admin/avion/edit/{id}(id=${avion.id})}" class="btn btn-sm btn-warning">Modifier</a>
-      <a th:href="@{/admin/avion/delete/{id}(id=${avion.id})}"
-         onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet avion ?')"
-         class="btn btn-sm btn-danger">Supprimer</a>
-    </td>
+      <td th:text="${companieAeriennesMap.containsKey(avion.companieAerienneId) ? companieAeriennesMap.get(avion.companieAerienneId).nom : 'N/A'}"></td>
+      <td>
+        <a th:href="@{/admin/avion/edit/{id}(id=${avion.id})}" class="btn btn-sm btn-warning">Modifier</a>
+        <form th:action="@{/admin/avion/delete/{id}(id=${avion.id})}" method="post" style="display:inline;">
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit" class="btn btn-sm btn-danger"
+                  onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet avion ?')">Supprimer</button>
+        </form>
+      </td>
     </tr>
     <tr th:if="${#lists.isEmpty(avions)}">
       <td colspan="7" class="text-center">Aucun avion trouvé.</td>

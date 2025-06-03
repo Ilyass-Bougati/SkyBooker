@@ -6,7 +6,7 @@
 <div class="container mt-4">
   <h1 th:text="${pageTitle}"></h1>
 
-  <form th:action="@{/admin/avion/save}" th:object="${avion}" method="post">
+  <form th:action="@{/admin/avion/save}" th:object="${avionDTO}" method="post">
     <input type="hidden" th:field="*{id}" />
 
     <div class="mb-3">
@@ -35,48 +35,53 @@
 
     <div class="mb-3">
       <label for="companieAerienne" class="form-label">Compagnie Aérienne:</label>
-      <select th:field="*{companieAerienne}" id="companieAerienne" class="form-control">
+      <select th:field="*{companieAerienneId}" id="companieAerienne" class="form-control">
+        <option value="">-- Sélectionner une compagnie --</option>
         <option th:each="company : ${companieAeriennes}"
                 th:value="${company.id}"
                 th:text="${company.nom}"
-                th:selected="${avion.companieAerienne != null && avion.companieAerienne.id == company.id}"></option>
+                th:selected="${avionDTO.companieAerienneId == company.id}"></option>
       </select>
-      <div th:if="${#fields.hasErrors('companieAerienne')}" th:errors="*{companieAerienne}" class="text-danger">Compagnie Error</div>
+      <div th:if="${#fields.hasErrors('companieAerienneId')}" th:errors="*{companieAerienneId}" class="text-danger">Compagnie Error</div>
     </div>
 
     <button type="submit" class="btn btn-success">Sauvegarder Avion</button>
     <a th:href="@{/admin/avion}" class="btn btn-secondary">Annuler</a>
   </form>
 
-  <div th:if="${avion.id != 0}" class="mt-5">
-    <h2>Capacités</h2>
-    <a th:href="@{/admin/capacite/add(avionId=${avion.id})}" class="btn btn-primary mb-3">Ajouter une nouvelle Capacité pour cet Avion</a>
+  <div th:if="${avionDTO.id != 0}" class="mt-5">
+    <h2>Capacités de l'Avion</h2>
+    <a th:href="@{/admin/capacite/add(avionId=${avionDTO.id})}" class="btn btn-primary mb-3">Ajouter une nouvelle Capacité</a>
 
     <table class="table table-striped table-bordered">
       <thead class="table-dark">
       <tr>
         <th>ID</th>
-        <th>Borne Inf</th>
-        <th>Borne Sup</th>
+        <th>Borne Inf.</th>
+        <th>Borne Sup.</th>
         <th>Capacité</th>
         <th>Classe</th>
         <th>Actions</th>
       </tr>
       </thead>
       <tbody>
-      <tr th:each="capacite : ${avion.capacites}"> <td th:text="${capacite.id}"></td>
+      <tr th:if="${capacites == null || #lists.isEmpty(capacites)}">
+        <td colspan="6" class="text-center">Aucune capacité trouvée pour cet avion.</td>
+      </tr>
+      <tr th:each="capacite : ${capacites}">
+        <td th:text="${capacite.id}"></td>
         <td th:text="${capacite.borneInf}"></td>
         <td th:text="${capacite.borneSup}"></td>
         <td th:text="${capacite.capacite}"></td>
-        <td th:text="${capacite.classe.nom}"></td> <td>
+        <td th:text="${classesMap.containsKey(capacite.classeId) ? classesMap.get(capacite.classeId).nom : 'N/A'}"></td>
+        <td>
           <a th:href="@{/admin/capacite/edit/{id}(id=${capacite.id})}" class="btn btn-sm btn-warning">Modifier</a>
-          <a th:href="@{/admin/capacite/delete/{id}(id=${capacite.id})}"
-             onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette capacité ?')"
-             class="btn btn-sm btn-danger">Supprimer</a>
+          <form th:action="@{/admin/capacite/delete/{id}(id=${capacite.id}, avionId=${avionDTO.id})}" method="post" style="display:inline;">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit" class="btn btn-sm btn-danger"
+                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette capacité ?')">Supprimer</button>
+          </form>
         </td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(avion.capacites)}">
-        <td colspan="6" class="text-center">Aucune capacité trouvée pour cet avion.</td>
       </tr>
       </tbody>
     </table>
