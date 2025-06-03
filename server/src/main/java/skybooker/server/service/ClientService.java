@@ -1,7 +1,6 @@
 package skybooker.server.service;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
 import skybooker.server.entity.Client;
