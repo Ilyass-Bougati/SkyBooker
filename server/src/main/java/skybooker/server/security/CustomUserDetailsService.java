@@ -21,8 +21,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     /**
      *
      * @param email the email of the client
-     * @return
-     * @throws UsernameNotFoundException
+     * @return a UserDetails implementation
+     * @throws UsernameNotFoundException in the case of username not found
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

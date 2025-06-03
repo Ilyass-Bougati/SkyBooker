@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClientDTO;
@@ -29,20 +30,22 @@ import java.util.Optional;
 @CacheConfig(cacheNames = {"clientCache"})
 public class ClientServiceImpl implements ClientService {
 
-    private final CategorieRepository categorieRepository;
-    private final PassagerRepository passagerRepository;
     Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
 
+    private final CategorieRepository categorieRepository;
+    private final PassagerRepository passagerRepository;
     private final ClientRepository clientRepository;
     private final UserDetailsService userDetailsService;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
-    public ClientServiceImpl(ClientRepository clientRepository, UserDetailsService userDetailsService, RoleService roleService, CategorieRepository categorieRepository, PassagerRepository passagerRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, UserDetailsService userDetailsService, RoleService roleService, CategorieRepository categorieRepository, PassagerRepository passagerRepository, PasswordEncoder passwordEncoder) {
         this.clientRepository = clientRepository;
         this.userDetailsService = userDetailsService;
         this.roleService = roleService;
         this.categorieRepository = categorieRepository;
         this.passagerRepository = passagerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -62,16 +65,28 @@ public class ClientServiceImpl implements ClientService {
         return null;
     }
 
-
+    /**
+     * This function should never be used
+     * @param clientDTO the client details
+     * @return null in all cases
+     */
     @Override
+    public ClientDTO updateDTO(ClientDTO clientDTO) {
+        logger.warn("someone tried to create a client using updateDTO(ClientDTO)");
+        return null;
+    }
+
+
     @Caching(
             evict = {
-                    @CacheEvict(key = "#clientDTO.email"),
-                    @CacheEvict(value = "ClientEntityCache", key = "#clientDTO.email")
+                    @CacheEvict(key = "#email"),
+                    @CacheEvict(value = "ClientEntityCache", key = "#email")
             },
-            put = {@CachePut(key = "#clientDTO.email")}
+            put = {
+                    @CachePut(key = "#clientDTO.email")
+            }
     )
-    public ClientDTO updateDTO(ClientDTO clientDTO) {
+    public ClientDTO updateDTO(ClientDTO clientDTO, String email) {
         Client client = clientRepository.findById(clientDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Client not found"));
         client.setAdresse(clientDTO.getAdresse());
@@ -117,6 +132,7 @@ public class ClientServiceImpl implements ClientService {
         Passager passager = registerRequestDTO.passager();
         passager.updateCategorie(categorieRepository);
         Client client = registerRequestDTO.client();
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
 
         // giving USER_ROLE
         Role userRole = roleService.findById(1L);
@@ -133,7 +149,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Boolean passagerAddedByClient(Long clientId, Long passagerId) {
-        return clientRepository.passagerAddedByClient(passagerId, clientId);
+        return clientRepository.passagerAddedByClient(clientId, passagerId);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package skybooker.server.config;
+package skybooker.server.records;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

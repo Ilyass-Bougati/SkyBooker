@@ -62,9 +62,11 @@ public class PassagerController {
     @PutMapping("/")
     public ResponseEntity<PassagerDTO> updatePassager(Principal principal, @RequestBody @Valid PassagerDTO passagerDTO) {
         Client client = clientService.getFromPrincipal(principal);
-        if (passagerDTO.getClientId() == client.getId()) {
+        if (clientService.passagerAddedByClient(client.getId(), passagerDTO.getId())) {
+            passagerDTO.setClientId(client.getId());
             return ResponseEntity.ok(passagerService.updateDTO(passagerDTO));
         } else {
+            logger.trace("Can't do");
             return ResponseEntity.notFound().build();
         }
     }
