@@ -2,20 +2,21 @@ package skybooker.server;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import skybooker.server.service.implementation.DataPurgeService;
+import skybooker.server.service.implementation.DataUpdateService;
 
 @Component
 public class ScheduledTasks {
 
-    private final DataPurgeService dataPurgeService;
+    private final DataUpdateService dataUpdateService;
 
-    public ScheduledTasks(DataPurgeService dataPurgeService) {
-        this.dataPurgeService = dataPurgeService;
+    public ScheduledTasks(DataUpdateService dataUpdateService) {
+        this.dataUpdateService = dataUpdateService;
     }
 
     @Scheduled(cron = "0 0 3 * * *", zone = "Africa/Casablanca")
     public void purge() {
-        dataPurgeService.purgeReservations();
-        dataPurgeService.purgeVols();
+        dataUpdateService.purgeReservations();
+        dataUpdateService.purgeVols();
+        dataUpdateService.updateCategories();
     }
 }

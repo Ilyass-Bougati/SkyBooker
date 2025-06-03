@@ -2,16 +2,20 @@ package skybooker.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import skybooker.server.DTO.PassagerDTO;
 import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.CategorieRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+
+import static java.time.temporal.ChronoUnit.YEARS;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,8 +40,10 @@ public class Passager {
     private String CIN;
 
     @NotNull
-    @Min(0)
-    private int age;
+    private long age;
+
+    @NotNull
+    private LocalDate dateOfBirth;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "categorie_id", nullable = false)
@@ -55,7 +61,7 @@ public class Passager {
         setNom(passager.getNom());
         setPrenom(passager.getPrenom());
         setCIN(passager.getCIN());
-        setAge(passager.getAge());
+        setDateOfBirth(passager.getDateOfBirth());
         setCategorie(passager.getCategorie());
     }
 
@@ -63,7 +69,7 @@ public class Passager {
         setNom(passagerDTO.getNom());
         setPrenom(passagerDTO.getPrenom());
         setCIN(passagerDTO.getCIN());
-        setAge(passagerDTO.getAge());
+        setDateOfBirth(passagerDTO.getDateOfBirth());
         billets = new HashSet<>();
     }
 
@@ -74,9 +80,10 @@ public class Passager {
     public void updateCategorie(CategorieRepository categorieRepository) {
         // setting the categorie
         Optional<Categorie> categorie;
-        if (getAge() < 18) {
+        setAge(YEARS.between(getDateOfBirth(), LocalDate.now()));
+        if (age < 18) {
             categorie = categorieRepository.findByNom("Junior");
-        } else if (getAge() < 65) {
+        } else if (age < 65) {
             categorie = categorieRepository.findByNom("Standard");
         } else {
             categorie = categorieRepository.findByNom("Senior");
