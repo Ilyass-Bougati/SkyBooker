@@ -19,8 +19,6 @@ import skybooker.server.service.ClientService;
 
 import javax.sql.DataSource;
 
-import static skybooker.server.enums.CategorieNameEnum.*;
-
 @Component
 public class StartupRunner implements CommandLineRunner {
 
@@ -46,15 +44,15 @@ public class StartupRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Creating the default categories
         Categorie standard = new Categorie();
-        standard.setNom(STANDARD);
+        standard.setNom("Standard");
         standard.setReduction(0);
 
         Categorie junior = new Categorie();
-        junior.setNom(JUNIOR);
+        junior.setNom("Junior");
         junior.setReduction(0.4);
 
         Categorie senior = new Categorie();
-        senior.setNom(SENIOR);
+        senior.setNom("Senior");
         senior.setReduction(0.25);
 
         categorieRepository.save(standard);

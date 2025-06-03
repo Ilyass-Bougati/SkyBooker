@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import skybooker.server.entity.Categorie;
-import skybooker.server.enums.CategorieNameEnum;
 
 
 @Getter
@@ -19,7 +18,7 @@ public class CategorieDTO {
     private long id;
 
     @NotNull
-    private CategorieNameEnum nom;
+    private String nom;
 
     @Max(1)
     private double reduction;

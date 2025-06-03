@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.CategorieDTO;
 import skybooker.server.entity.Categorie;
-import skybooker.server.enums.CategorieNameEnum;
 import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.CategorieRepository;
 import skybooker.server.service.CategorieService;
@@ -50,7 +49,7 @@ public class CategorieServiceImpl implements CategorieService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "categorieNameCache", key = "#name")
-    public CategorieDTO findByNom(CategorieNameEnum name) {
+    public CategorieDTO findByNom(String name) {
         Optional<Categorie> categorie = categorieRepository.findByNom(name);
         return categorie
                 .map(CategorieDTO::new)

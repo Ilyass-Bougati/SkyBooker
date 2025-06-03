@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import skybooker.server.DTO.PassagerDTO;
-import skybooker.server.enums.CategorieNameEnum;
 import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.CategorieRepository;
 
@@ -76,11 +75,11 @@ public class Passager {
         // setting the categorie
         Optional<Categorie> categorie;
         if (getAge() < 18) {
-            categorie = categorieRepository.findByNom(CategorieNameEnum.JUNIOR);
+            categorie = categorieRepository.findByNom("Junior");
         } else if (getAge() < 65) {
-            categorie = categorieRepository.findByNom(CategorieNameEnum.STANDARD);
+            categorie = categorieRepository.findByNom("Standard");
         } else {
-            categorie = categorieRepository.findByNom(CategorieNameEnum.SENIOR);
+            categorie = categorieRepository.findByNom("Senior");
         }
 
         if (categorie.isPresent()) {
