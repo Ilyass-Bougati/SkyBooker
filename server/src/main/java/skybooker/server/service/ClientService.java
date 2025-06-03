@@ -1,6 +1,7 @@
 package skybooker.server.service;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
 import skybooker.server.entity.Client;
@@ -14,6 +15,13 @@ public interface ClientService extends CrudDTO<ClientDTO, Long>{
     ResponseEntity<ClientDTO> register(RegisterRequestDTO registerRequestDTO);
     Boolean passagerAddedByClient(Long clientId, Long passagerId);
     Client getFromPrincipal(Principal principal);
+
+    @Transactional(readOnly = true)
+    ClientDTO findClientDetailsDTO(Long id);
+
+    @Transactional
+    void cancelReservation(Long reservationId);
+
     ClientDTO updateDTO(ClientDTO clientDTO, String email);
     Client findById(Long clientId);
     Client create(Client client);

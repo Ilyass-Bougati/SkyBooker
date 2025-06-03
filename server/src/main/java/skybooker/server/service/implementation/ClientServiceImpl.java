@@ -10,20 +10,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClientDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
+import skybooker.server.entity.*;
+import skybooker.server.enums.EtatReservation;
 import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.CategorieRepository;
 import skybooker.server.repository.PassagerRepository;
 import skybooker.server.security.UserDetailsImpl;
-import skybooker.server.entity.Client;
-import skybooker.server.entity.Passager;
-import skybooker.server.entity.Role;
 import skybooker.server.repository.ClientRepository;
 import skybooker.server.service.ClientService;
 import skybooker.server.service.RoleService;
+import skybooker.server.repository.ReservationRepository;
 
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -38,19 +39,74 @@ public class ClientServiceImpl implements ClientService {
     private final UserDetailsService userDetailsService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final ReservationRepository reservationRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository, UserDetailsService userDetailsService, RoleService roleService, CategorieRepository categorieRepository, PassagerRepository passagerRepository, PasswordEncoder passwordEncoder) {
+    public ClientServiceImpl(ClientRepository clientRepository, UserDetailsService userDetailsService, RoleService roleService, CategorieRepository categorieRepository, PassagerRepository passagerRepository, PasswordEncoder passwordEncoder, ReservationRepository reservationRepository) {
         this.clientRepository = clientRepository;
         this.userDetailsService = userDetailsService;
         this.roleService = roleService;
         this.categorieRepository = categorieRepository;
         this.passagerRepository = passagerRepository;
         this.passwordEncoder = passwordEncoder;
+        this.reservationRepository = reservationRepository;
     }
 
+//    @Override
+//    public List<ClientDTO> findAllDTO() {
+//        return List.of();
+//    }
+
     @Override
+    @Transactional(readOnly = true)
     public List<ClientDTO> findAllDTO() {
-        return List.of();
+        return clientRepository.findAll()
+                .stream()
+                .map(client -> {
+                    if (client.getReservations() != null) {
+                        client.getReservations().size();
+                    }
+                    return new ClientDTO(client);
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ClientDTO findClientDetailsDTO(Long id) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Client not found with ID: " + id));
+
+        if (client.getReservations() != null) {
+            client.getReservations().size(); // Force initialization of client's reservations
+            for (Reservation reservation : client.getReservations()) {
+                if (reservation.getBillets() != null) {
+                    reservation.getBillets().size();
+
+                    for (Billet billet : reservation.getBillets()) {
+                        if (billet.getPassager() != null) {
+                            billet.getPassager().getId();
+                            billet.getPassager().getNom();
+                        }
+                        if (billet.getClasse() != null) {
+                            billet.getClasse().getId();
+                            billet.getClasse().getNom();
+                        }
+                    }
+                }
+            }
+        }
+        return new ClientDTO(client);
+    }
+
+    @Transactional
+    @Override
+    public void cancelReservation(Long reservationId) {
+        try {
+            reservationRepository.modifyEtat(reservationId, EtatReservation.CANCELLED_BY_AIRLINE);
+            logger.info("Reservation with ID {} has been cancelled.", reservationId);
+        } catch (Exception e) {
+            throw new NotFoundException("Failed to cancel reservation with ID: " + reservationId + ". Error: " + e.getMessage());
+        }
     }
 
     /**
