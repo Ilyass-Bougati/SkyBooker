@@ -6,9 +6,7 @@
 <div class="container mt-4">
   <h1 th:text="${pageTitle}">Ajouter/Modifier un Aeroport</h1>
 
-
-    <form th:action="@{/admin/aeroports/save}" th:object="${aeroport}" method="post">
-    <input type="hidden" th:field="*{id}" />
+  <form th:action="@{/admin/aeroports/save}" th:object="${aeroportDTO}" method="post"> <input type="hidden" th:field="*{id}" />
 
     <div class="mb-3">
       <label for="nom" class="form-label">Nom de l'Aéroport :</label>
@@ -30,14 +28,12 @@
 
     <div class="mb-3">
       <label for="ville" class="form-label">Ville :</label>
-      <select th:field="*{ville.id}" id="ville" class="form-select">
-        <option value="">-- Sélectionner une ville --</option>
+      <select th:field="*{villeId}" id="ville" class="form-select"> <option value="">-- Sélectionner une ville --</option>
         <option th:each="v : ${villes}"
                 th:value="${v.id}"
-                th:text="${v.nom}">Paris</option>
-      </select>
-      <div th:if="${#fields.hasErrors('ville')}" th:errors="*{ville}" class="text-danger">Erreur ville</div>
-    </div>
+                th:text="${v.nom}"
+                th:selected="${aeroportDTO.villeId == v.id}">Paris</option> </select>
+      <div th:if="${#fields.hasErrors('villeId')}" th:errors="*{villeId}" class="text-danger">Erreur ville</div> </div>
 
     <div class="mb-3">
       <label for="latitude" class="form-label">Latitude :</label>
