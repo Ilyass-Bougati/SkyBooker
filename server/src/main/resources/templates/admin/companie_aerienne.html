@@ -26,15 +26,18 @@
             <td th:text="${ca.id}">1</td>
             <td th:text="${ca.nom}"></td>
             <td th:text="${ca.iataCode}"></td>
-            <td th:text="${ca.icaoCode}"></td><td>
-            <a th:href="@{/admin/companie_aerienne/edit/{id}(id=${ca.id})}" class="btn btn-sm btn-warning">Edit</a>
-            <a th:href="@{/admin/companie_aerienne/delete/{id}(id=${ca.id})}"
-               onclick="return confirm('Are you sure you want to delete this companie aerienne?')"
-               class="btn btn-sm btn-danger">Delete</a>
-        </td>
+            <td th:text="${ca.icaoCode}"></td>
+            <td>
+                <a th:href="@{/admin/companie_aerienne/edit/{id}(id=${ca.id})}" class="btn btn-sm btn-warning">Edit</a>
+                <form th:action="@{/admin/companie_aerienne/delete/{id}(id=${ca.id})}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Are you sure you want to delete this companie aerienne?')">Delete</button>
+                </form>
+            </td>
         </tr>
         <tr th:if="${#lists.isEmpty(companiesAerienne)}">
-            <td colspan="5" class="text-center">No classes found.</td>
+            <td colspan="5" class="text-center">No companies found.</td>
         </tr>
         </tbody>
     </table>
