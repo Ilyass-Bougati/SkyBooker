@@ -20,7 +20,9 @@ public class VilleDTO {
     private String pays;
 
     public VilleDTO(Ville ville) {
-        setId(ville.getId());
+        if (ville.getId() != null) {
+            setId(ville.getId());
+        }
         setNom(ville.getNom());
         setPays(ville.getPays());
     }

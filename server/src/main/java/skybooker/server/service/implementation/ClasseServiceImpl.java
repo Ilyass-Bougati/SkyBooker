@@ -1,6 +1,8 @@
 package skybooker.server.service.implementation;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.Optional;
 @Transactional
 public class ClasseServiceImpl implements ClasseService {
 
+    Logger logger = LoggerFactory.getLogger(ClasseServiceImpl.class);
     private final ClasseRepository classeRepository;
 
     public ClasseServiceImpl(ClasseRepository classeRepository) {
@@ -39,17 +42,12 @@ public class ClasseServiceImpl implements ClasseService {
 
     @Override
     public ClasseDTO updateDTO(ClasseDTO classeDTO) {
-        Optional<Classe> classeOptional = classeRepository.findById(classeDTO.getId());
-        if (classeOptional.isPresent()) {
-            Classe clase = classeOptional.get();
-            // updating the classe
-            classeDTO.setId(classeDTO.getId());
-            classeDTO.setNom(classeDTO.getNom());
-            classeDTO.setPrixParKm(classeDTO.getPrixParKm());
-            return new ClasseDTO(classeRepository.save(clase));
-        } else {
-            throw new NotFoundException("Classe not found");
-        }
+        Classe classe = classeRepository.findById(classeDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Classe not found"));
+        // updating the classe
+        classe.setNom(classeDTO.getNom());
+        classe.setPrixParKm(classeDTO.getPrixParKm());
+        return new ClasseDTO(classeRepository.save(classe));
     }
 
     @Override
