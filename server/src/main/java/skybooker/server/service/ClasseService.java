@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 public interface ClasseService extends CrudDTO<ClasseDTO, Long>, CrudService<Classe, Long> {
-    public List<ClasseDTO> findAllDTO();
+    List<ClasseDTO> findAllDTO();
 
-    @Transactional(readOnly = true)
     List<ClasseDTO> findDTOsByIds(Set<Long> ids);
 
 }

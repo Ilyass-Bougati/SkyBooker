@@ -7,6 +7,5 @@ import skybooker.server.entity.Capacite;
 import java.util.List;
 
 public interface CapaciteService extends CrudDTO<CapaciteDTO, Long>, CrudService<Capacite, Long> {
-    @Transactional(readOnly = true)
     List<CapaciteDTO> findDTOsByAvionId(Long avionId);
 }

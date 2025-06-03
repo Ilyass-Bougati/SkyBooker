@@ -16,10 +16,8 @@ public interface ClientService extends CrudDTO<ClientDTO, Long>{
     Boolean passagerAddedByClient(Long clientId, Long passagerId);
     Client getFromPrincipal(Principal principal);
 
-    @Transactional(readOnly = true)
     ClientDTO findClientDetailsDTO(Long id);
 
-    @Transactional
     void cancelReservation(Long reservationId);
 
     ClientDTO updateDTO(ClientDTO clientDTO, String email);
