@@ -61,12 +61,7 @@ public class ClientServiceImpl implements ClientService {
     public List<ClientDTO> findAllDTO() {
         return clientRepository.findAll()
                 .stream()
-                .map(client -> {
-                    if (client.getReservations() != null) {
-                        client.getReservations().size();
-                    }
-                    return new ClientDTO(client);
-                })
+                .map(ClientDTO::new)
                 .collect(Collectors.toList());
     }
 
