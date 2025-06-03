@@ -65,17 +65,12 @@ public class CategorieServiceImpl implements CategorieService {
     @Override
     @CachePut(value = "categorieIdCache", key = "#categorieDTO.id")
     public CategorieDTO updateDTO(CategorieDTO categorieDTO) {
-        Optional<Categorie> oldCategorieOptional = categorieRepository.findById(categorieDTO.getId());
-        if (oldCategorieOptional.isPresent()) {
-            Categorie oldCategorie = oldCategorieOptional.get();
-
-            // updating the categorie
-            oldCategorie.setReduction(categorieDTO.getReduction());
-            oldCategorie.setNom(categorieDTO.getNom());
-            return new CategorieDTO(categorieRepository.save(oldCategorie));
-        } else {
-            throw new NotFoundException("Categorie not found");
-        }
+        Categorie categorie = categorieRepository.findById(categorieDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Categorie not found"));
+        // updating the categorie
+        categorie.setReduction(categorieDTO.getReduction());
+        categorie.setNom(categorieDTO.getNom());
+        return new CategorieDTO(categorieRepository.save(categorie));
     }
 
     @Override

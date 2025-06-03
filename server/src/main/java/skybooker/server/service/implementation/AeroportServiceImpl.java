@@ -63,27 +63,19 @@ public class AeroportServiceImpl implements AeroportService {
     @Override
     @CachePut(value = "aeroportCache", key = "#aeroportDTO.id")
     public AeroportDTO updateDTO(AeroportDTO aeroportDTO) {
-        Optional<Aeroport> newAeroportOpt = aeroportRepository.findById(aeroportDTO.getId());
-        if (newAeroportOpt.isEmpty()) {
-            throw new NotFoundException("Aeroport not found");
-        } else {
-            Aeroport newAeroport = newAeroportOpt.get();
-            Optional<Ville> villeOptional = villeRepository.findById(aeroportDTO.getVilleId());
-            if (villeOptional.isEmpty()) {
-                throw new NotFoundException("Ville not found");
-            }
-
-            // modifying the airport
-            newAeroport.setNom(aeroportDTO.getNom());
-            newAeroport.setIataCode(aeroportDTO.getIataCode());
-            newAeroport.setIcaoCode(aeroportDTO.getIcaoCode());
-            newAeroport.setLatitude(aeroportDTO.getLatitude());
-            newAeroport.setLongitude(aeroportDTO.getLongitude());
-            newAeroport.setVille(villeOptional.get());
-
-            // saving the modifications
-            return new AeroportDTO(aeroportRepository.save(newAeroport));
-        }
+        Aeroport aeroport = aeroportRepository.findById(aeroportDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Aeroport not found"));
+        Ville ville = villeRepository.findById(aeroportDTO.getVilleId())
+                .orElseThrow(() -> new NotFoundException("Ville not found"));
+        // modifying the airport
+        aeroport.setNom(aeroportDTO.getNom());
+        aeroport.setIataCode(aeroportDTO.getIataCode());
+        aeroport.setIcaoCode(aeroportDTO.getIcaoCode());
+        aeroport.setLatitude(aeroportDTO.getLatitude());
+        aeroport.setLongitude(aeroportDTO.getLongitude());
+        aeroport.setVille(ville);
+        // saving the modifications
+        return new AeroportDTO(aeroportRepository.save(aeroport));
     }
 
     @Override
