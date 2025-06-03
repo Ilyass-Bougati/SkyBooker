@@ -25,9 +25,11 @@
       <td th:text="${cl.id}">1</td>
       <td th:text="${cl.nom}"></td> <td th:text="${cl.prixParKm != null ? cl.prixParKm + '': 'N/A'}"></td> <td>
       <a th:href="@{/admin/classes/edit/{id}(id=${cl.id})}" class="btn btn-sm btn-warning">Edit</a>
-      <a th:href="@{/admin/classes/delete/{id}(id=${cl.id})}"
-         onclick="return confirm('Are you sure you want to delete this classe?')"
-         class="btn btn-sm btn-danger">Delete</a>
+      <form th:action="@{/admin/classes/delete/{id}(id=${cl.id})}" method="post" style="display:inline;">
+        <input type="hidden" name="_method" value="delete" />
+        <button type="submit" class="btn btn-sm btn-danger"
+                onclick="return confirm('Are you sure you want to delete this classe?')">Delete</button>
+      </form>
     </td>
     </tr>
     <tr th:if="${#lists.isEmpty(classes)}">
