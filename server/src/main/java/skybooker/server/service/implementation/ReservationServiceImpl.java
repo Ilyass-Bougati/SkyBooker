@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import skybooker.server.DTO.BilletDTO;
 import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.entity.*;
 import skybooker.server.enums.EtatReservation;
@@ -128,6 +129,11 @@ public class ReservationServiceImpl implements ReservationService {
         for (Billet billet : billets) {
             billetRepository.deleteById(billet.getId());
         }
+    }
+
+    @Override
+    public List<BilletDTO> getBillets(long idReservation) {
+        return reservationRepository.getBillets(idReservation);
     }
 
 

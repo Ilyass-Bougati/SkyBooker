@@ -3,6 +3,7 @@ package skybooker.server.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import skybooker.server.DTO.BilletDTO;
 import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Reservation;
@@ -29,9 +30,17 @@ public class ReservationController {
     @GetMapping("/")
     public ResponseEntity<List<ReservationDTO>> getAllReservation(Principal principal) {
         Client client = clientService.getFromPrincipal(principal);
-        Set<Reservation> reservations = client.getReservations();
-        List<ReservationDTO> reservationDTOs = reservations.stream().map(ReservationDTO::new).toList();
-        return ResponseEntity.ok(reservationDTOs);
+        return ResponseEntity.ok(clientService.getReservations(client.getId()));
+    }
+
+    @GetMapping("/{id}/billets")
+    public ResponseEntity<List<BilletDTO>> getBillets(Principal principal, @PathVariable long id) {
+        Client client = clientService.getFromPrincipal(principal);
+        if (clientService.clientMadeReservation(client.getId(), id) || client.isAdmin()) {
+            return ResponseEntity.ok(reservationService.getBillets(id));
+        } else {
+            throw new NotFoundException("Reservation not found");
+        }
     }
 
     @GetMapping("/{id}")

@@ -6,10 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.ClientDTO;
+import skybooker.server.DTO.PassagerDTO;
 import skybooker.server.entity.Client;
 import skybooker.server.service.ClientService;
+import skybooker.server.service.PassagerService;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/client")
@@ -19,6 +22,12 @@ public class ClientController {
 
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
+    }
+
+    @GetMapping("/passagers")
+    public ResponseEntity<List<PassagerDTO>> getPassagers(Principal principal) {
+        Client client = clientService.getFromPrincipal(principal);
+        return ResponseEntity.ok(clientService.getPassagers(client.getId()));
     }
 
     @GetMapping("/{id}")
