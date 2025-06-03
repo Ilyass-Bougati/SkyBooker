@@ -15,6 +15,8 @@ import skybooker.server.service.ClasseService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,6 +34,14 @@ public class ClasseServiceImpl implements ClasseService {
     public List<ClasseDTO> findAllDTO() {
         List<Classe> classes = classeRepository.findAll();
         return classes.stream().map(ClasseDTO::new).toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<ClasseDTO> findDTOsByIds(Set<Long> ids) {
+        return classeRepository.findAllById(ids).stream()
+                .map(ClasseDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override

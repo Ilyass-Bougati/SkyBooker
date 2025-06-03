@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import skybooker.server.entity.Ville;
+import skybooker.server.DTO.VilleDTO;
 import skybooker.server.service.VilleService;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class AdminVilleController {
 
     @GetMapping
     public String listVilles(Model model) {
-        List<Ville> villes = villeService.findAll();
+        List<VilleDTO> villes = villeService.findAllDTO();
         model.addAttribute("villes", villes);
         model.addAttribute("pageTitle", "Gerer les Villes");
         return "admin/villes";
@@ -32,29 +32,43 @@ public class AdminVilleController {
 
     @GetMapping("/add")
     public String AddVilles(Model model) {
-        model.addAttribute("ville", new Ville());
+        model.addAttribute("ville", new VilleDTO());
         model.addAttribute("pageTitle", "Ajouter une nouvelle ville");
         return "admin/add-edit-ville";
     }
 
     @PostMapping("/save")
-    public String saveVille(@Valid @ModelAttribute("ville") Ville ville, BindingResult result,
+    public String saveVille(@Valid @ModelAttribute("ville") VilleDTO villeDTO, BindingResult result,
                             Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("pageTitle", (ville.getId() == null ? "Ajouter" : "Modifier") +" une nouvelle ville");
+            model.addAttribute("pageTitle", (villeDTO.getId() == 0 ? "Ajouter" : "Modifier") + " une nouvelle ville");
             return "admin/add-edit-ville";
         }
 
-        villeService.create(ville);
-        redirectAttributes.addFlashAttribute("successMessage", "Ville saved successfully!");
+        try {
+            if (villeDTO.getId() == 0) {
+                villeService.createDTO(villeDTO);
+            } else {
+                villeService.updateDTO(villeDTO);
+            }
+            redirectAttributes.addFlashAttribute("successMessage", "Ville saved successfully!");
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            result.rejectValue("nom", "duplicate.villeDTO.nom", "A city with this name already exists.");
+            model.addAttribute("pageTitle", (villeDTO.getId() == 0 ? "Ajouter" : "Modifier") + " une nouvelle ville");
+            return "admin/add-edit-ville";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error saving ville: " + e.getMessage());
+            model.addAttribute("pageTitle", (villeDTO.getId() == 0 ? "Ajouter" : "Modifier") + " une nouvelle ville");
+            return "admin/add-edit-ville";
+        }
         return "redirect:/admin/villes";
     }
 
     @GetMapping("/edit/{id}")
     public String editVille(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        Ville ville = villeService.findById(id);
-        if (ville != null) {
-            model.addAttribute("ville", ville);
+        VilleDTO villeDTO = villeService.findDTOById(id);
+        if (villeDTO != null) {
+            model.addAttribute("ville", villeDTO);
             model.addAttribute("pageTitle", "Modifier une nouvelle ville");
             return "admin/add-edit-ville";
         } else {
@@ -63,13 +77,13 @@ public class AdminVilleController {
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteVille(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        try{
+        try {
             villeService.deleteById(id);
             redirectAttributes.addFlashAttribute("successMessage", "Ville deleted successfully!");
-        } catch (Exception e){
-            redirectAttributes.addFlashAttribute("errorMessage","Error deleting ville: " + e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error deleting ville: " + e.getMessage());
         }
         return "redirect:/admin/villes";
     }

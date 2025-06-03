@@ -15,6 +15,8 @@ import skybooker.server.service.PassagerService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -39,6 +41,14 @@ public class PassagerServiceImpl implements PassagerService {
         return optionalPassager
                 .map(PassagerDTO::new)
                 .orElseThrow(NotFoundException::new);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<PassagerDTO> findDTOsByIds(Set<Long> ids) {
+        return passagerRepository.findAllById(ids).stream()
+                .map(PassagerDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override

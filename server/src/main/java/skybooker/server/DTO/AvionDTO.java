@@ -32,7 +32,7 @@ public class AvionDTO {
     private double maxDistance;
 
     @NotNull
-    private long companieAerienneId;
+    private Long companieAerienneId;
 
     public AvionDTO(Avion avion) {
         this.id = avion.getId();
@@ -46,7 +46,7 @@ public class AvionDTO {
             setCompanieAerienneId(avion.getCompanieAerienne().getId());
         } else {
             logger.warn("Companie aerienne for avion {} is null", getId());
-            setCompanieAerienneId(-1);
+            setCompanieAerienneId(null);
         }
     }
 }

@@ -1,75 +1,98 @@
 package skybooker.server.controller.admin;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import skybooker.server.entity.Client;
+import skybooker.server.DTO.ClientDTO;
+import skybooker.server.DTO.ClasseDTO;
+import skybooker.server.DTO.PassagerDTO;
+import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.service.ClientService;
-import skybooker.server.service.RoleService;
+import skybooker.server.service.PassagerService;
+import skybooker.server.service.ClasseService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/client")
 public class AdminClientController {
 
     private final ClientService clientService;
-    private final RoleService roleService;
+    private final PassagerService passagerService;
+    private final ClasseService classeService;
 
     @Autowired
-    public AdminClientController(ClientService clientService, RoleService roleService) {
+    public AdminClientController(ClientService clientService, PassagerService passagerService, ClasseService classeService) {
         this.clientService = clientService;
-        this.roleService = roleService;
+        this.passagerService = passagerService;
+        this.classeService = classeService;
     }
 
     @GetMapping
     public String listClients(Model model) {
-        List<Client> clients = clientService.findAll();
+        List<ClientDTO> clients = clientService.findAllDTO();
         model.addAttribute("clients", clients);
         model.addAttribute("pageTitle", "Gérer les Clients");
         return "admin/client";
     }
 
-    @GetMapping("/add")
-    public String addClient(Model model) {
-        model.addAttribute("client", new Client());
-        model.addAttribute("roles", roleService.findAll());
-        model.addAttribute("pageTitle", "Ajouter un Client");
-        return "admin/add-edit-client";
-    }
-
-    @PostMapping("/save")
-    public String saveClient(@Valid @ModelAttribute("client") Client client, BindingResult result,
-                             Model model, RedirectAttributes redirectAttributes) {
-        if (result.hasErrors()) {
-            model.addAttribute("roles", roleService.findAll());
-            model.addAttribute("pageTitle", (client.getId() == 0 ? "Ajouter" : "Modifier") + " un Client");
-            return "admin/add-edit-client";
-        }
-        clientService.create(client);
-        redirectAttributes.addFlashAttribute("successMessage", "Client sauvegardé avec succès !");
-        return "redirect:/admin/client";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String editClient(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        Client client = clientService.findById(id);
-        if (client != null) {
+    @GetMapping("/details/{id}")
+    public String viewClientDetails(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            ClientDTO client = clientService.findbyIdDTO(id);
             model.addAttribute("client", client);
-            model.addAttribute("roles", roleService.findAll());
-            model.addAttribute("pageTitle", "Modifier un Client");
-            return "admin/add-edit-client";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Client n'existe pas ! :" + id);
+
+            Set<ReservationDTO> reservationDTOs = client.getReservations().stream()
+                    .map(ReservationDTO::new)
+                    .collect(Collectors.toSet());
+            model.addAttribute("reservations", reservationDTOs);
+
+            Set<Long> allPassagerIds = new HashSet<>();
+            Set<Long> allClasseIds = new HashSet<>();
+            for (ReservationDTO resDTO : reservationDTOs) {
+                if (resDTO.getPassagers() != null) {
+                    for (ReservationDTO.PassagerData passagerData : resDTO.getPassagers()) {
+                        allPassagerIds.add(passagerData.getPassagerId());
+                        allClasseIds.add(passagerData.getClassId());
+                    }
+                }
+            }
+
+            Map<Long, PassagerDTO> passagersMap = passagerService.findDTOsByIds(allPassagerIds).stream()
+                    .collect(Collectors.toMap(PassagerDTO::getId, p -> p));
+
+            Map<Long, ClasseDTO> classesMap = classeService.findDTOsByIds(allClasseIds).stream()
+                    .collect(Collectors.toMap(ClasseDTO::getId, c -> c));
+
+            model.addAttribute("passagersMap", passagersMap);
+            model.addAttribute("classesMap", classesMap);
+
+            model.addAttribute("pageTitle", "Détails Client: " + client.getEmail());
+            return "admin/client-details";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Impossible de charger les détails du client: " + e.getMessage());
             return "redirect:/admin/client";
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/reservation/cancel/{id}")
+    public String cancelReservation(@PathVariable("id") Long id, @RequestParam("clientId") Long clientId, RedirectAttributes redirectAttributes) {
+        try {
+            clientService.cancelReservation(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Réservation annulée avec succès !");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de l'annulation de la réservation: " + e.getMessage());
+        }
+        return "redirect:/admin/client/details/" + clientId;
+    }
+
+    @DeleteMapping("/delete/{id}")
     public String deleteClient(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             clientService.deleteById(id);

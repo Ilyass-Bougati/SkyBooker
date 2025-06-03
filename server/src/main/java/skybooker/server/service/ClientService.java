@@ -14,6 +14,11 @@ public interface ClientService extends CrudDTO<ClientDTO, Long>{
     ResponseEntity<ClientDTO> register(RegisterRequestDTO registerRequestDTO);
     Boolean passagerAddedByClient(Long clientId, Long passagerId);
     Client getFromPrincipal(Principal principal);
+
+    ClientDTO findbyIdDTO(Long id);
+
+    void cancelReservation(Long reservationId);
+
     ClientDTO updateDTO(ClientDTO clientDTO, String email);
     Client findById(Long clientId);
     Client create(Client client);

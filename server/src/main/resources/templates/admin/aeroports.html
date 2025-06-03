@@ -24,20 +24,21 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="a : ${aeroports}">
-            <td th:text="${a.id}">1</td>
+        <tr th:each="a : ${aeroports}"> <td th:text="${a.id}">1</td>
             <td th:text="${a.nom}">Charles de Gaulle</td>
             <td th:text="${a.iataCode}">CDG</td>
             <td th:text="${a.icaoCode}">LFPG</td>
-            <td th:text="${a.ville != null ? a.ville.nom : 'N/A'}">Paris</td>
+            <td th:text="${villesMap.containsKey(a.villeId) ? villesMap.get(a.villeId).nom : 'N/A'}">Paris</td>
             <td th:text="${a.latitude}">49.0097</td>
             <td th:text="${a.longitude}">2.5479</td>
             <td>
                 <a th:href="@{/admin/aeroports/edit/{id}(id=${a.id})}"
                    class="btn btn-sm btn-warning">Modifier</a>
-                <a th:href="@{/admin/aeroports/delete/{id}(id=${a.id})}"
-                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet aéroport ?')"
-                   class="btn btn-sm btn-danger">Supprimer</a>
+                <form th:action="@{/admin/aeroports/delete/{id}(id=${a.id})}" method="post" style="display:inline;">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet aéroport ?')">Supprimer</button>
+                </form>
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(aeroports)}">

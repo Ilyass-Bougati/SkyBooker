@@ -82,6 +82,20 @@ public class CapaciteServiceImpl implements CapaciteService {
         return new CapaciteDTO(capaciteRepository.save(capacite));
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<CapaciteDTO> findDTOsByAvionId(Long avionId) {
+        List<Capacite> capacites = capaciteRepository.findByAvionId(avionId);
+
+        List<CapaciteDTO> dtos = new java.util.ArrayList<>();
+        for (Capacite c : capacites) {
+            if (c.getAvion() != null) c.getAvion().getId();
+            if (c.getClasse() != null) c.getClasse().getId();
+
+            dtos.add(new CapaciteDTO(c));
+        }
+        return dtos;
+}
 
     @Override
     @Transactional(readOnly = true)
