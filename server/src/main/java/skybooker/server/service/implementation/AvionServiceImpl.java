@@ -36,7 +36,7 @@ public class AvionServiceImpl implements AvionService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "avionCache", key = "#id")
-    public AvionDTO findById(Long id) {
+    public AvionDTO findDTOById(Long id) {
         Optional<Avion> avion = avionRepository.findById(id);
         return avion
                 .map(AvionDTO::new)
@@ -51,7 +51,7 @@ public class AvionServiceImpl implements AvionService {
 
 
     @Override
-    public List<AvionDTO> findAll() {
+    public List<AvionDTO> findAllDTO() {
         return avionRepository.findAll()
                 .stream().map(AvionDTO::new).toList();
     }
@@ -89,6 +89,39 @@ public class AvionServiceImpl implements AvionService {
         } else{
             throw new NotFoundException("Avion not found");
         }
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Avion> findAll() {
+        return avionRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Avion findById(Long id) {
+        Optional<Avion> avion = avionRepository.findById(id);
+        return avion.orElse(null);
+    }
+
+    @Override
+    public Avion create(Avion avion) {
+        AvionDTO avionDTO = new AvionDTO(avion);
+        avionDTO = createDTO(avionDTO);
+        return avionRepository.findById(avionDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Avion not found"));
+    }
+
+    @Override
+    public Avion update(Avion avion) {
+        AvionDTO avionDTO = new AvionDTO(avion);
+        avionDTO = updateDTO(avionDTO);
+        return avionRepository.findById(avionDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Avion not found"));
+    }
+
+    @Override
+    public void delete(Avion avion) {
+        deleteById(avion.getId());
     }
 }

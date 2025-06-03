@@ -2,16 +2,13 @@ package skybooker.server.controller;
 
 
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.CategorieDTO;
-import skybooker.server.entity.Categorie;
 import skybooker.server.service.CategorieService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -31,7 +28,7 @@ public class CategorieController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategorieDTO> getCategory(@PathVariable Long id) {
-        return ResponseEntity.ok(categorieService.findById(id));
+        return ResponseEntity.ok(categorieService.findDTOById(id));
     }
 
     @PostMapping("/")

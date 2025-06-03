@@ -28,7 +28,7 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "companieAerienneCache", key = "#id")
-    public CompanieAerienneDTO findById(Long id) {
+    public CompanieAerienneDTO findDTOById(Long id) {
         Optional<CompanieAerienne> companieAerienne = companieAerienneRepository.findById(id);
         return companieAerienne
                 .map(CompanieAerienneDTO::new)
@@ -45,7 +45,7 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
 
 
     @Override
-    public List<CompanieAerienneDTO> findAll() {
+    public List<CompanieAerienneDTO> findAllDTO() {
         return companieAerienneRepository.findAll()
                 .stream().map(CompanieAerienneDTO::new).toList();
     }
@@ -72,5 +72,39 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
         } else {
             throw new NotFoundException("Companie arienne not found");
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CompanieAerienne> findAll() {
+        return companieAerienneRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CompanieAerienne findById(Long id) {
+        Optional<CompanieAerienne> companieAerienne = companieAerienneRepository.findById(id);
+        return companieAerienne.orElse(null);
+    }
+
+    @Override
+    public CompanieAerienne create(CompanieAerienne companieAerienne) {
+        CompanieAerienneDTO companieAerienneDTO = new CompanieAerienneDTO(companieAerienne);
+        companieAerienneDTO = createDTO(companieAerienneDTO);
+        return companieAerienneRepository.findById(companieAerienneDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Companie arienne not found"));
+    }
+
+    @Override
+    public CompanieAerienne update(CompanieAerienne companieAerienne) {
+        CompanieAerienneDTO companieAerienneDTO = new CompanieAerienneDTO(companieAerienne);
+        companieAerienneDTO = updateDTO(companieAerienneDTO);
+        return companieAerienneRepository.findById(companieAerienneDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Companie arienne not found"));
+    }
+
+    @Override
+    public void delete(CompanieAerienne companieAerienne) {
+        deleteById(companieAerienne.getId());
     }
 }

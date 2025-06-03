@@ -22,7 +22,7 @@ public class AvionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AvionDTO> getAvionById(@PathVariable Long id) {
-        return ResponseEntity.ok(avionService.findById(id));
+        return ResponseEntity.ok(avionService.findDTOById(id));
     }
 
     @PostMapping("/")

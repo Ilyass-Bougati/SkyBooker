@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import skybooker.server.entity.Avion;
-import skybooker.server.entity.CompanieAerienne;
 import skybooker.server.service.AvionService;
 import skybooker.server.service.CompanieAerienneService;
 

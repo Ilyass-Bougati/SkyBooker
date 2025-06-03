@@ -38,7 +38,7 @@ public class VolServiceImpl implements VolService {
 
     @Override
     @Transactional(readOnly = true)
-    public VolDTO findById(Long id){
+    public VolDTO findDTOById(Long id){
         Optional<Vol> vol = volRepository.findById(id);
         return vol
                 .map(VolDTO::new)
@@ -51,7 +51,7 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
-    public List<VolDTO> findAll() {
+    public List<VolDTO> findAllDTO() {
         return volRepository.findAll()
                 .stream().map(VolDTO::new).toList();
     }
@@ -138,5 +138,40 @@ public class VolServiceImpl implements VolService {
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Vol> findAll() {
+        return volRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Vol findById(Long id) {
+        Optional<Vol> vol = volRepository.findById(id);
+        return vol.orElse(null);
+    }
+
+    @Override
+    public Vol create(Vol vol) {
+        VolDTO volDTO = new VolDTO(vol);
+        volDTO = createDTO(volDTO);
+        return volRepository.findById(volDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Vol not found"));
+    }
+
+    @Override
+    public Vol update(Vol vol) {
+        VolDTO volDTO = new VolDTO(vol);
+        volDTO = updateDTO(volDTO);
+        return volRepository.findById(volDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Vol not found"));
+    }
+
+    @Override
+    public void delete(Vol vol) {
+        deleteById(vol.getId());
     }
 }

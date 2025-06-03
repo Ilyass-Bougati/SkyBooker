@@ -34,7 +34,7 @@ public class PassagerServiceImpl implements PassagerService {
 
     @Override
     @Transactional(readOnly = true)
-    public PassagerDTO findById(Long id) {
+    public PassagerDTO findDTOById(Long id) {
         Optional<Passager> optionalPassager = passagerRepository.findById(id);
         return optionalPassager
                 .map(PassagerDTO::new)
@@ -47,7 +47,7 @@ public class PassagerServiceImpl implements PassagerService {
     }
 
     @Override
-    public List<PassagerDTO> findAll() {
+    public List<PassagerDTO> findAllDTO() {
         return List.of();
     }
 
@@ -87,5 +87,40 @@ public class PassagerServiceImpl implements PassagerService {
     public List<BilletDTO> getPassagerBillets(Long passagerId) {
         return billetRepository.passagerBillets(passagerId)
                 .stream().map(BilletDTO::new).toList();
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Passager> findAll() {
+        return passagerRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Passager findById(Long id) {
+        Optional<Passager> passager = passagerRepository.findById(id);
+        return passager.orElse(null);
+    }
+
+    @Override
+    public Passager create(Passager passager) {
+        PassagerDTO passagerDTO = new PassagerDTO(passager);
+        passagerDTO = createDTO(passagerDTO);
+        return passagerRepository.findById(passagerDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Passager not found"));
+    }
+
+    @Override
+    public Passager update(Passager passager) {
+        PassagerDTO passagerDTO = new PassagerDTO(passager);
+        passagerDTO = updateDTO(passagerDTO);
+        return passagerRepository.findById(passagerDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Passager not found"));
+    }
+
+    @Override
+    public void delete(Passager passager) {
+        deleteById(passager.getId());
     }
 }

@@ -12,7 +12,6 @@ import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.AeroportRepository;
 import skybooker.server.repository.VilleRepository;
 import skybooker.server.service.AeroportService;
-import skybooker.server.service.VilleService;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +33,7 @@ public class AeroportServiceImpl implements AeroportService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "aeroportCache", key = "#id")
-    public AeroportDTO findById(Long id) {
+    public AeroportDTO findDTOById(Long id) {
         Optional<Aeroport> aeroport = aeroportRepository.findById(id);
         return aeroport
                 .map(AeroportDTO::new)
@@ -43,7 +42,7 @@ public class AeroportServiceImpl implements AeroportService {
 
 
     @Override
-    public List<AeroportDTO> findAll() {
+    public List<AeroportDTO> findAllDTO() {
         return aeroportRepository.findAll()
                 .stream().map(AeroportDTO::new).toList();
     }
@@ -91,5 +90,39 @@ public class AeroportServiceImpl implements AeroportService {
     @CacheEvict(value = "aeroportCache", key = "#id")
     public void deleteById(Long id) {
         aeroportRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Aeroport> findAll() {
+        return aeroportRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Aeroport findById(Long id) {
+        Optional<Aeroport> aeroport = aeroportRepository.findById(id);
+        return aeroport.orElse(null);
+    }
+
+    @Override
+    public Aeroport create(Aeroport aeroport) {
+        AeroportDTO newAeroport = new AeroportDTO(aeroport);
+        newAeroport = createDTO(newAeroport);
+        return aeroportRepository.findById(newAeroport.getId())
+                .orElseThrow(() -> new NotFoundException("Aeroport not found"));
+    }
+
+    @Override
+    public Aeroport update(Aeroport aeroport) {
+        AeroportDTO newAeroport = new AeroportDTO(aeroport);
+        newAeroport = updateDTO(newAeroport);
+        return aeroportRepository.findById(newAeroport.getId())
+                .orElseThrow(() -> new NotFoundException("Aeroport not found"));
+    }
+
+    @Override
+    public void delete(Aeroport aeroport) {
+        deleteById(aeroport.getId());
     }
 }

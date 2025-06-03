@@ -26,7 +26,7 @@ public class AeroportController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AeroportDTO> getAeroportById(@PathVariable Long id) {
-        return ResponseEntity.ok(aeroportService.findById(id));
+        return ResponseEntity.ok(aeroportService.findDTOById(id));
     }
 
     @PostMapping("/")
