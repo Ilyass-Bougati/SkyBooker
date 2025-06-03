@@ -5,6 +5,6 @@ import skybooker.server.entity.Ville;
 
 import java.util.List;
 
-public interface VilleService extends CrudDTO<VilleDTO, Long> {
+public interface VilleService extends CrudDTO<VilleDTO, Long>, CrudService<Ville, Long> {
     public List<VilleDTO> getAllVille();
 }

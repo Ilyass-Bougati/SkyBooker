@@ -37,7 +37,7 @@ public class ReservationController {
     @GetMapping("/{id}")
     public ResponseEntity<ReservationDTO> getReservationById(Principal principal, @PathVariable Long id) {
         Client client =  clientService.getFromPrincipal(principal);
-        ReservationDTO reservation = reservationService.findById(id);
+        ReservationDTO reservation = reservationService.findDTOById(id);
 
         // checking if the reservation was made by the client
         if (reservation.getClientId() != client.getId()) {

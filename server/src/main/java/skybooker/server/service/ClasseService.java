@@ -5,6 +5,6 @@ import skybooker.server.entity.Classe;
 
 import java.util.List;
 
-public interface ClasseService extends CrudDTO<ClasseDTO, Long> {
-    public List<ClasseDTO> findAll();
+public interface ClasseService extends CrudDTO<ClasseDTO, Long>, CrudService<Classe, Long> {
+    public List<ClasseDTO> findAllDTO();
 }

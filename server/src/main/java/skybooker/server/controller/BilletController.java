@@ -1,16 +1,10 @@
 package skybooker.server.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.BilletDTO;
-import skybooker.server.entity.Billet;
 import skybooker.server.service.BilletService;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/billet")
@@ -25,7 +19,7 @@ public class BilletController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BilletDTO> getBilletById(@PathVariable Long id) {
-        return ResponseEntity.ok(billetService.findById(id));
+        return ResponseEntity.ok(billetService.findDTOById(id));
     }
 
     @PostMapping("/")

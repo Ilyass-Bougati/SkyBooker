@@ -40,7 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(readOnly = true)
-    public ReservationDTO findById(Long id) {
+    public ReservationDTO findDTOById(Long id) {
         Optional<Reservation> reservation = reservationRepository.findById(id);
         return reservation
                 .map(ReservationDTO::new)
@@ -53,7 +53,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<ReservationDTO> findAll() {
+    public List<ReservationDTO> findAllDTO() {
         return List.of();
     }
 
@@ -128,5 +128,40 @@ public class ReservationServiceImpl implements ReservationService {
         for (Billet billet : billets) {
             billetRepository.deleteById(billet.getId());
         }
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Reservation> findAll() {
+        return reservationRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Reservation findById(Long id) {
+        Optional<Reservation> reservation = reservationRepository.findById(id);
+        return reservation.orElse(null);
+    }
+
+    @Override
+    public Reservation create(Reservation reservation) {
+        ReservationDTO reservationDTO = new ReservationDTO(reservation);
+        reservationDTO = createDTO(reservationDTO);
+        return reservationRepository.findById(reservationDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Reservation not found"));
+    }
+
+    @Override
+    public Reservation update(Reservation reservation) {
+        ReservationDTO reservationDTO = new ReservationDTO(reservation);
+        reservationDTO = updateDTO(reservationDTO);
+        return reservationRepository.findById(reservationDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Reservation not found"));
+    }
+
+    @Override
+    public void delete(Reservation reservation) {
+        deleteById(reservation.getId());
     }
 }

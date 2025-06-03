@@ -1,13 +1,10 @@
 package skybooker.server.controller;
 
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.VilleDTO;
-import skybooker.server.entity.Ville;
 import skybooker.server.service.VilleService;
 
 import java.util.List;
@@ -29,7 +26,7 @@ public class VilleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<VilleDTO> getVilleById(@PathVariable Long id) {
-        return ResponseEntity.ok(villeService.findById(id));
+        return ResponseEntity.ok(villeService.findDTOById(id));
     }
 
     @PostMapping("/")

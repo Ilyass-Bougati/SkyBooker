@@ -23,7 +23,7 @@ public class CompanieAerienneController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CompanieAerienneDTO> getCompanieAerienneById(@PathVariable Long id) {
-        return ResponseEntity.ok(companieAerienneService.findById(id));
+        return ResponseEntity.ok(companieAerienneService.findDTOById(id));
     }
 
     @PostMapping("/")

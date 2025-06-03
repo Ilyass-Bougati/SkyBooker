@@ -26,7 +26,7 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    public List<CategorieDTO> findAll() {
+    public List<CategorieDTO> findAllDTO() {
         return categorieRepository.findAll()
                 .stream().map(CategorieDTO::new).toList();
     }
@@ -40,7 +40,7 @@ public class CategorieServiceImpl implements CategorieService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "categorieIdCache", key = "#id")
-    public CategorieDTO findById(Long id) {
+    public CategorieDTO findDTOById(Long id) {
         Optional<Categorie> categorie = categorieRepository.findById(id);
         return categorie
                 .map(CategorieDTO::new)
@@ -83,5 +83,40 @@ public class CategorieServiceImpl implements CategorieService {
     @CacheEvict(value = "categorieIdCache", key = "#id")
     public void deleteById(Long id) {
         categorieRepository.deleteById(id);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Categorie> findAll() {
+        return categorieRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Categorie findById(Long id) {
+        Optional<Categorie> categorie = categorieRepository.findById(id);
+        return categorie.orElse(null);
+    }
+
+    @Override
+    public Categorie create(Categorie categorie) {
+        CategorieDTO categorieDTO = new CategorieDTO(categorie);
+        categorieDTO = createDTO(categorieDTO);
+        return categorieRepository.findById(categorieDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Categorie not found"));
+    }
+
+    @Override
+    public Categorie update(Categorie categorie) {
+        CategorieDTO categorieDTO = new CategorieDTO(categorie);
+        categorieDTO = updateDTO(categorieDTO);
+        return categorieRepository.findById(categorieDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Categorie not found"));
+    }
+
+    @Override
+    public void delete(Categorie categorie) {
+        deleteById(categorie.getId());
     }
 }

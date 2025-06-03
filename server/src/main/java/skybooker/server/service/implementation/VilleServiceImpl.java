@@ -29,7 +29,7 @@ public class VilleServiceImpl implements VilleService {
 
     @Override
     @Transactional(readOnly = true)
-    public VilleDTO findById(Long id) {
+    public VilleDTO findDTOById(Long id) {
         Optional<Ville> ville = villeRepository.findById(id);
         return ville
                 .map(VilleDTO::new)
@@ -42,7 +42,7 @@ public class VilleServiceImpl implements VilleService {
     }
 
     @Override
-    public List<VilleDTO> findAll() {
+    public List<VilleDTO> findAllDTO() {
         return villeRepository.findAll()
                 .stream().map(VilleDTO::new).toList();
     }
@@ -66,5 +66,39 @@ public class VilleServiceImpl implements VilleService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Ville> findAll() {
+        return villeRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Ville findById(Long aLong) {
+        Optional<Ville> ville = villeRepository.findById(aLong);
+        return ville.orElse(null);
+    }
+
+    @Override
+    public Ville create(Ville ville) {
+        VilleDTO villeDTO = new VilleDTO(ville);
+        villeDTO = createDTO(villeDTO);
+        return villeRepository.findById(villeDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Ville not found"));
+    }
+
+    @Override
+    public Ville update(Ville ville) {
+        VilleDTO villeDTO = new VilleDTO(ville);
+        villeDTO = updateDTO(villeDTO);
+        return villeRepository.findById(villeDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Ville not found"));
+    }
+
+    @Override
+    public void delete(Ville ville) {
+        deleteById(ville.getId());
     }
 }

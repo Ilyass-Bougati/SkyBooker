@@ -49,7 +49,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientDTO> findAll() {
+    public List<ClientDTO> findAllDTO() {
         return List.of();
     }
 
@@ -97,7 +97,27 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional(readOnly = true)
-    public ClientDTO findById(Long id) {
+    @CachePut(key = "#result.email")
+    public Client findById(Long clientId) {
+        return clientRepository.findById(clientId)
+                .orElseThrow(() -> new NotFoundException("Client not found"));
+    }
+
+    @Override
+    @Deprecated
+    public Client create(Client client) {
+        logger.warn("Someone is trying to create a use with create(Client)");
+        return null;
+    }
+
+    @Override
+    public List<Client> findAll() {
+        return clientRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ClientDTO findDTOById(Long id) {
         Optional<Client> optionalClient = clientRepository.findById(id);
         return optionalClient.map(ClientDTO::new)
                 .orElseThrow(() -> new NotFoundException("Client not found"));

@@ -40,7 +40,7 @@ public class VolController {
 
     @GetMapping("/{id}")
     public ResponseEntity<VolDTO> vol(@PathVariable long id){
-        return ResponseEntity.ok(volService.findById(id));
+        return ResponseEntity.ok(volService.findDTOById(id));
     }
 
     @PostMapping("/")

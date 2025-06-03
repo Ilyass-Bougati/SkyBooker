@@ -32,7 +32,7 @@ public class CapaciteServiceImpl implements CapaciteService {
 
     @Override
     @Transactional(readOnly = true)
-    public CapaciteDTO findById(Long id) {
+    public CapaciteDTO findDTOById(Long id) {
         Optional<Capacite> capacite = capaciteRepository.findById(id);
         return capacite
                 .map(CapaciteDTO::new)
@@ -45,7 +45,7 @@ public class CapaciteServiceImpl implements CapaciteService {
     }
 
     @Override
-    public List<CapaciteDTO> findAll() {
+    public List<CapaciteDTO> findAllDTO() {
         return List.of();
     }
 
@@ -80,5 +80,40 @@ public class CapaciteServiceImpl implements CapaciteService {
 
         // saving the changes
         return new CapaciteDTO(capaciteRepository.save(capacite));
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Capacite> findAll() {
+        return capaciteRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Capacite findById(Long id) {
+        Optional<Capacite> capacite = capaciteRepository.findById(id);
+        return capacite.orElse(null);
+    }
+
+    @Override
+    public Capacite create(Capacite capacite) {
+        CapaciteDTO capaciteDTO = new CapaciteDTO(capacite);
+        capaciteDTO = createDTO(capaciteDTO);
+        return capaciteRepository.findById(capaciteDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Capacite not found"));
+    }
+
+    @Override
+    public Capacite update(Capacite capacite) {
+        CapaciteDTO capaciteDTO = new CapaciteDTO(capacite);
+        capaciteDTO = updateDTO(capaciteDTO);
+        return capaciteRepository.findById(capaciteDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Capacite not found"));
+    }
+
+    @Override
+    public void delete(Capacite capacite) {
+        deleteById(capacite.getId());
     }
 }

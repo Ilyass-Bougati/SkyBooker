@@ -2,7 +2,6 @@ package skybooker.server.service.implementation;
 
 
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +26,7 @@ public class ClasseServiceImpl implements ClasseService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ClasseDTO> findAll() {
+    public List<ClasseDTO> findAllDTO() {
         List<Classe> classes = classeRepository.findAll();
         return classes.stream().map(ClasseDTO::new).toList();
     }
@@ -56,7 +55,7 @@ public class ClasseServiceImpl implements ClasseService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "classeCache", key = "#id")
-    public ClasseDTO findById(Long id) {
+    public ClasseDTO findDTOById(Long id) {
         Optional<Classe> classe = classeRepository.findById(id);
         return classe
                 .map(ClasseDTO::new)
@@ -67,5 +66,40 @@ public class ClasseServiceImpl implements ClasseService {
     @CacheEvict(value = "classeCache", key = "#id")
     public void deleteById(Long id) {
         classeRepository.deleteById(id);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Classe> findAll() {
+        return classeRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Classe findById(Long id) {
+        Optional<Classe> classe = classeRepository.findById(id);
+        return classe.orElse(null);
+    }
+
+    @Override
+    public Classe create(Classe classe) {
+        ClasseDTO classeDTO = new ClasseDTO(classe);
+        classeDTO = createDTO(classeDTO);
+        return classeRepository.findById(classeDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Classe not found"));
+    }
+
+    @Override
+    public Classe update(Classe classe) {
+        ClasseDTO classeDTO = new ClasseDTO(classe);
+        classeDTO = updateDTO(classeDTO);
+        return classeRepository.findById(classeDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Classe not found"));
+    }
+
+    @Override
+    public void delete(Classe classe) {
+        deleteById(classe.getId());
     }
 }

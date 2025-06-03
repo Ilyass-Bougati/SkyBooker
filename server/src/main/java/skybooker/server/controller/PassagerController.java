@@ -44,7 +44,7 @@ public class PassagerController {
         Client client = clientService.getFromPrincipal(principal);
 
         if (passagerService.passagerAddedBy(client.getId(), id) || client.isAdmin()) {
-            PassagerDTO passager = passagerService.findById(id);
+            PassagerDTO passager = passagerService.findDTOById(id);
             return ResponseEntity.ok(passager);
         } else {
             return ResponseEntity.notFound().build();

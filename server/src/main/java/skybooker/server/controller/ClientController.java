@@ -24,7 +24,7 @@ public class ClientController {
     @GetMapping("/{id}")
     @Secured("SCOPE_ROLE_ADMIN")
     public ResponseEntity<ClientDTO> client(@PathVariable long id) {
-        return ResponseEntity.ok(clientService.findById(id));
+        return ResponseEntity.ok(clientService.findDTOById(id));
     }
 
     @GetMapping("/")

@@ -37,7 +37,7 @@ public class BilletServiceImpl implements BilletService {
 
     @Override
     @Transactional(readOnly = true)
-    public BilletDTO findById(Long id) {
+    public BilletDTO findDTOById(Long id) {
         Optional<Billet> billet = billetRepository.findById(id);
         return billet
                 .map(BilletDTO::new)
@@ -50,7 +50,7 @@ public class BilletServiceImpl implements BilletService {
     }
 
     @Override
-    public List<BilletDTO> findAll() {
+    public List<BilletDTO> findAllDTO() {
         return List.of();
     }
 
@@ -90,5 +90,40 @@ public class BilletServiceImpl implements BilletService {
 
         // saving the updates
         return new BilletDTO(billetRepository.save(billet));
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Billet> findAll() {
+        return billetRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Billet findById(Long id) {
+        Optional<Billet> billet = billetRepository.findById(id);
+        return billet.orElse(null);
+    }
+
+    @Override
+    public Billet create(Billet billet) {
+        BilletDTO billetDTO = new BilletDTO(billet);
+        billetDTO = createDTO(billetDTO);
+        return billetRepository.findById(billetDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Billet not found"));
+    }
+
+    @Override
+    public Billet update(Billet billet) {
+        BilletDTO billetDTO = new BilletDTO(billet);
+        billetDTO = updateDTO(billetDTO);
+        return billetRepository.findById(billetDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Billet not found"));
+    }
+
+    @Override
+    public void delete(Billet billet) {
+        deleteById(billet.getId());
     }
 }
