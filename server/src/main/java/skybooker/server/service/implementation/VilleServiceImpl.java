@@ -54,18 +54,13 @@ public class VilleServiceImpl implements VilleService {
 
     @Override
     public VilleDTO updateDTO(VilleDTO villeDTO) {
-        Optional<Ville> villeOptional = villeRepository.findById(villeDTO.getId());
-        if (villeOptional.isPresent()) {
-            Ville ville = villeOptional.get();
-            // updating the city
-            ville.setNom(villeDTO.getNom());
-            ville.setPays(villeDTO.getPays());
-
-            // saving the updates
-            return new VilleDTO(villeRepository.save(ville));
-        } else {
-            return null;
-        }
+        Ville ville = villeRepository.findById(villeDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Ville not found"));
+        // updating the city
+        ville.setNom(villeDTO.getNom());
+        ville.setPays(villeDTO.getPays());
+        // saving the updates
+        return new VilleDTO(villeRepository.save(ville));
     }
 
     @Override

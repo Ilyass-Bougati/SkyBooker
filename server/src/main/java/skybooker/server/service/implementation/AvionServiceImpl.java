@@ -69,26 +69,18 @@ public class AvionServiceImpl implements AvionService {
     @Override
     @CachePut(value = "avionCache", key = "#avionDTO.id")
     public AvionDTO updateDTO(AvionDTO avionDTO) {
-        Optional<Avion> avionOptional = avionRepository.findById(avionDTO.getId());
-        if (avionOptional.isPresent()) {
-            // getting the companie arienne
-            Optional<CompanieAerienne> companieAerienneOptional = companieAerienneRepository.findById(avionDTO.getCompanieAerienneId());
-            if (companieAerienneOptional.isEmpty()) {
-                throw new NotFoundException("Companie arienne not found");
-            }
-            Avion avion = avionOptional.get();
-            // modifying the avion
-            avion.setCompanieAerienne(companieAerienneOptional.get());
-            avion.setModel(avionDTO.getModel());
-            avion.setIcaoCode(avionDTO.getIcaoCode());
-            avion.setIataCode(avionDTO.getIataCode());
-            avion.setMaxDistance(avionDTO.getMaxDistance());
-
-            // saving the avion
-            return new AvionDTO(avionRepository.save(avion));
-        } else{
-            throw new NotFoundException("Avion not found");
-        }
+        Avion avion = avionRepository.findById(avionDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Avion not found"));
+        // getting the companie arienne
+        CompanieAerienne companieAerienne = companieAerienneRepository.findById(avionDTO.getCompanieAerienneId())
+                .orElseThrow(() -> new NotFoundException("Companie arienne not found"));
+        avion.setCompanieAerienne(companieAerienne);
+        avion.setModel(avionDTO.getModel());
+        avion.setIcaoCode(avionDTO.getIcaoCode());
+        avion.setIataCode(avionDTO.getIataCode());
+        avion.setMaxDistance(avionDTO.getMaxDistance());
+        // saving the avion
+        return new AvionDTO(avionRepository.save(avion));
     }
 
     @Override

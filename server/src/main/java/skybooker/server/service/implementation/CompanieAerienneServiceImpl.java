@@ -59,19 +59,14 @@ public class CompanieAerienneServiceImpl implements CompanieAerienneService {
     @Override
     @CachePut(value = "companieAerienneCache", key = "#companieAerienneDTO.id")
     public CompanieAerienneDTO updateDTO(CompanieAerienneDTO companieAerienneDTO) {
-        Optional<CompanieAerienne> companieAerienneOptional = companieAerienneRepository.findById(companieAerienneDTO.getId());
-        if (companieAerienneOptional.isPresent()) {
-            CompanieAerienne companieAerienne = companieAerienneOptional.get();
-            // updating the airline
-            companieAerienne.setNom(companieAerienneDTO.getNom());
-            companieAerienne.setIcaoCode(companieAerienneDTO.getIcaoCode());
-            companieAerienne.setIataCode(companieAerienneDTO.getIataCode());
-
-            // saving the updated airline
-            return new CompanieAerienneDTO(companieAerienneRepository.save(companieAerienne));
-        } else {
-            throw new NotFoundException("Companie arienne not found");
-        }
+        CompanieAerienne companieAerienne = companieAerienneRepository.findById(companieAerienneDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Companie arienne not found"));
+        // updating the airline
+        companieAerienne.setNom(companieAerienneDTO.getNom());
+        companieAerienne.setIcaoCode(companieAerienneDTO.getIcaoCode());
+        companieAerienne.setIataCode(companieAerienneDTO.getIataCode());
+        // saving the updated airline
+        return new CompanieAerienneDTO(companieAerienneRepository.save(companieAerienne));
     }
 
     @Override

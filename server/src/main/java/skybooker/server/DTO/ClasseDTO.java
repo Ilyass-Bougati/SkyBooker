@@ -16,8 +16,8 @@ public class ClasseDTO {
     private int prixParKm;
 
     public ClasseDTO(Classe classe) {
+        setId(classe.getId());
         setNom(classe.getNom());
         setPrixParKm(classe.getPrixParKm());
-        setId(classe.getId());
     }
 }
