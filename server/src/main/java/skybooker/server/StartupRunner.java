@@ -18,6 +18,7 @@ import skybooker.server.repository.RoleRepository;
 import skybooker.server.service.ClientService;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 
 @Component
 public class StartupRunner implements CommandLineRunner {
@@ -93,7 +94,7 @@ public class StartupRunner implements CommandLineRunner {
         registerRequest.setPrenom("Admin");
         registerRequest.setEmail(defaultAdmin.email());
         registerRequest.setPassword(defaultAdmin.password());
-        registerRequest.setAge(99);
+        registerRequest.setDateOfBirth(LocalDate.of(2000, 1, 1));
         registerRequest.setTelephone("tel00000");
         registerRequest.setCIN("CIN00000");
         registerRequest.setAdresse("Adresse0000");

@@ -80,7 +80,7 @@ public class PassagerServiceImpl implements PassagerService {
         // updating the passager
         passager.setNom(passagerDTO.getNom());
         passager.setPrenom(passagerDTO.getPrenom());
-        passager.setAge(passagerDTO.getAge());
+        passager.setDateOfBirth(passagerDTO.getDateOfBirth());
         passager.setCIN(passagerDTO.getCIN());
         passager.lowerCase();
         passager.updateCategorie(categorieRepository);

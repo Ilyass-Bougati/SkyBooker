@@ -7,6 +7,8 @@ import lombok.*;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -35,14 +37,14 @@ public class RegisterRequestDTO {
 
     @NotNull
     @Min(0)
-    private int age;
+    private LocalDate dateOfBirth;
 
     public Passager passager() {
         Passager passager = new Passager();
         passager.setNom(nom);
         passager.setPrenom(prenom);
         passager.setCIN(CIN);
-        passager.setAge(age);
+        passager.setDateOfBirth(dateOfBirth);
         return passager;
     }
 
