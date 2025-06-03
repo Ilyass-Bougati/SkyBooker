@@ -1,6 +1,5 @@
 package skybooker.server.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.CapaciteDTO;
 import skybooker.server.entity.Capacite;
 

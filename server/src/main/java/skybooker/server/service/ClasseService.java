@@ -1,6 +1,5 @@
 package skybooker.server.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClasseDTO;
 import skybooker.server.entity.Classe;
 
