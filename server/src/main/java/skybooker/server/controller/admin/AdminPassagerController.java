@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
-import skybooker.server.service.PassagerService;
 import skybooker.server.service.CategorieService;
 import skybooker.server.service.ClientService;
+import skybooker.server.service.PassagerService;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Controller
@@ -63,8 +65,20 @@ public class AdminPassagerController {
             model.addAttribute("pageTitle", (passager.getId() == 0 ? "Ajouter" : "Modifier") + " un Passager");
             return "admin/add-edit-passager";
         }
-        passagerService.create(passager);
-        redirectAttributes.addFlashAttribute("successMessage", "Passager sauvegardé avec succès !");
+
+        if (passager.getDateOfBirth() != null) {
+            passager.setAge(Period.between(passager.getDateOfBirth(), LocalDate.now()).getYears());
+        }
+
+        boolean isNew = passager.getId() == 0;
+        if (isNew) {
+            passagerService.create(passager);
+            redirectAttributes.addFlashAttribute("successMessage", "Passager ajouté avec succès !");
+        } else {
+            passagerService.update(passager);
+            redirectAttributes.addFlashAttribute("successMessage", "Passager modifié avec succès !");
+        }
+
         return "redirect:/admin/passager";
     }
 

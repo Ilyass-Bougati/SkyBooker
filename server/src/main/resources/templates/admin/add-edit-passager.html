@@ -11,7 +11,8 @@
 
     <div class="mb-3">
       <label for="cin" class="form-label">CIN:</label>
-      <input type="text" th:field="*{CIN}" id="cin" class="form-control" /> <div th:if="${#fields.hasErrors('CIN')}" th:errors="*{CIN}" class="text-danger">CIN Error</div>
+      <input type="text" th:field="*{CIN}" id="cin" class="form-control" />
+      <div th:if="${#fields.hasErrors('CIN')}" th:errors="*{CIN}" class="text-danger">CIN Error</div>
     </div>
 
     <div class="mb-3">
@@ -27,32 +28,34 @@
     </div>
 
     <div class="mb-3">
-      <label for="age" class="form-label">Âge:</label>
-      <input type="number" th:field="*{age}" id="age" class="form-control" />
-      <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="text-danger">Âge Error</div>
+      <label for="dateOfBirth" class="form-label">Date de Naissance:</label>
+      <input type="date" th:field="*{dateOfBirth}" id="dateOfBirth" class="form-control" />
+      <div th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="text-danger">Date of Birth Error</div>
     </div>
 
     <div class="mb-3">
       <label for="categorie" class="form-label">Catégorie:</label>
       <select th:field="*{categorie}" id="categorie" class="form-control">
-        <option value="">-- Sélectionner une Catégorie --</option> <option th:each="categorieOption : ${categories}"
-                                                                           th:value="${categorieOption.id}"
-                                                                           th:text="${categorieOption.nom}"
-                                                                           th:selected="${passager.categorie != null && passager.categorie.id == categorieOption.id}"></option>
+        <option value="">-- Sélectionner une Catégorie --</option>
+        <option th:each="categorieOption : ${categories}"
+                th:value="${categorieOption.id}"
+                th:text="${categorieOption.nom}"
+                th:selected="${passager.categorie != null && passager.categorie.id == categorieOption.id}"></option>
       </select>
       <div th:if="${#fields.hasErrors('categorie')}" th:errors="*{categorie}" class="text-danger">Catégorie Error</div>
     </div>
 
     <div class="mb-3">
       <label for="client" class="form-label">Client Associé:</label>
-      <select th:field="*{client}" id="client" class="form-control" required> <option value="">-- Sélectionner un Client --</option> <option th:each="clientOption : ${clients}"
-                                                                                                                                             th:value="${clientOption.id}"
-                                                                                                                                             th:text="${clientOption.email}"
-                                                                                                                                             th:selected="${passager.client != null && passager.client.id == clientOption.id}"></option>
+      <select th:field="*{client}" id="client" class="form-control" required>
+        <option value="">-- Sélectionner un Client --</option>
+        <option th:each="clientOption : ${clients}"
+                th:value="${clientOption.id}"
+                th:text="${clientOption.email}"
+                th:selected="${passager.client != null && passager.client.id == clientOption.id}"></option>
       </select>
       <div th:if="${#fields.hasErrors('client')}" th:errors="*{client}" class="text-danger">Client Associé Error</div>
     </div>
-
 
     <button type="submit" class="btn btn-success">Sauvegarder Passager</button>
     <a th:href="@{/admin/passager}" class="btn btn-secondary">Annuler</a>
