@@ -1,6 +1,6 @@
-package requests;
+package skybooker.client.requests;
 
-import DTO.Cacheable;
+import skybooker.client.DTO.Cacheable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;

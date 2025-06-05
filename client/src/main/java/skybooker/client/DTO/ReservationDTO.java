@@ -1,6 +1,6 @@
-package DTO;
+package skybooker.client.DTO;
 
-import enums.EtatReservation;
+import skybooker.client.enums.EtatReservation;
 
 import java.time.LocalDateTime;
 

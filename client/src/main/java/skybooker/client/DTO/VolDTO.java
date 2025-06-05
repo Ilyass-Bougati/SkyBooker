@@ -1,6 +1,6 @@
-package DTO;
+package skybooker.client.DTO;
 
-import enums.EtatVol;
+import skybooker.client.enums.EtatVol;
 
 import java.sql.Time;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package enums;
+package skybooker.client.enums;
 
 public enum EtatVol {
     SCHEDULED,

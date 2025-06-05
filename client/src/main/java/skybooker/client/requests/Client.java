@@ -1,8 +1,8 @@
-package requests;
+package skybooker.client.requests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import exceptions.ExceptionHandler;
+import skybooker.client.exceptions.ExceptionHandler;
 import okhttp3.*;
 
 import java.io.IOException;
