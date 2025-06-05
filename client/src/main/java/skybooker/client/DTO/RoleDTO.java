@@ -1,4 +1,4 @@
-package DTO;
+package skybooker.client.DTO;
 
 public class RoleDTO {
     private long id;

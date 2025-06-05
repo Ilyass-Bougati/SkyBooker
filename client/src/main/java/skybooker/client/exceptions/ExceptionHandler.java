@@ -1,4 +1,4 @@
-package exceptions;
+package skybooker.client.exceptions;
 
 import okhttp3.Response;
 import skybooker.client.utils.GeneralUtils;

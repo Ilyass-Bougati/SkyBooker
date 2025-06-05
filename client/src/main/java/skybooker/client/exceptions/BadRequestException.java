@@ -1,4 +1,4 @@
-package exceptions;
+package skybooker.client.exceptions;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {
