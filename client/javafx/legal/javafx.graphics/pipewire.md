@@ -35,12 +35,12 @@ spa/include/spa/monitor/type-info.h
 Copyright © 2021 Collabora Ltd.
 ```
 
-spa/include/spa/utils/string.h
+spa/include/spa/skybooker.client.utils/string.h
 ```
 Copyright © 2021 Red Hat, Inc.
 ```
 
-spa/utils/cleanup.h:
+spa/skybooker.client.utils/cleanup.h:
 ```
 Copyright © 2023 PipeWire authors
 ```

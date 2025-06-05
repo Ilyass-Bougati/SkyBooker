@@ -2,53 +2,35 @@ package skybooker.client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class HelloApplication extends Application {
-
     private static Scene scene;
+    private static FXMLLoader fxmlLoader;
 
-    public static FXMLLoader getFxmlLoader() {
-        return fxmlLoader;
-    }
-
-    public static void setFxmlLoader(FXMLLoader fxmlLoader) {
-        HelloApplication.fxmlLoader = fxmlLoader;
-    }
-
-    public static Scene getScene() {
+    public static Scene getScene()
+    {
         return scene;
     }
 
-    public static void setScene(Scene scene) {
-        HelloApplication.scene = scene;
+    public static Parent loadView(String viewName) throws IOException{
+        fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(viewName));
+        return fxmlLoader.load();
     }
-
-    private static FXMLLoader fxmlLoader;
-
-
 
     @Override
     public void start(Stage stage) throws IOException {
-
-        fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+        fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("auth-view.fxml"));
         scene = new Scene(fxmlLoader.load(), 825, 600 , false , SceneAntialiasing.BALANCED);
-
-        stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("assets/images/Vector.png"))));
-
-        stage.setTitle("SkyBooker");
+        stage.setMinWidth(825);
+        stage.setMinHeight(600);
+        stage.setTitle("Skybooker");
         stage.setScene(scene);
-        stage.setResizable(false);
-
-        stage.setHeight(600);
-        stage.setWidth(825);
-
         stage.show();
     }
 

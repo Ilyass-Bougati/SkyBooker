@@ -1,4 +1,4 @@
-package utils;
+package skybooker.client.utils;
 
 public class Validator {
     private static final String emailRegex = "^[a-zA-Z0-9\\._-]*@[a-zA-Z0-9_-]*\\.[a-z]{2,7}$";
