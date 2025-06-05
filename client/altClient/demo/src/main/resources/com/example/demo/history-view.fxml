@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.HistoryController"
+      style="-fx-background-color: white;"
+      prefHeight="600.0" prefWidth="825.0">
+    <fx:include source="sidebar-template.fxml"/>
+    <VBox alignment="CENTER_LEFT" spacing="37">
+        <padding>
+            <Insets left="26" right="26" />
+        </padding>
+        <Text fill="rgba(0,0,0,0.8)" style="-fx-font-weight: bold" text="History :">
+            <font>
+                <Font name="Roboto" size="40" />
+            </font>
+        </Text>
+        <Separator />
+        <VBox alignment="TOP_CENTER" minWidth="572" maxWidth="572" minHeight="418" maxHeight="418"  style="-fx-background-color: white;
+                                                                                                                              -fx-background-radius: 12 ;
+                                                                                                                              -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.5),10,0,0,3)">
+            <padding>
+                <Insets top="16" left="16" right="16" />
+            </padding>
+            <VBox >
+                <StackPane maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" >
+                    <ImageView opacity="0.5">
+                        <Image url="@assets/icons/Back.png" />
+                    </ImageView>
+                    <Button onAction="#onReturnButton" opacity="0" maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" style="-fx-cursor: hand;" />
+                </StackPane>
+            </VBox>
+            <ScrollPane style="-fx-background-color: transparent"  stylesheets="@style.css" minHeight="385" maxHeight="385"  minWidth="560" maxWidth="560">
+                <VBox>
+                    <StackPane>
+                        <HBox spacing="50" alignment="CENTER" minWidth="540" maxWidth="540">
+                            <Text text="00/00/0000">
+                                <font>
+                                    <Font name="Roboto" size="15" />
+                                </font>
+                            </Text>
+                            <HBox spacing="20" alignment="CENTER">
+                                <Text text="DEP">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <Text text="00:00">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <Text text="00:00">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <Text text="ARR">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                            </HBox>
+                            <ImageView>
+                                <Image url="@assets/icons/Departed.png" />
+                            </ImageView>
+                        </HBox>
+                        <Button onAction="#onBookingSelected" minHeight="50" maxHeight="50" minWidth="540" maxWidth="540" opacity="0" style="-fx-cursor: hand"/>
+                    </StackPane>
+                    <Separator/>
+                    <StackPane>
+                        <HBox spacing="50" alignment="CENTER" minWidth="540" maxWidth="540">
+                            <Text text="00/00/0000">
+                                <font>
+                                    <Font name="Roboto" size="15" />
+                                </font>
+                            </Text>
+                            <HBox spacing="20" alignment="CENTER">
+                                <Text text="DEP">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <Text text="00:00">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <Text text="00:00">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <Text text="ARR">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                            </HBox>
+                            <ImageView>
+                                <Image url="@assets/icons/Completed.png" />
+                            </ImageView>
+                        </HBox>
+                        <Button onAction="#onBookingSelected" minHeight="50" maxHeight="50" minWidth="540" maxWidth="540" opacity="0" style="-fx-cursor: hand"/>
+                    </StackPane>
+                    <Separator/>
+                    <StackPane>
+                        <HBox spacing="50" alignment="CENTER" minWidth="540" maxWidth="540">
+                            <Text text="00/00/0000">
+                                <font>
+                                    <Font name="Roboto" size="15" />
+                                </font>
+                            </Text>
+                            <HBox spacing="20" alignment="CENTER">
+                                <Text text="DEP">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <Text text="00:00">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <Text text="00:00">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <Text text="ARR">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                            </HBox>
+                            <ImageView>
+                                <Image url="@assets/icons/Cancelled.png" />
+                            </ImageView>
+                        </HBox>
+                        <Button onAction="#onBookingSelected" minHeight="50" maxHeight="50" minWidth="540" maxWidth="540" opacity="0" style="-fx-cursor: hand"/>
+                    </StackPane>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </VBox>
+</HBox>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.FlightinfoController"
+      style="-fx-background-color: white;"
+      prefHeight="600.0" prefWidth="825.0">
+    <fx:include source="sidebar-template.fxml"/>
+    <VBox alignment="CENTER_LEFT" spacing="37">
+        <padding>
+            <Insets left="26" right="26" />
+        </padding>
+        <Text fill="rgba(0,0,0,0.8)" style="-fx-font-weight: bold" text="Flight info :">
+            <font>
+                <Font name="Roboto" size="40" />
+            </font>
+        </Text>
+        <Separator />
+        <StackPane maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" >
+            <ImageView opacity="0.5">
+                <Image url="@assets/icons/Back.png" />
+            </ImageView>
+            <Button onAction="#onReturnButton" opacity="0" maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" style="-fx-cursor: hand;" />
+        </StackPane>
+        <StackPane>
+            <ImageView fitHeight="177" fitWidth="563" style="-fx-effect: dropshadow(gaussian,rgba(0,0,0,0.3),10,0,0,3)" >
+                <Image url="@assets/images/BigTicket.png"/>
+            </ImageView>
+            <VBox spacing="7">
+                <padding>
+                    <Insets left="80" top="13" />
+                </padding>
+                <HBox spacing="20">
+                    <Text text="Airline :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
+                        <font>
+                            <Font name="Roboto" size="20" />
+                        </font>
+                    </Text>
+                    <Text text="Value" fill="rgba(0,0,0,0.5)">
+                        <font>
+                            <Font name="Roboto" size="20" />
+                        </font>
+                    </Text>
+                </HBox>
+                <HBox spacing="20">
+                    <Text text="Departure :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
+                        <font>
+                            <Font name="Roboto" size="20" />
+                        </font>
+                    </Text>
+                    <Text text="Value" fill="rgba(0,0,0,0.5)">
+                        <font>
+                            <Font name="Roboto" size="20" />
+                        </font>
+                    </Text>
+                </HBox>
+                <HBox spacing="20">
+                    <Text text="Arrival :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
+                        <font>
+                            <Font name="Roboto" size="20" />
+                        </font>
+                    </Text>
+                    <Text text="Value" fill="rgba(0,0,0,0.5)">
+                        <font>
+                            <Font name="Roboto" size="20" />
+                        </font>
+                    </Text>
+                </HBox>
+                <Rectangle height="30"/>
+                <HBox spacing="20" >
+                    <Text text="Price for ticket :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
+                        <font>
+                            <Font name="Roboto" size="20" />
+                        </font>
+                    </Text>
+                    <Text text="Value" fill="rgba(0,0,0,0.5)">
+                        <font>
+                            <Font name="Roboto" size="20" />
+                        </font>
+                    </Text>
+                </HBox>
+            </VBox>
+        </StackPane>
+        <VBox alignment="CENTER">
+            <padding>
+                <Insets top="100" />
+            </padding>
+            <Button onAction="#onBookButton" text="Book now" minWidth="211" maxWidth="211" minHeight="50" maxHeight="50" style="-fx-background-color: #7DA6FF;
+                                                                                                        -fx-text-fill: white;
+                                                                                                        -fx-font-weight: bold;
+                                                                                                        -fx-font-size: 20;
+                                                                                                        -fx-background-radius: 12 ;
+                                                                                                        -fx-border-radius: 12 ;
+                                                                                                        -fx-cursor: hand">
+                <font>
+                    <Font name="Roboto" size="20" />
+                </font>
+            </Button>
+        </VBox>
+    </VBox>
+</HBox>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<HBox prefHeight="600.0" prefWidth="825.0" style="-fx-background-color: white ;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.LandingpageController">
+    <fx:include source="sidebar-template.fxml" />
+   <VBox alignment="CENTER_LEFT" spacing="37">
+       <padding>
+           <Insets left="26" right="26" />
+       </padding>
+       <Text fill="rgba(0,0,0,0.8)" style="-fx-font-weight: bold" text="Welcome User">
+           <font>
+               <Font name="Roboto" size="40" />
+           </font>
+       </Text>
+       <Separator />
+       <VBox spacing="16">
+           <HBox spacing="16">
+               <StackPane style="-fx-cursor: hand">
+                   <Rectangle height="197" width="326" style="-fx-effect: dropshadow(gaussian,rgba(0,0,0,0.5),10,0,0,3)" arcHeight="24" arcWidth="24">
+                      <fill>
+                         <LinearGradient startX="1.0">
+                            <stops>
+                               <Stop>
+                                  <color>
+                                     <Color red="0.44999998807907104" green="0.8199999928474426" blue="0.9800000190734863" />
+                                  </color>
+                               </Stop>
+                               <Stop offset="1.0">
+                                  <color>
+                                     <Color red="0.2199999988079071" green="0.6100000143051147" blue="0.7799999713897705" />
+                                  </color>
+                               </Stop>
+                            </stops>
+                         </LinearGradient>
+                      </fill>
+                   </Rectangle>
+                   <VBox alignment="BOTTOM_RIGHT">
+                       <ImageView>
+                           <Image url="@assets/icons/LandingPage/CardDecoration.png" />
+                       </ImageView>
+                   </VBox>
+                   <VBox alignment="BOTTOM_RIGHT">
+                       <padding>
+                           <Insets right="16" bottom="16" />
+                       </padding>
+                       <ImageView>
+                           <Image url="@assets/icons/LandingPage/WhitePlus.png" />
+                       </ImageView>
+                   </VBox>
+                   <VBox>
+                       <padding>
+                           <Insets left="28" top="15" />
+                       </padding>
+                       <Text text="Book" style="-fx-font-weight: bold" fill="white">
+                           <font>
+                               <Font name="Roboto" size="40" />
+                           </font>
+                       </Text>
+                   </VBox>
+                   <Button onAction="#onBookButton" minWidth="326" maxWidth="326" minHeight="197" maxHeight="197" style="-fx-background-color: transparent ;"/>
+               </StackPane>
+               <StackPane style="-fx-cursor: hand">
+                   <Rectangle height="197" width="230" style="-fx-effect: dropshadow(gaussian,rgba(0,0,0,0.5),10,0,0,3)" arcHeight="24" arcWidth="24">
+                       <fill>
+                           <LinearGradient startX="1.0">
+                               <stops>
+                                   <Stop>
+                                       <color>
+                                           <Color red="0.451" green="0.467" blue="0.808" />
+                                       </color>
+                                   </Stop>
+                                   <Stop offset="1.0">
+                                       <color>
+                                           <Color red="0.098" green="0.125" blue="0.694" />
+                                       </color>
+                                   </Stop>
+                               </stops>
+                           </LinearGradient>
+                       </fill>
+                   </Rectangle>
+                   <VBox alignment="BOTTOM_RIGHT">
+                       <padding>
+                           <Insets right="16" bottom="16" />
+                       </padding>
+                       <ImageView>
+                           <Image url="@assets/icons/LandingPage/WhiteClock.png" />
+                       </ImageView>
+                   </VBox>
+                   <VBox>
+                       <padding>
+                           <Insets left="28" top="15" />
+                       </padding>
+                       <Text text="History" style="-fx-font-weight: bold" fill="white">
+                           <font>
+                               <Font name="Roboto" size="40" />
+                           </font>
+                       </Text>
+                   </VBox>
+                   <Button onAction="#onHistoryButton" minWidth="230" maxWidth="230" minHeight="197" maxHeight="197" style="-fx-background-color: transparent ;"/>
+               </StackPane>
+           </HBox>
+           <StackPane style="-fx-cursor: hand">
+               <Rectangle height="197" width="572" style="-fx-effect: dropshadow(gaussian,rgba(0,0,0,0.5),10,0,0,3)" arcHeight="24" arcWidth="24">
+                   <fill>
+                       <LinearGradient startX="1.0">
+                           <stops>
+                               <Stop>
+                                   <color>
+                                       <Color red="0.816" green="0.902" blue="1" />
+                                   </color>
+                               </Stop>
+                               <Stop offset="1.0">
+                                   <color>
+                                       <Color red="0.588" green="0.780" blue="1" />
+                                   </color>
+                               </Stop>
+                           </stops>
+                       </LinearGradient>
+                   </fill>
+               </Rectangle>
+               <VBox alignment="BOTTOM_RIGHT">
+                   <padding>
+                       <Insets right="16" bottom="16" />
+                   </padding>
+                   <ImageView>
+                       <Image url="@assets/icons/LandingPage/WhiteTicket.png" />
+                   </ImageView>
+               </VBox>
+               <VBox>
+                   <padding>
+                       <Insets left="28" top="15" />
+                   </padding>
+                   <Text text="My bookings" style="-fx-font-weight: bold" fill="white">
+                       <font>
+                           <Font name="Roboto" size="40" />
+                       </font>
+                   </Text>
+               </VBox>
+               <Button onAction="#onMyBookingsButton" minWidth="572" maxWidth="572" minHeight="197" maxHeight="197" style="-fx-background-color: transparent ;"/>
+           </StackPane>
+       </VBox>
+   </VBox>
+</HBox>

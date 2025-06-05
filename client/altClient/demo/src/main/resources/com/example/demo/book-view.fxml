@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<HBox prefHeight="600.0" prefWidth="825.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.BookController">
+
+    <fx:include source="sidebar-template.fxml" />
+    <VBox alignment="CENTER_LEFT" spacing="37">
+    <padding>
+        <Insets left="26" right="26" />
+    </padding>
+    <Text fill="rgba(0,0,0,0.8)" style="-fx-font-weight: bold" text="Booking :">
+        <font>
+            <Font name="Roboto" size="40" />
+        </font>
+    </Text>
+    <Separator />
+        <StackPane maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" >
+            <ImageView opacity="0.5">
+                <Image url="@assets/icons/Back.png" />
+            </ImageView>
+            <Button onAction="#onReturnButton" opacity="0" maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" style="-fx-cursor: hand;" />
+        </StackPane>
+        <VBox alignment="CENTER_LEFT" spacing="25">
+            <VBox alignment="TOP_CENTER" maxHeight="290" maxWidth="572" minHeight="290" minWidth="572" spacing="10" style="-fx-background-color: white;
+                                                                                                                       -fx-background-radius: 12 ;
+                                                                                                                       -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.5),10,0,0,3)">
+                <padding>
+                    <Insets left="32" right="13" top="16" />
+                </padding>
+                <VBox prefWidth="263">
+                    <Text style="-fx-font-weight: bold;" text="Passengers :">
+                        <font>
+                            <Font name="Roboto" size="25" />
+                        </font>
+                    </Text>
+                </VBox>
+                <ScrollPane maxHeight="200" minHeight="200.0" prefWidth="527.0" style="-fx-background-color: transparent ;" stylesheets="@style.css">
+                    <VBox alignment="CENTER" spacing="10">
+                        <HBox alignment="CENTER" spacing="40">
+                            <Text text="First Name">
+                                <font>
+                                    <Font name="Roboto" size="20" />
+                                </font>
+                            </Text>
+                            <Text text="Last Name">
+                                <font>
+                                    <Font name="Roboto" size="20" />
+                                </font>
+                            </Text>
+                            <Text text="Category">
+                                <font>
+                                    <Font name="Roboto" size="20" />
+                                </font>
+                            </Text>
+                            <ChoiceBox value="Class"  style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ;
+                                            -fx-font-family: 'Roboto Light' ;
+                                            -fx-font-size: 15"
+                                       minWidth="70" maxWidth="70"
+                                       minHeight="36" maxHeight="36"   >
+                            </ChoiceBox>
+                        </HBox>
+                        <Separator />
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+            <VBox alignment="CENTER">
+                <Button onAction="#onCheckoutButton" minHeight="50" maxHeight="50" minWidth="295" maxWidth="295" text="Checkout XXXX$" style="-fx-background-color: #7DA6FF ;
+                                                    -fx-font-weight: bold;
+                                                    -fx-text-fill: white;
+                                                    -fx-background-radius: 7 ;
+                                                    -fx-border-radius: 7 ;
+                                                    -fx-font-size: 20;
+                                                    -fx-cursor: hand">
+                    <font>
+                        <Font name="Roboto" size="20" />
+                    </font>
+                </Button>
+            </VBox>
+        </VBox>
+    </VBox>
+</HBox>

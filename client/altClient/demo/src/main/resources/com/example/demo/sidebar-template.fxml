@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.SidebarController"
+      prefHeight="600.0" prefWidth="210.0"
+      alignment="CENTER_LEFT"
+      spacing="50"
+      style="-fx-background-color: rgba(217,217,217,0.6)">
+        <padding>
+            <Insets left="8" />
+        </padding>
+        <VBox spacing="3">
+            <Text text="Skybooker" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.3)">
+                <font>
+                    <Font name="Roboto" size="12" />
+                </font>
+            </Text>
+            <StackPane alignment="CENTER_LEFT" style="-fx-cursor: hand">
+                <Rectangle height="28" width="180" fill="#D9D9D9" arcWidth="14" arcHeight="14" />
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <padding>
+                        <Insets left="5" />
+                    </padding>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@assets/icons/Plus.png"/>
+                    </ImageView>
+                    <Text text="Book" fill="rgba(0,0,0,0.6)">
+                        <font>
+                            <Font name="Roboto" size="15" />
+                        </font>
+                    </Text>
+                </HBox>
+                <Button onAction="#onBookButton" style="-fx-background-color: transparent ;"
+                        maxHeight="28" maxWidth="180"
+                        minHeight="28" minWidth="180">
+                </Button>
+            </StackPane>
+            <StackPane alignment="CENTER_LEFT" style="-fx-cursor: hand">
+                <Rectangle height="28" width="180" fill="#D9D9D9" arcWidth="14" arcHeight="14" />
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <padding>
+                        <Insets left="5" />
+                    </padding>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@assets/icons/Clock.png"/>
+                    </ImageView>
+                    <Text text="History" fill="rgba(0,0,0,0.6)">
+                        <font>
+                            <Font name="Roboto" size="15" />
+                        </font>
+                    </Text>
+                </HBox>
+                <Button onAction="#onHistoryButton" style="-fx-background-color: transparent ;"
+                        maxHeight="28" maxWidth="180"
+                        minHeight="28" minWidth="180">
+                </Button>
+            </StackPane>
+            <StackPane alignment="CENTER_LEFT" style="-fx-cursor: hand">
+                <Rectangle height="28" width="180" fill="#D9D9D9" arcWidth="14" arcHeight="14" />
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <padding>
+                        <Insets left="5" />
+                    </padding>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@assets/icons/Ticket.png"/>
+                    </ImageView>
+                    <Text text="My Bookings" fill="rgba(0,0,0,0.6)">
+                        <font>
+                            <Font name="Roboto" size="15" />
+                        </font>
+                    </Text>
+                </HBox>
+                <Button onAction="#onMyBookingsButton" style="-fx-background-color: transparent ;"
+                        maxHeight="28" maxWidth="180"
+                        minHeight="28" minWidth="180">
+                </Button>
+            </StackPane>
+        </VBox>
+
+        <VBox spacing="3">
+            <Text text="Recently searched" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.3)">
+                <font>
+                    <Font name="Roboto" size="12" />
+                </font>
+            </Text>
+            <StackPane alignment="CENTER_LEFT" style="-fx-cursor: hand">
+                <Rectangle height="28" width="180" fill="#D9D9D9" arcWidth="14" arcHeight="14" />
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <padding>
+                        <Insets left="5" />
+                    </padding>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@assets/icons/Clock.png"/>
+                    </ImageView>
+                    <Text text="Destination 1" fill="rgba(0,0,0,0.6)">
+                        <font>
+                            <Font name="Roboto" size="15" />
+                        </font>
+                    </Text>
+                </HBox>
+                <Button style="-fx-background-color: transparent ;"
+                        maxHeight="28" maxWidth="180"
+                        minHeight="28" minWidth="180">
+                </Button>
+            </StackPane>
+            <StackPane alignment="CENTER_LEFT" style="-fx-cursor: hand">
+                <Rectangle height="28" width="180" fill="#D9D9D9" arcWidth="14" arcHeight="14" />
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <padding>
+                        <Insets left="5" />
+                    </padding>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@assets/icons/Clock.png"/>
+                    </ImageView>
+                    <Text text="Destination 2" fill="rgba(0,0,0,0.6)">
+                        <font>
+                            <Font name="Roboto" size="15" />
+                        </font>
+                    </Text>
+                </HBox>
+                <Button style="-fx-background-color: transparent ;"
+                        maxHeight="28" maxWidth="180"
+                        minHeight="28" minWidth="180">
+                </Button>
+            </StackPane>
+            <StackPane alignment="CENTER_LEFT" style="-fx-cursor: hand">
+                <Rectangle height="28" width="180" fill="#D9D9D9" arcWidth="14" arcHeight="14" />
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <padding>
+                        <Insets left="5" />
+                    </padding>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@assets/icons/Clock.png"/>
+                    </ImageView>
+                    <Text text="Destination 3" fill="rgba(0,0,0,0.6)">
+                        <font>
+                            <Font name="Roboto" size="15" />
+                        </font>
+                    </Text>
+                </HBox>
+                <Button style="-fx-background-color: transparent ;"
+                        maxHeight="28" maxWidth="180"
+                        minHeight="28" minWidth="180">
+                </Button>
+            </StackPane>
+        </VBox>
+
+        <VBox spacing="3">
+            <StackPane alignment="CENTER_LEFT" style="-fx-cursor: hand">
+                <Rectangle height="28" width="180" fill="#D9D9D9" arcWidth="14" arcHeight="14" />
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <padding>
+                        <Insets left="5" />
+                    </padding>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@assets/icons/Settings.png"/>
+                    </ImageView>
+                    <Text text="Preferences" fill="rgba(0,0,0,0.6)">
+                        <font>
+                            <Font name="Roboto" size="15" />
+                        </font>
+                    </Text>
+                </HBox>
+                <Button onAction="#onPreferencesButton" style="-fx-background-color: transparent ;"
+                        maxHeight="28" maxWidth="180"
+                        minHeight="28" minWidth="180">
+                </Button>
+            </StackPane>
+            <StackPane alignment="CENTER_LEFT" style="-fx-cursor: hand">
+                <Rectangle height="28" width="180" fill="#D9D9D9" arcWidth="14" arcHeight="14" />
+                <HBox alignment="CENTER_LEFT" spacing="6">
+                    <padding>
+                        <Insets left="5" />
+                    </padding>
+                    <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@assets/icons/User.png"/>
+                    </ImageView>
+                    <Text text="Profile" fill="rgba(0,0,0,0.6)">
+                        <font>
+                            <Font name="Roboto" size="15" />
+                        </font>
+                    </Text>
+                </HBox>
+                <Button style="-fx-background-color: transparent ;"
+                        maxHeight="28" maxWidth="180"
+                        minHeight="28" minWidth="180">
+                </Button>
+            </StackPane>
+        </VBox>
+    <VBox spacing="3">
+        <StackPane alignment="CENTER_LEFT" style="-fx-cursor: hand">
+            <Rectangle height="28" width="180" fill="#D9D9D9" arcWidth="14" arcHeight="14" />
+            <HBox alignment="CENTER_LEFT" spacing="6">
+                <padding>
+                    <Insets left="5" />
+                </padding>
+                <ImageView fitHeight="16" fitWidth="16">
+                    <Image url="@assets/icons/Log out.png"/>
+                </ImageView>
+                <Text text="Log Out" fill="rgba(0,0,0,0.6)">
+                    <font>
+                        <Font name="Roboto" size="15" />
+                    </font>
+                </Text>
+            </HBox>
+            <Button onAction="#onLogOut" style="-fx-background-color: transparent ;"
+                    maxHeight="28" maxWidth="180"
+                    minHeight="28" minWidth="180">
+            </Button>
+        </StackPane>
+    </VBox>
+</VBox>

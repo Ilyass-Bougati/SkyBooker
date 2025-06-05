@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.BookpopupController"
+      spacing="10"
+      style="-fx-background-color: white; -fx-background-radius: 12 ; -fx-border-radius: 12"
+      prefHeight="193.0" prefWidth="573.0">
+
+        <padding>
+            <Insets left="16" top="16" />
+        </padding>
+        <StackPane maxWidth="16" maxHeight="16" opacity="0.5">
+            <ImageView>
+                <Image url="@assets/icons/Close.png" />
+            </ImageView>
+            <Button onAction="#onCloseButton" maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" style="-fx-cursor: hand;" opacity="0"/>
+        </StackPane>
+
+        <VBox spacing="5" alignment="CENTER">
+            <Text text="Where to ?" style="-fx-font-weight: bold">
+                <font>
+                    <Font name="Roboto" size="30" />
+                </font>
+            </Text>
+            <HBox alignment="CENTER" spacing="5">
+                <ChoiceBox value="Departure"  style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ;
+                                            -fx-font-family: 'Roboto Light' ;
+                                            -fx-font-size: 15"
+                           minWidth="168" maxWidth="168"
+                           minHeight="44" maxHeight="44"   >
+                </ChoiceBox>
+                <ChoiceBox value="Arrival"  style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ;
+                                            -fx-font-family: 'Roboto Light' ;
+                                            -fx-font-size: 15"
+                           minWidth="168" maxWidth="168"
+                           minHeight="44" maxHeight="44"   >
+                </ChoiceBox>
+                <DatePicker stylesheets="@style.css" promptText="Date" style="
+                    -fx-text-fill: rgba(0,0,0,0.5) ;
+                    -fx-background-color: #EDEDED  ;
+                    -fx-background-radius: 12 ;
+                    -fx-border-radius: 12 ;
+                    -fx-font-family: 'Roboto Light' ;
+                    -fx-font-size: 15"
+                            minWidth="168" maxWidth="168"
+                            minHeight="44" maxHeight="44"   >
+                </DatePicker>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10">
+                <Button onAction="#onPreferences" text="Choose your passengers" style="-fx-font-weight: bold;
+                                                -fx-text-fill: white ;
+                                                -fx-font-size: 15;
+                                                -fx-background-color: #7DA6FF  ;
+                                                -fx-background-radius: 12 ;
+                                                -fx-border-radius: 12 ;
+                                                -fx-cursor: hand ;"
+                        minWidth="218" maxWidth="218"
+                        minHeight="45" maxHeight="45">
+                    <font>
+                        <Font name="Roboto" />
+                    </font>
+                </Button>
+                <Button onAction="#onSearchButton" text="Use my preferences" style="-fx-font-weight: bold;
+                                                -fx-font-size: 15;
+                                                -fx-text-fill: black ;
+                                                -fx-background-color: #EDEDED  ;
+                                                -fx-background-radius: 12 ;
+                                                -fx-border-radius: 12 ;
+                                                -fx-cursor: hand ;"
+                        minWidth="178" maxWidth="178"
+                        minHeight="45" maxHeight="45">
+                    <font>
+                        <Font name="Roboto" />
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+</HBox>

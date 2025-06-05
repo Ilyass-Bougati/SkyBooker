@@ -1,0 +1,41 @@
+.date-picker > .arrow-button {
+    -fx-background-radius: 0 12 12 0;
+    -fx-border-radius: 0 12 12 0;
+    -fx-background-color: #EDEDED;
+}
+.date-picker > .text-field {
+    -fx-background-color: #EDEDED;
+    -fx-background-radius: 12 0 0 12;
+    -fx-border-radius: 12 0 0 12;
+}
+
+.scroll-pane > .scroll-bar:vertical{
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .scroll-bar > .track {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12 ;
+    -fx-border-radius: 12 ;
+}
+
+.scroll-pane > .scroll-bar > .thumb {
+    -fx-background-color: #ededed;
+    -fx-background-radius: 12 ;
+    -fx-border-radius: 12 ;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: white;
+}
+
+.scroll-pane .content {
+    -fx-background-color: #ffffff;
+}
+
+.scroll-pane > .scroll-bar > .increment-button ,
+.scroll-pane > .scroll-bar > .decrement-button {
+    -fx-background-color: white;
+    -fx-background-radius: 12 ;
+    -fx-border-radius: 12 ;
+}
