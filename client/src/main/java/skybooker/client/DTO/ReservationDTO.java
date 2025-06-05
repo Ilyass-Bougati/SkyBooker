@@ -11,4 +11,28 @@ public class ReservationDTO {
     private Long clientId;
     private Long volId;
     private LocalDateTime reservedAt;
+
+    public long getId() {
+        return id;
+    }
+
+    public EtatReservation getEtat() {
+        return etat;
+    }
+
+    public double getPrixTotal() {
+        return prixTotal;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public Long getVolId() {
+        return volId;
+    }
+
+    public LocalDateTime getReservedAt() {
+        return reservedAt;
+    }
 }

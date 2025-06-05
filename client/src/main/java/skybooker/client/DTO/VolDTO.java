@@ -4,8 +4,10 @@ import skybooker.client.enums.EtatVol;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-public class VolDTO {
+public class VolDTO implements Cacheable<VolDTO> {
     private long id;
     private Date dateDepart;
     private Time heureDepart;
@@ -17,7 +19,7 @@ public class VolDTO {
     private long aeroportArriveId;
     private long avionId;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -95,5 +97,19 @@ public class VolDTO {
 
     public void setAvionId(long avionId) {
         this.avionId = avionId;
+    }
+
+    // for caching
+    private final static HashMap<Long, VolDTO> cache = new HashMap<>();
+    private final static String route = "/vol/";
+
+    @Override
+    public Map<Long, VolDTO> getCache() {
+        return cache;
+    }
+
+    @Override
+    public String getRoute() {
+        return route;
     }
 }

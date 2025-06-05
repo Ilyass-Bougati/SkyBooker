@@ -43,7 +43,7 @@
                 </StackPane>
             </VBox>
             <ScrollPane style="-fx-background-color: transparent" stylesheets="@style.css" minHeight="385" maxHeight="385" minWidth="560" maxWidth="560">
-                <VBox>
+                <VBox fx:id="scrollPaneContainer">
                     <StackPane>
                         <HBox spacing="50" alignment="CENTER" minWidth="540" maxWidth="540">
                             <Text text="00/00/0000">
