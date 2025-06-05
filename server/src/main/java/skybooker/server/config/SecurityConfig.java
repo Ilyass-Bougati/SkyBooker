@@ -9,7 +9,6 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,7 +23,8 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import skybooker.server.service.implementation.CustomUserDetailsService;
+import skybooker.server.records.RsaKeyProperties;
+import skybooker.server.security.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -74,7 +74,8 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(request -> {request
                 .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/api-docs").permitAll()
+                // for swagger
+                .requestMatchers("/v3/**").permitAll()
                 .requestMatchers("/swagger").permitAll()
                 .requestMatchers("/swagger-ui/*").permitAll()
                 .anyRequest().authenticated();

@@ -1,5 +1,8 @@
 package skybooker.client;
 
+import DTO.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -17,6 +20,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import javafx.util.Duration;
+import requests.Client;
+import requests.ClientCache;
 import utils.GeneralUtils;
 
 import java.io.IOException;
@@ -54,7 +59,8 @@ public class SearchresultsView {
     private bookPopup bp = null;
     private final ArrayList<ArrayList<String>> Rows = new ArrayList<>();
     private final HashMap<Button , Integer> buttonDictionnary = new HashMap<>();
-    public static String className = "Economy" , departure , arrival;
+    public static String className = "Economy";
+    public static Long departure, arrival;
 
     public static HashMap<String , Integer> passengers = new HashMap<>();
 
@@ -330,16 +336,42 @@ public class SearchresultsView {
 
     private void populateRows()
     {
-        for(int i = 0 ; i < 200 ; i ++)
-        {
-            ArrayList<String> Row = new ArrayList<>();
-            Row.add("Airline" + i );
-            Row.add("\t\tDPT" + i);
-            Row.add("\t00:00");
-            Row.add("\t00:00");
-            Row.add("\tARR" + i);
-            Row.add("\t\t100" + i + "$");
-            Rows.add(Row);
+        // fetching the vols
+        List<VolDTO> vols;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String res = Client.get("/vol/getFromVilles/" + departure + "/" + arrival);
+            vols = mapper.readValue(res, new TypeReference<List<VolDTO>>(){});
+            for (VolDTO v : vols) {
+                // this is building on the way @Amine did it in the past
+                // Note that this can't throw an exception (I guess...)
+                // Here I'm fetching the values and putting them in variables
+                // so that if we want to change the layout later we don't have to rewrite
+                // the fetching logic
+                ArrayList<String> Row = new ArrayList<>();
+                AvionDTO avion = ClientCache.get(v.getAvionId(), AvionDTO.class);
+                CompanieAerienneDTO companieAerienne = ClientCache.get(avion.getCompanieAerienneId(), CompanieAerienneDTO.class);
+                AeroportDTO aeroportDepart = ClientCache.get(v.getAeroportDepartId(), AeroportDTO.class);
+                AeroportDTO aeroportArrive = ClientCache.get(v.getAeroportArriveId(), AeroportDTO.class);
+
+                // Here's the layout, change here
+                Row.add("Airline " + companieAerienne.getNom());
+                Row.add("\t\tDPT " + aeroportDepart.getNom());
+                Row.add("\t" + v.getHeureDepart());
+                Row.add("\t" + v.getHeureArrive());
+                Row.add("\tARR " + aeroportArrive.getNom());
+                Row.add("\t\t100$");
+                Rows.add(Row);
+            }
+        } catch (Exception e) {
+            /*
+             TODO : here we should redirect the user to a page that tells them
+             that we're out of service for now, since that's the only reason for
+             an exception to show up here, maybe we can add another route
+             that checks the health of the backend
+             */
+            e.printStackTrace();
+            return;
         }
     }
 

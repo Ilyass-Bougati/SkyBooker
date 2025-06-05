@@ -1,6 +1,11 @@
 package skybooker.server.service;
 
-public interface CrudDTO<ENTITY, DTO> {
-    ENTITY createDTO(DTO dto);
-    ENTITY updateDTO(DTO dto);
+import java.util.List;
+
+public interface CrudDTO<DTO, ID> {
+    List<DTO> findAllDTO();
+    DTO createDTO(DTO dto);
+    DTO updateDTO(DTO dto);
+    DTO findDTOById(ID id);
+    void deleteById(ID id);
 }

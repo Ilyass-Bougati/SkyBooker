@@ -40,8 +40,8 @@ public class AdminCapaciteController {
             }
         }
         model.addAttribute("capacite", capacite);
-        model.addAttribute("avions", avionService.findAll());
-        model.addAttribute("classes", classeService.findAll());
+        model.addAttribute("avions", avionService.findAllDTO());
+        model.addAttribute("classes", classeService.findAllDTO());
         model.addAttribute("pageTitle", "Ajouter une Capacité");
         return "admin/add-edit-capacite";
     }
@@ -50,8 +50,8 @@ public class AdminCapaciteController {
     public String saveCapacite(@Valid @ModelAttribute("capacite") Capacite capacite, BindingResult result,
                                Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("avions", avionService.findAll());
-            model.addAttribute("classes", classeService.findAll());
+            model.addAttribute("avions", avionService.findAllDTO());
+            model.addAttribute("classes", classeService.findAllDTO());
             model.addAttribute("pageTitle", (capacite.getId() == 0 ? "Ajouter" : "Modifier") + " une Capacité");
             return "admin/add-edit-capacite";
         }
@@ -70,8 +70,8 @@ public class AdminCapaciteController {
         Capacite capacite = capaciteService.findById(id);
         if (capacite != null) {
             model.addAttribute("capacite", capacite);
-            model.addAttribute("avions", avionService.findAll());
-            model.addAttribute("classes", classeService.findAll());
+            model.addAttribute("avions", avionService.findAllDTO());
+            model.addAttribute("classes", classeService.findAllDTO());
             model.addAttribute("pageTitle", "Modifier une Capacité");
             return "admin/add-edit-capacite";
         } else {

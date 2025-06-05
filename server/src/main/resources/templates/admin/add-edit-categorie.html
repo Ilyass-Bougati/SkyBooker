@@ -11,12 +11,14 @@
 
     <div class="mb-3">
       <label for="nom" class="form-label">Category Name:</label>
-      <input type="text" th:field="*{nom}" id="nom" class="form-control" /> <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger">Name Error</div>
+      <input type="text" th:field="*{nom}" id="nom" class="form-control" />
+      <div th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="text-danger">Name Error</div>
     </div>
 
     <div class="mb-3">
       <label for="reduction" class="form-label">Discount Percentage:</label>
-      <input type="number" step="0.01" th:field="*{reduction}" id="reduction" class="form-control" /> <div th:if="${#fields.hasErrors('reduction')}" th:errors="*{reduction}" class="text-danger">Discount Error</div>
+      <input type="number" step="0.01" th:field="*{reduction}" id="reduction" class="form-control" />
+      <div th:if="${#fields.hasErrors('reduction')}" th:errors="*{reduction}" class="text-danger">Discount Error</div>
     </div>
 
     <button type="submit" class="btn btn-success">Save Category</button>

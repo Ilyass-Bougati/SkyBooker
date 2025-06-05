@@ -3,6 +3,7 @@ package skybooker.client;
 import DTO.VilleDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exceptions.UnauthorizedException;
 import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -22,12 +23,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 import okhttp3.ResponseBody;
 import requests.Client;
+import requests.ClientCache;
 import utils.GeneralUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class LandingpageView {
@@ -58,15 +61,33 @@ public class LandingpageView {
 
     private Popup contextMenu;
 
-    @FXML
-    protected void onFindButton()
-    {
-        if(departure.getValue().equals("Departure") || arrival.getValue().equals("Arrival"))
-            return;
+    List<VilleDTO> villes;
 
-        SearchresultsView.arrival = arrival.getValue();
-        SearchresultsView.departure = departure.getValue();
+    @FXML
+    protected void onFindButton() {
+        String arrivalCityName = arrival.getValue();
+        String departureCityName = departure.getValue();
+
+        if(arrivalCityName.equals("Departure") || departureCityName.equals("Arrival")) {
+            // TODO : add some error handling here
+            return;
+        }
+
         SearchresultsView.className = classes.getValue();
+
+        // TODO : this could be refactored but I'm not very familliar with this code
+        // getting the ids of the cities
+        Optional<VilleDTO> arrivalCity = villes.stream().filter(v -> v.getNom().equals(arrivalCityName)).findFirst();
+        Optional<VilleDTO> departureCity = villes.stream().filter(v -> v.getNom().equals(departureCityName)).findFirst();
+
+        if (arrivalCity.isPresent() && departureCity.isPresent()) {
+            SearchresultsView.arrival = arrivalCity.get().getId();
+            SearchresultsView.departure = departureCity.get().getId();
+        } else {
+            // TODO : add some error handling
+            return;
+        }
+
 
 
         ParallelTransition pt = new ParallelTransition(GeneralUtils.fadeOutAnimation(imageContainer , 500) ,
@@ -86,13 +107,16 @@ public class LandingpageView {
     }
 
     @FXML
-    public void initialize()
-    {
+    public void initialize() {
         Platform.runLater(() ->
         {
             GeneralUtils.fadeInAnimation(container , 500).play();
             initializeClasses();
-            initializeLocations();
+            try {
+                initializeLocations();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             initializePopup();
             GeneralUtils.initializeDatePicker(date, new GeneralUtils.DateVerifier() {
                 @Override
@@ -212,21 +236,27 @@ public class LandingpageView {
 
     private void initializeClasses()
     {
+        // TODO : fetch the classes
         classes.setItems(FXCollections.observableArrayList("Economy" , "Business" , "First"));
     }
 
-    private void initializeLocations() {
-        // fetching the cities
-        // TODO : refactor later
-        List<VilleDTO> villes;
+    private void initializeLocations() throws IOException {
+        // Fetching the cities
         ObjectMapper mapper = new ObjectMapper();
         try {
-            ResponseBody res = Client.get("/ville/").body();
-            assert res != null;
-            villes = mapper.readValue(res.string(), new TypeReference<List<VilleDTO>>(){});
+            String res = Client.get("/ville/");
+            villes = mapper.readValue(res, new TypeReference<List<VilleDTO>>(){});
+            // caching the villes
+            for (VilleDTO ville : villes) {
+                ClientCache.add(ville);
+            }
         } catch (Exception e) {
-            // TODO : Remove this
-            e.printStackTrace();
+            /*
+             TODO : here we should redirect the user to a page that tells them
+             that we're out of service for now, since that's the only reason for
+             an exception to show up here, maybe we can add another route
+             that checks the health of the backend
+             */
             return;
         }
 

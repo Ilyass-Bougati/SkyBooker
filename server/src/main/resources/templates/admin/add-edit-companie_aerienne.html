@@ -15,13 +15,13 @@
     </div>
 
     <div class="mb-3">
-      <label for="nom" class="form-label">IATA CODE:</label>
-      <input type="text" th:field="*{iataCode}" id="iataCode" class="form-control" /> <div th:if="${#fields.hasErrors('iataCode')}" th:errors="*{iataCode}" class="text-danger">Name Error</div>
+      <label for="iataCode" class="form-label">IATA CODE:</label>
+      <input type="text" th:field="*{iataCode}" id="iataCode" class="form-control" /> <div th:if="${#fields.hasErrors('iataCode')}" th:errors="*{iataCode}" class="text-danger">IATA Code Error</div>
     </div>
 
     <div class="mb-3">
-      <label for="nom" class="form-label">ICAO CODE:</label>
-      <input type="text" th:field="*{icaoCode}" id="icaoCode" class="form-control" /> <div th:if="${#fields.hasErrors('icaoCode')}" th:errors="*{icaoCode}" class="text-danger">Name Error</div>
+      <label for="icaoCode" class="form-label">ICAO CODE:</label>
+      <input type="text" th:field="*{icaoCode}" id="icaoCode" class="form-control" /> <div th:if="${#fields.hasErrors('icaoCode')}" th:errors="*{icaoCode}" class="text-danger">ICAO Code Error</div>
     </div>
 
 

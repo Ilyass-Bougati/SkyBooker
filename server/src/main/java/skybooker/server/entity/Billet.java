@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import skybooker.server.DTO.BilletDTO;
+import skybooker.server.enums.EtatBillet;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,4 +30,7 @@ public class Billet {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "reservation_id", nullable = false)
     private Reservation reservation;
+
+    // The etat of the billet
+//    private EtatBillet etat;
 }

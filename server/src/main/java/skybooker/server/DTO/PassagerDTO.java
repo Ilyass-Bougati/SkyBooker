@@ -7,6 +7,8 @@ import lombok.*;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +17,7 @@ public class PassagerDTO {
 
     private long id;
 
-    Client client;
+    Long clientId;
 
     @NotNull
     private String nom;
@@ -27,15 +29,18 @@ public class PassagerDTO {
     private String CIN;
 
     @NotNull
-    @Min(0)
-    private int age;
+    private long age;
+
+    @NotNull
+    private LocalDate dateOfBirth;
+
 
     public PassagerDTO(Passager passager) {
         setId(passager.getId());
         setNom(passager.getNom());
         setPrenom(passager.getPrenom());
         setCIN(passager.getCIN());
-        setAge(passager.getAge());
-        client = null;
+        setDateOfBirth(passager.getDateOfBirth());
+        setClientId(passager.getClient().getId());
     }
 }

@@ -1,20 +1,24 @@
 package skybooker.server;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
+import skybooker.server.DTO.ClientDTO;
+import skybooker.server.DTO.RegisterRequestDTO;
 import skybooker.server.entity.Categorie;
 import skybooker.server.entity.Classe;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Role;
+import skybooker.server.records.DefaultAdminProperties;
 import skybooker.server.repository.CategorieRepository;
 import skybooker.server.repository.ClasseRepository;
+import skybooker.server.repository.ClientRepository;
 import skybooker.server.repository.RoleRepository;
 import skybooker.server.service.ClientService;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 
 @Component
 public class StartupRunner implements CommandLineRunner {
@@ -24,13 +28,17 @@ public class StartupRunner implements CommandLineRunner {
     private final ClientService clientService;
     private final RoleRepository roleRepository;
     private final DataSource dataSource;
+    private final ClientRepository clientRepository;
+    private final DefaultAdminProperties defaultAdmin;
 
-    public StartupRunner(RoleRepository roleRepository, ClientService clientService, CategorieRepository categorieRepository, ClasseRepository classeRepository, DataSource dataSource) {
+    public StartupRunner(RoleRepository roleRepository, ClientService clientService, CategorieRepository categorieRepository, ClasseRepository classeRepository, DataSource dataSource, ClientRepository clientRepository, DefaultAdminProperties defaultAdminProperties) {
         this.roleRepository = roleRepository;
         this.clientService = clientService;
         this.categorieRepository = categorieRepository;
         this.classeRepository = classeRepository;
         this.dataSource = dataSource;
+        this.clientRepository = clientRepository;
+        this.defaultAdmin = defaultAdminProperties;
     }
 
     @Override
@@ -48,14 +56,9 @@ public class StartupRunner implements CommandLineRunner {
         senior.setNom("Senior");
         senior.setReduction(0.25);
 
-        Categorie student = new Categorie();
-        student.setNom("Student");
-        student.setReduction(0.15);
-
         categorieRepository.save(standard);
         categorieRepository.save(junior);
         categorieRepository.save(senior);
-        categorieRepository.save(student);
 
         // Creating the default classes
         Classe economy = new Classe();
@@ -82,40 +85,27 @@ public class StartupRunner implements CommandLineRunner {
         role2.setAuthority("ROLE_ADMIN");
 
         roleRepository.save(role);
-        roleRepository.save(role2);
+        role2 = roleRepository.save(role2);
 
-        // Creating a default user
-        Client client = new Client();
-        client.setEmail("ilyass@gmail.com");
-        client.setTelephone("000");
-        client.setAdresse("aaa");
-        client.setPassword("123");
-        client.setRole(role2);
-        clientService.create(client);
+        // creating the admin user
+        // TODO : make this application property
+        RegisterRequestDTO registerRequest = new RegisterRequestDTO();
+        registerRequest.setNom("Default");
+        registerRequest.setPrenom("Admin");
+        registerRequest.setEmail(defaultAdmin.email());
+        registerRequest.setPassword(defaultAdmin.password());
+        registerRequest.setDateOfBirth(LocalDate.of(2000, 1, 1));
+        registerRequest.setTelephone("tel00000");
+        registerRequest.setCIN("CIN00000");
+        registerRequest.setAdresse("Adresse0000");
 
-        Client client1 = new Client();
-        client1.setEmail("abde@gmail.com");
-        client1.setTelephone("000");
-        client1.setAdresse("aaa");
-        client1.setPassword("123");
-        client1.setRole(role2);
-        clientService.create(client1);
-
-        Client amine = new Client();
-        amine.setEmail("amine@gmail.com");
-        amine.setTelephone("000");
-        amine.setAdresse("aaa");
-        amine.setPassword("123");
-        amine.setRole(role);
-        clientService.create(amine);
-
-        Client another = new Client();
-        another.setEmail("another@gmail.com");
-        another.setTelephone("000");
-        another.setAdresse("aaa");
-        another.setPassword("123");
-        another.setRole(role);
-        clientService.create(another);
+        ClientDTO client = clientService.register(registerRequest).getBody();
+        assert client != null;
+        Client clientEntity = clientRepository.findById(client.getId()).orElse(null);
+        if (clientEntity != null) {
+            clientEntity.setRole(role2);
+            clientRepository.save(clientEntity);
+        }
 
         executeSqlScript();
     }

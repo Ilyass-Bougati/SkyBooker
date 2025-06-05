@@ -2,6 +2,7 @@ package requests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import exceptions.ExceptionHandler;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -12,9 +13,8 @@ public class Client {
     private static String token = "";
     private static boolean isLoggedIn = false;
 
-    public static void login(String username, String password) throws IOException {
+    public static void login(String username, String password) throws Exception, IOException {
         if (isLoggedIn) {
-            System.out.println("Already logged in");
             return;
         }
 
@@ -24,21 +24,22 @@ public class Client {
                 .post(body)
                 .header("Authorization", Credentials.basic(username, password))
                 .build();
-        Response response = client.newCall(request).execute();
-        if (response.isSuccessful()) {
-            ResponseBody res = response.body();
-            if (res != null) {
-                token = res.string();
-                isLoggedIn = true;
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                ResponseBody res = response.body();
+                if (res != null) {
+                    token = res.string();
+                    isLoggedIn = true;
+                } else {
+                    throw ExceptionHandler.getException(response);
+                }
             } else {
                 throw new IOException("Unexpected code " + response);
             }
-        } else {
-            throw new IOException("Unexpected code " + response);
         }
     }
 
-    public static Response post(String route, Object object) throws IOException {
+    public static String post(String route, Object object) throws Exception, IOException {
         // turning to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(object);
@@ -51,20 +52,32 @@ public class Client {
                 .build();
 
         Call call = client.newCall(request);
-        return call.execute();
+        try (Response res = call.execute()) {
+            if (res.isSuccessful() && res.body() != null) {
+                return res.body().string();
+            } else {
+                throw ExceptionHandler.getException(res);
+            }
+        }
     }
 
-    public static Response get(String route) throws IOException {
+    public static String get(String route) throws Exception {
         Request request = new Request.Builder()
                 .url(url + route)
                 .header("Authorization", "Bearer " + token)
                 .build();
 
         Call call = client.newCall(request);
-        return call.execute();
+        try (Response res = call.execute()) {
+            if (res.isSuccessful() && res.body() != null) {
+                return res.body().string();
+            } else {
+                throw ExceptionHandler.getException(res);
+            }
+        }
     }
 
-    public static Response unAuthorizedPost(String route, Object object) throws IOException {
+    public static String unAuthorizedPost(String route, Object object) throws Exception {
         // turning to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(object);
@@ -76,7 +89,13 @@ public class Client {
                 .build();
 
         Call call = client.newCall(request);
-        return call.execute();
+        try (Response res = call.execute()) {
+            if (res.isSuccessful() && res.body() != null) {
+                return res.body().string();
+            } else {
+                throw ExceptionHandler.getException(res);
+            }
+        }
     }
 
     public static String getToken() {

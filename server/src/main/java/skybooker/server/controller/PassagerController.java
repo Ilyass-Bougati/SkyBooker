@@ -4,12 +4,8 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-import skybooker.server.DTO.BilletDTO;
 import skybooker.server.DTO.PassagerDTO;
-import skybooker.server.UserDetailsImpl;
-import skybooker.server.entity.Billet;
 import skybooker.server.entity.Client;
 import skybooker.server.entity.Passager;
 import skybooker.server.service.ClientService;
@@ -28,11 +24,9 @@ public class PassagerController {
     Logger logger = LoggerFactory.getLogger(PassagerController.class);
 
     private final PassagerService passagerService;
-    private final UserDetailsService userDetailsService;
 
-    public PassagerController(PassagerService passagerService, UserDetailsService userDetailsService, ClientService clientService) {
+    public PassagerController(PassagerService passagerService, ClientService clientService) {
         this.passagerService = passagerService;
-        this.userDetailsService = userDetailsService;
         this.clientService = clientService;
     }
 
@@ -44,59 +38,36 @@ public class PassagerController {
         return ResponseEntity.ok(passagerDTOs);
     }
 
-    @GetMapping("/{passagerId}/billets")
-    public ResponseEntity<List<BilletDTO>> getAllPassagersBillets(Principal principal, @PathVariable Long passagerId) {
-        // getting the passager
-        Client client = clientService.getFromPrincipal(principal);
-
-        // checking if the passager was added by the client or that the client is admin
-        if (clientService.passagerAddedByClient(client.getId(), passagerId) || client.isAdmin()) {
-            Passager passager = passagerService.findById(passagerId);
-            if (passager != null) {
-                Set<Billet> billets =  passager.getBillets();
-                List<BilletDTO> billetDTOS = billets.stream().map(BilletDTO::new).toList();
-                return ResponseEntity.ok(billetDTOS);
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<PassagerDTO> getPassagerById(Principal principal, @PathVariable Long id) {
-        Passager passager = passagerService.findById(id);
-        if (passager == null) {
-            return ResponseEntity.notFound().build();
+        // checking if the passager was originally added by the client
+        Client client = clientService.getFromPrincipal(principal);
+
+        if (passagerService.passagerAddedBy(client.getId(), id) || client.isAdmin()) {
+            PassagerDTO passager = passagerService.findDTOById(id);
+            return ResponseEntity.ok(passager);
         } else {
-            // checking if the passager was originally added by the client
-            Client client = clientService.getFromPrincipal(principal);
-
-
-            if (!client.getPassagers().stream().filter(p -> p.getId() == id).toList().isEmpty() || client.isAdmin()) {
-                return ResponseEntity.ok(new PassagerDTO(passager));
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping("/")
     public ResponseEntity<PassagerDTO> createPassager(Principal principal, @RequestBody @Valid PassagerDTO passagerDTO) {
         Client client = clientService.getFromPrincipal(principal);
-        passagerDTO.setClient(client);
-        Passager passager = passagerService.createDTO(passagerDTO);
-        return ResponseEntity.ok(new PassagerDTO(passager));
+        passagerDTO.setClientId(client.getId());
+        PassagerDTO passager = passagerService.createDTO(passagerDTO);
+        return ResponseEntity.ok(passager);
     }
 
     @PutMapping("/")
     public ResponseEntity<PassagerDTO> updatePassager(Principal principal, @RequestBody @Valid PassagerDTO passagerDTO) {
         Client client = clientService.getFromPrincipal(principal);
-        passagerDTO.setClient(client);Passager passager = passagerService.updateDTO(passagerDTO);
-        if (passager == null) {
-            return ResponseEntity.notFound().build();
+        if (clientService.passagerAddedByClient(client.getId(), passagerDTO.getId())) {
+            passagerDTO.setClientId(client.getId());
+            return ResponseEntity.ok(passagerService.updateDTO(passagerDTO));
         } else {
-            return ResponseEntity.ok(new PassagerDTO(passager));
+            logger.trace("Can't do");
+            return ResponseEntity.notFound().build();
         }
     }
 

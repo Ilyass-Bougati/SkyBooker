@@ -27,7 +27,7 @@ public class AeroportDTO {
     private double longitude;
 
     @NotNull
-    private long villeId;
+    private Long villeId;
 
     public AeroportDTO(Aeroport aeroport) {
         setId(aeroport.getId());
@@ -39,7 +39,7 @@ public class AeroportDTO {
         if (aeroport.getVille() != null) {
             setVilleId(aeroport.getVille().getId());
         } else {
-            setVilleId(-1);
+            setVilleId(null);
         }
     }
 }

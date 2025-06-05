@@ -63,7 +63,7 @@ public class AdminStatsController {
             Model model) {
 
         model.addAttribute("pageTitle", "Statistiques Occupation par Avion");
-        model.addAttribute("avions", avionService.findAll());
+        model.addAttribute("avions", avionService.findAllDTO());
 
         if (avionId != null && year != null) {
             PlaneOccupancyStatsDTO stats = airlineStatsService.getPlaneOccupancyStats(avionId, year, quarter);

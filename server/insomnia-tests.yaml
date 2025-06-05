@@ -1,0 +1,1408 @@
+type: collection.insomnia.rest/5.0
+name: Skyhooker
+meta:
+  id: wrk_fed23510e10d4941852cf07cce509134
+  created: 1748286351173
+  modified: 1748287956482
+collection:
+  - name: Auth
+    meta:
+      id: fld_a5b66227241940cd90321c70aac6795e
+      created: 1748286365784
+      modified: 1748287207711
+      sortKey: -1748286365985
+    children:
+      - url: "{{url_v1}}/auth/login"
+        name: AdminLogin
+        meta:
+          id: req_87cbd6fd95cf45f48ac94f30be8f0ab5
+          created: 1748286377288
+          modified: 1748287013311
+          isPrivate: false
+          sortKey: -1748286377288
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: "{{admin_email}}"
+          password: "{{admin_password}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/auth/register"
+        name: Register
+        meta:
+          id: req_e3d74beed33143ecb2f39559b1600483
+          created: 1748286974323
+          modified: 1748287113026
+          isPrivate: false
+          sortKey: -1748286370460.75
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "email": "yassir@gmail.com",
+                "password": "123",
+                "nom": "yassir",
+                "prenom": "bougati",
+                "telephone": "111",
+                "adresse": "000",
+                "cin": "CIN00000",
+                "age": 12
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: none
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Client
+    meta:
+      id: fld_99afa3d40d444996bac909aade8d6220
+      created: 1748287000204
+      modified: 1748287204756
+      sortKey: -1748286365885
+    children:
+      - url: "{{url_v1}}/client/"
+        name: Get
+        meta:
+          id: req_cc5e153fc3504c0facda7e032676c925
+          created: 1748287002779
+          modified: 1748287157375
+          isPrivate: false
+          sortKey: -1748287002779
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/client/"
+        name: Update
+        meta:
+          id: req_b4dfac74ccee462192c44023a5cd9e5e
+          created: 1748287358685
+          modified: 1748287459713
+          isPrivate: false
+          sortKey: -1748286690033.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id": 21,
+              "email": "yasssir@gmail.com",
+              "telephone": "111",
+              "adresse": "000"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Aeroport
+    meta:
+      id: fld_5805d46fda294af4b0751758db44d992
+      created: 1748287480871
+      modified: 1748289752893
+      sortKey: -1748286365835
+    children:
+      - url: "{{url_v1}}/aeroport/18"
+        name: Get
+        meta:
+          id: req_025158d9e24f4c1db01d7c7c6f6c22ff
+          created: 1748287480872
+          modified: 1748288649890
+          isPrivate: false
+          sortKey: -1748287002779
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/aeroport/"
+        name: Update
+        meta:
+          id: req_8220c7b72ea149818e36dd770a512735
+          created: 1748287480872
+          modified: 1748288655451
+          isPrivate: false
+          sortKey: -1748286690033.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	  "id": 18,
+                "iataCode": "aaaaa",
+                "icaoCode": "bbbb",
+                "nom": "aeoroport uhp",
+                "latitude": 0.1,
+                "longitude": 0.2,
+                "villeId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/aeroport/18"
+        name: Delete
+        meta:
+          id: req_66e5577af0544593a9d3eafe523cb828
+          created: 1748287489197
+          modified: 1748288660826
+          isPrivate: false
+          sortKey: -1748286689933.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/aeroport/"
+        name: Create
+        meta:
+          id: req_62c7c4b007194c869ecfd5b3f1562260
+          created: 1748287499320
+          modified: 1748288644835
+          isPrivate: false
+          sortKey: -1748287002879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "iataCode": "aaaa",
+                "icaoCode": "bbbb",
+                "nom": "aeoroport uhp",
+                "latitude": 0.1,
+                "longitude": 0.2,
+                "villeId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Avion
+    meta:
+      id: fld_a171c9225b624b12bdde280499f916ee
+      created: 1748287598947
+      modified: 1748289753065
+      sortKey: -1748286365785
+    children:
+      - url: "{{url_v1}}/avion/"
+        name: Update
+        meta:
+          id: req_17ade910a9f4424da0a51d09cd1a939f
+          created: 1748287598948
+          modified: 1748288681534
+          isPrivate: false
+          sortKey: -1748286690033.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	  "id": 11,
+                "iataCode": "aaaaa",
+                "icaoCode": "bbbb",
+                "model": "lux",
+                "maxDistance": 100,
+                "companieAerienneId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/avion/11"
+        name: Get
+        meta:
+          id: req_80039cab4c364755b1c6c99da91116ab
+          created: 1748287598948
+          modified: 1748288673693
+          isPrivate: false
+          sortKey: -1748287002779
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/avion/"
+        name: Create
+        meta:
+          id: req_1233e1243cdf4c89b7783fdf861248bf
+          created: 1748287598949
+          modified: 1748288667201
+          isPrivate: false
+          sortKey: -1748287002879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "iataCode": "aaaa",
+                "icaoCode": "bbbb",
+                "model": "lux",
+                "maxDistance": 100,
+                "companieAerienneId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/avion/11"
+        name: Delete
+        meta:
+          id: req_f491a9c02f374e6b9a7b78e34dfe6ebf
+          created: 1748287598949
+          modified: 1748288685006
+          isPrivate: false
+          sortKey: -1748286689933.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: CompanieAerienne
+    meta:
+      id: fld_58bb910b45ed4b2483edbd8cd872b1e6
+      created: 1748287693491
+      modified: 1748289753231
+      sortKey: -1748286365735
+    children:
+      - url: "{{url_v1}}/companie-aerienne/8"
+        name: Get
+        meta:
+          id: req_934536dcb70c48c082acf72270abc6fc
+          created: 1748287693492
+          modified: 1748288698794
+          isPrivate: false
+          sortKey: -1748287002779
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/companie-aerienne/"
+        name: Update
+        meta:
+          id: req_cf5b61ef8441412480b8bc26df7155e6
+          created: 1748287693492
+          modified: 1748288701581
+          isPrivate: false
+          sortKey: -1748286690033.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	  "id": 8,
+                "iataCode": "aaaaa",
+                "icaoCode": "bbbb",
+                "nom": "Bougati Airline"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/companie-aerienne/"
+        name: Create
+        meta:
+          id: req_0856a6aaacaf4eec988861c8b73289e2
+          created: 1748287693493
+          modified: 1748288695646
+          isPrivate: false
+          sortKey: -1748287002879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "iataCode": "aaaa",
+                "icaoCode": "bbbb",
+                "nom": "Bougati Airline"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/companie-aerienne/8"
+        name: Delete
+        meta:
+          id: req_16553f20adaf408fb2e606f0dc84ea34
+          created: 1748287693493
+          modified: 1748288704290
+          isPrivate: false
+          sortKey: -1748286689933.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Ville
+    meta:
+      id: fld_16c3fcb9d9a5449fa222933ae44b3f4b
+      created: 1748287780635
+      modified: 1748289753407
+      sortKey: -1748286365685
+    children:
+      - url: "{{url_v1}}/ville/23"
+        name: Get
+        meta:
+          id: req_567fba4ee4e649edb1d45a7e1fdc123e
+          created: 1748287780636
+          modified: 1748288721150
+          isPrivate: false
+          sortKey: -1748287002779
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/ville/"
+        name: Update
+        meta:
+          id: req_3826077f9de24c6393e1d9a37a456b19
+          created: 1748287780637
+          modified: 1748288724241
+          isPrivate: false
+          sortKey: -1748286690033.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	  "id": 23,
+                "nom": "Maarrakech",
+                "pays": "maroc"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/ville/23"
+        name: Delete
+        meta:
+          id: req_0b412904218e4f6c9057d3fceef20f97
+          created: 1748287780638
+          modified: 1748288726723
+          isPrivate: false
+          sortKey: -1748286689933.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/ville/"
+        name: Create
+        meta:
+          id: req_718588d768fc4b0682ac92ec62f5cd40
+          created: 1748287780638
+          modified: 1748288714071
+          isPrivate: false
+          sortKey: -1748287002879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "nom": "Marrakech",
+                "pays": "maroc"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Vol
+    meta:
+      id: fld_92c6c314d7974049a509c5a7ec365be9
+      created: 1748287868182
+      modified: 1748289753576
+      sortKey: -1748286365635
+    children:
+      - url: "{{url_v1}}/vol/32"
+        name: Get
+        meta:
+          id: req_f6364f20d1034ee2ae9a7b82ce1da249
+          created: 1748287868185
+          modified: 1748288736199
+          isPrivate: false
+          sortKey: -1748287002779
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/vol/"
+        name: Update
+        meta:
+          id: req_1c40d8248c4949deaaf26a8f044fe70f
+          created: 1748287868186
+          modified: 1748288738885
+          isPrivate: false
+          sortKey: -1748286690033.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id": 32,
+            	"dateDepart": "2025-10-11",
+            	"dateArrive": "2025-10-12",
+            	"heureDepart": "20:00:00",
+            	"heureArrive": "21:00:00",
+            	"etat": 1,
+            	"prix": 10.0,
+            	"aeroportDepartId": 1,
+            	"aeroportArriveId": 2,
+            	"avionId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/vol/32"
+        name: Delete
+        meta:
+          id: req_b4a90a1d892b4407b03a0eb9b5ddee31
+          created: 1748287868191
+          modified: 1748288742258
+          isPrivate: false
+          sortKey: -1748286689933.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/vol/"
+        name: Create
+        meta:
+          id: req_7efd4ed69abd4331904ffc12d9f25aa3
+          created: 1748287868193
+          modified: 1748288733590
+          isPrivate: false
+          sortKey: -1748287002879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"dateDepart": "2025-10-11",
+            	"dateArrive": "2025-10-12",
+            	"heureDepart": "20:00:00",
+            	"heureArrive": "21:00:00",
+            	"etat": 0,
+            	"prix": 10.0,
+            	"aeroportDepartId": 1,
+            	"aeroportArriveId": 2,
+            	"avionId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Capacite
+    meta:
+      id: fld_9b4db89e6b6a464396c44dfdad70a29b
+      created: 1748287969053
+      modified: 1748289668800
+      sortKey: -1748286365631.875
+    children:
+      - url: "{{url_v1}}/capacite/"
+        name: Create
+        meta:
+          id: req_608b875cff8744009106a763f53960ca
+          created: 1748287969056
+          modified: 1748288749272
+          isPrivate: false
+          sortKey: -1748287002879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"avionId": 1,
+                "classeId": 3,
+                "borneSup": 100,
+                "borneInf": 1,
+                "capacite": 100
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Passager
+    meta:
+      id: fld_28f2cd772fed472596f42aadb3006f92
+      created: 1748288050199
+      modified: 1748289753844
+      sortKey: -1748286365630.3125
+    children:
+      - url: "{{url_v1}}/passager/20"
+        name: Get
+        meta:
+          id: req_9f05da02b47d497d9266d97a3da39793
+          created: 1748288050201
+          modified: 1748289340915
+          isPrivate: false
+          sortKey: -1748287002779
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/passager/"
+        name: Update
+        meta:
+          id: req_3d6a3400bc164f608d3fa702a95d3db7
+          created: 1748288050202
+          modified: 1748289353662
+          isPrivate: false
+          sortKey: -1748286690033.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	  "id": 20,
+                "nom": "bougati",
+                "prenom": "ilyass",
+                "cin": "2CIN12",
+                "age": 20
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/passager/"
+        name: Create
+        meta:
+          id: req_2762ff4cc08149a08bf92332bf95779b
+          created: 1748288050203
+          modified: 1748288756871
+          isPrivate: false
+          sortKey: -1748287002879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "nom": "bougati",
+                "prenom": "ilyass",
+                "cin": "CIN09999",
+                "age": 20
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/passager/20"
+        name: Delete
+        meta:
+          id: req_8dfc356da0b64331ae1d4fec5b3a9357
+          created: 1748288050203
+          modified: 1748289356788
+          isPrivate: false
+          sortKey: -1748286689933.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/passager/20/billets"
+        name: GetBillets
+        meta:
+          id: req_d1785a15e4444715a099226c53f4c188
+          created: 1748288171459
+          modified: 1748289348520
+          isPrivate: false
+          sortKey: -1748286846406.25
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Reservation
+    meta:
+      id: fld_409515422ab242a7abf86ce0c0c920fc
+      created: 1748288209641
+      modified: 1748289754012
+      sortKey: -1748286365628.75
+    children:
+      - url: "{{url_v1}}/reservation/12"
+        name: Get
+        meta:
+          id: req_63053350032f473784123598cbea8913
+          created: 1748288209642
+          modified: 1748289404433
+          isPrivate: false
+          sortKey: -1748287002779
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/reservation/"
+        name: Update
+        meta:
+          id: req_3c59883567904fb18bc6788081aadc2f
+          created: 1748288209643
+          modified: 1748289410328
+          isPrivate: false
+          sortKey: -1748286690033.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id": 12,
+            	"etat": "PENDING",
+            	"prixTotal": 3,
+            	"clientId": 1,
+            	"volId": 2,
+            	"passagers": [
+            		{
+            			"passagerId": 1,
+            			"classId": 1
+            		},
+            		{
+            			"passagerId": 3,
+            			"classId": 2
+            		},
+            		{
+            			"passagerId": 2,
+            			"classId": 1
+            		}
+            	],
+            	"reservedAt": "2025-05-26T20:37:19.721245"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/vol/12"
+        name: Delete
+        meta:
+          id: req_60ce2e5654564da2984ff8ced85ff30c
+          created: 1748288209644
+          modified: 1748289414211
+          isPrivate: false
+          sortKey: -1748286689933.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/reservation/"
+        name: Create
+        meta:
+          id: req_b7a09d477dc34bd595f00971e766c790
+          created: 1748288209644
+          modified: 1748288776750
+          isPrivate: false
+          sortKey: -1748287002879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "etat": 0,
+                "prixTotal": 2,
+                "clientId": 4,
+                "volId": 2,
+                "passagers": [
+                    {
+                        "passagerId": 1,
+                        "classId": 1
+                    },
+                    {
+                        "passagerId": 2,
+                        "classId": 1
+                    },
+                    {
+                        "passagerId": 3,
+                        "classId": 2
+                    }
+                ]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Billet
+    meta:
+      id: fld_3c49b3a860ba4de4801bfda99c0131d9
+      created: 1748288395302
+      modified: 1748289754178
+      sortKey: -1748286365578.75
+    children:
+      - url: "{{url_v1}}/billet/24"
+        name: Get
+        meta:
+          id: req_5dfccce329d84ba9b2ff0a9a837b427b
+          created: 1748288395303
+          modified: 1748289435110
+          isPrivate: false
+          sortKey: -1748287002779
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/billet/"
+        name: Update
+        meta:
+          id: req_8bfeb1ccb969436e96f1ba28813d29f9
+          created: 1748288395303
+          modified: 1748289440783
+          isPrivate: false
+          sortKey: -1748286690033.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id": 24,
+            	"siege": 1,
+            	"classeId": 2,
+            	"passagerId": 1,
+            	"reservationId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/billet/24"
+        name: Delete
+        meta:
+          id: req_9b8f5f4a0f2c4d4b895a9ad0e0265570
+          created: 1748288395304
+          modified: 1748289445439
+          isPrivate: false
+          sortKey: -1748286689933.5
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url_v1}}/billet/"
+        name: Create
+        meta:
+          id: req_0e4902a2a2bd4d1fad220c86752b7e42
+          created: 1748288395305
+          modified: 1748289023845
+          isPrivate: false
+          sortKey: -1748287002879
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+                "classeId": 1,
+                "passagerId": 1,
+                "reservationId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        scripts:
+          afterResponse: |-
+            insomnia.test('Check if status is 200', () => {
+              insomnia.expect(insomnia.response.code).to.eql(200);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_977576982a6216a9d7a1df896cf7da55ff95d12d
+    created: 1748286351176
+    modified: 1748289754177
+environments:
+  name: Base Environment
+  meta:
+    id: env_977576982a6216a9d7a1df896cf7da55ff95d12d
+    created: 1748286351174
+    modified: 1748289754177
+    isPrivate: false
+  data:
+    url_v1: http://localhost:8080/api/v1
+    admin_email: ilyass@gmail.com
+    admin_password: "123"
+    token: eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiaWx5YXNzQGdtYWlsLmNvbSIsImV4cCI6MTc0ODI5MDI4NCwiaWF0IjoxNzQ4Mjg2Njg0LCJzY29wZSI6IlJPTEVfQURNSU4ifQ.lTvLy9zHiuFXygafFUf413sKRD5jy58slqPQafP9Q-DHUo7agkhBQ45-pILGuOahi6CsJMcXF6YYissTOX3cB4wrHUtdcJZ4a3Q4fYI6AI5n4-Si6UYv-R90lbs4t_4c6AG44bjCbipHfJDZ6qcvUVMXg5wPFcfxvHyiTzxiw7tXPJXE4GXyRuVXA0LKFKSXeA34qHvcdZ3lC3EU7paDvG0Ge0RyPCPbBl07RzmVAA96GoxenWhfMwH09mazw8mYfolQaF8y_8JPAH0t6iw1vYwIN_wK8LoUx4Yz5fVUAIGGMO7eL7hAObidcb_mZ0LUPNfVFZSefvYWMI_iytpxZw

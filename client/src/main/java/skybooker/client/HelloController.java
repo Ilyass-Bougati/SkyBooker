@@ -48,8 +48,21 @@ public class HelloController {
 
         try {
             Client.login(email.getText(), password.getText());
-        } catch (IOException ex) {
-           return;
+        } catch (Exception ex) {
+            /*
+            * TODO : Implement some error handling in the front end
+            * for example showing an error message showing "Incorrect Credentials"
+            * @Amine, this is for you to do
+            *
+            * it'll also be preferable to change the icon in the login button
+            * to indicate that it's loading, while we got a response
+            */
+
+            // these two lines can change, just wanted to indicate that the login
+            // was finished incorrectly for now
+            email.setText("");
+            password.setText("");
+            return;
         }
 
         GeneralUtils.loadView("landingpage-view.fxml");

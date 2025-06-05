@@ -2,140 +2,207 @@ package skybooker.server.service.implementation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClientDTO;
+import skybooker.server.DTO.PassagerDTO;
 import skybooker.server.DTO.RegisterRequestDTO;
-import skybooker.server.UserDetailsImpl;
-import skybooker.server.entity.Categorie;
-import skybooker.server.entity.Client;
-import skybooker.server.entity.Passager;
-import skybooker.server.entity.Role;
+import skybooker.server.DTO.ReservationDTO;
+import skybooker.server.entity.*;
+import skybooker.server.enums.EtatReservation;
+import skybooker.server.exception.NotFoundException;
+import skybooker.server.repository.CategorieRepository;
+import skybooker.server.repository.PassagerRepository;
+import skybooker.server.security.UserDetailsImpl;
 import skybooker.server.repository.ClientRepository;
-import skybooker.server.service.CategorieService;
 import skybooker.server.service.ClientService;
-import skybooker.server.service.PassagerService;
 import skybooker.server.service.RoleService;
+import skybooker.server.repository.ReservationRepository;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@CacheConfig(cacheNames = {"clientCache"})
 public class ClientServiceImpl implements ClientService {
 
     Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
 
+    private final CategorieRepository categorieRepository;
+    private final PassagerRepository passagerRepository;
     private final ClientRepository clientRepository;
-    private final PassagerService passagerService;
-    private final PasswordEncoder passwordEncoder;
-    private final CategorieService categorieService;
     private final UserDetailsService userDetailsService;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
+    private final ReservationRepository reservationRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository, PassagerService passagerService, PasswordEncoder passwordEncoder, CategorieService categorieService, UserDetailsService userDetailsService, RoleService roleService) {
+    public ClientServiceImpl(ClientRepository clientRepository, UserDetailsService userDetailsService, RoleService roleService, CategorieRepository categorieRepository, PassagerRepository passagerRepository, PasswordEncoder passwordEncoder, ReservationRepository reservationRepository) {
         this.clientRepository = clientRepository;
-        this.passagerService = passagerService;
-        this.passwordEncoder = passwordEncoder;
-        this.categorieService = categorieService;
         this.userDetailsService = userDetailsService;
         this.roleService = roleService;
+        this.categorieRepository = categorieRepository;
+        this.passagerRepository = passagerRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.reservationRepository = reservationRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
+    public List<ClientDTO> findAllDTO() {
+        return clientRepository.findAll()
+                .stream()
+                .map(ClientDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ClientDTO findbyIdDTO(Long id) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Client not found with ID: " + id));
+
+        return new ClientDTO(client);
+    }
+
+    @Transactional
+    @Override
+    public void cancelReservation(Long reservationId) {
+        try {
+            reservationRepository.modifyEtat(reservationId, EtatReservation.CANCELLED_BY_AIRLINE);
+            logger.info("Reservation with ID {} has been cancelled.", reservationId);
+        } catch (Exception e) {
+            throw new NotFoundException("Failed to cancel reservation with ID: " + reservationId + ". Error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * This function should never be used
+     * @param clientDTO the client details
+     * @return null in all cases
+     */
+    @Override
+    @Deprecated
+    public ClientDTO createDTO(ClientDTO clientDTO) {
+        logger.warn("someone tried to create a client using createDTO");
+        return null;
+    }
+
+    /**
+     * This function should never be used
+     * @param clientDTO the client details
+     * @return null in all cases
+     */
+    @Override
+    public ClientDTO updateDTO(ClientDTO clientDTO) {
+        logger.warn("someone tried to create a client using updateDTO(ClientDTO)");
+        return null;
+    }
+
+
+    @Caching(
+            evict = {
+                    @CacheEvict(key = "#email"),
+                    @CacheEvict(value = "ClientEntityCache", key = "#email")
+            },
+            put = {
+                    @CachePut(key = "#clientDTO.email")
+            }
+    )
+    public ClientDTO updateDTO(ClientDTO clientDTO, String email) {
+        Client client = clientRepository.findById(clientDTO.getId())
+                .orElseThrow(() -> new NotFoundException("Client not found"));
+        client.setAdresse(clientDTO.getAdresse());
+        client.setTelephone(clientDTO.getTelephone());
+        client.setEmail(clientDTO.getEmail());
+        return new ClientDTO(clientRepository.save(client));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    @CachePut(key = "#result.email")
+    public Client findById(Long clientId) {
+        return clientRepository.findById(clientId)
+                .orElseThrow(() -> new NotFoundException("Client not found"));
+    }
+
+    @Override
+    @Deprecated
+    public Client create(Client client) {
+        logger.warn("Someone is trying to create a use with create(Client)");
+        return null;
+    }
+
+    @Override
     public List<Client> findAll() {
         return clientRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "clientIdCache", key = "#id")
-    public Client findById(Long id) {
+    public List<ReservationDTO> getReservations(long id) {
+        return clientRepository.getReservations(id).stream()
+                .map(ReservationDTO::new).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PassagerDTO> getPassagers(long id) {
+        return clientRepository.getPassagers(id)
+                .stream().map(PassagerDTO::new).toList();
+    }
+
+    @Override
+    public boolean clientMadeReservation(long clientId, long reservationId) {
+        return clientRepository.clientMadeReservation(clientId, reservationId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ClientDTO findDTOById(Long id) {
         Optional<Client> optionalClient = clientRepository.findById(id);
-        return optionalClient.orElse(null);
+        return optionalClient.map(ClientDTO::new)
+                .orElseThrow(() -> new NotFoundException("Client not found"));
     }
 
-    @Override
-    @Transactional
-    @CachePut(value = "clientEmailCache", key = "#client.email")
-    public Client create(Client client) {
-        client.setPassword(passwordEncoder.encode(client.getPassword()));
-        client.setEmail(client.getEmail().toLowerCase());
-        return clientRepository.save(client);
-    }
 
     @Override
-    @Transactional
-    @CachePut(value = "clientEmailCache", key = "#client.email")
-    public Client update(Client client) {
-        Client oldClient = findById(client.getId());
-        if (oldClient != null) {
-            oldClient.updateFields(client);
-            client.setEmail(client.getEmail().toLowerCase());
-            return clientRepository.save(oldClient);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    @Transactional
-    @CacheEvict(value = "clientIdCache", key = "#id")
+    @Deprecated
     public void deleteById(Long id) {
         clientRepository.deleteById(id);
     }
 
     @Override
-    @Deprecated
-    public void delete(Client client) {
-        logger.warn("delete method does nothing, use deleteByEmail");
-        return;
-    }
-
-    @Override
-    @Transactional
-    @CacheEvict(value = "clientEmailCache", key = "#email")
+    @CacheEvict(key = "#email")
     public void deleteByEmail(String email) {
         clientRepository.deleteByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "clientEmailCache", key = "#email")
+    @Cacheable(key = "#email")
     public ClientDTO findByEmail(String email) {
         Optional<Client> clientOptional = clientRepository.findByEmail(email);
         return clientOptional.map(ClientDTO::new).orElse(null);
     }
 
-    @Override
-    @Transactional
-    @CachePut(value = "clientEmailCache", key = "#clientDTO.email")
-    public Client update(Client client, ClientDTO clientDTO) {
-        client.updateFields(clientDTO);
-        client.setEmail(client.getEmail().toLowerCase());
-        return clientRepository.save(client);
-    }
+
 
     @Override
-    @Transactional
-    @CachePut(value = "clientEmailCache", key = "#registerRequestDTO.email")
+    @CachePut(key = "#registerRequestDTO.email")
     public ResponseEntity<ClientDTO> register(RegisterRequestDTO registerRequestDTO) {
         Passager passager = registerRequestDTO.passager();
-
-        // giving the user the default category
-        Categorie defaultCategorie = categorieService.findById(1L);
-        if (defaultCategorie == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
-        passager.setCategorie(defaultCategorie);
+        passager.updateCategorie(categorieRepository);
         Client client = registerRequestDTO.client();
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
 
         // giving USER_ROLE
         Role userRole = roleService.findById(1L);
@@ -145,18 +212,18 @@ public class ClientServiceImpl implements ClientService {
         // adding the passager to the client
         passager.setClient(client);
 
-        create(client);
-        passagerService.create(passager);
+        clientRepository.save(client);
+        passagerRepository.save(passager);
         return ResponseEntity.ok(new ClientDTO(client));
     }
 
     @Override
     public Boolean passagerAddedByClient(Long clientId, Long passagerId) {
-        return clientRepository.passagerAddedByClient(passagerId, clientId);
+        return clientRepository.passagerAddedByClient(clientId, passagerId);
     }
 
     @Override
-    @Cacheable(value = "clientIdCache", key = "#principal.name")
+    @Cacheable(value = "ClientEntityCache", key = "#principal.name")
     public Client getFromPrincipal(Principal principal) {
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(principal.getName());
         if (userDetails == null) {

@@ -30,20 +30,23 @@
     <tbody>
     <tr th:each="vol : ${vols}">
       <td th:text="${vol.id}">1</td>
-      <td th:text="${vol.aeroportDepart != null ? vol.aeroportDepart.nom : 'N/A'}"></td>
-      <td th:text="${vol.aeroportArrive != null ? vol.aeroportArrive.nom : 'N/A'}"></td>
-      <td th:text="${vol.avion != null ? vol.avion.model : 'N/A'}"></td>
+      <td th:text="${aeroportsMap.containsKey(vol.aeroportDepartId) ? aeroportsMap.get(vol.aeroportDepartId).nom : 'N/A'}"></td>
+      <td th:text="${aeroportsMap.containsKey(vol.aeroportArriveId) ? aeroportsMap.get(vol.aeroportArriveId).nom : 'N/A'}"></td>
+      <td th:text="${avionsMap.containsKey(vol.avionId) ? avionsMap.get(vol.avionId).model : 'N/A'}"></td>
       <td th:text="${vol.dateDepart}"></td>
       <td th:text="${vol.heureDepart}"></td>
       <td th:text="${vol.dateArrive}"></td>
       <td th:text="${vol.heureArrive}"></td>
       <td th:text="${vol.prix}"></td>
-      <td th:text="${vol.etat}"></td> <td>
-      <a th:href="@{/admin/vol/edit/{id}(id=${vol.id})}" class="btn btn-sm btn-warning">Modifier</a>
-      <a th:href="@{/admin/vol/delete/{id}(id=${vol.id})}"
-         onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce vol ?')"
-         class="btn btn-sm btn-danger">Supprimer</a>
-    </td>
+      <td th:text="${vol.etat}"></td>
+      <td>
+        <a th:href="@{/admin/vol/edit/{id}(id=${vol.id})}" class="btn btn-sm btn-warning">Modifier</a>
+        <form th:action="@{/admin/vol/delete/{id}(id=${vol.id})}" method="post" style="display:inline;">
+          <input type="hidden" name="_method" value="delete" />
+          <button type="submit" class="btn btn-sm btn-danger"
+                  onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce vol ?')">Supprimer</button>
+        </form>
+      </td>
     </tr>
     <tr th:if="${#lists.isEmpty(vols)}">
       <td colspan="11" class="text-center">Aucun vol trouvé.</td>

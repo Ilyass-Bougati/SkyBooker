@@ -36,13 +36,13 @@ public class VolDTO {
     private double prix;
 
     @NotNull
-    private long aeroportDepartId;
+    private Long aeroportDepartId;
 
     @NotNull
-    private long aeroportArriveId;
+    private Long aeroportArriveId;
 
     @NotNull
-    private long avionId;
+    private Long avionId;
 
     public VolDTO(Vol vol){
         this.id = vol.getId();

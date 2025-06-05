@@ -1,7 +1,11 @@
 package skybooker.server.service;
 
+import skybooker.server.DTO.CategorieDTO;
 import skybooker.server.entity.Categorie;
 
-public interface CategorieService extends CrudService<Categorie, Long> {
-    Categorie findByNom(String name);
+import java.util.List;
+
+public interface CategorieService extends CrudDTO<CategorieDTO, Long>, CrudService<Categorie, Long> {
+    CategorieDTO findByNom(String name);
+    List<CategorieDTO> getAllCategories();
 }

@@ -7,15 +7,23 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import skybooker.server.entity.Vol;
-import skybooker.server.entity.Aeroport;
-import skybooker.server.entity.Avion;
+import skybooker.server.DTO.AeroportDTO;
+import skybooker.server.DTO.AvionDTO;
+import skybooker.server.DTO.VolDTO;
 import skybooker.server.enums.EtatVol;
 import skybooker.server.service.VolService;
 import skybooker.server.service.AeroportService;
 import skybooker.server.service.AvionService;
 
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.sql.Time;
+
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/vol")
@@ -32,55 +40,90 @@ public class AdminVolController {
         this.avionService = avionService;
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        timeFormat.setLenient(false);
+        binder.registerCustomEditor(Time.class, new CustomDateEditor(timeFormat, true));
+    }
+
+
+    private void addCommonDataToModel(Model model) {
+        model.addAttribute("aeroports", aeroportService.findAllDTO());
+        model.addAttribute("avions", avionService.findAllDTO());
+        model.addAttribute("etatsVol", EtatVol.values());
+    }
+
+    private void addLookupMapsToModel(Model model) {
+        Map<Long, AeroportDTO> aeroportsMap = aeroportService.findAllDTO().stream()
+                .collect(Collectors.toMap(AeroportDTO::getId, a -> a));
+        model.addAttribute("aeroportsMap", aeroportsMap);
+
+        Map<Long, AvionDTO> avionsMap = avionService.findAllDTO().stream()
+                .collect(Collectors.toMap(AvionDTO::getId, a -> a));
+        model.addAttribute("avionsMap", avionsMap);
+    }
+
     @GetMapping
     public String listVols(Model model) {
-        List<Vol> vols = volService.findAll();
-        model.addAttribute("vols", vols);
+        List<VolDTO> volsDTO = volService.findAllDTO();
+        model.addAttribute("vols", volsDTO);
+        addLookupMapsToModel(model);
         model.addAttribute("pageTitle", "Gérer les Vols");
         return "admin/vol";
     }
 
     @GetMapping("/add")
     public String addVol(Model model) {
-        model.addAttribute("vol", new Vol());
-        model.addAttribute("aeroports", aeroportService.findAll());
-        model.addAttribute("avions", avionService.findAll());
-        model.addAttribute("etatsVol", EtatVol.values());
+        model.addAttribute("volDTO", new VolDTO());
+        addCommonDataToModel(model);
         model.addAttribute("pageTitle", "Ajouter un Vol");
         return "admin/add-edit-vol";
     }
 
     @PostMapping("/save")
-    public String saveVol(@Valid @ModelAttribute("vol") Vol vol, BindingResult result,
+    public String saveVol(@Valid @ModelAttribute("volDTO") VolDTO volDTO, BindingResult result,
                           Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("aeroports", aeroportService.findAll());
-            model.addAttribute("avions", avionService.findAll());
-            model.addAttribute("pageTitle", (vol.getId() == 0 ? "Ajouter" : "Modifier") + " un Vol");
+            addCommonDataToModel(model);
+            model.addAttribute("pageTitle", (volDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Vol");
             return "admin/add-edit-vol";
         }
-        volService.create(vol);
-        redirectAttributes.addFlashAttribute("successMessage", "Vol sauvegardé avec succès !");
-        return "redirect:/admin/vol";
+        try {
+            if (volDTO.getId() == 0) {
+                volService.createDTO(volDTO);
+            } else {
+                volService.updateDTO(volDTO);
+            }
+            redirectAttributes.addFlashAttribute("successMessage", "Vol sauvegardé avec succès !");
+            return "redirect:/admin/vol";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la sauvegarde du Vol: " + e.getMessage());
+            addCommonDataToModel(model);
+            model.addAttribute("pageTitle", (volDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Vol");
+            return "admin/add-edit-vol";
+        }
     }
 
     @GetMapping("/edit/{id}")
     public String editVol(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        Vol vol = volService.findById(id);
-        if (vol != null) {
-            model.addAttribute("vol", vol);
-            model.addAttribute("aeroports", aeroportService.findAll());
-            model.addAttribute("avions", avionService.findAll());
-            model.addAttribute("etatsVol", EtatVol.values());
+        try {
+            VolDTO volDTO = volService.findDTOById(id);
+            model.addAttribute("volDTO", volDTO);
+            addCommonDataToModel(model);
             model.addAttribute("pageTitle", "Modifier un Vol");
             return "admin/add-edit-vol";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Vol n'existe pas ! :" + id);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Vol non trouvé : " + e.getMessage());
             return "redirect:/admin/vol";
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteVol(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             volService.deleteById(id);

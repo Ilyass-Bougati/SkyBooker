@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import skybooker.server.DTO.RegisterRequestDTO;
 import skybooker.server.utils.Auth;
 
+import java.time.LocalDate;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -47,7 +49,7 @@ public class AuthControllerTest {
         requestContent.setPassword("123");
         requestContent.setAdresse("adresseAmine");
         requestContent.setCIN("cinAmine");
-        requestContent.setAge(5);
+        requestContent.setDateOfBirth(LocalDate.of(2000, 1, 1));
         requestContent.setTelephone("0000");
         requestContent.setPrenom("Amine");
         requestContent.setNom("Sidki");

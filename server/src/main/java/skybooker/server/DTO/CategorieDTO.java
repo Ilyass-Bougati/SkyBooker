@@ -9,10 +9,10 @@ import lombok.Setter;
 import skybooker.server.entity.Categorie;
 
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategorieDTO {
 
     private long id;

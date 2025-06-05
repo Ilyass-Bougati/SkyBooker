@@ -3,10 +3,14 @@ package skybooker.server.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import skybooker.server.DTO.PassagerDTO;
 import skybooker.server.entity.Client;
+import skybooker.server.entity.Passager;
+import skybooker.server.entity.Reservation;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
@@ -14,7 +18,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     void deleteByEmail(String email);
     Optional<Client> findByEmail(String email);
 
-    @Query("select count(p) > 0 from Passager p where p.client.id = :clientId and p.id = :passagerId")
+    @Query("select case when count(p) > 0 then true else false end " +
+            "from Passager p where p.client.id = :clientId and p.id = :passagerId")
     Boolean passagerAddedByClient(Long clientId, Long passagerId);
 
     @Query("SELECT c.id, COUNT(r.id), SUM(r.prixTotal), c.email " +
@@ -32,4 +37,14 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             "GROUP BY c.id, c.email " +
             "ORDER BY c.email")
     List<Object[]> countPassengersPerClient();
+
+    @Query("SELECT r FROM Reservation r WHERE r.client.id=:clientId ORDER BY r.reservedAt DESC")
+    Set<Reservation> getReservations(long clientId);
+
+    @Query("SELECT p FROM Passager p WHERE p.client.id=:clientId")
+    List<Passager> getPassagers(long clientId);
+
+    @Query("select case when count(r) > 0 then true else false end " +
+            "from Reservation r where r.client.id=:clientId and r.id=:reservationId")
+    boolean clientMadeReservation(long clientId, long reservationId);
 }

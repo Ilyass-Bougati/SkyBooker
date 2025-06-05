@@ -1,11 +1,15 @@
 package skybooker.server.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.entity.Vol;
+import skybooker.server.enums.EtatVol;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -61,4 +65,12 @@ public interface VolRepository extends JpaRepository<Vol, Long> {
             "GROUP BY v.id")
     List<Object[]> countPassengersAndSumCapacityByYearAndQuarter(@Param("year") Integer year, @Param("quarter") Integer quarter);
 
+    @Transactional
+    @Modifying
+    @Query("delete from Vol vol where vol.dateArrive < :oneYearAgo")
+    void purge(LocalDateTime oneYearAgo);
+
+    @Query("SELECT vol FROM Vol vol WHERE vol.aeroportArrive.ville.id=:villeArriveeId " +
+            "AND vol.aeroportDepart.ville.id=:villeDepartId AND vol.etat='SCHEDULED'")
+    List<Vol> findByVilles(Long villeDepartId, Long villeArriveeId);
 }

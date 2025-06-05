@@ -5,7 +5,7 @@ public class Validator {
     private static final String nameRegex = "^[A-Za-z]+$";
 
     public static boolean checkEmailValidity(String email) {
-        return email.matches(emailRegex);
+        return email.matches(emailRegex) && email.length() <= 320;
     }
 
     public static boolean checkNameValidity(String name) {

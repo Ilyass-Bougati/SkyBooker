@@ -7,90 +7,111 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import skybooker.server.entity.Avion;
-import skybooker.server.entity.CompanieAerienne;
+import skybooker.server.DTO.AvionDTO;
+import skybooker.server.DTO.CompanieAerienneDTO;
+import skybooker.server.DTO.CapaciteDTO;
+import skybooker.server.DTO.ClasseDTO;
 import skybooker.server.service.AvionService;
 import skybooker.server.service.CompanieAerienneService;
+import skybooker.server.service.CapaciteService;
+import skybooker.server.service.ClasseService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/avion")
 public class AdminAvionController {
-
     private final AvionService avionService;
     private final CompanieAerienneService companieAerienneService;
+    private final CapaciteService capaciteService;
+    private final ClasseService classeService;
 
     @Autowired
-    public AdminAvionController(AvionService avionService, CompanieAerienneService companieAerienneService) {
+    public AdminAvionController(AvionService avionService, CompanieAerienneService companieAerienneService,
+                                CapaciteService capaciteService, ClasseService classeService) {
         this.avionService = avionService;
         this.companieAerienneService = companieAerienneService;
+        this.capaciteService = capaciteService;
+        this.classeService = classeService;
+    }
+
+    private void addCompanieAerienneListToModel(Model model) {
+        List<CompanieAerienneDTO> companies = companieAerienneService.findAllDTO();
+        model.addAttribute("companieAeriennes", companies);
+    }
+
+    private void addClasseMapToModel(Model model) {
+        Map<Long, ClasseDTO> classesMap = classeService.findAllDTO().stream()
+                .collect(Collectors.toMap(ClasseDTO::getId, c -> c));
+        model.addAttribute("classesMap", classesMap);
     }
 
     @GetMapping
     public String listAvions(Model model) {
-        List<Avion> avions = avionService.findAll();
-        model.addAttribute("avions", avions);
+        List<AvionDTO> avionsDTO = avionService.findAllDTO();
+        model.addAttribute("avions", avionsDTO);
+
+        Map<Long, CompanieAerienneDTO> companieAeriennesMap = companieAerienneService.findAllDTO().stream()
+                .collect(Collectors.toMap(CompanieAerienneDTO::getId, c -> c));
+        model.addAttribute("companieAeriennesMap", companieAeriennesMap);
+
         model.addAttribute("pageTitle", "Gérer les Avions");
         return "admin/avion";
     }
 
     @GetMapping("/add")
     public String addAvion(Model model) {
-        model.addAttribute("avion", new Avion());
-        model.addAttribute("companieAeriennes", companieAerienneService.findAll());
+        model.addAttribute("avionDTO", new AvionDTO());
+        addCompanieAerienneListToModel(model);
         model.addAttribute("pageTitle", "Ajouter un Avion");
         return "admin/add-edit-avion";
     }
 
     @PostMapping("/save")
-    public String saveAvion(@Valid @ModelAttribute("avion") Avion avion, BindingResult result,
+    public String saveAvion(@Valid @ModelAttribute("avionDTO") AvionDTO avionDTO, BindingResult result,
                             Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("companieAeriennes", companieAerienneService.findAll());
-            model.addAttribute("pageTitle", (avion.getId() == 0 ? "Ajouter" : "Modifier") + " un Avion");
+            addCompanieAerienneListToModel(model);
+            model.addAttribute("pageTitle", (avionDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Avion");
             return "admin/add-edit-avion";
         }
-        avionService.create(avion);
+        if (avionDTO.getId() == 0) {
+            avionService.createDTO(avionDTO);
+        } else {
+            avionService.updateDTO(avionDTO);
+        }
         redirectAttributes.addFlashAttribute("successMessage", "Avion sauvegardé avec succès !");
-        return "redirect:/admin/avion/edit/" + avion.getId();
+        return "redirect:/admin/avion";
     }
 
     @GetMapping("/edit/{id}")
     public String editAvion(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        Avion avion = avionService.findById(id);
-        if (avion != null) {
-            model.addAttribute("avion", avion);
-            model.addAttribute("companieAeriennes", companieAerienneService.findAll());
+        try {
+            AvionDTO avionDTO = avionService.findDTOById(id);
+            model.addAttribute("avionDTO", avionDTO);
+            addCompanieAerienneListToModel(model);
+
+            List<CapaciteDTO> capacites = capaciteService.findDTOsByAvionId(id);
+            model.addAttribute("capacites", capacites);
+            addClasseMapToModel(model);
+
             model.addAttribute("pageTitle", "Modifier un Avion");
             return "admin/add-edit-avion";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Avion n'existe pas ! :" + id);
-            return "redirect:/admin/avion";
-        }
-    }
-
-    @GetMapping("/details/{id}")
-    public String viewAvionDetails(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        Avion avion = avionService.findById(id);
-        if (avion != null) {
-            model.addAttribute("avion", avion);
-            model.addAttribute("pageTitle", "Détails de l'Avion");
-            return "admin/view-avion";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Avion n'existe pas ! :" + id);
-            return "redirect:/admin/avion";
-        }
-    }
-
-
-    @GetMapping("/delete/{id}")
-    public String deleteAvion(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
-        try {
-            avionService.deleteById(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Avion supprimé avec succès !");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression de l'Avion :" + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Avion non trouvé avec ID: " + id);
+            return "redirect:/admin/avion";
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteAvion(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try{
+            avionService.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage","Avion supprimé avec succès !");
+        } catch (Exception e){
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression de l'avion: " + e.getMessage());
         }
         return "redirect:/admin/avion";
     }

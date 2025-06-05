@@ -15,12 +15,11 @@
       <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger">Email Error</div>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3" th:if="${client.id == 0}">
       <label for="password" class="form-label">Mot de passe:</label>
-      <input type="password" th:field="*{password}" id="password" class="form-control" />
+      <input type="password" name="password" id="password" class="form-control" />
       <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger">Mot de passe Error</div>
     </div>
-
     <div class="mb-3">
       <label for="telephone" class="form-label">Téléphone:</label>
       <input type="text" th:field="*{telephone}" id="telephone" class="form-control" />
@@ -35,13 +34,12 @@
 
     <div class="mb-3">
       <label for="role" class="form-label">Rôle:</label>
-      <select th:field="*{role}" id="role" class="form-control">
-        <option th:each="roleOption : ${roles}"
-                th:value="${roleOption.id}"
-                th:text="${roleOption.nom}"
-                th:selected="${client.role != null && client.role.id == roleOption.id}"></option>
+      <select th:field="*{role.id}" id="role" class="form-control"> <option th:each="roleOption : ${roles}"
+                                                                            th:value="${roleOption.id}"
+                                                                            th:text="${roleOption.nom}"
+                                                                            th:selected="${client.role != null && client.role.id == roleOption.id}"></option>
       </select>
-      <div th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-danger">Rôle Error</div>
+      <div th:if="${#fields.hasErrors('role.id')}" th:errors="*{role.id}" class="text-danger">Rôle Error</div>
     </div>
 
     <div th:if="${client.id != 0}">
@@ -72,7 +70,6 @@
         </tbody>
       </table>
     </div>
-
 
     <button type="submit" class="btn btn-success">Sauvegarder Client</button>
     <a th:href="@{/admin/client}" class="btn btn-secondary">Annuler</a>

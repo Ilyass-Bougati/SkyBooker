@@ -7,12 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import skybooker.server.entity.Aeroport;
-import skybooker.server.entity.Ville;
+import skybooker.server.DTO.AeroportDTO;
+import skybooker.server.DTO.VilleDTO;
 import skybooker.server.service.AeroportService;
 import skybooker.server.service.VilleService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/aeroports")
@@ -27,63 +29,71 @@ public class AdminAeroportController {
     }
 
     private void addVilleListToModel(Model model) {
-        List<Ville> villes = villeService.findAll();
+        List<VilleDTO> villes = villeService.findAllDTO();
         model.addAttribute("villes", villes);
+    }
+
+    private void addVilleMapToModel(Model model) {
+        Map<Long, VilleDTO> villesMap = villeService.findAllDTO().stream()
+                .collect(Collectors.toMap(VilleDTO::getId, v -> v));
+        model.addAttribute("villesMap", villesMap);
     }
 
     @GetMapping
     public String listAeroports(Model model) {
-        List<Aeroport> aeroports = aeroportService.findAll();
-        model.addAttribute("aeroports", aeroports);
-        model.addAttribute("pageTitle", "Gerer les Aeroports");
+        List<AeroportDTO> aeroportsDTO = aeroportService.findAllDTO();
+        model.addAttribute("aeroports", aeroportsDTO);
+        addVilleMapToModel(model);
+        model.addAttribute("pageTitle", "Gérer les Aéroports");
         return "admin/aeroports";
     }
 
     @GetMapping("/add")
     public String addAeroport(Model model) {
-        model.addAttribute("aeroport", new Aeroport());
+        model.addAttribute("aeroportDTO", new AeroportDTO());
         addVilleListToModel(model);
         model.addAttribute("pageTitle", "Ajouter un Aéroport");
         return "admin/add-edit-aeroport";
     }
 
     @PostMapping("/save")
-    public String saveAeroport(@Valid @ModelAttribute("aeroport") Aeroport aeroport, BindingResult result,
+    public String saveAeroport(@Valid @ModelAttribute("aeroportDTO") AeroportDTO aeroportDTO, BindingResult result,
                                Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             addVilleListToModel(model);
-            model.addAttribute("pageTitle", (aeroport.getId() == 0 ? "Ajouter" : "Modifier") + " un Aéroport");
+            model.addAttribute("pageTitle", (aeroportDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Aéroport");
             return "admin/add-edit-aeroport";
         }
-        aeroportService.create(aeroport);
+        if (aeroportDTO.getId() == 0) {
+            aeroportService.createDTO(aeroportDTO);
+        } else {
+            aeroportService.updateDTO(aeroportDTO);
+        }
         redirectAttributes.addFlashAttribute("successMessage", "Aéroport sauvegardé avec succès !");
         return "redirect:/admin/aeroports";
     }
 
     @GetMapping("/edit/{id}")
     public String editAeroport(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
-        Aeroport aeroport = aeroportService.findById(id);
-        if (aeroport != null) {
-            if (aeroport.getVille() == null) {
-                aeroport.setVille(new Ville());
-            }
-            model.addAttribute("aeroport", aeroport);
+        try {
+            AeroportDTO aeroportDTO = aeroportService.findDTOById(id);
+            model.addAttribute("aeroportDTO", aeroportDTO);
             addVilleListToModel(model);
-            model.addAttribute("pageTitle", "Modifier un Aeroport");
+            model.addAttribute("pageTitle", "Modifier un Aéroport");
             return "admin/add-edit-aeroport";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Aeroport not found with ID: " + id);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Aéroport non trouvé avec ID: " + id);
             return "redirect:/admin/aeroports";
         }
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteAeroport(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try{
             aeroportService.deleteById(id);
-            redirectAttributes.addFlashAttribute("successMessage","Aeroport deleted successfully!");
+            redirectAttributes.addFlashAttribute("successMessage","Aéroport supprimé avec succès !");
         } catch (Exception e){
-            redirectAttributes.addFlashAttribute("errorMessage", "Error deleting ville: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression de l'aéroport: " + e.getMessage());
         }
         return "redirect:/admin/aeroports";
     }

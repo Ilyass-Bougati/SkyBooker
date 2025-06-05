@@ -59,28 +59,26 @@ INSERT INTO clients (role_id, adresse, email, password, telephone) VALUES
 
 
 -- Populate Passengers of various categories
-INSERT INTO passagers (nom, prenom, cin, age, categorie_id, client_id) VALUES
-('Durand', 'Jacques', 'FR567890', 52, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'jacques.durand@email.com')),
-('Wilson', 'Emma', 'UK123456', 24, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'emma.wilson@email.com')),
-('Brown', 'Robert', 'US789012', 99, (SELECT id FROM categories WHERE nom = 'Senior'), (SELECT id FROM clients WHERE email = 'robert.brown@email.com')),
-('Klein', 'Laura', 'DE345678', 43, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'laura.klein@email.com')),
-('Ricci', 'Alessio', 'IT901234', 20, (SELECT id FROM categories WHERE nom = 'Junior'), (SELECT id FROM clients WHERE email = 'alessio.ricci@email.com')),
-('Fernandez', 'Carlos', 'ES567890', 32, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'carlos.fernandez@email.com')),
-('Chen', 'Li', 'TH123789', 17, (SELECT id FROM categories WHERE nom = 'Student'), (SELECT id FROM clients WHERE email = 'li.chen@email.com')),
-('Al-Farsi', 'Mohammed', 'AE456012', 90, (SELECT id FROM categories WHERE nom = 'Senior'), (SELECT id FROM clients WHERE email = 'mohammed.alfarsi@email.com')),
-('Nakamura', 'Akira', 'JP789345', 55, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'akira.nakamura@email.com')),
-('Benali', 'Fatima', 'MA012678', 18, (SELECT id FROM categories WHERE nom = 'Junior'), (SELECT id FROM clients WHERE email = 'fatima.benali@email.com')),
-('Kim', 'Min-Ji', 'KR345901', 21, (SELECT id FROM categories WHERE nom = 'Student'), (SELECT id FROM clients WHERE email = 'li.chen@email.com')),
-('Silva', 'Maria', 'BR012345', 22, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'robert.brown@email.com')),
-('Johnson', 'David', 'US567890', 40, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'robert.brown@email.com')),
-('Lee', 'Soo-Jin', 'KR123456', 12, (SELECT id FROM categories WHERE nom = 'Junior'), (SELECT id FROM clients WHERE email = 'emma.wilson@email.com')),
--- Adding passengers for new clients needed for reservations
-('Rossi', 'Marco', 'IT112233', 45, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'marco.rossi@email.com')),
-('Smith', 'John', 'US998877', 38, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'john.smith@email.com')),
-('Wang', 'Chai', 'CN776655', 29, (SELECT id FROM categories WHERE nom = 'Student'), (SELECT id FROM clients WHERE email = 'chai.wang@email.com')),
-('Schmidt', 'Anna', 'DE101010', 33, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'anna.schmidt@email.com')),
-('Hassan', 'Omar', 'EG202020', 50, (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'omar.hassan@email.com'));
-
+INSERT INTO passagers (nom, prenom, cin, age, date_of_birth, categorie_id, client_id) VALUES
+('Durand', 'Jacques', 'FR567890', 52, '1973-01-15', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'jacques.durand@email.com')),
+('Wilson', 'Emma', 'UK123456', 24, '2001-07-20', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'emma.wilson@email.com')),
+('Brown', 'Robert', 'US789012', 99, '1926-03-10', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'robert.brown@email.com')),
+('Klein', 'Laura', 'DE345678', 43, '1982-11-03', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'laura.klein@email.com')),
+('Ricci', 'Alessio', 'IT901234', 20, '2005-02-28', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'alessio.ricci@email.com')),
+('Fernandez', 'Carlos', 'ES567890', 32, '1993-09-01', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'carlos.fernandez@email.com')),
+('Chen', 'Li', 'TH123789', 17, '2008-05-12', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'li.chen@email.com')),
+('Al-Farsi', 'Mohammed', 'AE456012', 90, '1935-06-25', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'mohammed.alfarsi@email.com')),
+('Nakamura', 'Akira', 'JP789345', 55, '1970-04-02', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'akira.nakamura@email.com')),
+('Benali', 'Fatima', 'MA012678', 18, '2007-08-19', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'fatima.benali@email.com')),
+('Kim', 'Min-Ji', 'KR345901', 21, '2004-10-07', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'li.chen@email.com')),
+('Silva', 'Maria', 'BR012345', 22, '2003-03-14', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'robert.brown@email.com')),
+('Johnson', 'David', 'US567890', 40, '1985-12-01', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'robert.brown@email.com')),
+('Lee', 'Soo-Jin', 'KR123456', 12, '2013-09-22', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'emma.wilson@email.com')),
+('Rossi', 'Marco', 'IT112233', 45, '1980-06-30', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'marco.rossi@email.com')),
+('Smith', 'John', 'US998877', 38, '1987-04-25', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'john.smith@email.com')),
+('Wang', 'Chai', 'CN776655', 29, '1996-02-10', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'chai.wang@email.com')),
+('Schmidt', 'Anna', 'DE101010', 33, '1992-07-05', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'anna.schmidt@email.com')),
+('Hassan', 'Omar', 'EG202020', 50, '1975-01-20', (SELECT id FROM categories WHERE nom = 'Standard'), (SELECT id FROM clients WHERE email = 'omar.hassan@email.com'));
 
 
 -- Populate Airports
@@ -199,19 +197,19 @@ INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, pr
 
 -- Dubai (DXB) to Tokyo (HND) - Arrival time is local Tokyo time
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-21', '2025-05-22', '23:45:00', '15:30:00', 'BOARDING', 1800.00, -- Departure 23:45 Dubai, Arrival 15:30 next day Tokyo
+('2025-05-21', '2025-05-22', '23:45:00', '15:30:00', 'SCHEDULED', 1800.00, -- Departure 23:45 Dubai, Arrival 15:30 next day Tokyo
 (SELECT id FROM aeroports WHERE iata_code = 'DXB'),
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM avions WHERE model = 'Airbus A380-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'EK'))),
 
-('2025-05-24', '2025-05-24', '01:30:00', '17:15:00', 'BOARDING', 1750.00, -- Departure 01:30 Tokyo, Arrival 17:15 same day Dubai (after time zone conversion and flight)
+('2025-05-24', '2025-05-24', '01:30:00', '17:15:00', 'SCHEDULED', 1750.00, -- Departure 01:30 Tokyo, Arrival 17:15 same day Dubai (after time zone conversion and flight)
 (SELECT id FROM aeroports WHERE iata_code = 'HND'),
 (SELECT id FROM aeroports WHERE iata_code = 'DXB'),
 (SELECT id FROM avions WHERE model = 'Airbus A380-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'EK')));
 
 -- London (LHR) to Berlin (BER)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-22', '2025-05-22', '06:45:00', '09:30:00', 'BOARDING', 320.00,
+('2025-05-22', '2025-05-22', '06:45:00', '09:30:00', 'SCHEDULED', 320.00,
 (SELECT id FROM aeroports WHERE iata_code = 'LHR'),
 (SELECT id FROM aeroports WHERE iata_code = 'BER'),
 (SELECT id FROM avions WHERE model = 'Airbus A321neo' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'LH'))),
@@ -235,19 +233,19 @@ INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, pr
 
 -- Madrid (MAD) to Casablanca (CMN)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-21', '2025-05-21', '11:40:00', '13:20:00', 'DELAYED', 410.00,
+('2025-05-21', '2025-05-21', '11:40:00', '13:20:00', 'SCHEDULED', 410.00,
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM aeroports WHERE iata_code = 'CMN'),
 (SELECT id FROM avions WHERE model = 'Airbus A350-900' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'QR'))),
 
-('2025-05-22', '2025-05-22', '15:30:00', '17:10:00', 'DELAYED', 395.00,
+('2025-05-22', '2025-05-22', '15:30:00', '17:10:00', 'SCHEDULED', 395.00,
 (SELECT id FROM aeroports WHERE iata_code = 'CMN'),
 (SELECT id FROM aeroports WHERE iata_code = 'MAD'),
 (SELECT id FROM avions WHERE model = 'Airbus A350-900' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'QR')));
 
 -- Singapore (SIN) to Sydney (SYD)
 INSERT INTO vols (date_depart, date_arrive, heure_depart, heure_arrive, etat, prix, aeroport_depart_id, aeroport_arrive_id, avion_id) VALUES
-('2025-05-24', '2025-05-25', '21:15:00', '07:45:00', 'SCHEDULED', 980.00,
+('2025-05-24', '2020-05-25', '21:15:00', '07:45:00', 'SCHEDULED', 980.00,
 (SELECT id FROM aeroports WHERE iata_code = 'SIN'),
 (SELECT id FROM aeroports WHERE iata_code = 'SYD'),
 (SELECT id FROM avions WHERE model = 'Boeing 737-800' AND companie_aerienne_id = (SELECT id FROM companie_aerienne WHERE iata_code = 'SQ'))),
