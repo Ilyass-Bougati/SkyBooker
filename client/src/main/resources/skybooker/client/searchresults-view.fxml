@@ -1,90 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="600" prefWidth="825" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.SearchresultsView">
-    <HBox fx:id="page">
-        <VBox prefWidth="62.0">
-            <HBox>
-                <Button maxHeight="57" maxWidth="57" mnemonicParsing="false" onAction="#onBackButton" prefHeight="57" prefWidth="57" style="-fx-effect: dropshadow(gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); ;-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-cursor: hand;" textFill="#FFFFFF">
-                    <graphic>
-                        <ImageView fitHeight="30" fitWidth="30" rotate="90" style="-fx-opacity: 0.5;">
-                            <Image url="@assets/Arrow_icon.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </HBox>
-            <Rectangle fill="TRANSPARENT" height="346.0" />
-            <VBox alignment="BOTTOM_LEFT" prefWidth="98.0">
-                <Button maxHeight="57" maxWidth="57" mnemonicParsing="false" prefHeight="57" prefWidth="57" style="-fx-padding: 13.5 13.5 13.5 13.5 ; -fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: white; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0); -fx-cursor: hand;" textFill="#FFFFFF">
-                    <graphic>
-                        <ImageView fitHeight="30" fitWidth="30" opacity="50">
-                            <Image url="@assets/logout_icon.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </VBox>
-        </VBox>
-        <VBox fx:id="contentContainer" opacity="0"  alignment="CENTER_RIGHT" maxWidth="728" minWidth="728">
-            <HBox alignment="CENTER" maxWidth="728" minWidth="708" prefWidth="678.0">
-                <VBox fx:id="content" alignment="CENTER">
-                    <VBox style="-fx-background-color: rgb(255,255,255) ; -fx-border-radius: 12 ; -fx-background-radius: 12 ; -fx-effect: dropshadow( gaussian ,rgba(0,0,0,0.5) , 10 , 0 , 0 , 0)">
-                        <padding>
-                            <Insets bottom="10" left="10" right="10" top="10" />
-                        </padding>
-                        <HBox alignment="CENTER">
-                            <Label text="Passengers : ">
-                                <font>
-                                    <Font name="Roboto Light" size="22.5" />
-                                </font>
-                            </Label>
-                            <Button fx:id="contextMenuTrigger" style="-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;" text="0">
-                                <font>
-                                    <Font name="Roboto Light" />
-                                </font>
-                            </Button>
-                            <Rectangle fill="TRANSPARENT" width="30" />
-                            <Label text="Class : ">
-                                <font>
-                                    <Font name="Roboto Light" size="22.5" />
-                                </font>
-                            </Label>
-                            <ChoiceBox fx:id="classes" style=" -fx-pref-width: 180 ;-fx-background-color: white ; -fx-font-size: 22.5 ; -fx-font-weight: bold ;-fx-border-radius: 12  ; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12 ;" value="Economy" />
-                        </HBox>
-                        <Rectangle height="21.75" />
-                        <HBox alignment="CENTER">
-                            <padding>
-                                <Insets left="9" right="9" />
-                            </padding>
-                            <Rectangle fill="TRANSPARENT" width="26.25" />
-                            <DatePicker fx:id="date" maxHeight="51" maxWidth="120" promptText="Date" style="-fx-font-weight: bold ;-fx-font-size: 22.5 ; -fx-font-family: 'Roboto Light'; -fx-border-radius:  12; -fx-effect: innershadow( gaussian, rgba(0,0,0,0.3), 10, 0, 2, 2); -fx-background-radius: 12;" styleClass="datepicker" stylesheets="@style.css" />
-                            <Rectangle width="56.0" />
-                            <Button mnemonicParsing="false" prefHeight="51" prefWidth="126" style="-fx-font-size:26.25; -fx-border-radius: 12; -fx-background-radius: 12 ;-fx-background-color: rgba(0,86,216,0.5); -fx-font-weight: bold; -fx-cursor: hand;" text="Find" textFill="#FFFFFF">
-                                <font>
-                                    <Font name="Roboto Light" size="26.25" />
-                                </font>
-                            </Button>
-                        </HBox>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="skybooker.client.controller.SearchresultsController"
+      style="-fx-background-color: white;"
+      prefHeight="600.0" prefWidth="825.0">
+        <fx:include source="sidebar-template.fxml"/>
+        <VBox alignment="CENTER_LEFT" spacing="37">
+        <padding>
+            <Insets left="26" right="26" />
+        </padding>
+        <Text fill="rgba(0,0,0,0.8)" style="-fx-font-weight: bold" text="Search results :">
+            <font>
+                <Font name="Roboto" size="40" />
+            </font>
+        </Text>
+        <Separator />
+        <VBox alignment="TOP_CENTER" minWidth="572" maxWidth="572" minHeight="418" maxHeight="418" spacing="15" style="-fx-background-color: white;
+                                                                                                                              -fx-background-radius: 12 ;
+                                                                                                                              -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.5),10,0,0,3)">
+            <padding>
+                <Insets top="16" left="16" right="16" />
+            </padding>
+            <VBox alignment="CENTER" spacing="10">
+                <HBox>
+                    <VBox prefWidth="244">
+                        <StackPane maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" >
+                            <ImageView opacity="0.5">
+                                <Image url="@assets/icons/Back.png" />
+                            </ImageView>
+                            <Button onAction="#onReturnButton" opacity="0" maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" style="-fx-cursor: hand;" />
+                        </StackPane>
                     </VBox>
-                </VBox>
-            </HBox>
-            <Rectangle height="20" />
-            <HBox alignment="CENTER" prefWidth="776.0">
-                <ScrollPane fx:id="scrollable" hbarPolicy="NEVER" maxHeight="444" prefHeight="308.0" prefWidth="708.0" style="-fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-background-color: white ;" stylesheets="@style.css" vbarPolicy="ALWAYS">
-                    <padding>
-                        <Insets right="20" />
-                    </padding>
-                    <VBox fx:id="container" alignment="CENTER" />
-                </ScrollPane>
-            </HBox>
+                    <VBox prefWidth="245">
+                        <Text text="Filters" style="-fx-font-weight: bold">
+                            <font>
+                                <Font name="Roboto" size="15" />
+                            </font>
+                        </Text>
+                    </VBox>
+                </HBox>
+                <HBox spacing="6" >
+                    <ChoiceBox value="Airline"  style="-fx-text-alignment: center;
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ;
+                                            -fx-font-family: 'Roboto Light' ;
+                                            -fx-font-size: 15"
+                               minWidth="135" maxWidth="135"
+                               minHeight="31" maxHeight="31"   >
+                    </ChoiceBox>
+                    <ChoiceBox value="Departure"  style="-fx-text-alignment: center;
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ;
+                                            -fx-font-family: 'Roboto Light' ;
+                                            -fx-font-size: 15"
+                               minWidth="135" maxWidth="135"
+                               minHeight="31" maxHeight="31"   >
+                    </ChoiceBox>
+                    <ChoiceBox value="Arrival"  style="-fx-text-alignment: center;
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ;
+                                            -fx-font-family: 'Roboto Light' ;
+                                            -fx-font-size: 15"
+                               minWidth="135" maxWidth="135"
+                               minHeight="31" maxHeight="31"   >
+                    </ChoiceBox>
+                    <ChoiceBox value="Price"  style="-fx-text-alignment: center;
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ;
+                                            -fx-font-family: 'Roboto Light' ;
+                                            -fx-font-size: 15"
+                               minWidth="135" maxWidth="135"
+                               minHeight="31" maxHeight="31"   >
+                    </ChoiceBox>
+                </HBox>
+            </VBox>
+            <Separator/>
+            <ScrollPane style="-fx-background-color: transparent" stylesheets="@style.css" minHeight="303" maxHeight="303" minWidth="500" maxWidth="500">
+                    <VBox>
+                        <StackPane>
+                            <HBox spacing="50" alignment="CENTER" minWidth="480" maxWidth="480">
+                                <Text text="Airline1">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                                <HBox spacing="20" alignment="CENTER">
+                                    <Text text="DEP">
+                                        <font>
+                                            <Font name="Roboto" size="15" />
+                                        </font>
+                                    </Text>
+                                    <Text text="00:00">
+                                        <font>
+                                            <Font name="Roboto" size="15" />
+                                        </font>
+                                    </Text>
+                                    <Text text="00:00">
+                                        <font>
+                                            <Font name="Roboto" size="15" />
+                                        </font>
+                                    </Text>
+                                    <Text text="ARR">
+                                        <font>
+                                            <Font name="Roboto" size="15" />
+                                        </font>
+                                    </Text>
+                                </HBox>
+                                <Text text="8888$">
+                                    <font>
+                                        <Font name="Roboto" size="15" />
+                                    </font>
+                                </Text>
+                            </HBox>
+                            <Button  onAction="#onFlightSelected" minHeight="50" maxHeight="50" minWidth="480" maxWidth="480" opacity="0" style="-fx-cursor: hand"/>
+                        </StackPane>
+                        <Separator/>
+                    </VBox>
+            </ScrollPane>
         </VBox>
-    </HBox>
-    <padding>
-        <Insets bottom="20" left="20" right="20" top="20" />
-    </padding>
-</VBox>
+    </VBox>
+</HBox>

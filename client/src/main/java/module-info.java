@@ -20,4 +20,8 @@ module skybooker.client {
     exports DTO;
     exports DTO.register;
     exports enums;
+    exports skybooker.client.controller;
+    opens skybooker.client.controller to javafx.fxml;
+    exports skybooker.client.utils;
+    opens skybooker.client.utils to javafx.fxml;
 }

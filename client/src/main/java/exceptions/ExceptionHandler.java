@@ -1,7 +1,7 @@
 package exceptions;
 
 import okhttp3.Response;
-import utils.GeneralUtils;
+import skybooker.client.utils.GeneralUtils;
 
 public class ExceptionHandler {
 
@@ -10,7 +10,7 @@ public class ExceptionHandler {
             case 400 -> new BadRequestException("Bad Request");
             case 401 -> {
                 try {
-                    GeneralUtils.loadView("hello-view.fxml");
+                    GeneralUtils.changeView("hello-view.fxml");
                 } catch (Exception _) {
                 }
                 yield new UnauthorizedException("Unauthorized");
