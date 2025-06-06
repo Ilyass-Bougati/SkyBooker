@@ -17,7 +17,7 @@ public class GeneralUtils {
             HelloApplication.getScene().setRoot(parent);
         }catch(IOException e)
         {
-            System.out.println("No such view");
+            System.out.println(viewName + " No such view");
         }
     }
 
@@ -28,7 +28,7 @@ public class GeneralUtils {
             HelloApplication.getScene().setRoot(parent);
         }catch(IOException e)
         {
-            System.out.println("No such view");
+            System.out.println(viewName + " No such view");
         }
     }
 
@@ -53,7 +53,7 @@ public class GeneralUtils {
             secondaryStage.show();
         }catch (IOException e)
         {
-            System.out.println("No such view");
+            System.out.println("Boook popup : No such view");
         }
     }
 

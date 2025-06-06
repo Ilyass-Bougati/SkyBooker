@@ -39,6 +39,7 @@ public class PreferencesController {
     private VBox scrollPaneBody ;
 
     public static boolean isComingFromBookPopup = false;
+    private List<ReservationDTO.PassagerData> chosenPassagers;
 
     @FXML
     protected void onReturnButton()
@@ -80,9 +81,9 @@ public class PreferencesController {
     private void initializePassengers()
     {
         // fetching the passagers
+        List<PassagerDTO> passagers;
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
-        List<PassagerDTO> passagers;
         try {
             String res = Client.get("/passager/");
             passagers = mapper.readValue(res, new TypeReference<>() {});
@@ -155,7 +156,7 @@ public class PreferencesController {
             secondaryStage.show();
         }catch (IOException e)
         {
-            System.out.println("No such view");
+            System.out.println("Passager editor No such view");
         }
     }
 }
