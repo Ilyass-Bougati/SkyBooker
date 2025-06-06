@@ -62,12 +62,12 @@
                         </VBox>
                     </HBox>
                     <ScrollPane minHeight="280" maxHeight="280" stylesheets="@style.css" style="-fx-background-color: transparent ;">
-                        <VBox alignment="CENTER" spacing="10" >
+                        <VBox fx:id="scrollPaneBody" alignment="CENTER" spacing="10" >
                             <padding>
                                 <Insets left="16" />
                             </padding>
                             <HBox alignment="CENTER" spacing="40">
-                                <CheckBox style="-fx-border-radius: 7 ; -fx-background-color: #EDEDED ;-fx-background-radius: 7"/>
+                                <CheckBox style="-fx-background-color: #EDEDED"/>
                                 <Text text="First Name">
                                     <font>
                                         <Font name="Roboto" size="20" />
