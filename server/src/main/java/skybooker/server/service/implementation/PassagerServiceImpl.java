@@ -99,6 +99,12 @@ public class PassagerServiceImpl implements PassagerService {
                 .stream().map(BilletDTO::new).toList();
     }
 
+    @Override
+    public List<PassagerDTO> findByClientId(Long clientId) {
+        return passagerRepository.findAllByClientId(clientId)
+                .stream().map(PassagerDTO::new).toList();
+    }
+
 
     @Override
     @Transactional(readOnly = true)

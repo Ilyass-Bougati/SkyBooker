@@ -33,9 +33,7 @@ public class PassagerController {
     @GetMapping("/")
     public ResponseEntity<List<PassagerDTO>> getAllPassager(Principal principal) {
         Client client = clientService.getFromPrincipal(principal);
-        Set<Passager> passagers = client.getPassagers();
-        List<PassagerDTO> passagerDTOs = passagers.stream().map(PassagerDTO::new).collect(Collectors.toList());
-        return ResponseEntity.ok(passagerDTOs);
+        return ResponseEntity.ok(passagerService.findByClientId(client.getId()));
     }
 
     @GetMapping("/{id}")
