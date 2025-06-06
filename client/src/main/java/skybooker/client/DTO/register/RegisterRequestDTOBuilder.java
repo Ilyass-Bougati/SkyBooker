@@ -1,4 +1,4 @@
-package DTO.register;
+package skybooker.client.DTO.register;
 
 public class RegisterRequestDTOBuilder {
     private static String email;

@@ -22,7 +22,7 @@
         <padding>
             <Insets top="25"/>
         </padding>
-        <TextField promptText="Email" style="
+        <TextField fx:id="email" promptText="Email" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
                                             -fx-background-radius: 12 ;
@@ -34,7 +34,7 @@
             </font>
         </TextField>
         <Rectangle height="14" />
-        <PasswordField promptText="Password" style="
+        <PasswordField fx:id="password" promptText="Password" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
                                             -fx-background-radius: 12 ;

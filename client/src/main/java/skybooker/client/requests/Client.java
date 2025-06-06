@@ -1,8 +1,8 @@
-package requests;
+package skybooker.client.requests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import exceptions.ExceptionHandler;
+import skybooker.client.exceptions.ExceptionHandler;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -30,11 +30,9 @@ public class Client {
                 if (res != null) {
                     token = res.string();
                     isLoggedIn = true;
-                } else {
-                    throw ExceptionHandler.getException(response);
                 }
             } else {
-                throw new IOException("Unexpected code " + response);
+                throw ExceptionHandler.getException(response);
             }
         }
     }

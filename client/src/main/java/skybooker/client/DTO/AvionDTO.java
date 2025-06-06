@@ -1,4 +1,4 @@
-package DTO;
+package skybooker.client.DTO;
 
 import java.util.HashMap;
 import java.util.Map;
