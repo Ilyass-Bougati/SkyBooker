@@ -1,18 +1,36 @@
 package skybooker.client.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import skybooker.client.DTO.AeroportDTO;
+import skybooker.client.DTO.AvionDTO;
+import skybooker.client.DTO.CompanieAerienneDTO;
 import skybooker.client.DTO.VolDTO;
+import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 import skybooker.client.HelloApplication;
 
 import java.io.IOException;
 
 public class BookingdetailsController {
+
+    @FXML
+    private Text airlineValue ;
+
+    @FXML
+    private Text departureValue ;
+
+    @FXML
+    private Text arrivalValue ;
+
+    @FXML
+    private Text dateValue ;
 
     private static VolDTO vol;
 
@@ -43,6 +61,33 @@ public class BookingdetailsController {
         }catch (IOException e)
         {
             System.out.println("No such view");
+        }
+    }
+
+    @FXML
+    protected void initialize(){
+        Platform.runLater(() -> {
+            initializeText();
+        });
+    }
+
+    private void initializeText()
+    {
+        try{
+            AvionDTO avion = ClientCache.get(vol.getAvionId(), AvionDTO.class);
+            CompanieAerienneDTO companieAerienne = ClientCache.get(avion.getCompanieAerienneId(), CompanieAerienneDTO.class);
+            AeroportDTO aeroportDepart = ClientCache.get(vol.getAeroportDepartId(), AeroportDTO.class);
+            AeroportDTO aeroportArrive = ClientCache.get(vol.getAeroportArriveId(), AeroportDTO.class);
+
+
+            airlineValue.setText(companieAerienne.getNom());
+            departureValue.setText(aeroportDepart.getIataCode() + " " + vol.getHeureDepart());
+            arrivalValue.setText(aeroportArrive.getIataCode() + " " + vol.getHeureArrive());
+            dateValue.setText(vol.getDateDepart().toString());
+
+        }catch(Exception e)
+        {
+            return;
         }
     }
 
