@@ -45,18 +45,22 @@ public class BookpopupController {
                 arrivalFlight.getItems().add(ville.getNom());
             }
 
-            departureFlight.onActionProperty().addListener(_ ->{
+            departureFlight.setOnAction(_ -> {
                 List<String> newCityList = new ArrayList<>(cityNameIdMap.keySet());
                 newCityList.remove(departureFlight.getValue());
 
+                String currentValue = arrivalFlight.getValue();
                 arrivalFlight.setItems(FXCollections.observableArrayList(newCityList));
+                arrivalFlight.setValue(currentValue);
             });
 
-            arrivalFlight.onActionProperty().addListener(_ ->{
+            arrivalFlight.setOnAction(_ ->{
                 List<String> newCityList = new ArrayList<>(cityNameIdMap.keySet());
                 newCityList.remove(arrivalFlight.getValue());
 
+                String currentValue = departureFlight.getValue();
                 departureFlight.setItems(FXCollections.observableArrayList(newCityList));
+                departureFlight.setValue(currentValue);
             });
 
         } catch (Exception e) {

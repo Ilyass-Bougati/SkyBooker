@@ -2,6 +2,7 @@ package skybooker.client.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -16,6 +17,9 @@ import skybooker.client.requests.Client;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -37,6 +41,12 @@ public class MybookingsController {
 
     @FXML
     private void initialize() {
+        Platform.runLater(() ->{
+           initializeBookings();
+        });
+    }
+
+    private void initializeBookings(){
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
         try {
@@ -58,7 +68,10 @@ public class MybookingsController {
                 globalContainer.setMinWidth(540);
                 globalContainer.setMaxWidth(540);
 
-                Text date = new Text(vol.getDateDepart().toString());
+                DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date dateWithZeroTime = formatter.parse(formatter.format(vol.getDateDepart()));
+
+                Text date = new Text(dateWithZeroTime.toString());
                 date.setFont(new Font("Roboto" , 15));
 
                 HBox container = new HBox();
