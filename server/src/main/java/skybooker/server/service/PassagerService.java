@@ -11,4 +11,5 @@ public interface PassagerService extends CrudDTO<PassagerDTO, Long>, CrudService
     List<PassagerDTO> findDTOsByIds(Set<Long> ids);
     boolean passagerAddedBy(Long clientId, Long passagerId);
     List<BilletDTO> getPassagerBillets(Long passagerId);
+    List<PassagerDTO> findByClientId(Long clientId);
 }
