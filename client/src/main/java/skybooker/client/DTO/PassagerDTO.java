@@ -11,6 +11,15 @@ public class PassagerDTO implements Cacheable<PassagerDTO> {
     private String CIN;
     private int age;
     private LocalDate dateOfBirth;
+    private Long clientId;
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
