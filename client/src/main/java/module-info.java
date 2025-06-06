@@ -13,6 +13,7 @@ module skybooker.client {
     requires java.desktop;
     requires okhttp3;
     requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.datatype.jsr310;
     requires java.sql;
 
     opens skybooker.client to javafx.fxml;

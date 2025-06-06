@@ -1,5 +1,7 @@
 package skybooker.client.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -8,10 +10,14 @@ import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import skybooker.client.DTO.PassagerDTO;
+import skybooker.client.DTO.ReservationDTO;
+import skybooker.client.requests.Client;
 import skybooker.client.utils.GeneralUtils;
 import skybooker.client.HelloApplication;
 
 import java.io.IOException;
+import java.util.List;
 
 public class PreferencesController {
 
@@ -46,6 +52,21 @@ public class PreferencesController {
     @FXML
     protected void initialize()
     {
+        // fetching the passagers
+        ObjectMapper mapper = new ObjectMapper();
+        List<PassagerDTO> passagers;
+        try {
+            String res = Client.get("/passager/");
+            passagers = mapper.readValue(res, new TypeReference<>() {});
+            for (PassagerDTO passager : passagers) {
+                System.out.println(passager.getCIN());
+            }
+            // TODO : Show the passagers
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
         Platform.runLater(()->{
             if(isComingFromBookPopup)
             {

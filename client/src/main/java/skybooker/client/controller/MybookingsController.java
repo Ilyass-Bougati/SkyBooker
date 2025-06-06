@@ -38,6 +38,7 @@ public class MybookingsController {
     @FXML
     private void initialize() {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
         try {
             String res = Client.get("/reservation/");
             List<ReservationDTO> reservations = mapper.readValue(res, new TypeReference<>() {});
