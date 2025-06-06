@@ -30,11 +30,9 @@ public class Client {
                 if (res != null) {
                     token = res.string();
                     isLoggedIn = true;
-                } else {
-                    throw ExceptionHandler.getException(response);
                 }
             } else {
-                throw new IOException("Unexpected code " + response);
+                throw ExceptionHandler.getException(response);
             }
         }
     }

@@ -96,8 +96,8 @@
                 </HBox>
             </VBox>
             <Separator/>
-            <ScrollPane style="-fx-background-color: transparent" stylesheets="@style.css" minHeight="303" maxHeight="303" minWidth="500" maxWidth="500">
-                    <VBox>
+            <ScrollPane fx:id="searchResultsScrollPane" style="-fx-background-color: transparent" stylesheets="@style.css" minHeight="303" maxHeight="303" minWidth="500" maxWidth="500">
+                    <VBox fx:id="searchResultsContainer">
                         <StackPane>
                             <HBox spacing="50" alignment="CENTER" minWidth="480" maxWidth="480">
                                 <Text text="Airline1">

@@ -1,11 +1,48 @@
 package skybooker.client.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
+import skybooker.client.DTO.VilleDTO;
+import skybooker.client.requests.Client;
+import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
+
+import java.util.List;
 
 public class BookpopupController {
     public static Stage window;
+
+    @FXML
+    ChoiceBox<String> departureFlight;
+
+    @FXML
+    ChoiceBox<String> arrivalFlight;
+
+    @FXML
+    DatePicker departureDate;
+
+    @FXML
+    private void initialize() {
+        // fetching the cities
+        ObjectMapper mapper = new ObjectMapper();
+        List<VilleDTO> villes;
+        try {
+            String res = Client.get("/ville/");
+            villes = mapper.readValue(res, new TypeReference<List<VilleDTO>>(){});
+            // caching the villes
+            for (VilleDTO ville : villes) {
+                ClientCache.add(ville);
+                departureFlight.getItems().add(ville.getNom());
+                arrivalFlight.getItems().add(ville.getNom());
+            }
+        } catch (Exception e) {
+            window.close();
+        }
+    }
 
     @FXML
     protected void onPreferences()
@@ -18,6 +55,15 @@ public class BookpopupController {
     @FXML
     protected void onSearchButton()
     {
+        if (arrivalFlight.getValue().equals("Arrival") || departureFlight.getValue().equals("Departure") || departureDate.getValue() == null)
+        {
+            return;
+        }
+
+        SearchresultsController.setArrivalFlight(arrivalFlight);
+        SearchresultsController.setDepartureFlight(departureFlight);
+        SearchresultsController.setDepartureDate(departureDate);
+
         GeneralUtils.changeView("searchresults-view.fxml");
         window.close();
     }

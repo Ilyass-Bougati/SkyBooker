@@ -10,7 +10,7 @@ public class ExceptionHandler {
             case 400 -> new BadRequestException("Bad Request");
             case 401 -> {
                 try {
-                    GeneralUtils.changeView("hello-view.fxml");
+                    GeneralUtils.changeView("auth-view.fxml");
                 } catch (Exception _) {
                 }
                 yield new UnauthorizedException("Unauthorized");
