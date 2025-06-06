@@ -86,7 +86,7 @@ public class BookpopupController {
         SearchresultsController.setArrivalFlight(cityNameIdMap.get(arrivalFlight.getValue()));
         SearchresultsController.setDepartureFlight(cityNameIdMap.get(departureFlight.getValue()));
         SearchresultsController.setDepartureDate(departureDate);
-        
+
         PreferencesController.isComingFromBookPopup = true;
         GeneralUtils.loadPreferences();
         window.close();

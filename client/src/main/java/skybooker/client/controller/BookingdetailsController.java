@@ -60,7 +60,7 @@ public class BookingdetailsController {
             secondaryStage.show();
         }catch (IOException e)
         {
-            System.out.println("No such view");
+            System.out.println("Passager info : No such view");
         }
     }
 

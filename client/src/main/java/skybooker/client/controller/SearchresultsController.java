@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -95,7 +94,7 @@ public class SearchresultsController {
                 button.setMinWidth(480);
                 button.setMaxWidth(480);
                 button.setStyle("-fx-cursor: hand");
-                button.setOnAction(_ -> loadFlightInfo());
+                button.setOnAction(_ -> loadFlightInfo(v.getId()));
 
                 stackPane.getChildren().addAll(globalContainer , button);
                 searchResultsContainer.getChildren().addAll(stackPane , new Separator());
@@ -121,10 +120,11 @@ public class SearchresultsController {
     @FXML
     protected void onFlightSelected()
     {
-        loadFlightInfo();
+        loadFlightInfo(null);
     }
 
-    private void loadFlightInfo(){
+    private void loadFlightInfo(Long id){
+        FlightinfoController.setVolId(id);
         GeneralUtils.changeView("flightinfo-view.fxml");
     }
 
