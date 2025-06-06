@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="skybooker.client.controller.PersonalinfoController"
+      prefHeight="600.0" prefWidth="825.0"
+      alignment="CENTER"
+      style="-fx-background-color: white" >
+    <Text text="Sign Up" style="-fx-font-weight: bold ; " >
+        <font>
+            <Font name="Roboto" size="30" />
+        </font>
+    </Text>
+    <VBox alignment="CENTER" >
+        <padding>
+            <Insets top="25"/>
+        </padding>
+        <HBox alignment="CENTER" spacing="14">
+            <TextField fx:id="fName" promptText="First name" style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ; "
+                       minWidth="224" maxWidth="224"
+                       minHeight="44" maxHeight="44"  >
+                <font>
+                    <Font name="Roboto" size="18" />
+                </font>
+            </TextField>
+            <TextField fx:id="lName" promptText="Last name" style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ; "
+                       minWidth="224" maxWidth="224"
+                       minHeight="44" maxHeight="44"  >
+                <font>
+                    <Font name="Roboto" size="18" />
+                </font>
+            </TextField>
+        </HBox>
+        <Rectangle height="14" />
+        <HBox alignment="CENTER">
+            <TextField promptText="Address" style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ; "
+                       minWidth="462" maxWidth="462"
+                       minHeight="44" maxHeight="44"  >
+                <font>
+                    <Font name="Roboto" size="18" />
+                </font>
+            </TextField>
+        </HBox>
+        <Rectangle height="14" />
+        <HBox alignment="CENTER" spacing="14">
+            <TextField promptText="CIN" style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ; "
+                       minWidth="224" maxWidth="224"
+                       minHeight="44" maxHeight="44"  >
+                <font>
+                    <Font name="Roboto" size="18" />
+                </font>
+            </TextField>
+            <DatePicker fx:id="birthdate" stylesheets="@style.css" promptText="Birth date" style="
+                    -fx-text-fill: rgba(0,0,0,0.5) ;
+                    -fx-background-color: #EDEDED  ;
+                    -fx-background-radius: 12 ;
+                    -fx-border-radius: 12 ;
+                    -fx-font-family: 'Roboto Light' ;
+                    -fx-font-size: 18"
+                        minWidth="224" maxWidth="224"
+                        minHeight="44" maxHeight="44"   >
+            </DatePicker>
+        </HBox>
+        <Rectangle height="14" />
+        <Button text="Next" style="-fx-cursor: hand;
+                                     -fx-text-fill: white ;
+                                     -fx-font-weight: bold ;
+                                     -fx-background-color: #7DA6FF ;
+                                     -fx-background-radius: 12 ;
+                                     -fx-border-radius: 12 ;
+                                     -fx-font-size: 18 ;   "
+                minWidth="224" maxWidth="224"
+                minHeight="44" maxHeight="44"  >
+            <font>
+                <Font name="Roboto" size="18" />
+            </font>
+        </Button>
+    </VBox>
+</VBox>

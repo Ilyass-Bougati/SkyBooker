@@ -75,7 +75,7 @@
                        <Font name="Roboto" size="18" />
                    </font>
                </Button>
-               <DatePicker fx:id="birthdate" stylesheets="@style.css" promptText="Birth Date" style="
+               <DatePicker fx:id="birthdate" stylesheets="@style.css" promptText="Birth date" style="
                     -fx-text-fill: rgba(0,0,0,0.5) ;
                     -fx-background-color: #EDEDED  ;
                     -fx-background-radius: 12 ;
