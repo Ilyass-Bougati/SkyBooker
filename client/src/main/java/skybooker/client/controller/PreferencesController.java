@@ -54,6 +54,7 @@ public class PreferencesController {
     {
         // fetching the passagers
         ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
         List<PassagerDTO> passagers;
         try {
             String res = Client.get("/passager/");
