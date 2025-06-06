@@ -48,7 +48,7 @@
                             <Font name="Roboto" size="20" />
                         </font>
                     </Text>
-                    <Text text="Value" fill="rgba(0,0,0,0.5)">
+                    <Text fx:id="airlineValue" text="Value" fill="rgba(0,0,0,0.5)">
                         <font>
                             <Font name="Roboto" size="20" />
                         </font>
@@ -60,7 +60,7 @@
                             <Font name="Roboto" size="20" />
                         </font>
                     </Text>
-                    <Text text="Value" fill="rgba(0,0,0,0.5)">
+                    <Text fx:id="departureValue" text="Value" fill="rgba(0,0,0,0.5)">
                         <font>
                             <Font name="Roboto" size="20" />
                         </font>
@@ -72,7 +72,7 @@
                             <Font name="Roboto" size="20" />
                         </font>
                     </Text>
-                    <Text text="Value" fill="rgba(0,0,0,0.5)">
+                    <Text fx:id="arrivalValue" text="Value" fill="rgba(0,0,0,0.5)">
                         <font>
                             <Font name="Roboto" size="20" />
                         </font>
@@ -85,7 +85,7 @@
                             <Font name="Roboto" size="20" />
                         </font>
                     </Text>
-                    <Text text="00/00/0000" fill="rgba(0,0,0,0.5)">
+                    <Text fx:id="dateValue" text="00/00/0000" fill="rgba(0,0,0,0.5)">
                         <font>
                             <Font name="Roboto" size="20" />
                         </font>
