@@ -24,14 +24,10 @@ public class Capacite {
     @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "avion_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Avion avion;
 
     @ManyToOne
     @JoinColumn(name = "classe_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Classe classe;
 
     public Capacite(CapaciteDTO capaciteDTO) {
