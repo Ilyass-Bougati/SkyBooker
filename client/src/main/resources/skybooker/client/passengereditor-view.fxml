@@ -69,23 +69,22 @@
                                             -fx-cursor: hand;
                                             -fx-font-size: 18;
                                             -fx-border-radius: 12 ; "
-                          minWidth="261" maxWidth="261"
+                          minWidth="193" maxWidth="193"
                           minHeight="46" maxHeight="46"  >
                    <font>
                        <Font name="Roboto" size="18" />
                    </font>
                </Button>
-               <TextField promptText="Age" style="
-                                            -fx-text-fill: rgba(0,0,0,0.5) ;
-                                            -fx-background-color: #EDEDED  ;
-                                            -fx-background-radius: 12 ;
-                                            -fx-border-radius: 12 ; "
-                          minWidth="100" maxWidth="100"
-                          minHeight="46" maxHeight="46"  >
-                   <font>
-                       <Font name="Roboto" size="18" />
-                   </font>
-               </TextField>
+               <DatePicker fx:id="birthdate" stylesheets="@style.css" promptText="Birth Date" style="
+                    -fx-text-fill: rgba(0,0,0,0.5) ;
+                    -fx-background-color: #EDEDED  ;
+                    -fx-background-radius: 12 ;
+                    -fx-border-radius: 12 ;
+                    -fx-font-family: 'Roboto Light' ;
+                    -fx-font-size: 18"
+                           minWidth="168" maxWidth="168"
+                           minHeight="44" maxHeight="44"   >
+               </DatePicker>
                <TextField promptText="CIN" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
