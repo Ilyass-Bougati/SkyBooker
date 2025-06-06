@@ -2,6 +2,8 @@ package skybooker.client.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -11,9 +13,7 @@ import skybooker.client.requests.Client;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BookpopupController {
     public static Stage window;
@@ -29,8 +29,8 @@ public class BookpopupController {
 
     Map<String, Long> cityNameIdMap = new HashMap<>();
 
-    @FXML
-    private void initialize() {
+    private void populateLists()
+    {
         // fetching the cities
         ObjectMapper mapper = new ObjectMapper();
         List<VilleDTO> villes;
@@ -44,9 +44,31 @@ public class BookpopupController {
                 departureFlight.getItems().add(ville.getNom());
                 arrivalFlight.getItems().add(ville.getNom());
             }
+
+            departureFlight.onActionProperty().addListener(_ ->{
+                List<String> newCityList = new ArrayList<>(cityNameIdMap.keySet());
+                newCityList.remove(departureFlight.getValue());
+
+                arrivalFlight.setItems(FXCollections.observableArrayList(newCityList));
+            });
+
+            arrivalFlight.onActionProperty().addListener(_ ->{
+                List<String> newCityList = new ArrayList<>(cityNameIdMap.keySet());
+                newCityList.remove(arrivalFlight.getValue());
+
+                departureFlight.setItems(FXCollections.observableArrayList(newCityList));
+            });
+
         } catch (Exception e) {
             window.close();
         }
+    }
+
+    @FXML
+    private void initialize() {
+        Platform.runLater(() -> {
+            populateLists();
+        });
     }
 
     @FXML
