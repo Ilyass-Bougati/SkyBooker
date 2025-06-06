@@ -23,6 +23,7 @@ import javafx.stage.StageStyle;
 import skybooker.client.DTO.PassagerDTO;
 import skybooker.client.DTO.ReservationDTO;
 import skybooker.client.requests.Client;
+import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 import skybooker.client.HelloApplication;
 
@@ -86,9 +87,10 @@ public class PreferencesController {
             String res = Client.get("/passager/");
             passagers = mapper.readValue(res, new TypeReference<>() {});
             for (PassagerDTO passager : passagers) {
-                System.out.println(passager.getCIN());
+                ClientCache.add(passager);
             }
-            //Show the passagers  ;; Stop ordering me around >:(
+
+            //Show the passagers  ;; Stop ordering me around >:( ;; f u
             for(PassagerDTO passager : passagers)
             {
                 HBox container = new HBox();

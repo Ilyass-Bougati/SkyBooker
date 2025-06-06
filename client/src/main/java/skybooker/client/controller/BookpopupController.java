@@ -74,6 +74,15 @@ public class BookpopupController {
     @FXML
     protected void onPreferences()
     {
+        if (arrivalFlight.getValue().equals("Arrival") || departureFlight.getValue().equals("Departure") || departureDate.getValue() == null)
+        {
+            return;
+        }
+
+        SearchresultsController.setArrivalFlight(cityNameIdMap.get(arrivalFlight.getValue()));
+        SearchresultsController.setDepartureFlight(cityNameIdMap.get(departureFlight.getValue()));
+        SearchresultsController.setDepartureDate(departureDate);
+        
         PreferencesController.isComingFromBookPopup = true;
         GeneralUtils.loadPreferences();
         window.close();
