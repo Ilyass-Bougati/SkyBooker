@@ -8,7 +8,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import skybooker.client.DTO.AeroportDTO;
 import skybooker.client.DTO.AvionDTO;
 import skybooker.client.DTO.CompanieAerienneDTO;
@@ -27,9 +32,6 @@ public class SearchresultsController {
     private static DatePicker departureDate;
 
     @FXML
-    private ScrollPane searchResultsScrollPane;
-
-    @FXML
     private VBox searchResultsContainer;
 
     @FXML
@@ -46,25 +48,58 @@ public class SearchresultsController {
                 // Here I'm fetching the values and putting them in variables
                 // so that if we want to change the layout later we don't have to rewrite
                 // the fetching logic
-                ArrayList<String> Row = new ArrayList<>();
                 AvionDTO avion = ClientCache.get(v.getAvionId(), AvionDTO.class);
                 CompanieAerienneDTO companieAerienne = ClientCache.get(avion.getCompanieAerienneId(), CompanieAerienneDTO.class);
                 AeroportDTO aeroportDepart = ClientCache.get(v.getAeroportDepartId(), AeroportDTO.class);
                 AeroportDTO aeroportArrive = ClientCache.get(v.getAeroportArriveId(), AeroportDTO.class);
 
-                // Here's the layout, change here
-                Row.add("Airline " + companieAerienne.getNom());
-                Row.add("\t\tDPT " + aeroportDepart.getNom());
-                Row.add("\t" + v.getHeureDepart());
-                Row.add("\t" + v.getHeureArrive());
-                Row.add("\tARR " + aeroportArrive.getNom());
-                Row.add("\t\t100$");
+                // Here's the layout, change here ;; Wow , who do you take me for , YOU ?
 
-                Button rowButton = new Button();
-                rowButton.setText(Row.toString());
-                rowButton.setAlignment(Pos.CENTER);
+                StackPane stackPane = new StackPane();
+                HBox globalContainer = new HBox();
+                globalContainer.setAlignment(Pos.CENTER);
+                globalContainer.setSpacing(50);
+                globalContainer.setMinWidth(480);
+                globalContainer.setMaxWidth(480);
 
-                searchResultsContainer.getChildren().add(rowButton);
+                Text airline = new Text(companieAerienne.getNom()) ;
+                airline.setFont(new Font("Roboto" , 15));
+
+                HBox container = new HBox();
+                container.setAlignment(Pos.CENTER);
+                container.setSpacing(20);
+
+                Text depAirport = new Text(aeroportDepart.getIataCode()) ;
+                depAirport.setFont(new Font("Roboto" , 15));
+
+                Text depTime = new Text(v.getHeureDepart().toString()) ;
+                depTime.setFont(new Font("Roboto" , 15));
+
+                Text arrTime = new Text(v.getHeureArrive().toString()) ;
+                arrTime.setFont(new Font("Roboto" , 15));
+
+                Text arrAirport = new Text(aeroportArrive.getIataCode()) ;
+                arrAirport.setFont(new Font("Roboto" , 15));
+
+                container.getChildren().addAll(depAirport , depTime , arrAirport , arrTime );
+
+                Text price = new Text(((Double)v.getPrix()).toString()) ;
+                price.setFont(new Font("Roboto" , 15));
+
+                globalContainer.getChildren().addAll(airline , container , price );
+
+                Button button = new Button();
+                button.setOpacity(0);
+                button.setMinHeight(50);
+                button.setMaxHeight(50);
+                button.setMinWidth(480);
+                button.setMaxWidth(480);
+                button.setStyle("-fx-cursor: hand");
+                button.setOnAction(_ -> loadFlightInfo());
+
+                stackPane.getChildren().addAll(globalContainer , button);
+                searchResultsContainer.getChildren().addAll(stackPane , new Separator());
+
             }
         } catch (Exception e) {
             /*
