@@ -45,6 +45,7 @@ public class MybookingsController {
             for(ReservationDTO reservation : reservations) {
                 // adding the reservation to cache
                 ClientCache.add(reservation);
+                VolDTO vol = ClientCache.get(reservation.getVolId(), VolDTO.class);
 
 //                StackPane stackPane = new StackPane();
 //                HBox globalContainer =  new HBox();
