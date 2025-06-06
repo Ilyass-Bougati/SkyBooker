@@ -111,7 +111,7 @@ public class PreferencesController {
 
                 StackPane stackPane = new StackPane();
 
-                ImageView icon = new ImageView(new Image(HelloApplication.class.getResource("/assets/icons/Edit.png").toExternalForm()));
+                ImageView icon = new ImageView(new Image(HelloApplication.class.getResource("assets/icons/Edit.png").toExternalForm()));
                 Button button = new Button();
                 button.setMaxWidth(16);
                 button.setMinWidth(16);
