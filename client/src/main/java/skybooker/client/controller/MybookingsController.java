@@ -36,65 +36,67 @@ public class MybookingsController {
         toBookingDetails();
     }
 
-    private void initializeBookings()
-    {
+    @FXML
+    private void initialize() {
         ObjectMapper mapper = new ObjectMapper();
-       try{
-           String res = Client.get("/reservation/");
-           List<ReservationDTO> bookings = mapper.readValue(res, new TypeReference<>() {});
-           for(ReservationDTO booking : bookings) {
-                VolDTO vol = ClientCache.get(booking.getId() , VolDTO.class);
+        try {
+            String res = Client.get("/reservation/");
+            List<ReservationDTO> reservations = mapper.readValue(res, new TypeReference<>() {});
+            for(ReservationDTO reservation : reservations) {
+                // adding the reservation to cache
+                ClientCache.add(reservation);
+                VolDTO vol = ClientCache.get(reservation.getVolId(), VolDTO.class);
 
-                StackPane stackPane = new StackPane();
-                HBox globalContainer =  new HBox();
-
-                globalContainer.setAlignment(Pos.CENTER);
-                globalContainer.setSpacing(50);
-                globalContainer.setMinWidth(540);
-                globalContainer.setMaxWidth(540);
-
-                Text date = new Text(vol.getDateDepart().toString());
-                date.setFont(new Font("Roboto" , 15));
-
-                HBox container = new HBox();
-                container.setAlignment(Pos.CENTER);
-                container.setSpacing(20);
-
-                Text DEP = new Text(((Long)vol.getAeroportDepartId()).toString());
-                DEP.setFont(new Font("Roboto" , 15));
-
-                Text DEPTIME = new Text(vol.getHeureDepart().toString());
-                DEPTIME.setFont(new Font("Roboto" , 15));
-
-                Text ARRTIME = new Text(vol.getHeureArrive().toString());
-                ARRTIME.setFont(new Font("Roboto" , 15));
-
-                Text ARR = new Text(((Long)vol.getAeroportArriveId()).toString());
-                ARR.setFont(new Font("Roboto" , 15));
-
-                container.getChildren().addAll(DEP , DEPTIME , ARRTIME , ARR);
-
-                Text passengersAmount = new Text("Passengers : XX");
-                passengersAmount.setFont(new Font("Roboto" , 15));
-
-                globalContainer.getChildren().addAll(date , container , passengersAmount);
-
-                Button button = new Button();
-                button.setOpacity(0);
-                button.setMinHeight(50);
-                button.setMaxHeight(50);
-                button.setMinWidth(540);
-                button.setMaxWidth(540);
-                button.setStyle("-fx-cursor: hand");
-
-                stackPane.getChildren().addAll(globalContainer , button);
-
-                scrollPaneContainer.getChildren().addAll(stackPane , new Separator());
-           }
-       }catch(Exception e)
-       {
-           return;
-       }
+//                StackPane stackPane = new StackPane();
+//                HBox globalContainer =  new HBox();
+//
+//                globalContainer.setAlignment(Pos.CENTER);
+//                globalContainer.setSpacing(50);
+//                globalContainer.setMinWidth(540);
+//                globalContainer.setMaxWidth(540);
+//
+//                Text date = new Text(vol.getDateDepart().toString());
+//                date.setFont(new Font("Roboto" , 15));
+//
+//                HBox container = new HBox();
+//                container.setAlignment(Pos.CENTER);
+//                container.setSpacing(20);
+//
+//                Text DEP = new Text(((Long)vol.getAeroportDepartId()).toString());
+//                DEP.setFont(new Font("Roboto" , 15));
+//
+//                Text DEPTIME = new Text(vol.getHeureDepart().toString());
+//                DEPTIME.setFont(new Font("Roboto" , 15));
+//
+//                Text ARRTIME = new Text(vol.getHeureArrive().toString());
+//                ARRTIME.setFont(new Font("Roboto" , 15));
+//
+//                Text ARR = new Text(((Long)vol.getAeroportArriveId()).toString());
+//                ARR.setFont(new Font("Roboto" , 15));
+//
+//                container.getChildren().addAll(DEP , DEPTIME , ARRTIME , ARR);
+//
+//                Text passengersAmount = new Text("Passengers : XX");
+//                passengersAmount.setFont(new Font("Roboto" , 15));
+//
+//                globalContainer.getChildren().addAll(date , container , passengersAmount);
+//
+//                Button button = new Button();
+//                button.setOpacity(0);
+//                button.setMinHeight(50);
+//                button.setMaxHeight(50);
+//                button.setMinWidth(540);
+//                button.setMaxWidth(540);
+//                button.setStyle("-fx-cursor: hand");
+//
+//                stackPane.getChildren().addAll(globalContainer , button);
+//
+//                scrollPaneContainer.getChildren().addAll(stackPane , new Separator());
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            return;
+        }
     }
 
     private void toBookingDetails()
