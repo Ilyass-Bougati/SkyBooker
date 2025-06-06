@@ -6,12 +6,15 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import skybooker.client.DTO.VolDTO;
 import skybooker.client.utils.GeneralUtils;
 import skybooker.client.HelloApplication;
 
 import java.io.IOException;
 
 public class BookingdetailsController {
+
+    private static VolDTO vol;
 
     @FXML
     protected void onReturnButton() {
@@ -41,5 +44,9 @@ public class BookingdetailsController {
         {
             System.out.println("No such view");
         }
+    }
+
+    public static void setVol(VolDTO vol) {
+        BookingdetailsController.vol = vol;
     }
 }
