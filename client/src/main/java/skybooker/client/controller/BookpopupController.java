@@ -11,7 +11,9 @@ import skybooker.client.requests.Client;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BookpopupController {
     public static Stage window;
@@ -25,6 +27,8 @@ public class BookpopupController {
     @FXML
     DatePicker departureDate;
 
+    Map<String, Long> cityNameIdMap = new HashMap<>();
+
     @FXML
     private void initialize() {
         // fetching the cities
@@ -36,6 +40,7 @@ public class BookpopupController {
             // caching the villes
             for (VilleDTO ville : villes) {
                 ClientCache.add(ville);
+                cityNameIdMap.put(ville.getNom(), ville.getId());
                 departureFlight.getItems().add(ville.getNom());
                 arrivalFlight.getItems().add(ville.getNom());
             }
@@ -60,8 +65,8 @@ public class BookpopupController {
             return;
         }
 
-        SearchresultsController.setArrivalFlight(arrivalFlight);
-        SearchresultsController.setDepartureFlight(departureFlight);
+        SearchresultsController.setArrivalFlight(cityNameIdMap.get(arrivalFlight.getValue()));
+        SearchresultsController.setDepartureFlight(cityNameIdMap.get(departureFlight.getValue()));
         SearchresultsController.setDepartureDate(departureDate);
 
         GeneralUtils.changeView("searchresults-view.fxml");
