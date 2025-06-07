@@ -21,10 +21,9 @@ import skybooker.client.requests.Client;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SearchresultsController {
+public class SearchResultsController {
 
     private static Long departureFlight;
     private static Long arrivalFlight;
@@ -124,19 +123,19 @@ public class SearchresultsController {
     }
 
     private void loadFlightInfo(Long id){
-        FlightinfoController.setVolId(id);
+        FlightInfoController.setVolId(id);
         GeneralUtils.changeView("flightinfo-view.fxml");
     }
 
     public static void setDepartureFlight(Long departureFlight) {
-        SearchresultsController.departureFlight = departureFlight;
+        SearchResultsController.departureFlight = departureFlight;
     }
 
     public static void setArrivalFlight(Long arrivalFlight) {
-        SearchresultsController.arrivalFlight = arrivalFlight;
+        SearchResultsController.arrivalFlight = arrivalFlight;
     }
 
     public static void setDepartureDate(DatePicker departureDate) {
-        SearchresultsController.departureDate = departureDate;
+        SearchResultsController.departureDate = departureDate;
     }
 }

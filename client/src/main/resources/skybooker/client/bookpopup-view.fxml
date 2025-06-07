@@ -10,7 +10,7 @@
 <?import javafx.scene.image.Image?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="skybooker.client.controller.BookpopupController"
+      fx:controller="skybooker.client.controller.BookPopupController"
       spacing="10"
       style="-fx-background-color: white; -fx-background-radius: 12 ; -fx-border-radius: 12"
       prefHeight="193.0" prefWidth="573.0">

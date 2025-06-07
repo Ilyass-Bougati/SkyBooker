@@ -9,7 +9,7 @@ import skybooker.client.DTO.VolDTO;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 
-public class FlightinfoController {
+public class FlightInfoController {
 
     @FXML
     private Text arrival ;
@@ -57,6 +57,6 @@ public class FlightinfoController {
     }
 
     public static void setVolId(Long volId) {
-        FlightinfoController.volId = volId;
+        FlightInfoController.volId = volId;
     }
 }

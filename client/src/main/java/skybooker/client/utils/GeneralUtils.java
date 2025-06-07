@@ -9,7 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import skybooker.client.HelloApplication;
-import skybooker.client.controller.BookpopupController;
+import skybooker.client.controller.BookPopupController;
 
 import java.io.IOException;
 
@@ -59,7 +59,7 @@ public class GeneralUtils {
             secondaryStage.initModality(Modality.WINDOW_MODAL);
             secondaryStage.initStyle(StageStyle.TRANSPARENT);
 
-            BookpopupController.window = secondaryStage;
+            BookPopupController.window = secondaryStage;
 
             secondaryStage.show();
         }catch (IOException e)

@@ -36,7 +36,6 @@ public class RegisterRequestDTO {
     private String CIN;
 
     @NotNull
-    @Min(0)
     private LocalDate dateOfBirth;
 
     public Passager passager() {

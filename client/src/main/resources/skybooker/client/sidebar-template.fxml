@@ -14,7 +14,7 @@
 <?import javafx.scene.image.Image?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="skybooker.client.controller.SidebarController"
+      fx:controller="skybooker.client.controller.SideBarController"
       prefHeight="600.0" prefWidth="210.0"
       alignment="CENTER_LEFT"
       spacing="50"

@@ -63,13 +63,13 @@ public class PreferencesController {
     @FXML
     protected void onPlusButton()
     {
-        loadPassengerEditor(PassengereditorController.Mode.CREATE);
+        loadPassengerEditor(PassengerEditorController.Mode.CREATE);
     }
 
     @FXML
     protected void onEditButton()
     {
-        loadPassengerEditor(PassengereditorController.Mode.EDIT);
+        loadPassengerEditor(PassengerEditorController.Mode.EDIT);
     }
 
     @FXML
@@ -98,8 +98,8 @@ public class PreferencesController {
                 ClientCache.add(passager);
             }
             //fetching the classes ; you chose this route for them
-            res = Client.get("/aeroport/");
-            List<ClassDTO> classes = mapper.readValue(res, new TypeReference<List<ClassDTO>>() {});
+            res = Client.get("/classe/");
+            List<ClassDTO> classes = mapper.readValue(res, new TypeReference<>() {});
             HashMap<String , ClassDTO> classMap = new HashMap<>();
             for(ClassDTO classe : classes){
                 ClientCache.add(classe);
@@ -165,7 +165,7 @@ public class PreferencesController {
                 button.setMaxHeight(16);
                 button.setMinHeight(16);
                 button.setOpacity(0);
-                button.setOnAction(_ -> loadPassengerEditor(PassengereditorController.Mode.EDIT));
+                button.setOnAction(_ -> loadPassengerEditor(PassengerEditorController.Mode.EDIT));
 
                 stackPane.getChildren().addAll(icon , button);
                 container.getChildren().addAll(checkBox , fName , lName , category , classe , stackPane);
@@ -178,7 +178,7 @@ public class PreferencesController {
         }
     }
 
-    private void loadPassengerEditor(PassengereditorController.Mode mode)
+    private void loadPassengerEditor(PassengerEditorController.Mode mode)
     {
         try{
             Parent parent = HelloApplication.loadView("passengereditor-view.fxml");
@@ -205,8 +205,8 @@ public class PreferencesController {
             secondaryStage.initModality(Modality.WINDOW_MODAL);
             secondaryStage.initStyle(StageStyle.TRANSPARENT);
 
-            PassengereditorController.window = secondaryStage;
-            PassengereditorController.mode = mode;
+            PassengerEditorController.window = secondaryStage;
+            PassengerEditorController.mode = mode;
 
             secondaryStage.show();
         }catch (IOException e)

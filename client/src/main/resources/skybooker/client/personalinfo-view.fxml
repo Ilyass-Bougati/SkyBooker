@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="skybooker.client.controller.PersonalinfoController"
+      fx:controller="skybooker.client.controller.PersonalInfoController"
       prefHeight="600.0" prefWidth="825.0"
       alignment="CENTER"
       style="-fx-background-color: white" >

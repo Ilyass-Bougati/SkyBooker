@@ -3,7 +3,7 @@ package skybooker.client.controller;
 import javafx.fxml.FXML;
 import skybooker.client.utils.GeneralUtils;
 
-public class SidebarController {
+public class SideBarController {
 
     @FXML
     protected void onBookButton()
