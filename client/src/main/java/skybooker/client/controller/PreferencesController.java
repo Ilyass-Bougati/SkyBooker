@@ -33,6 +33,8 @@ import skybooker.client.utils.GeneralUtils;
 import skybooker.client.HelloApplication;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +48,7 @@ public class PreferencesController {
     private VBox scrollPaneBody ;
 
     public static boolean isComingFromBookPopup = false;
-    private List<ReservationDTO.PassagerData> chosenPassagers;
+    private List<ReservationDTO.PassagerData> chosenPassagers = new ArrayList<>();
 
     @FXML
     protected void onReturnButton()
@@ -158,7 +160,9 @@ public class PreferencesController {
 
                 StackPane stackPane = new StackPane();
 
-                ImageView icon = new ImageView(new Image(Objects.requireNonNull(HelloApplication.class.getResource(" assets/icons/Edit.png")).toExternalForm()));
+                URL imageUrl = HelloApplication.class.getResource(" assets/icons/Edit.png") ;
+                Image image = new Image(imageUrl.toString());
+                ImageView icon = new ImageView(image);
                 Button button = new Button();
                 button.setMaxWidth(16);
                 button.setMinWidth(16);
