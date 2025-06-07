@@ -98,8 +98,8 @@ public class PreferencesController {
                 ClientCache.add(passager);
             }
             //fetching the classes ; you chose this route for them
-            res = Client.get("/aeroport/");
-            List<ClassDTO> classes = mapper.readValue(res, new TypeReference<List<ClassDTO>>() {});
+            res = Client.get("/classe/");
+            List<ClassDTO> classes = mapper.readValue(res, new TypeReference<>() {});
             HashMap<String , ClassDTO> classMap = new HashMap<>();
             for(ClassDTO classe : classes){
                 ClientCache.add(classe);

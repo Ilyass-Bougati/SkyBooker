@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import skybooker.client.utils.GeneralUtils;
+import skybooker.client.utils.Validator;
 
 public class SignupController {
     @FXML
@@ -26,22 +27,22 @@ public class SignupController {
 
     @FXML
     protected void onNextButton(){
-        //TODO: add the conditions please |:B
-        if(/*any field is wrong*/false){
-            if(/*Email incorrect*/ true){
-                eerror.setOpacity(1);
-            }
-            if(/*Password incorrect*/ true){
-                perror.setOpacity(1);
-            }
-            if(/*Confirmed Password incorrect*/ true){
-                cperror.setOpacity(1);
-            }
-        }else{
-            GeneralUtils.changeView("personalinfo-view.fxml" , ()->{
-                PersonalInfoController.getLogger().setEmail(email.getText());
-                PersonalInfoController.getLogger().setPassword(password.getText());
-            });
+        if(!Validator.checkEmailValidity(email.getText())){
+            eerror.setOpacity(1);
+            return;
         }
+        if(!Validator.checkPasswordValidity(password.getText())){
+            perror.setOpacity(1);
+            return;
+        }
+        if(!password.getText().equals(confirmedPassword.getText())){
+            cperror.setOpacity(1);
+            return;
+        }
+
+        GeneralUtils.changeView("personalinfo-view.fxml" , ()->{
+            PersonalInfoController.getRegisterRequestDTO().setEmail(email.getText());
+            PersonalInfoController.getRegisterRequestDTO().setPassword(password.getText());
+        });
     }
 }

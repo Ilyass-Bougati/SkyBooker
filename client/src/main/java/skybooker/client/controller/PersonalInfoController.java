@@ -5,71 +5,17 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import okhttp3.internal.Util;
+import skybooker.client.DTO.RegisterRequestDTO;
+import skybooker.client.requests.Client;
+import skybooker.client.utils.GeneralUtils;
+import skybooker.client.utils.Validator;
 
 import java.time.LocalDate;
 
 public class PersonalInfoController {
-    public static class Logger {
-        private String email ;
-        private String password ;
-        private String phoneNumber ;
-        private String CIN ;
-        private String address ;
-        private String fName ;
-        private String lName ;
 
-        public LocalDate getBirthDate() {
-            return birthDate;
-        }
-
-        public void setBirthDate(LocalDate birthDate) {
-            this.birthDate = birthDate;
-        }
-
-        public String getCIN() {
-            return CIN;
-        }
-
-        public void setCIN(String CIN) {
-            this.CIN = CIN;
-        }
-
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
-
-        public void setPhoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        private LocalDate birthDate ;
-    }
-
-    private static Logger logger = new Logger() ;
-
-    public static Logger getLogger() {
-        return logger;
-    }
-
-    public static void setLogger(Logger logger) {
-        PersonalInfoController.logger = logger;
-    }
+    private static RegisterRequestDTO registerRequestDTO = new RegisterRequestDTO() ;
 
     @FXML
     private TextField fName;
@@ -100,17 +46,40 @@ public class PersonalInfoController {
 
     @FXML
     protected void onFinishButton(){
-        //TODO : add the conditions please |:B
-        if(/*any field is Wrong*/true){
-            if(/*first/last Name is wrong*/ true){
-                nameError.setOpacity(1);
-            }
-
-            if(/*number is wrong*/ true){
-                numberError.setOpacity(1);
-            }
-        }else{
-
+        if(!Validator.checkNameValidity(fName.getText()) || !Validator.checkNameValidity(lName.getText())){
+            System.out.println("Invalid name!");
+            nameError.setOpacity(1);
+            return;
         }
+
+        if(!Validator.checkPhoneNumberValidity(phoneNumber.getText())){
+            System.out.println("Phone number is not valid");
+            numberError.setOpacity(1);
+            return;
+        }
+
+        registerRequestDTO.setAdresse(address.getText());
+        registerRequestDTO.setCin(CIN.getText());
+        registerRequestDTO.setNom(lName.getText());
+        registerRequestDTO.setPrenom(registerRequestDTO.getNom());
+        registerRequestDTO.setPassword(fName.getText());
+        registerRequestDTO.setTelephone(phoneNumber.getText());
+        registerRequestDTO.setDateOfBirth(birthdate.getValue().toString());
+
+        try {
+            String token = Client.unAuthorizedPost("/auth/register", registerRequestDTO);
+            Client.login(registerRequestDTO.getEmail(), registerRequestDTO.getPassword());
+            GeneralUtils.loadLandingPage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static RegisterRequestDTO getRegisterRequestDTO() {
+        return registerRequestDTO;
+    }
+
+    public static void setRegisterRequestDTO(RegisterRequestDTO registerRequestDTO) {
+        PersonalInfoController.registerRequestDTO = registerRequestDTO;
     }
 }
