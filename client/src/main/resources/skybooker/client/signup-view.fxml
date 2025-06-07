@@ -33,7 +33,11 @@
                 <Font name="Roboto" size="18" />
             </font>
         </TextField>
-        <Rectangle height="14" />
+        <Text fx:id="eerror" text="Invalid email !" fill="RED" style="-fx-font-weight: bold ; " opacity="0">
+            <font>
+                <Font name="Roboto" size="14" />
+            </font>
+        </Text>
         <PasswordField fx:id="password" promptText="Password" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
@@ -45,8 +49,12 @@
                 <Font name="Roboto" size="18" />
             </font>
         </PasswordField>
-        <Rectangle height="14" />
-        <PasswordField promptText="Confirm password" style="
+        <Text fx:id="perror" text="Password must be at least 8 characters , containing upper and lowercase alphanumerals and special characters !" fill="RED" style="-fx-font-weight: bold ; " opacity="0" >
+            <font>
+                <Font name="Roboto" size="14" />
+            </font>
+        </Text>
+        <PasswordField fx:id="confirmedPassword" promptText="Confirm password" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
                                             -fx-background-radius: 12 ;
@@ -57,8 +65,12 @@
                 <Font name="Roboto" size="18" />
             </font>
         </PasswordField>
-        <Rectangle height="14" />
-        <Button text="Next" style="-fx-cursor: hand;
+        <Text fx:id="cperror" text="Passwords must match !" fill="RED" style="-fx-font-weight: bold ; " opacity="0" >
+            <font>
+                <Font name="Roboto" size="14" />
+            </font>
+        </Text>
+        <Button onAction="#onNextButton" text="Next" style="-fx-cursor: hand;
                                      -fx-text-fill: white ;
                                      -fx-font-weight: bold ;
                                      -fx-background-color: #7DA6FF ;

@@ -46,23 +46,56 @@
                 </font>
             </TextField>
         </HBox>
-        <Rectangle height="14" />
         <HBox alignment="CENTER">
-            <TextField promptText="Address" style="
+            <Text fx:id="nameError" text="first/last name shouldn't contain special/numeral characters " fill="RED" style="-fx-font-weight: bold">
+                <font>
+                    <Font name="Roboto" size="14" />
+                </font>
+            </Text>
+        </HBox>
+        <HBox alignment="CENTER" spacing="14">
+            <TextField fx:id="address" promptText="Address" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
                                             -fx-background-radius: 12 ;
                                             -fx-border-radius: 12 ; "
-                       minWidth="462" maxWidth="462"
+                       minWidth="208" maxWidth="208"
                        minHeight="44" maxHeight="44"  >
                 <font>
                     <Font name="Roboto" size="18" />
                 </font>
             </TextField>
+            <HBox alignment="CENTER">
+                <ChoiceBox fx:id="countryIndicator" value="MA" style="   -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 0 0 12 ;
+                                            -fx-border-radius: 12 0 0 12 ;
+                                            -fx-font-family: 'Roboto Light';
+                                            -fx-font-size: 18"
+                           minHeight="44" maxHeight="44"
+                           minWidth="80" maxWidth="80"/>
+                <TextField fx:id="phoneNumber" promptText="Phone number" style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 0 12 12 0 ;
+                                            -fx-border-radius: 0 12 12 0 ; "
+                           minWidth="160" maxWidth="160"
+                           minHeight="44" maxHeight="44"  >
+                    <font>
+                        <Font name="Roboto" size="18" />
+                    </font>
+                </TextField>
+            </HBox>
         </HBox>
-        <Rectangle height="14" />
+        <HBox alignment="CENTER">
+            <Text fx:id="numberError" text="phone number must be 10 characters" fill="RED" style="-fx-font-weight: bold">
+                <font>
+                    <Font name="Roboto" size="14" />
+                </font>
+            </Text>
+        </HBox>
         <HBox alignment="CENTER" spacing="14">
-            <TextField promptText="CIN" style="
+            <TextField fx:id="CIN" promptText="CIN" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
                                             -fx-background-radius: 12 ;
@@ -85,7 +118,7 @@
             </DatePicker>
         </HBox>
         <Rectangle height="14" />
-        <Button text="Finish" style="-fx-cursor: hand;
+        <Button onAction="#onFinishButton" text="Finish" style="-fx-cursor: hand;
                                      -fx-text-fill: white ;
                                      -fx-font-weight: bold ;
                                      -fx-background-color: #7DA6FF ;

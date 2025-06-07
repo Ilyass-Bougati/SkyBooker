@@ -24,8 +24,7 @@ public class AuthController {
     }
 
     @FXML
-    protected void onLogInButton()
-    {
+    protected void onLogInButton() {
         if (Validator.checkEmailValidity(email.getText())) {
             try {
                 Client.login(email.getText(), password.getText());
@@ -40,5 +39,10 @@ public class AuthController {
             System.out.println("Invalid email");
         }
 
+    }
+
+    @FXML
+    protected void onSignUpButton(){
+        GeneralUtils.changeView("signup-view.fxml");
     }
 }

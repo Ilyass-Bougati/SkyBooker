@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import skybooker.client.DTO.ClassDTO;
 import skybooker.client.DTO.PassagerDTO;
 import skybooker.client.DTO.ReservationDTO;
 import skybooker.client.requests.Client;
@@ -32,6 +33,7 @@ import skybooker.client.utils.GeneralUtils;
 import skybooker.client.HelloApplication;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -95,6 +97,15 @@ public class PreferencesController {
             for (PassagerDTO passager : passagers) {
                 ClientCache.add(passager);
             }
+            //fetching the classes ; you chose this route for them
+            res = Client.get("/aeroport/");
+            List<ClassDTO> classes = mapper.readValue(res, new TypeReference<List<ClassDTO>>() {});
+            HashMap<String , ClassDTO> classMap = new HashMap<>();
+            for(ClassDTO classe : classes){
+                ClientCache.add(classe);
+                classMap.put(classe.getNom() , classe);
+            }
+
 
             //Show the passagers  ;; Stop ordering me around >:( ;; f u
             for(PassagerDTO passager : passagers)
@@ -123,14 +134,15 @@ public class PreferencesController {
                 classe.setMinWidth(70);
                 classe.setMaxWidth(70);
 
-                //needs filling , like your mom :P
+                for(String key : classMap.keySet()){
+                    classe.getItems().add(key);
+                }
 
                 checkBox.setOnAction(_ -> {
                     if(checkBox.isSelected()){
                         ReservationDTO.PassagerData data = new ReservationDTO.PassagerData();
                         data.setPassagerId(passager.getId());
-                        //Once we fill the classes , we can then use this b
-                        //data.setClassId(classe.getValue());
+                        data.setClassId(classMap.get(classe.getValue()).getId());
                         chosenPassagers.add(data);
                     }else{
                         for( ReservationDTO.PassagerData data : chosenPassagers ){
