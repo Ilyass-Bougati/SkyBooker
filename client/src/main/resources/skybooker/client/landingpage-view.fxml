@@ -9,7 +9,7 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<HBox prefHeight="600.0" prefWidth="825.0" style="-fx-background-color: white ;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.controller.LandingpageController">
+<HBox prefHeight="600.0" prefWidth="825.0" style="-fx-background-color: white ;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="skybooker.client.controller.LandingPageController">
     <fx:include source="sidebar-template.fxml" />
    <VBox alignment="CENTER_LEFT" spacing="37">
        <padding>

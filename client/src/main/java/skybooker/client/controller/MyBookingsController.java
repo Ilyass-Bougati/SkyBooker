@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -19,11 +18,10 @@ import skybooker.client.utils.GeneralUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 
-public class MybookingsController {
+public class MyBookingsController {
 
     @FXML
     private VBox scrollPaneContainer;
@@ -118,6 +116,6 @@ public class MybookingsController {
     private void toBookingDetails(VolDTO vol)
     {
         GeneralUtils.changeView("bookingdetails-view.fxml");
-        BookingdetailsController.setVol(vol);
+        BookingDetailsController.setVol(vol);
     }
 }

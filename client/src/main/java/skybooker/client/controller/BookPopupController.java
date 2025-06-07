@@ -15,7 +15,7 @@ import skybooker.client.utils.GeneralUtils;
 
 import java.util.*;
 
-public class BookpopupController {
+public class BookPopupController {
     public static Stage window;
 
     @FXML
@@ -84,9 +84,9 @@ public class BookpopupController {
             return;
         }
 
-        SearchresultsController.setArrivalFlight(cityNameIdMap.get(arrivalFlight.getValue()));
-        SearchresultsController.setDepartureFlight(cityNameIdMap.get(departureFlight.getValue()));
-        SearchresultsController.setDepartureDate(departureDate);
+        SearchResultsController.setArrivalFlight(cityNameIdMap.get(arrivalFlight.getValue()));
+        SearchResultsController.setDepartureFlight(cityNameIdMap.get(departureFlight.getValue()));
+        SearchResultsController.setDepartureDate(departureDate);
 
         PreferencesController.isComingFromBookPopup = true;
         GeneralUtils.loadPreferences();
@@ -102,9 +102,9 @@ public class BookpopupController {
             return;
         }
 
-        SearchresultsController.setArrivalFlight(cityNameIdMap.get(arrivalFlight.getValue()));
-        SearchresultsController.setDepartureFlight(cityNameIdMap.get(departureFlight.getValue()));
-        SearchresultsController.setDepartureDate(departureDate);
+        SearchResultsController.setArrivalFlight(cityNameIdMap.get(arrivalFlight.getValue()));
+        SearchResultsController.setDepartureFlight(cityNameIdMap.get(departureFlight.getValue()));
+        SearchResultsController.setDepartureDate(departureDate);
 
         GeneralUtils.changeView("searchresults-view.fxml");
         window.close();

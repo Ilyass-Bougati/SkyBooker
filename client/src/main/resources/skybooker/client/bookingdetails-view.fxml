@@ -14,7 +14,7 @@
 <?import javafx.scene.image.Image?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="skybooker.client.controller.BookingdetailsController"
+      fx:controller="skybooker.client.controller.BookingDetailsController"
       style="-fx-background-color: white;"
       prefHeight="600.0" prefWidth="825.0">
     <fx:include source="sidebar-template.fxml"/>

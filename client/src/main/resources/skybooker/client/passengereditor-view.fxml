@@ -15,7 +15,7 @@
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       style="-fx-background-color: white ; -fx-border-radius: 12 ; -fx-background-radius: 12"
-      fx:controller="skybooker.client.controller.PassengereditorController"
+      fx:controller="skybooker.client.controller.PassengerEditorController"
       prefHeight="418.0" prefWidth="738.0">
             <padding>
                 <Insets top="16" left="16" right="16" />

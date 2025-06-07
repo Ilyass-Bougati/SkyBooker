@@ -14,7 +14,7 @@
 <?import javafx.scene.image.Image?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="skybooker.client.controller.PassengersinfoController"
+      fx:controller="skybooker.client.controller.PassengersInfoController"
       style="-fx-background-color: white; -fx-background-radius: 12 ; -fx-border-radius: 12"
       spacing="13"
       alignment="CENTER"

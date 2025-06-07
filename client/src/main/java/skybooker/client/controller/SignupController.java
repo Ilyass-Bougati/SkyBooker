@@ -39,8 +39,8 @@ public class SignupController {
             }
         }else{
             GeneralUtils.changeView("personalinfo-view.fxml" , ()->{
-                PersonalinfoController.getLogger().setEmail(email.getText());
-                PersonalinfoController.getLogger().setPassword(password.getText());
+                PersonalInfoController.getLogger().setEmail(email.getText());
+                PersonalInfoController.getLogger().setPassword(password.getText());
             });
         }
     }

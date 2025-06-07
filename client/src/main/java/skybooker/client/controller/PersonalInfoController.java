@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 
 import java.time.LocalDate;
 
-public class PersonalinfoController {
+public class PersonalInfoController {
     public static class Logger {
         private String email ;
         private String password ;
@@ -68,7 +68,7 @@ public class PersonalinfoController {
     }
 
     public static void setLogger(Logger logger) {
-        PersonalinfoController.logger = logger;
+        PersonalInfoController.logger = logger;
     }
 
     @FXML

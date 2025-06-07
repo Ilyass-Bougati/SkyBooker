@@ -3,7 +3,7 @@ package skybooker.client.controller;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
-public class PassengersinfoController {
+public class PassengersInfoController {
     public static Stage window ;
 
     @FXML

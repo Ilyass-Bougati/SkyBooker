@@ -22,7 +22,7 @@ import skybooker.client.HelloApplication;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-public class BookingdetailsController {
+public class BookingDetailsController {
 
     @FXML
     private Text airlineValue ;
@@ -67,7 +67,7 @@ public class BookingdetailsController {
             secondaryStage.initModality(Modality.WINDOW_MODAL);
             secondaryStage.initStyle(StageStyle.TRANSPARENT);
 
-            PassengersinfoController.window = secondaryStage;
+            PassengersInfoController.window = secondaryStage;
 
             secondaryStage.show();
 
@@ -107,6 +107,6 @@ public class BookingdetailsController {
     }
 
     public static void setVol(VolDTO vol) {
-        BookingdetailsController.vol = vol;
+        BookingDetailsController.vol = vol;
     }
 }
