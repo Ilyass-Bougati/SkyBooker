@@ -9,12 +9,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Separator;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -29,6 +33,7 @@ import skybooker.client.HelloApplication;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class PreferencesController {
 
@@ -96,7 +101,7 @@ public class PreferencesController {
             {
                 HBox container = new HBox();
                 container.setAlignment(Pos.CENTER);
-                container.setSpacing(40);
+                container.setSpacing(20);
 
                 CheckBox checkBox = new CheckBox();
                 checkBox.setStyle("-fx-background-color: #EDEDED");
@@ -110,11 +115,38 @@ public class PreferencesController {
                 Text category = new Text("Category");
                 category.setFont(new Font("Roboto" , 20));
 
+                ChoiceBox<String> classe = new ChoiceBox<>();
+                classe.setValue("Class");
+                classe.setStyle("-fx-text-fill: rgba(0,0,0,0.5) ;-fx-background-color: #EDEDED  ;-fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-font-family: 'Roboto Light' ;-fx-font-size: 15 ;");
+                classe.setMinHeight(36);
+                classe.setMaxHeight(36);
+                classe.setMinWidth(70);
+                classe.setMaxWidth(70);
+
+                //needs filling , like your mom :P
+
+                checkBox.setOnAction(_ -> {
+                    if(checkBox.isSelected()){
+                        ReservationDTO.PassagerData data = new ReservationDTO.PassagerData();
+                        data.setPassagerId(passager.getId());
+                        //Once we fill the classes , we can then use this b
+                        //data.setClassId(classe.getValue());
+                        chosenPassagers.add(data);
+                    }else{
+                        for( ReservationDTO.PassagerData data : chosenPassagers ){
+                            if(data.getPassagerId().equals(passager.getId())){
+                                chosenPassagers.remove(data);
+                                break;
+                            }
+                        }
+                    }
+                });
+
                 //TODO : figure out how to get the category of the passenger
 
                 StackPane stackPane = new StackPane();
 
-                ImageView icon = new ImageView(new Image(HelloApplication.class.getResource(" assets/icons/Edit.png").toExternalForm()));
+                ImageView icon = new ImageView(new Image(Objects.requireNonNull(HelloApplication.class.getResource(" assets/icons/Edit.png")).toExternalForm()));
                 Button button = new Button();
                 button.setMaxWidth(16);
                 button.setMinWidth(16);
@@ -124,7 +156,7 @@ public class PreferencesController {
                 button.setOnAction(_ -> loadPassengerEditor(PassengereditorController.Mode.EDIT));
 
                 stackPane.getChildren().addAll(icon , button);
-                container.getChildren().addAll(checkBox , fName , lName , category , stackPane);
+                container.getChildren().addAll(checkBox , fName , lName , category , classe , stackPane);
 
                 scrollPaneBody.getChildren().addAll(container , new Separator());
 
@@ -143,12 +175,23 @@ public class PreferencesController {
             secondaryStage.setWidth(738);
             secondaryStage.setHeight(418);
 
-            secondaryStage.setResizable(false);
-            secondaryStage.setScene(new Scene(parent));
+            Scene parentScene = HelloApplication.getScene();
 
-            secondaryStage.initOwner(HelloApplication.getScene().getWindow());
+            ColorAdjust dim = new ColorAdjust();
+            dim.setBrightness(-0.5);
+            dim.setInput(new GaussianBlur(10));
+
+            parentScene.getRoot().setEffect(dim);
+
+            Scene scene = new Scene(parent);
+            scene.setFill(Color.TRANSPARENT);
+
+            secondaryStage.setResizable(false);
+            secondaryStage.setScene(scene);
+
+            secondaryStage.initOwner(parentScene.getWindow());
             secondaryStage.initModality(Modality.WINDOW_MODAL);
-            secondaryStage.initStyle(StageStyle.UNDECORATED);
+            secondaryStage.initStyle(StageStyle.TRANSPARENT);
 
             PassengereditorController.window = secondaryStage;
             PassengereditorController.mode = mode;

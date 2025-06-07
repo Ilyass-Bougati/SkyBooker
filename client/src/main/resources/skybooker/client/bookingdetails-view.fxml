@@ -38,47 +38,48 @@
             <ImageView fitHeight="177" fitWidth="563" style="-fx-effect: dropshadow(gaussian,rgba(0,0,0,0.3),10,0,0,3)" >
             <Image url="@assets/images/BigTicket.png"/>
             </ImageView>
-            <VBox spacing="7">
+            <VBox spacing="30">
                 <padding>
                     <Insets left="80" top="13" />
                 </padding>
-                <HBox spacing="20">
-                    <Text text="Airline :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
-                        <font>
-                            <Font name="Roboto" size="20" />
-                        </font>
-                    </Text>
-                    <Text fx:id="airlineValue" text="Value" fill="rgba(0,0,0,0.5)">
-                        <font>
-                            <Font name="Roboto" size="20" />
-                        </font>
-                    </Text>
-                </HBox>
-                <HBox spacing="20">
-                    <Text text="Departure :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
-                        <font>
-                            <Font name="Roboto" size="20" />
-                        </font>
-                    </Text>
-                    <Text fx:id="departureValue" text="Value" fill="rgba(0,0,0,0.5)">
-                        <font>
-                            <Font name="Roboto" size="20" />
-                        </font>
-                    </Text>
-                </HBox>
-                <HBox spacing="20">
-                    <Text text="Arrival :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
-                        <font>
-                            <Font name="Roboto" size="20" />
-                        </font>
-                    </Text>
-                    <Text fx:id="arrivalValue" text="Value" fill="rgba(0,0,0,0.5)">
-                        <font>
-                            <Font name="Roboto" size="20" />
-                        </font>
-                    </Text>
-                </HBox>
-                <Rectangle height="30"/>
+                <VBox spacing="7">
+                    <HBox spacing="20">
+                        <Text text="Airline :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
+                            <font>
+                                <Font name="Roboto" size="20" />
+                            </font>
+                        </Text>
+                        <Text fx:id="airlineValue" text="Value" fill="rgba(0,0,0,0.5)">
+                            <font>
+                                <Font name="Roboto" size="20" />
+                            </font>
+                        </Text>
+                    </HBox>
+                    <HBox spacing="20">
+                        <Text text="Departure :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
+                            <font>
+                                <Font name="Roboto" size="20" />
+                            </font>
+                        </Text>
+                        <Text fx:id="departureValue" text="Value" fill="rgba(0,0,0,0.5)">
+                            <font>
+                                <Font name="Roboto" size="20" />
+                            </font>
+                        </Text>
+                    </HBox>
+                    <HBox spacing="20">
+                        <Text text="Arrival :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
+                            <font>
+                                <Font name="Roboto" size="20" />
+                            </font>
+                        </Text>
+                        <Text fx:id="arrivalValue" text="Value" fill="rgba(0,0,0,0.5)">
+                            <font>
+                                <Font name="Roboto" size="20" />
+                            </font>
+                        </Text>
+                    </HBox>
+                </VBox>
                 <HBox spacing="20" >
                     <Text text="Date :" style="-fx-font-weight: bold" fill="rgba(0,0,0,0.5)">
                         <font>

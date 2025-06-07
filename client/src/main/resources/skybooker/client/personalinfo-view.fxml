@@ -85,7 +85,7 @@
             </DatePicker>
         </HBox>
         <Rectangle height="14" />
-        <Button text="Next" style="-fx-cursor: hand;
+        <Button text="Finish" style="-fx-cursor: hand;
                                      -fx-text-fill: white ;
                                      -fx-font-weight: bold ;
                                      -fx-background-color: #7DA6FF ;
