@@ -61,8 +61,9 @@
         </Button>
     </VBox>
     <VBox alignment="BOTTOM_CENTER">
-        <Button text="No account ? Create one !" underline="true" style="-fx-text-fill: gray ;
-                                                                         -fx-background-color: transparent ;">
+        <Button onAction="#onSignUpButton" text="No account ? Create one !" underline="true" style="-fx-text-fill: gray ;
+                                                                         -fx-background-color: transparent ;
+                                                                         -fx-cursor: hand">
             <font>
                 <Font name="Roboto" size="18"/>
             </font>
