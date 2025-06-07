@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="skybooker.client.controller.SignupController"
+      prefHeight="600.0" prefWidth="825.0"
+      alignment="CENTER"
+      style="-fx-background-color: white" >
+    <Text text="Sign Up" style="-fx-font-weight: bold ; " >
+        <font>
+            <Font name="Roboto" size="30" />
+        </font>
+    </Text>
+    <VBox alignment="CENTER" >
+        <padding>
+            <Insets top="25"/>
+        </padding>
+        <TextField fx:id="email" promptText="Email" style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ; "
+                   minWidth="224" maxWidth="224"
+                   minHeight="44" maxHeight="44"  >
+            <font>
+                <Font name="Roboto" size="18" />
+            </font>
+        </TextField>
+        <Rectangle height="14" />
+        <PasswordField fx:id="password" promptText="Password" style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ; "
+                       minWidth="224" maxWidth="224"
+                       minHeight="44" maxHeight="44"  >
+            <font>
+                <Font name="Roboto" size="18" />
+            </font>
+        </PasswordField>
+        <Rectangle height="14" />
+        <PasswordField promptText="Confirm password" style="
+                                            -fx-text-fill: rgba(0,0,0,0.5) ;
+                                            -fx-background-color: #EDEDED  ;
+                                            -fx-background-radius: 12 ;
+                                            -fx-border-radius: 12 ; "
+                       minWidth="224" maxWidth="224"
+                       minHeight="44" maxHeight="44"  >
+            <font>
+                <Font name="Roboto" size="18" />
+            </font>
+        </PasswordField>
+        <Rectangle height="14" />
+        <Button text="Next" style="-fx-cursor: hand;
+                                     -fx-text-fill: white ;
+                                     -fx-font-weight: bold ;
+                                     -fx-background-color: #7DA6FF ;
+                                     -fx-background-radius: 12 ;
+                                     -fx-border-radius: 12 ;
+                                     -fx-font-size: 18 ;   "
+                minWidth="224" maxWidth="224"
+                minHeight="44" maxHeight="44"  >
+            <font>
+                <Font name="Roboto" size="18" />
+            </font>
+        </Button>
+    </VBox>
+</VBox>

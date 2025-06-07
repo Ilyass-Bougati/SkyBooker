@@ -22,6 +22,7 @@ public class PassengereditorController {
     {
         // TODO : the inside of this function
         window.close();
+        window.getOwner().getScene().getRoot().setEffect(null);
     }
 
     @FXML
@@ -29,11 +30,13 @@ public class PassengereditorController {
     {
         // TODO : the inside of this function
         window.close();
+        window.getOwner().getScene().getRoot().setEffect(null);
     }
 
     @FXML
     protected void onCloseButton(){
         window.close();
+        window.getOwner().getScene().getRoot().setEffect(null);
     }
 
     @FXML

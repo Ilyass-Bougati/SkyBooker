@@ -9,5 +9,6 @@ public class PassengersinfoController {
     @FXML
     protected void onCloseButton(){
         window.close();
+        window.getOwner().getScene().getRoot().setEffect(null);
     }
 }

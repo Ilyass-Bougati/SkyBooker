@@ -2,6 +2,9 @@ package skybooker.client.utils;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -41,19 +44,27 @@ public class GeneralUtils {
             secondaryStage.setWidth(573);
             secondaryStage.setHeight(193);
 
+            Scene parentScene = HelloApplication.getScene();
+            Scene scene = new Scene(parent);
+            scene.setFill(Color.TRANSPARENT);
             secondaryStage.setResizable(false);
-            secondaryStage.setScene(new Scene(parent));
+            secondaryStage.setScene(scene);
 
-            secondaryStage.initOwner(HelloApplication.getScene().getWindow());
+            ColorAdjust dim = new ColorAdjust();
+            dim.setBrightness(-0.5);
+            dim.setInput(new GaussianBlur(10));
+
+            parentScene.getRoot().setEffect(dim);
+            secondaryStage.initOwner(parentScene.getWindow());
             secondaryStage.initModality(Modality.WINDOW_MODAL);
-            secondaryStage.initStyle(StageStyle.UNDECORATED);
+            secondaryStage.initStyle(StageStyle.TRANSPARENT);
 
             BookpopupController.window = secondaryStage;
 
             secondaryStage.show();
         }catch (IOException e)
         {
-            System.out.println("Boook popup : No such view");
+            System.out.println("Book popup : No such view");
         }
     }
 

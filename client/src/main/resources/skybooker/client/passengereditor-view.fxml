@@ -14,7 +14,7 @@
 <?import javafx.scene.image.Image?>
 <HBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      style="-fx-background-color: white"
+      style="-fx-background-color: white ; -fx-border-radius: 12 ; -fx-background-radius: 12"
       fx:controller="skybooker.client.controller.PassengereditorController"
       prefHeight="418.0" prefWidth="738.0">
             <padding>
@@ -75,7 +75,7 @@
                        <Font name="Roboto" size="18" />
                    </font>
                </Button>
-               <DatePicker fx:id="birthdate" stylesheets="@style.css" promptText="Birth Date" style="
+               <DatePicker fx:id="birthdate" stylesheets="@style.css" promptText="Birth date" style="
                     -fx-text-fill: rgba(0,0,0,0.5) ;
                     -fx-background-color: #EDEDED  ;
                     -fx-background-radius: 12 ;

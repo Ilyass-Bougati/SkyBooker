@@ -69,9 +69,8 @@ public class MybookingsController {
                 globalContainer.setMaxWidth(540);
 
                 DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                Date dateWithZeroTime = formatter.parse(formatter.format(vol.getDateDepart()));
 
-                Text date = new Text(dateWithZeroTime.toString());
+                Text date = new Text(formatter.format(vol.getDateDepart()));
                 date.setFont(new Font("Roboto" , 15));
 
                 HBox container = new HBox();

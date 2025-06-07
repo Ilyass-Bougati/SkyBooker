@@ -65,6 +65,7 @@ public class BookpopupController {
 
         } catch (Exception e) {
             window.close();
+            window.getOwner().getScene().getRoot().setEffect(null);
         }
     }
 
@@ -90,6 +91,7 @@ public class BookpopupController {
         PreferencesController.isComingFromBookPopup = true;
         GeneralUtils.loadPreferences();
         window.close();
+        window.getOwner().getScene().getRoot().setEffect(null);
     }
 
     @FXML
@@ -106,11 +108,13 @@ public class BookpopupController {
 
         GeneralUtils.changeView("searchresults-view.fxml");
         window.close();
+        window.getOwner().getScene().getRoot().setEffect(null);
     }
 
     @FXML
     protected void onCloseButton()
     {
         window.close();
+        window.getOwner().getScene().getRoot().setEffect(null);
     }
 }

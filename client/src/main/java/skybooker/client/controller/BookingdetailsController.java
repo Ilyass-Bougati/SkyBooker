@@ -4,6 +4,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -17,6 +20,7 @@ import skybooker.client.utils.GeneralUtils;
 import skybooker.client.HelloApplication;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 public class BookingdetailsController {
 
@@ -48,16 +52,26 @@ public class BookingdetailsController {
             secondaryStage.setWidth(572);
             secondaryStage.setHeight(311);
 
+            Scene parentScene = HelloApplication.getScene();
+            Scene scene = new Scene(parent);
+            scene.setFill(Color.TRANSPARENT);
             secondaryStage.setResizable(false);
-            secondaryStage.setScene(new Scene(parent));
+            secondaryStage.setScene(scene);
 
-            secondaryStage.initOwner(HelloApplication.getScene().getWindow());
+            ColorAdjust dim = new ColorAdjust();
+            dim.setBrightness(-0.5);
+            dim.setInput(new GaussianBlur(10));
+
+            parentScene.getRoot().setEffect(dim);
+            secondaryStage.initOwner(parentScene.getWindow());
             secondaryStage.initModality(Modality.WINDOW_MODAL);
-            secondaryStage.initStyle(StageStyle.UNDECORATED);
+            secondaryStage.initStyle(StageStyle.TRANSPARENT);
 
             PassengersinfoController.window = secondaryStage;
 
             secondaryStage.show();
+
+
         }catch (IOException e)
         {
             System.out.println("Passager info : No such view");
@@ -83,7 +97,8 @@ public class BookingdetailsController {
             airlineValue.setText(companieAerienne.getNom());
             departureValue.setText(aeroportDepart.getIataCode() + " " + vol.getHeureDepart());
             arrivalValue.setText(aeroportArrive.getIataCode() + " " + vol.getHeureArrive());
-            dateValue.setText(vol.getDateDepart().toString());
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            dateValue.setText(formatter.format(vol.getDateDepart()));
 
         }catch(Exception e)
         {
