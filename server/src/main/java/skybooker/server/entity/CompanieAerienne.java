@@ -17,7 +17,7 @@ import java.util.Set;
 public class CompanieAerienne {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String nom;
     private String iataCode;
     private String icaoCode;

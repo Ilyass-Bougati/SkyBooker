@@ -48,6 +48,7 @@ public class PreferencesController {
     private VBox scrollPaneBody ;
 
     public static boolean isComingFromBookPopup = false;
+
     private final static List<ReservationDTO.PassagerData> chosenPassagers = new ArrayList<>();
 
     @FXML
@@ -223,5 +224,9 @@ public class PreferencesController {
             System.out.println("Passager editor No such view");
             e.printStackTrace();
         }
+    }
+
+    public static List<ReservationDTO.PassagerData> getChosenPassagers() {
+        return chosenPassagers;
     }
 }

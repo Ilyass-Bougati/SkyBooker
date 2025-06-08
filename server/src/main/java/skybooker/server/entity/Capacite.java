@@ -16,7 +16,7 @@ import skybooker.server.DTO.CapaciteDTO;
 public class Capacite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private int capacite;
     private int borneInf;
     private int borneSup;

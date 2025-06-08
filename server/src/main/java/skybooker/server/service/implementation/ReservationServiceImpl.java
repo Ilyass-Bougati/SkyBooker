@@ -135,7 +135,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<BilletDTO> getBillets(long idReservation) {
+    public List<BilletDTO> getBillets(Long idReservation) {
         return reservationRepository.getBillets(idReservation);
     }
 

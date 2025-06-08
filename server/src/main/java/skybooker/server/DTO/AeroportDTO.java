@@ -9,7 +9,7 @@ import skybooker.server.entity.Aeroport;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AeroportDTO {
-    private long id;
+    private Long id;
 
     @NotNull
     private String iataCode;

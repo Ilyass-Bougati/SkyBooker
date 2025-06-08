@@ -11,7 +11,7 @@ import skybooker.server.entity.Classe;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClasseDTO {
-    private long id;
+    private Long id;
     private String nom;
     private int prixParKm;
 

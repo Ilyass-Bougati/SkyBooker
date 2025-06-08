@@ -23,7 +23,7 @@ import java.util.Set;
 public class Client{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(unique = true)
     @NotNull

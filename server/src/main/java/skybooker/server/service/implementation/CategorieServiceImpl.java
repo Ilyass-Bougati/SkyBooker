@@ -3,6 +3,7 @@ package skybooker.server.service.implementation;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.CategorieDTO;
@@ -25,12 +26,19 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
+    @Cacheable(value = "allCategoriesCache", key = "'allCategories'")
     public List<CategorieDTO> findAllDTO() {
         return categorieRepository.findAll()
                 .stream().map(CategorieDTO::new).toList();
     }
 
     @Override
+    @Caching(put = {
+            @CachePut(value = "categorieIdCache", key = "#result.id"),
+            @CachePut(value = "categorieNameCache", key = "#result.nom")
+    }, evict = {
+            @CacheEvict(value = "allCategoriesCache", allEntries = true)
+    })
     public CategorieDTO createDTO(CategorieDTO categorieDTO) {
         Categorie categorie = new Categorie(categorieDTO);
         return new CategorieDTO(categorieRepository.save(categorie));
@@ -63,7 +71,11 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    @CachePut(value = "categorieIdCache", key = "#categorieDTO.id")
+    @Caching(put = {
+            @CachePut(value = "categorieIdCache", key = "#categorieDTO.id")
+    }, evict = {
+            @CacheEvict(value = "allCategoriesCache", allEntries = true)
+    })
     public CategorieDTO updateDTO(CategorieDTO categorieDTO) {
         Categorie categorie = categorieRepository.findById(categorieDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Categorie not found"));
@@ -74,7 +86,11 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    @CacheEvict(value = "categorieIdCache", key = "#id")
+    @Caching(evict = {
+            @CacheEvict(value = "categorieIdCache", key = "#id"),
+            @CacheEvict(value = "categorieNameCache", key = "#name", beforeInvocation = true, condition = "#name != null"),
+            @CacheEvict(value = "allCategoriesCache", allEntries = true)
+    })
     public void deleteById(Long id) {
         categorieRepository.deleteById(id);
     }
