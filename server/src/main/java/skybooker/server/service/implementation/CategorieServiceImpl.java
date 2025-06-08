@@ -26,7 +26,6 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    @Cacheable(value = "allCategoriesCache", key = "'allCategories'")
     public List<CategorieDTO> findAllDTO() {
         return categorieRepository.findAll()
                 .stream().map(CategorieDTO::new).toList();
@@ -36,8 +35,6 @@ public class CategorieServiceImpl implements CategorieService {
     @Caching(put = {
             @CachePut(value = "categorieIdCache", key = "#result.id"),
             @CachePut(value = "categorieNameCache", key = "#result.nom")
-    }, evict = {
-            @CacheEvict(value = "allCategoriesCache", allEntries = true)
     })
     public CategorieDTO createDTO(CategorieDTO categorieDTO) {
         Categorie categorie = new Categorie(categorieDTO);
@@ -71,11 +68,7 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     @Override
-    @Caching(put = {
-            @CachePut(value = "categorieIdCache", key = "#categorieDTO.id")
-    }, evict = {
-            @CacheEvict(value = "allCategoriesCache", allEntries = true)
-    })
+    @CachePut(value = "categorieIdCache", key = "#categorieDTO.id")
     public CategorieDTO updateDTO(CategorieDTO categorieDTO) {
         Categorie categorie = categorieRepository.findById(categorieDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Categorie not found"));
@@ -89,7 +82,6 @@ public class CategorieServiceImpl implements CategorieService {
     @Caching(evict = {
             @CacheEvict(value = "categorieIdCache", key = "#id"),
             @CacheEvict(value = "categorieNameCache", key = "#name", beforeInvocation = true, condition = "#name != null"),
-            @CacheEvict(value = "allCategoriesCache", allEntries = true)
     })
     public void deleteById(Long id) {
         categorieRepository.deleteById(id);
