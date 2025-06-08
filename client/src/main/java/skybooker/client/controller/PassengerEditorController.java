@@ -3,9 +3,26 @@ package skybooker.client.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import skybooker.client.DTO.PassagerDTO;
+import skybooker.client.requests.Client;
+import skybooker.client.utils.GeneralUtils;
 
 public class PassengerEditorController {
+
+    @FXML
+    private TextField lastNameInput;
+
+    @FXML
+    private TextField firstNameInput;
+
+    @FXML
+    private DatePicker birthDatePicker;
+
+    @FXML
+    private TextField cinInput;
 
     @FXML
     private Button deleteButton ;
@@ -21,6 +38,20 @@ public class PassengerEditorController {
     protected void onConfirmButton()
     {
         // TODO : the inside of this function
+        if (mode == Mode.CREATE) {
+            PassagerDTO passager = new PassagerDTO();
+            passager.setDateOfBirth(birthDatePicker.getValue().toString());
+            passager.setCIN(cinInput.getText());
+            passager.setNom(lastNameInput.getText());
+            passager.setPrenom(firstNameInput.getText());
+
+            try {
+                Client.post("/passager/", passager);
+                GeneralUtils.loadPreferences();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         window.close();
         window.getOwner().getScene().getRoot().setEffect(null);
     }
