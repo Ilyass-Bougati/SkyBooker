@@ -55,9 +55,7 @@ public class SideBarController {
                         try {
                             BookPopupController.setvA(ClientCache.get(searches.get(0).getVilleArriveeId() , VilleDTO.class).getNom());
                             BookPopupController.setvD(ClientCache.get(searches.get(0).getVilleDepartId() , VilleDTO.class).getNom());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        } catch (Exception _) {}
                     });
 
                     if(searches.size() > 1){
@@ -66,9 +64,7 @@ public class SideBarController {
                             try {
                                 BookPopupController.setvA(ClientCache.get(searches.get(1).getVilleArriveeId() , VilleDTO.class).getNom());
                                 BookPopupController.setvD(ClientCache.get(searches.get(1).getVilleDepartId() , VilleDTO.class).getNom());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            } catch (Exception _) {}
                         });
 
                         if(searches.size() > 2){
@@ -77,9 +73,7 @@ public class SideBarController {
                                 try {
                                     BookPopupController.setvA(ClientCache.get(searches.get(2).getVilleArriveeId() , VilleDTO.class).getNom());
                                     BookPopupController.setvD(ClientCache.get(searches.get(2).getVilleDepartId() , VilleDTO.class).getNom());
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                                } catch (Exception _) {}
                             });
                         }
                     }

@@ -89,7 +89,7 @@ public class MyBookingsController {
 
                 container.getChildren().addAll(DEP , DEPTIME , ARRTIME , ARR);
 
-                Text passengersAmount = new Text("Passengers : XX");
+                Text passengersAmount = new Text("Passengers : " + reservation.getPassagers().size());
                 passengersAmount.setFont(new Font("Roboto" , 15));
 
                 globalContainer.getChildren().addAll(date , container , passengersAmount);
