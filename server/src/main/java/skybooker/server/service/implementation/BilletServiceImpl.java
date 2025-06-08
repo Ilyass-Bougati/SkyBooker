@@ -7,6 +7,7 @@ import skybooker.server.entity.Billet;
 import skybooker.server.entity.Classe;
 import skybooker.server.entity.Passager;
 import skybooker.server.entity.Reservation;
+import skybooker.server.enums.EtatBillet;
 import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.BilletRepository;
 import skybooker.server.repository.ClasseRepository;
@@ -68,6 +69,7 @@ public class BilletServiceImpl implements BilletService {
         billet.setClasse(classe);
         billet.setPassager(passager);
         billet.setReservation(reservation);
+        billet.setEtat(EtatBillet.ACTIVE); // Set etat, default to ACTIVE
         return new BilletDTO(billetRepository.save(billet));
     }
 
@@ -87,6 +89,7 @@ public class BilletServiceImpl implements BilletService {
         billet.setClasse(classe);
         billet.setReservation(reservation);
         billet.setPassager(passager);
+        billet.setEtat(billetDTO.getEtat());
 
         // saving the updates
         return new BilletDTO(billetRepository.save(billet));
