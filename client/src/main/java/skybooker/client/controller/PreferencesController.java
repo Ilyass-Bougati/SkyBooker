@@ -125,14 +125,35 @@ public class PreferencesController {
                     checkBox.setSelected(true);
                 }
 
+                VBox fnameContainer = new VBox();
+                fnameContainer.setAlignment(Pos.CENTER);
+                fnameContainer.setMinWidth(90);
+                fnameContainer.setMaxWidth(90);
+
                 Text fName = new Text(passager.getPrenom());
                 fName.setFont(new Font("Roboto" , 20));
+
+                fnameContainer.getChildren().add(fName);
+
+                VBox lnameContainer = new VBox();
+                lnameContainer.setAlignment(Pos.CENTER);
+                lnameContainer.setMinWidth(90);
+                lnameContainer.setMaxWidth(90);
 
                 Text lName = new Text(passager.getNom());
                 lName.setFont(new Font("Roboto" , 20));
 
+                lnameContainer.getChildren().add(lName);
+
+                VBox categoryContainer = new VBox();
+                categoryContainer.setAlignment(Pos.CENTER);
+                categoryContainer.setMinWidth(77);
+                categoryContainer.setMaxWidth(77);
+
                 Text category = new Text(ClientCache.get(passager.getId() ,CategorieDTO.class).getNom());
                 category.setFont(new Font("Roboto" , 20));
+
+                categoryContainer.getChildren().add(category);
 
                 ChoiceBox<String> classe = new ChoiceBox<>();
                 classe.setValue("Economy");
@@ -182,7 +203,7 @@ public class PreferencesController {
 
                 stackPane.getChildren().addAll(icon , button);
                 stackPane.setStyle("-fx-cursor: hand;");
-                container.getChildren().addAll(checkBox , fName , lName , category , classe , stackPane);
+                container.getChildren().addAll(checkBox , fnameContainer , lnameContainer , categoryContainer , classe , stackPane);
 
                 scrollPaneBody.getChildren().addAll(container , new Separator());
 
