@@ -15,6 +15,7 @@ import skybooker.server.service.PassagerService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DataUpdateService {
@@ -56,7 +57,8 @@ public class DataUpdateService {
 
     @Async("purgeTask")
     public void evictAllCaches(){
-        cacheManager.getCacheNames().forEach(cacheName -> cacheManager.getCache(cacheName).clear());
+        cacheManager.getCacheNames().
+                forEach(cacheName -> Objects.requireNonNull(cacheManager.getCache(cacheName)).clear());
         logger.info("Evicted all caches");
     }
 
