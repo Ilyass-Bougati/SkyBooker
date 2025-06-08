@@ -98,7 +98,7 @@ public class Client {
         }
     }
 
-    public static String delete(String route) throws Exception {
+    public static void delete(String route) throws Exception {
         Request request = new Request.Builder()
                 .url(url + route)
                 .delete()
@@ -108,7 +108,7 @@ public class Client {
         Call call = client.newCall(request);
         try (Response res = call.execute()) {
             if (res.isSuccessful() && res.body() != null) {
-                return res.body().string();
+                return;
             } else {
                 throw ExceptionHandler.getException(res);
             }

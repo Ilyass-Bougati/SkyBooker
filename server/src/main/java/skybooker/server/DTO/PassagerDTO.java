@@ -28,7 +28,6 @@ public class PassagerDTO {
     @NotNull
     private String CIN;
 
-    @NotNull
     private Long categorieId;
 
     @NotNull
