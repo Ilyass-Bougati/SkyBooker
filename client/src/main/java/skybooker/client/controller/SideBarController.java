@@ -1,6 +1,7 @@
 package skybooker.client.controller;
 
 import javafx.fxml.FXML;
+import skybooker.client.requests.Client;
 import skybooker.client.utils.GeneralUtils;
 
 public class SideBarController {
@@ -33,6 +34,7 @@ public class SideBarController {
     @FXML
     protected void onLogOut()
     {
+        Client.logout();
         GeneralUtils.doLogOut();
     }
 }

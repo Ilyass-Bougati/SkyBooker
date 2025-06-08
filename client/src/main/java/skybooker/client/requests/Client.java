@@ -5,15 +5,13 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import skybooker.client.exceptions.ExceptionHandler;
 import okhttp3.*;
 
-import java.io.IOException;
-
 public class Client {
     private static final String url = "http://localhost:8080/api/v1";
     private static final OkHttpClient client = new OkHttpClient();
     private static String token = "";
     private static boolean isLoggedIn = false;
 
-    public static void login(String username, String password) throws Exception, IOException {
+    public static void login(String username, String password) throws Exception {
         if (isLoggedIn) {
             return;
         }
@@ -37,7 +35,7 @@ public class Client {
         }
     }
 
-    public static String post(String route, Object object) throws Exception, IOException {
+    public static String post(String route, Object object) throws Exception {
         // turning to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(object);
