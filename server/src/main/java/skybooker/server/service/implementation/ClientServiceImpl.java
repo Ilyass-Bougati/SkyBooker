@@ -148,20 +148,20 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ReservationDTO> getReservations(long id) {
+    public List<ReservationDTO> getReservations(Long id) {
         return clientRepository.getReservations(id).stream()
                 .map(ReservationDTO::new).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PassagerDTO> getPassagers(long id) {
+    public List<PassagerDTO> getPassagers(Long id) {
         return clientRepository.getPassagers(id)
                 .stream().map(PassagerDTO::new).toList();
     }
 
     @Override
-    public boolean clientMadeReservation(long clientId, long reservationId) {
+    public boolean clientMadeReservation(Long clientId, Long reservationId) {
         return clientRepository.clientMadeReservation(clientId, reservationId);
     }
 

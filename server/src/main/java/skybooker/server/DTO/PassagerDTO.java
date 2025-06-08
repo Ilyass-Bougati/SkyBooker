@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PassagerDTO {
 
-    private long id;
+    private Long id;
 
     Long clientId;
 

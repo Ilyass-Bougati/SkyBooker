@@ -15,7 +15,7 @@ import java.util.*;
 @AllArgsConstructor
 public class VolDTO {
 
-    private long id;
+    private Long id;
 
     @NotNull
     private Date dateDepart;

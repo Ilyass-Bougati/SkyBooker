@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ClientDTO {
     @NotNull
-    private long id;
+    private Long id;
 
     @NotNull
     @Email

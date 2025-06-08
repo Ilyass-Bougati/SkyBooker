@@ -17,7 +17,7 @@ import java.util.Set;
 public class Classe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String nom;
     private int prixParKm;
 

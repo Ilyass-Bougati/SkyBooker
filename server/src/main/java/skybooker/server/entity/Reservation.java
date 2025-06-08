@@ -20,7 +20,7 @@ import java.util.Set;
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private EtatReservation etat = EtatReservation.PENDING;
 

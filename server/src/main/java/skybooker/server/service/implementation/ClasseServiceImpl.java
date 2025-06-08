@@ -4,7 +4,9 @@ package skybooker.server.service.implementation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.ClasseDTO;
@@ -31,6 +33,7 @@ public class ClasseServiceImpl implements ClasseService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "allClassesCache", key = "'allClasses'")
     public List<ClasseDTO> findAllDTO() {
         List<Classe> classes = classeRepository.findAll();
         return classes.stream().map(ClasseDTO::new).toList();
@@ -45,12 +48,22 @@ public class ClasseServiceImpl implements ClasseService {
     }
 
     @Override
+    @Caching(put = {
+            @CachePut(value = "classeCache", key = "#result.id")
+    }, evict = {
+            @CacheEvict(value = "allClassesCache", allEntries = true)
+    })
     public ClasseDTO createDTO(ClasseDTO classeDTO) {
         Classe classe = new Classe(classeDTO);
         return new ClasseDTO(classeRepository.save(classe));
     }
 
     @Override
+    @Caching(put = {
+            @CachePut(value = "classeCache", key = "#classeDTO.id")
+    }, evict = {
+            @CacheEvict(value = "allClassesCache", allEntries = true)
+    })
     public ClasseDTO updateDTO(ClasseDTO classeDTO) {
         Classe classe = classeRepository.findById(classeDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Classe not found"));
@@ -71,7 +84,10 @@ public class ClasseServiceImpl implements ClasseService {
     }
 
     @Override
-    @CacheEvict(value = "classeCache", key = "#id")
+    @Caching(evict = {
+            @CacheEvict(value = "classeCache", key = "#id"),
+            @CacheEvict(value = "allClassesCache", allEntries = true)
+    })
     public void deleteById(Long id) {
         classeRepository.deleteById(id);
     }

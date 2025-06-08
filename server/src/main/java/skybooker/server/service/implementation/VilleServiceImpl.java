@@ -1,5 +1,8 @@
 package skybooker.server.service.implementation;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.VilleDTO;
@@ -29,6 +32,7 @@ public class VilleServiceImpl implements VilleService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "villeCache", key = "#id")
     public VilleDTO findDTOById(Long id) {
         Optional<Ville> ville = villeRepository.findById(id);
         return ville
@@ -37,6 +41,7 @@ public class VilleServiceImpl implements VilleService {
     }
 
     @Override
+    @CacheEvict(value = "villeCache", key = "#aLong")
     public void deleteById(Long aLong) {
         villeRepository.deleteById(aLong);
     }
@@ -48,11 +53,13 @@ public class VilleServiceImpl implements VilleService {
     }
 
     @Override
+    @CachePut(value = "villeCache", key = "#result.id")
     public VilleDTO createDTO(VilleDTO villeDTO) {
         return new VilleDTO(villeRepository.save(new Ville(villeDTO)));
     }
 
     @Override
+    @CachePut(value = "villeCache", key = "#villeDTO.id")
     public VilleDTO updateDTO(VilleDTO villeDTO) {
         Ville ville = villeRepository.findById(villeDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Ville not found"));

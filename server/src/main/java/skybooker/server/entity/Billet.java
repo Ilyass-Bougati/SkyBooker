@@ -15,7 +15,7 @@ import skybooker.server.enums.EtatBillet;
 public class Billet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private int siege;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

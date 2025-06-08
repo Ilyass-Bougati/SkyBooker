@@ -17,7 +17,7 @@ public class AvionDTO {
     @JsonIgnore
     Logger logger = LoggerFactory.getLogger(AvionDTO.class);
 
-    private long id;
+    private Long id;
 
     @NotNull
     private String iataCode;

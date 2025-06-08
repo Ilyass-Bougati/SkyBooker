@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ReservationDTO {
 
-    private long id;
+    private Long id;
 
     private EtatReservation etat;
 

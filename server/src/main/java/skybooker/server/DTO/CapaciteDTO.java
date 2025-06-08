@@ -10,7 +10,7 @@ import skybooker.server.entity.Capacite;
 @NoArgsConstructor
 public class CapaciteDTO {
 
-    private long id;
+    private Long id;
 
     @NotNull
     private int capacite;
@@ -22,10 +22,10 @@ public class CapaciteDTO {
     private int borneSup;
 
     @NotNull
-    private long avionId;
+    private Long avionId;
 
     @NotNull
-    private long classeId;
+    private Long classeId;
 
     public CapaciteDTO(Capacite capacite) {
         setCapacite(capacite.getCapacite());

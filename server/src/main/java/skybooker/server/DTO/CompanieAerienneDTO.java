@@ -8,7 +8,7 @@ import skybooker.server.entity.CompanieAerienne;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompanieAerienneDTO {
-    private long id;
+    private Long id;
     private String nom;
     private String iataCode;
     private String icaoCode;

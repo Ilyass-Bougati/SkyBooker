@@ -2,6 +2,10 @@ package skybooker.server.service.implementation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.VolDTO;
@@ -38,6 +42,7 @@ public class VolServiceImpl implements VolService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "volCache", key = "#id")
     public VolDTO findDTOById(Long id){
         Optional<Vol> vol = volRepository.findById(id);
         return vol
@@ -46,6 +51,7 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
+    @CacheEvict(value = "volCache", key = "#id")
     public void deleteById(Long id){
         volRepository.deleteById(id);
     }
@@ -73,6 +79,11 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
+    @Caching(put = {
+            @CachePut(value = "volCache", key = "#volDTO.id")
+    }, evict = {
+            @CacheEvict(value = "trajetVolsCache", allEntries = true)
+    })
     public VolDTO updateDTO(VolDTO volDTO) {
         Optional<Vol> volOptional = volRepository.findById(volDTO.getId());
         if(volOptional.isPresent()){
@@ -123,6 +134,7 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
+    @Cacheable(value = "trajetVolsCache", key = "{#villeDepartId, #villeArriveeId}")
     public List<VolDTO> getTrajetVols(Long villeDepartId, Long villeArriveeId) {
         return volRepository.findByVilles(villeDepartId, villeArriveeId)
                 .stream().map(VolDTO::new).toList();

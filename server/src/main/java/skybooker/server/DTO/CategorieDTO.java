@@ -15,7 +15,7 @@ import skybooker.server.entity.Categorie;
 @NoArgsConstructor
 public class CategorieDTO {
 
-    private long id;
+    private Long id;
 
     @NotNull
     private String nom;
