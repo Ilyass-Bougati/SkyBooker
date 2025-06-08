@@ -25,7 +25,6 @@ public class ReservationDTO {
     @Min(0)
     private double prixTotal;
 
-    @NotNull
     private Long clientId;
 
     @NotNull
