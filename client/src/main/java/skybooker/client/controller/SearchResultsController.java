@@ -81,6 +81,7 @@ public class SearchResultsController {
 
                 container.getChildren().addAll(depAirport , depTime , arrAirport , arrTime );
 
+                // TODO : fix this
                 Text price = new Text(((Double)v.getPrix()).toString()) ;
                 price.setFont(new Font("Roboto" , 15));
 

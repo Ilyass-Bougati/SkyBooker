@@ -18,7 +18,6 @@ public class HistoryController {
         try {
             String res = Client.get("/reservation/history");
             List<ReservationDTO> reservations = mapper.readValue(res, new TypeReference<>(){});
-            System.out.println(reservations);
 
             // TODO : show these reservations
         } catch (Exception e) {

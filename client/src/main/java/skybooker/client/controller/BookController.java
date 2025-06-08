@@ -22,9 +22,7 @@ import skybooker.client.requests.Client;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class BookController {
 
@@ -91,7 +89,7 @@ public class BookController {
         reservationDTO.setVolId(volId);
         // TODO : THIS CAN'T STAY ;; f you wan me to do
         reservationDTO.setPrixTotal(FlightInfoController.getReservationPrice());
-        reservationDTO.setPassagers(PreferencesController.getChosenPassagers());
+        reservationDTO.setPassagers(new HashSet<>(PreferencesController.getChosenPassagers()));
 
         try {
             Client.post("/reservation/", reservationDTO);
