@@ -3,6 +3,7 @@ package skybooker.server.service.implementation;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.CacheManager;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import skybooker.server.entity.Passager;
@@ -18,6 +19,7 @@ import java.util.List;
 @Service
 public class DataUpdateService {
 
+    private final CacheManager cacheManager;
     Logger logger = LoggerFactory.getLogger(DataUpdateService.class);
 
     private final PassagerService passagerService;
@@ -26,12 +28,13 @@ public class DataUpdateService {
     private final ReservationRepository reservationRepository;
     private final VolRepository volRepository;
 
-    public DataUpdateService(ReservationRepository reservationRepository, VolRepository volRepository, PassagerService passagerService, PassagerRepository passagerRepository, CategorieRepository categorieRepository) {
+    public DataUpdateService(ReservationRepository reservationRepository, VolRepository volRepository, PassagerService passagerService, PassagerRepository passagerRepository, CategorieRepository categorieRepository, CacheManager cacheManager) {
         this.reservationRepository = reservationRepository;
         this.volRepository = volRepository;
         this.passagerService = passagerService;
         this.passagerRepository = passagerRepository;
         this.categorieRepository = categorieRepository;
+        this.cacheManager = cacheManager;
     }
 
     @Async("purgeTask")
@@ -50,7 +53,12 @@ public class DataUpdateService {
         logger.info("Purged the vols");
     }
 
-    // TODO : Evic all cache
+
+    @Async("purgeTask")
+    public void evictAllCaches(){
+        cacheManager.getCacheNames().forEach(cacheName -> cacheManager.getCache(cacheName).clear());
+        logger.info("Evicted all caches");
+    }
 
     /**
      * This function update the ages and categories of all the passagers
