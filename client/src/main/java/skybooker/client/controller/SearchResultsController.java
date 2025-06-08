@@ -13,10 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import skybooker.client.DTO.AeroportDTO;
-import skybooker.client.DTO.AvionDTO;
-import skybooker.client.DTO.CompanieAerienneDTO;
-import skybooker.client.DTO.VolDTO;
+import skybooker.client.DTO.*;
 import skybooker.client.requests.Client;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
@@ -81,7 +78,9 @@ public class SearchResultsController {
 
                 container.getChildren().addAll(depAirport , depTime , arrAirport , arrTime );
 
-                Text price = new Text(((Double)v.getPrix()).toString()) ;
+                res = Client.get("/vol/price/" + v.getId() + "/" + 1); // Economy class
+                PriceDTO priceDTO = mapper.readValue(res, new TypeReference<>() {});
+                Text price = new Text((priceDTO.getPrice().toString())) ;
                 price.setFont(new Font("Roboto" , 15));
 
                 globalContainer.getChildren().addAll(airline , container , price );

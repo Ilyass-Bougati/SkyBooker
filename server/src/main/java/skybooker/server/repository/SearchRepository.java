@@ -13,7 +13,7 @@ public interface SearchRepository extends JpaRepository<Search, Long> {
             "order by s.searchedAt desc limit 3")
     List<Search> getHistory(Long clientId);
 
-    @Query("select s from Search s where s.client.id=:clientId " +
+    @Query("select s from Search s where s.client.id=:id " +
             "order by s.searchedAt desc")
     List<Search> findAllByClientId(Long id);
 }
