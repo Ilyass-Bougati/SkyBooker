@@ -7,8 +7,12 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import skybooker.server.DTO.PriceDTO;
 import skybooker.server.DTO.VolDTO;
+import skybooker.server.entity.Client;
+import skybooker.server.service.ClientService;
+import skybooker.server.service.SearchService;
 import skybooker.server.service.VolService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -16,13 +20,19 @@ import java.util.List;
 public class VolController {
 
     private final VolService volService;
+    private final ClientService clientService;
+    private final SearchService searchService;
 
-    public VolController(VolService volService) {
+    public VolController(VolService volService, ClientService clientService, SearchService searchService) {
         this.volService = volService;
+        this.clientService = clientService;
+        this.searchService = searchService;
     }
 
     @GetMapping("/getFromVilles/{villeAriveeId}/{villeDepartId}")
-    public ResponseEntity<List<VolDTO>> getVols(@PathVariable Long villeAriveeId, @PathVariable Long villeDepartId) {
+    public ResponseEntity<List<VolDTO>> getVols(Principal principal,  @PathVariable Long villeAriveeId, @PathVariable Long villeDepartId) {
+        Client client = clientService.getFromPrincipal(principal);
+        searchService.addSearch(villeDepartId, villeAriveeId, client);
         return ResponseEntity.ok(volService.getTrajetVols(villeDepartId, villeAriveeId));
     }
 
