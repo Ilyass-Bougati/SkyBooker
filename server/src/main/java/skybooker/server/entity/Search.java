@@ -27,12 +27,12 @@ public class Search {
     private Long id;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ville_depart_id")
     private Ville villeDepart;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ville_arrivee_id")
     private Ville villeArrivee;
 
