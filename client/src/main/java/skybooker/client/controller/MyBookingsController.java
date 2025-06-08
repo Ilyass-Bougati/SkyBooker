@@ -101,7 +101,10 @@ public class MyBookingsController {
                 button.setMinWidth(540);
                 button.setMaxWidth(540);
                 button.setStyle("-fx-cursor: hand");
-                button.setOnAction(_ -> toBookingDetails(vol));
+                button.setOnAction(_ -> {
+                    BookingDetailsController.setReservation(reservation);
+                    toBookingDetails(vol);
+                });
 
                 stackPane.getChildren().addAll(globalContainer , button);
 
@@ -115,7 +118,7 @@ public class MyBookingsController {
 
     private void toBookingDetails(VolDTO vol)
     {
-        GeneralUtils.changeView("bookingdetails-view.fxml");
         BookingDetailsController.setVol(vol);
+        GeneralUtils.changeView("bookingdetails-view.fxml");
     }
 }
