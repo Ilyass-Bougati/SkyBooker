@@ -3,7 +3,6 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <?import javafx.scene.image.ImageView?>
@@ -75,7 +74,7 @@
                 </ScrollPane>
             </VBox>
             <VBox alignment="CENTER">
-                <Button onAction="#onCheckoutButton" minHeight="50" maxHeight="50" minWidth="295" maxWidth="295" text="Checkout XXXX$" style="-fx-background-color: #7DA6FF ;
+                <Button fx:id="checkoutButton" onAction="#onCheckoutButton" minHeight="50" maxHeight="50" minWidth="295" maxWidth="295" text="Checkout XXXX$" style="-fx-background-color: #7DA6FF ;
                                                     -fx-font-weight: bold;
                                                     -fx-text-fill: white;
                                                     -fx-background-radius: 7 ;

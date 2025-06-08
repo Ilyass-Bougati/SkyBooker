@@ -3,9 +3,11 @@ package skybooker.client.controller;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
@@ -16,7 +18,6 @@ import skybooker.client.DTO.CategorieDTO;
 import skybooker.client.DTO.ClassDTO;
 import skybooker.client.DTO.PassagerDTO;
 import skybooker.client.DTO.ReservationDTO;
-import skybooker.client.enums.EtatReservation;
 import skybooker.client.requests.Client;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
@@ -33,59 +34,49 @@ public class BookController {
     private VBox scrollpaneBody ;
 
     @FXML
+    private Button checkoutButton;
+
+    @FXML
     protected void initialize() {
 
-        HashMap<String , ClassDTO> classMap = new HashMap<>();
+        Platform.runLater(() -> {
+            for (ReservationDTO.PassagerData passagerData : PreferencesController.getChosenPassagers()) {
+                try {
+                    PassagerDTO passagerDTO = ClientCache.get(passagerData.getPassagerId(), PassagerDTO.class);
+                    ClassDTO classDTO = ClientCache.get(passagerData.getClassId(), ClassDTO.class);
+                    CategorieDTO categorieDTO = ClientCache.get(passagerDTO.getCategorieId() , CategorieDTO.class);
 
-        try{
-            //fetching classes
-            ObjectMapper mapper = new ObjectMapper();
-            String res = Client.get("/classe/");
-            List<ClassDTO> classes = mapper.readValue(res, new TypeReference<>() {});
+                    HBox container = new HBox();
+                    container.setSpacing(40);
+                    container.setAlignment(Pos.CENTER);
 
-            for(ClassDTO classe : classes){
-                ClientCache.add(classe);
-                classMap.put(classe.getNom() , classe);
+                    Text fName = new Text();
+                    fName.setFont(new Font("Roboto" , 20));
+                    fName.setText(passagerDTO.getPrenom());
+
+                    Text lName = new Text();
+                    lName.setFont(new Font("Roboto" , 20));
+                    lName.setText(passagerDTO.getNom());
+
+                    Text category = new Text();
+                    category.setFont(new Font("Roboto" , 20));
+                    category.setText(categorieDTO.getNom());
+
+                    Text classe = new Text();
+                    category.setFont(new Font("Roboto" , 20));
+                    classe.setText(classDTO.getNom());
+
+                    container.getChildren().addAll(fName , lName , category , classe);
+                    scrollpaneBody.getChildren().addAll(container , new Separator());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+            checkoutButton.setText("Checkout : " + FlightInfoController.getReservationPrice().toString());
 
-        for (ReservationDTO.PassagerData passagerData : PreferencesController.getChosenPassagers()) {
-            try {
-                PassagerDTO passagerDTO = ClientCache.get(passagerData.getPassagerId(), PassagerDTO.class);
-                ClassDTO classDTO = ClientCache.get(passagerData.getClassId(), ClassDTO.class);
-                CategorieDTO categorieDTO = ClientCache.get(passagerDTO.getCategorieId() , CategorieDTO.class);
+        });
 
-                HBox container = new HBox();
-                container.setSpacing(40);
-                container.setAlignment(Pos.CENTER);
-
-                Text fName = new Text();
-                fName.setFont(new Font("Roboto" , 20));
-                fName.setText(passagerDTO.getPrenom());
-
-                Text lName = new Text();
-                lName.setFont(new Font("Roboto" , 20));
-                lName.setText(passagerDTO.getNom());
-
-                Text category = new Text();
-                category.setFont(new Font("Roboto" , 20));
-                category.setText(categorieDTO.getNom());
-
-                ChoiceBox<String> classesBox = new ChoiceBox<>();
-                classesBox.setItems(FXCollections.observableArrayList(new ArrayList<>(classMap.keySet())));
-                classesBox.setValue(classDTO.getNom());
-
-                container.getChildren().addAll(fName , lName , category , classesBox );
-                scrollpaneBody.getChildren().addAll(container , new Separator());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        // TODO : you can get the price from FlightInfoController.getReservationPrice(), show it from here
     }
 
     @FXML
@@ -98,7 +89,7 @@ public class BookController {
         // Creating the reservations
         ReservationDTO reservationDTO = new ReservationDTO();
         reservationDTO.setVolId(volId);
-        // TODO : THIS CAN'T STAY
+        // TODO : THIS CAN'T STAY ;; f you wan me to do
         reservationDTO.setPrixTotal(FlightInfoController.getReservationPrice());
         reservationDTO.setPassagers(PreferencesController.getChosenPassagers());
 
