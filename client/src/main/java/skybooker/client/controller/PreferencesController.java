@@ -243,6 +243,8 @@ public class PreferencesController {
             secondaryStage.initOwner(parentScene.getWindow());
             secondaryStage.initModality(Modality.WINDOW_MODAL);
             secondaryStage.initStyle(StageStyle.TRANSPARENT);
+            secondaryStage.setX(parentScene.getWindow().getX() + (parentScene.getWidth()- secondaryStage.getWidth())*0.5 );
+            secondaryStage.setY(parentScene.getWindow().getY()  + (parentScene.getHeight()- secondaryStage.getHeight())*0.5);
 
             PassengerEditorController.window = secondaryStage;
             PassengerEditorController.mode = mode;
