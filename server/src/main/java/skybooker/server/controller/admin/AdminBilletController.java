@@ -57,7 +57,7 @@ public class AdminBilletController {
             model.addAttribute("classes", classeService.findAll());
             model.addAttribute("passagers", passagerService.findAll());
             model.addAttribute("reservations", reservationService.findAll());
-            model.addAttribute("pageTitle", (billet.getId() == 0 ? "Ajouter" : "Modifier") + " un Billet");
+            model.addAttribute("pageTitle", (billet.getId() == null ? "Ajouter" : "Modifier") + " un Billet");
             return "admin/add-edit-billet";
         }
         billetService.create(billet);

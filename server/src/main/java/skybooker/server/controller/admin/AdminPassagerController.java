@@ -62,7 +62,7 @@ public class AdminPassagerController {
         if (result.hasErrors()) {
             model.addAttribute("categories", categorieService.findAll());
             model.addAttribute("clients", clientService.findAll());
-            model.addAttribute("pageTitle", (passager.getId() == 0 ? "Ajouter" : "Modifier") + " un Passager");
+            model.addAttribute("pageTitle", (passager.getId() == null ? "Ajouter" : "Modifier") + " un Passager");
             return "admin/add-edit-passager";
         }
 
@@ -70,7 +70,7 @@ public class AdminPassagerController {
             passager.setAge(Period.between(passager.getDateOfBirth(), LocalDate.now()).getYears());
         }
 
-        boolean isNew = passager.getId() == 0;
+        boolean isNew = passager.getId() == null;
         if (isNew) {
             passagerService.create(passager);
             redirectAttributes.addFlashAttribute("successMessage", "Passager ajouté avec succès !");

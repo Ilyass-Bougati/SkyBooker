@@ -44,12 +44,12 @@ public class AdminCategorieController {
                                 Model model, RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
-            model.addAttribute("pageTitle", (categorieDTO.getId() == 0 ? "Add" : "Edit") + " Passenger Categorie");
+            model.addAttribute("pageTitle", (categorieDTO.getId() == null ? "Add" : "Edit") + " Passenger Categorie");
             return "admin/add-edit-categorie";
         }
 
         try {
-            if (categorieDTO.getId() == 0) {
+            if (categorieDTO.getId() == null) {
                 categorieService.createDTO(categorieDTO);
             } else {
                 categorieService.updateDTO(categorieDTO);
@@ -57,12 +57,12 @@ public class AdminCategorieController {
             redirectAttributes.addFlashAttribute("successMessage", "Category saved successfully!");
         } catch (org.springframework.dao.DataIntegrityViolationException e) {
             result.rejectValue("nom", "duplicate.categorieDTO.nom", "Category name already exists.");
-            model.addAttribute("pageTitle", (categorieDTO.getId() == 0 ? "Add" : "Edit") + " Passenger Categorie");
+            model.addAttribute("pageTitle", (categorieDTO.getId() == null ? "Add" : "Edit") + " Passenger Categorie");
             return "admin/add-edit-categorie";
         }
         catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error saving category: " + e.getMessage());
-            model.addAttribute("pageTitle", (categorieDTO.getId() == 0 ? "Add" : "Edit") + " Passenger Categorie");
+            model.addAttribute("pageTitle", (categorieDTO.getId() == null ? "Add" : "Edit") + " Passenger Categorie");
             return "admin/add-edit-categorie";
         }
         return "redirect:/admin/categories";

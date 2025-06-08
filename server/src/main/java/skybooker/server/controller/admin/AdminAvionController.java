@@ -74,10 +74,10 @@ public class AdminAvionController {
                             Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             addCompanieAerienneListToModel(model);
-            model.addAttribute("pageTitle", (avionDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Avion");
+            model.addAttribute("pageTitle", (avionDTO.getId() == null ? "Ajouter" : "Modifier") + " un Avion");
             return "admin/add-edit-avion";
         }
-        if (avionDTO.getId() == 0) {
+        if (avionDTO.getId() == null) {
             avionService.createDTO(avionDTO);
         } else {
             avionService.updateDTO(avionDTO);

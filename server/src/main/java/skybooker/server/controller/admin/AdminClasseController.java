@@ -41,12 +41,12 @@ public class AdminClasseController {
     public String saveClass(@Valid @ModelAttribute("classe") ClasseDTO classeDTO, BindingResult result,
                             Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("pageTitle", (classeDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Classe");
+            model.addAttribute("pageTitle", (classeDTO.getId() == null ? "Ajouter" : "Modifier") + " un Classe");
             return "admin/add-edit-classe";
         }
 
         try {
-            if (classeDTO.getId() == 0) {
+            if (classeDTO.getId() == null) {
                 classeService.createDTO(classeDTO);
             } else {
                 classeService.updateDTO(classeDTO);
@@ -54,7 +54,7 @@ public class AdminClasseController {
             redirectAttributes.addFlashAttribute("successMessage", "Classe sauvegardé avec succès !");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error saving classe: " + e.getMessage());
-            model.addAttribute("pageTitle", (classeDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Classe");
+            model.addAttribute("pageTitle", (classeDTO.getId() == null ? "Ajouter" : "Modifier") + " un Classe");
             return "admin/add-edit-classe";
         }
         return "redirect:/admin/classes";

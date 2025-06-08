@@ -56,7 +56,7 @@ public class AdminReservationController {
             model.addAttribute("clients", clientService.findAll());
             model.addAttribute("vols", volService.findAll());
             model.addAttribute("etatsReservation", EtatReservation.values());
-            model.addAttribute("pageTitle", (reservation.getId() == 0 ? "Ajouter" : "Modifier") + " une Réservation");
+            model.addAttribute("pageTitle", (reservation.getId() == null ? "Ajouter" : "Modifier") + " une Réservation");
             return "admin/add-edit-reservation";
         }
         reservationService.create(reservation);
