@@ -39,7 +39,7 @@ public class ClassDTO implements Cacheable<ClassDTO>{
     private final static HashMap<Long, ClassDTO> cache = new HashMap<>();
 
     @JsonIgnore
-    private final static String route = "/aeroport/";
+    private final static String route = "/classe/";
 
     @Override
     @JsonIgnore

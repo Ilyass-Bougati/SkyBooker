@@ -45,9 +45,20 @@ public class SideBarController {
                 List<SearchDTO> searches = mapper.readValue(res, new TypeReference<>(){});
                 System.out.println(searches.size());
 
-                destination1text.setText(ClientCache.get(searches.get(0).getVilleArriveeId() , VilleDTO.class).getNom());
-                destination2text.setText(ClientCache.get(searches.get(1).getVilleArriveeId() , VilleDTO.class).getNom());
-                destination3text.setText(ClientCache.get(searches.get(2).getVilleArriveeId() , VilleDTO.class).getNom());
+                try {
+                    destination1text.setText(ClientCache.get(searches.get(0).getVilleArriveeId() , VilleDTO.class).getNom());
+                } catch (Exception _) {
+                }
+
+                try {
+                    destination2text.setText(ClientCache.get(searches.get(1).getVilleArriveeId() , VilleDTO.class).getNom());
+                } catch (Exception _) {
+                }
+
+                try {
+                    destination3text.setText(ClientCache.get(searches.get(2).getVilleArriveeId() , VilleDTO.class).getNom());
+                } catch (Exception _) {
+                }
 
                 if(searches.size() > 0){
                     destination1.setOnAction(_ ->{

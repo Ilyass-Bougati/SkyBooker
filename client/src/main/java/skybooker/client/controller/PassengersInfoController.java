@@ -54,8 +54,11 @@ public class PassengersInfoController {
                     Text category = new Text(ClientCache.get(passager.getCategorieId() , CategorieDTO.class).getNom());
                     category.setFont(new Font("Roboto", 20));
                     //TODO : replace this temp dto with the real one pwease .W.
-                    ClassDTO classedto = new ClassDTO();
-                    Text classe = new Text(classedto.getNom());
+                    ReservationDTO.PassagerData data = reservationDTO.getPassagers()
+                            .stream().filter(p -> p.getPassagerId().equals(passager.getId()))
+                            .toList().get(0);
+                    assert data != null;
+                    Text classe = new Text(ClientCache.get(data.getClassId(), ClassDTO.class).getNom());
                     classe.setFont(new Font("Roboto" , 20));
 
 
