@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.DTO.BilletDTO;
 import skybooker.server.DTO.ReservationDTO;
 import skybooker.server.entity.*;
+import skybooker.server.enums.EtatBillet;
 import skybooker.server.enums.EtatReservation;
 import skybooker.server.exception.NotFoundException;
 import skybooker.server.repository.*;
@@ -83,6 +84,7 @@ public class ReservationServiceImpl implements ReservationService {
             billet.setReservation(savedReservation);
             billet.setClasse(classe);
             billet.setPassager(passager);
+            billet.setEtat(EtatBillet.ACTIVE);
 
             Set<Capacite> capacites = reservation.getVol().getAvion().getCapacites();
             Capacite capacite = capacites
@@ -125,9 +127,10 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new NotFoundException("Resevation not found"));
         Set<Billet> billets = reservation.getBillets();
-        // TODO : Not sure if we want to delete the billets
+
         for (Billet billet : billets) {
-            billetRepository.deleteById(billet.getId());
+            billet.setEtat(EtatBillet.USED);
+            billetRepository.save(billet);
         }
     }
 

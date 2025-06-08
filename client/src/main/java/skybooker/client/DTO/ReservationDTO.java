@@ -1,6 +1,7 @@
 package skybooker.client.DTO;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import skybooker.client.enums.EtatReservation;
 
 import java.time.LocalDateTime;
@@ -104,10 +105,14 @@ public class ReservationDTO implements Cacheable<ReservationDTO> {
     }
 
     // for caching
+    @JsonIgnore
     private final static HashMap<Long, ReservationDTO> cache = new HashMap<>();
+
+    @JsonIgnore
     private final static String route = "/aeroport/";
 
     @Override
+    @JsonIgnore
     public Map<Long, ReservationDTO> getCache() {
         return cache;
     }

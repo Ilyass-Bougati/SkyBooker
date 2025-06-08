@@ -47,7 +47,7 @@ public class PreferencesController {
     private VBox scrollPaneBody ;
 
     public static boolean isComingFromBookPopup = false;
-    private final List<ReservationDTO.PassagerData> chosenPassagers = new ArrayList<>();
+    private final static List<ReservationDTO.PassagerData> chosenPassagers = new ArrayList<>();
 
     @FXML
     protected void onReturnButton()
@@ -118,6 +118,10 @@ public class PreferencesController {
                 CheckBox checkBox = new CheckBox();
                 checkBox.setStyle("-fx-background-color: #EDEDED");
 
+                if (chosenPassagers.stream().anyMatch(p -> p.getPassagerId().equals(passager.getId()))) {
+                    checkBox.setSelected(true);
+                }
+
                 Text fName = new Text(passager.getPrenom());
                 fName.setFont(new Font("Roboto" , 20));
 
@@ -128,7 +132,7 @@ public class PreferencesController {
                 category.setFont(new Font("Roboto" , 20));
 
                 ChoiceBox<String> classe = new ChoiceBox<>();
-                classe.setValue("Class");
+                classe.setValue("Economy");
                 classe.setStyle("-fx-text-fill: rgba(0,0,0,0.5) ;-fx-background-color: #EDEDED  ;-fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-font-family: 'Roboto Light' ;-fx-font-size: 15 ;");
                 classe.setMinHeight(36);
                 classe.setMaxHeight(36);
@@ -168,7 +172,10 @@ public class PreferencesController {
                 button.setMaxHeight(16);
                 button.setMinHeight(16);
                 button.setOpacity(0);
-                button.setOnAction(_ -> loadPassengerEditor(PassengerEditorController.Mode.EDIT));
+                button.setOnAction(_ -> {
+                    PassengerEditorController.setPassagerId(passager.getId());
+                    loadPassengerEditor(PassengerEditorController.Mode.EDIT);
+                });
 
                 stackPane.getChildren().addAll(icon , button);
                 stackPane.setStyle("-fx-cursor: hand;");
@@ -216,6 +223,7 @@ public class PreferencesController {
         }catch (IOException e)
         {
             System.out.println("Passager editor No such view");
+            e.printStackTrace();
         }
     }
 }

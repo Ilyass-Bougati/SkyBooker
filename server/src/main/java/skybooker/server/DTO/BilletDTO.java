@@ -6,6 +6,7 @@ import skybooker.server.entity.Billet;
 import skybooker.server.entity.Classe;
 import skybooker.server.entity.Passager;
 import skybooker.server.entity.Reservation;
+import skybooker.server.enums.EtatBillet;
 
 @Getter
 @Setter
@@ -24,11 +25,14 @@ public class BilletDTO {
     @NotNull
     private long reservationId;
 
+    private EtatBillet etat;
+
     public BilletDTO(Billet billet) {
         setId(billet.getId());
         setSiege(billet.getSiege());
         setClasseId(billet.getClasse().getId());
         setPassagerId(billet.getPassager().getId());
         setReservationId(billet.getReservation().getId());
+        setEtat(billet.getEtat());
     }
 }

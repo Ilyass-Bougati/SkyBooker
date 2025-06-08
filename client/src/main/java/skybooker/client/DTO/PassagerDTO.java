@@ -1,5 +1,7 @@
 package skybooker.client.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +12,7 @@ public class PassagerDTO implements Cacheable<PassagerDTO> {
     private String prenom;
     private String CIN;
     private int age;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
     private Long clientId;
 
     public Long getClientId() {
@@ -21,11 +23,11 @@ public class PassagerDTO implements Cacheable<PassagerDTO> {
         this.clientId = clientId;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -70,10 +72,14 @@ public class PassagerDTO implements Cacheable<PassagerDTO> {
     }
 
     // for caching
+    @JsonIgnore
     private final static HashMap<Long, PassagerDTO> cache = new HashMap<>();
+
+    @JsonIgnore
     private final static String route = "/passager/";
 
     @Override
+    @JsonIgnore
     public Map<Long, PassagerDTO> getCache() {
         return cache;
     }

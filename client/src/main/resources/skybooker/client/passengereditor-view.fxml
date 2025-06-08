@@ -37,7 +37,7 @@
        </VBox>
        <VBox alignment="CENTER" spacing="10" prefWidth="706">
            <HBox alignment="CENTER" spacing="10">
-               <TextField promptText="First name" style="
+               <TextField fx:id="firstNameInput" promptText="First name" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
                                             -fx-background-radius: 12 ;
@@ -48,7 +48,7 @@
                        <Font name="Roboto" size="18" />
                    </font>
                </TextField>
-               <TextField promptText="Last name" style="
+               <TextField fx:id="lastNameInput" promptText="Last name" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
                                             -fx-background-radius: 12 ;
@@ -75,7 +75,7 @@
                        <Font name="Roboto" size="18" />
                    </font>
                </Button>
-               <DatePicker fx:id="birthdate" stylesheets="@style.css" promptText="Birth date" style="
+               <DatePicker fx:id="birthDatePicker" stylesheets="@style.css" promptText="Birth date" style="
                     -fx-text-fill: rgba(0,0,0,0.5) ;
                     -fx-background-color: #EDEDED  ;
                     -fx-background-radius: 12 ;
@@ -85,7 +85,7 @@
                            minWidth="168" maxWidth="168"
                            minHeight="44" maxHeight="44"   >
                </DatePicker>
-               <TextField promptText="CIN" style="
+               <TextField fx:id="cinInput" promptText="CIN" style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
                                             -fx-background-radius: 12 ;
