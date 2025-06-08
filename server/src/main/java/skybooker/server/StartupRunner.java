@@ -88,7 +88,6 @@ public class StartupRunner implements CommandLineRunner {
         role2 = roleRepository.save(role2);
 
         // creating the admin user
-        // TODO : make this application property
         RegisterRequestDTO registerRequest = new RegisterRequestDTO();
         registerRequest.setNom("Default");
         registerRequest.setPrenom("Admin");
