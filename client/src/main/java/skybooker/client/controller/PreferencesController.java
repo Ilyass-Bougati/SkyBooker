@@ -136,8 +136,8 @@ public class PreferencesController {
                 classe.setStyle("-fx-text-fill: rgba(0,0,0,0.5) ;-fx-background-color: #EDEDED  ;-fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-font-family: 'Roboto Light' ;-fx-font-size: 15 ;");
                 classe.setMinHeight(36);
                 classe.setMaxHeight(36);
-                classe.setMinWidth(70);
-                classe.setMaxWidth(70);
+                classe.setMinWidth(100);
+                classe.setMaxWidth(100);
 
                 for(String key : classMap.keySet()){
                     classe.getItems().add(key);
@@ -178,6 +178,7 @@ public class PreferencesController {
                 });
 
                 stackPane.getChildren().addAll(icon , button);
+                stackPane.setStyle("-fx-cursor: hand;");
                 container.getChildren().addAll(checkBox , fName , lName , category , classe , stackPane);
 
                 scrollPaneBody.getChildren().addAll(container , new Separator());

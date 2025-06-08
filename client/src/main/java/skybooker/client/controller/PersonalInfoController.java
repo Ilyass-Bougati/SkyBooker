@@ -46,17 +46,21 @@ public class PersonalInfoController {
 
     @FXML
     protected void onFinishButton(){
+
         if(!Validator.checkNameValidity(fName.getText()) || !Validator.checkNameValidity(lName.getText())){
             System.out.println("Invalid name!");
             nameError.setOpacity(1);
-            return;
+        }else{
+            nameError.setOpacity(0);
         }
 
         if(!Validator.checkPhoneNumberValidity(phoneNumber.getText())){
             System.out.println("Phone number is not valid");
             numberError.setOpacity(1);
-            return;
+        }else{
+            numberError.setOpacity(0);
         }
+        if(!Validator.checkNameValidity(fName.getText()) || !Validator.checkNameValidity(lName.getText()) || !Validator.checkPhoneNumberValidity(phoneNumber.getText())){return;}
 
         registerRequestDTO.setAdresse(address.getText());
         registerRequestDTO.setCin(CIN.getText());
@@ -73,6 +77,12 @@ public class PersonalInfoController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    protected void onBackButton(){
+        SignupController.setPreviousEmail(registerRequestDTO.getEmail());
+        GeneralUtils.changeView("signup-view.fxml");
     }
 
     public static RegisterRequestDTO getRegisterRequestDTO() {
