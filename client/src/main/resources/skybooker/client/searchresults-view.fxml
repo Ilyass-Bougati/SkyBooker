@@ -34,108 +34,17 @@
             <padding>
                 <Insets top="16" left="16" right="16" />
             </padding>
-            <VBox alignment="CENTER" spacing="10">
-                <HBox>
-                    <VBox prefWidth="244">
-                        <StackPane maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" >
-                            <ImageView opacity="0.5">
-                                <Image url="@assets/icons/Back.png" />
-                            </ImageView>
-                            <Button onAction="#onReturnButton" opacity="0" maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" style="-fx-cursor: hand;" />
-                        </StackPane>
-                    </VBox>
-                    <VBox prefWidth="245">
-                        <Text text="Filters" style="-fx-font-weight: bold">
-                            <font>
-                                <Font name="Roboto" size="15" />
-                            </font>
-                        </Text>
-                    </VBox>
-                </HBox>
-                <HBox spacing="6" >
-                    <ChoiceBox value="Airline"  style="-fx-text-alignment: center;
-                                            -fx-text-fill: rgba(0,0,0,0.5) ;
-                                            -fx-background-color: #EDEDED  ;
-                                            -fx-background-radius: 12 ;
-                                            -fx-border-radius: 12 ;
-                                            -fx-font-family: 'Roboto Light' ;
-                                            -fx-font-size: 15"
-                               minWidth="135" maxWidth="135"
-                               minHeight="31" maxHeight="31"   >
-                    </ChoiceBox>
-                    <ChoiceBox value="Departure"  style="-fx-text-alignment: center;
-                                            -fx-text-fill: rgba(0,0,0,0.5) ;
-                                            -fx-background-color: #EDEDED  ;
-                                            -fx-background-radius: 12 ;
-                                            -fx-border-radius: 12 ;
-                                            -fx-font-family: 'Roboto Light' ;
-                                            -fx-font-size: 15"
-                               minWidth="135" maxWidth="135"
-                               minHeight="31" maxHeight="31"   >
-                    </ChoiceBox>
-                    <ChoiceBox value="Arrival"  style="-fx-text-alignment: center;
-                                            -fx-text-fill: rgba(0,0,0,0.5) ;
-                                            -fx-background-color: #EDEDED  ;
-                                            -fx-background-radius: 12 ;
-                                            -fx-border-radius: 12 ;
-                                            -fx-font-family: 'Roboto Light' ;
-                                            -fx-font-size: 15"
-                               minWidth="135" maxWidth="135"
-                               minHeight="31" maxHeight="31"   >
-                    </ChoiceBox>
-                    <ChoiceBox value="Price"  style="-fx-text-alignment: center;
-                                            -fx-text-fill: rgba(0,0,0,0.5) ;
-                                            -fx-background-color: #EDEDED  ;
-                                            -fx-background-radius: 12 ;
-                                            -fx-border-radius: 12 ;
-                                            -fx-font-family: 'Roboto Light' ;
-                                            -fx-font-size: 15"
-                               minWidth="135" maxWidth="135"
-                               minHeight="31" maxHeight="31"   >
-                    </ChoiceBox>
-                </HBox>
+            <VBox alignment="CENTER_LEFT" spacing="10">
+                    <StackPane maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" >
+                        <ImageView opacity="0.5">
+                            <Image url="@assets/icons/Back.png" />
+                        </ImageView>
+                        <Button onAction="#onReturnButton" opacity="0" maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" style="-fx-cursor: hand;" />
+                    </StackPane>
             </VBox>
             <Separator/>
             <ScrollPane fx:id="searchResultsScrollPane" style="-fx-background-color: transparent" stylesheets="@style.css" minHeight="303" maxHeight="303" minWidth="500" maxWidth="500">
                     <VBox fx:id="searchResultsContainer">
-                        <StackPane>
-                            <HBox spacing="50" alignment="CENTER" minWidth="480" maxWidth="480">
-                                <Text text="Airline1">
-                                    <font>
-                                        <Font name="Roboto" size="15" />
-                                    </font>
-                                </Text>
-                                <HBox spacing="20" alignment="CENTER">
-                                    <Text text="DEP">
-                                        <font>
-                                            <Font name="Roboto" size="15" />
-                                        </font>
-                                    </Text>
-                                    <Text text="00:00">
-                                        <font>
-                                            <Font name="Roboto" size="15" />
-                                        </font>
-                                    </Text>
-                                    <Text text="00:00">
-                                        <font>
-                                            <Font name="Roboto" size="15" />
-                                        </font>
-                                    </Text>
-                                    <Text text="ARR">
-                                        <font>
-                                            <Font name="Roboto" size="15" />
-                                        </font>
-                                    </Text>
-                                </HBox>
-                                <Text text="8888$">
-                                    <font>
-                                        <Font name="Roboto" size="15" />
-                                    </font>
-                                </Text>
-                            </HBox>
-                            <Button  onAction="#onFlightSelected" minHeight="50" maxHeight="50" minWidth="480" maxWidth="480" opacity="0" style="-fx-cursor: hand"/>
-                        </StackPane>
-                        <Separator/>
                     </VBox>
             </ScrollPane>
         </VBox>

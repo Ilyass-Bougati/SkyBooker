@@ -18,6 +18,26 @@ import java.util.*;
 public class BookPopupController {
     public static Stage window;
 
+    public static String getvD() {
+        return vD;
+    }
+
+    public static void setvD(String vD) {
+        BookPopupController.vD = vD;
+    }
+
+    public static String getvA() {
+        return vA;
+    }
+
+    public static void setvA(String vA) {
+        BookPopupController.vA = vA;
+    }
+
+    private static String vD;
+    private static String vA;
+
+
     @FXML
     ChoiceBox<String> departureFlight;
 
@@ -73,6 +93,12 @@ public class BookPopupController {
     private void initialize() {
         Platform.runLater(() -> {
             populateLists();
+            if(vD != null && vA != null){
+                departureFlight.setValue(vD);
+                arrivalFlight.setValue(vA);
+                vD = null;
+                vA = null;
+            }
         });
     }
 
