@@ -41,12 +41,12 @@ public class AdminVilleController {
     public String saveVille(@Valid @ModelAttribute("ville") VilleDTO villeDTO, BindingResult result,
                             Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("pageTitle", (villeDTO.getId() == 0 ? "Ajouter" : "Modifier") + " une nouvelle ville");
+            model.addAttribute("pageTitle", (villeDTO.getId() == null ? "Ajouter" : "Modifier") + " une nouvelle ville");
             return "admin/add-edit-ville";
         }
 
         try {
-            if (villeDTO.getId() == 0) {
+            if (villeDTO.getId() == null) {
                 villeService.createDTO(villeDTO);
             } else {
                 villeService.updateDTO(villeDTO);
@@ -54,11 +54,11 @@ public class AdminVilleController {
             redirectAttributes.addFlashAttribute("successMessage", "Ville saved successfully!");
         } catch (org.springframework.dao.DataIntegrityViolationException e) {
             result.rejectValue("nom", "duplicate.villeDTO.nom", "A city with this name already exists.");
-            model.addAttribute("pageTitle", (villeDTO.getId() == 0 ? "Ajouter" : "Modifier") + " une nouvelle ville");
+            model.addAttribute("pageTitle", (villeDTO.getId() == null ? "Ajouter" : "Modifier") + " une nouvelle ville");
             return "admin/add-edit-ville";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error saving ville: " + e.getMessage());
-            model.addAttribute("pageTitle", (villeDTO.getId() == 0 ? "Ajouter" : "Modifier") + " une nouvelle ville");
+            model.addAttribute("pageTitle", (villeDTO.getId() == null ? "Ajouter" : "Modifier") + " une nouvelle ville");
             return "admin/add-edit-ville";
         }
         return "redirect:/admin/villes";

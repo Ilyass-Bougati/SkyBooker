@@ -61,10 +61,10 @@ public class AdminAeroportController {
                                Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             addVilleListToModel(model);
-            model.addAttribute("pageTitle", (aeroportDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Aéroport");
+            model.addAttribute("pageTitle", (aeroportDTO.getId() == null ? "Ajouter" : "Modifier") + " un Aéroport");
             return "admin/add-edit-aeroport";
         }
-        if (aeroportDTO.getId() == 0) {
+        if (aeroportDTO.getId() == null) {
             aeroportService.createDTO(aeroportDTO);
         } else {
             aeroportService.updateDTO(aeroportDTO);

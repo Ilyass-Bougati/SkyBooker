@@ -52,7 +52,7 @@ public class AdminCapaciteController {
         if (result.hasErrors()) {
             model.addAttribute("avions", avionService.findAllDTO());
             model.addAttribute("classes", classeService.findAllDTO());
-            model.addAttribute("pageTitle", (capacite.getId() == 0 ? "Ajouter" : "Modifier") + " une Capacité");
+            model.addAttribute("pageTitle", (capacite.getId() == null ? "Ajouter" : "Modifier") + " une Capacité");
             return "admin/add-edit-capacite";
         }
         capaciteService.create(capacite);

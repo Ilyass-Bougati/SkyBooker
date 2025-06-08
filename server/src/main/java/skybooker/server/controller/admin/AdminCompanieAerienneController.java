@@ -41,12 +41,12 @@ public class AdminCompanieAerienneController {
     public String saveCompanieAerienne(@Valid @ModelAttribute("companieAerienne") CompanieAerienneDTO companieAerienneDTO, BindingResult result,
                                        Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("pageTitle", (companieAerienneDTO.getId() == 0 ? "Ajouter" : "Modifier") +" une Companie Aerienne");
+            model.addAttribute("pageTitle", (companieAerienneDTO.getId() == null ? "Ajouter" : "Modifier") +" une Companie Aerienne");
             return "admin/add-edit-companie_aerienne";
         }
 
         try {
-            if (companieAerienneDTO.getId() == 0) {
+            if (companieAerienneDTO.getId() == null) {
                 companieAerienneService.createDTO(companieAerienneDTO);
             } else {
                 companieAerienneService.updateDTO(companieAerienneDTO);
@@ -54,12 +54,12 @@ public class AdminCompanieAerienneController {
             redirectAttributes.addFlashAttribute("successMessage", "Companie Aerienne sauvegardé avec succès !");
         } catch (org.springframework.dao.DataIntegrityViolationException e) {
             result.reject("global.error", "A company with similar details might already exist (name, IATA, or ICAO code).");
-            model.addAttribute("pageTitle", (companieAerienneDTO.getId() == 0 ? "Ajouter" : "Modifier") +" une Companie Aerienne");
+            model.addAttribute("pageTitle", (companieAerienneDTO.getId() == null ? "Ajouter" : "Modifier") +" une Companie Aerienne");
             return "admin/add-edit-companie_aerienne";
         }
         catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error saving Companie Aerienne :" + e.getMessage());
-            model.addAttribute("pageTitle", (companieAerienneDTO.getId() == 0 ? "Ajouter" : "Modifier") +" une Companie Aerienne");
+            model.addAttribute("pageTitle", (companieAerienneDTO.getId() == null ? "Ajouter" : "Modifier") +" une Companie Aerienne");
             return "admin/add-edit-companie_aerienne";
         }
         return "redirect:/admin/companie_aerienne";

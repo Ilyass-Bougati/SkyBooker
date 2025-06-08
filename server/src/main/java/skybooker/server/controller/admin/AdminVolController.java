@@ -90,11 +90,11 @@ public class AdminVolController {
                           Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             addCommonDataToModel(model);
-            model.addAttribute("pageTitle", (volDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Vol");
+            model.addAttribute("pageTitle", (volDTO.getId() == null ? "Ajouter" : "Modifier") + " un Vol");
             return "admin/add-edit-vol";
         }
         try {
-            if (volDTO.getId() == 0) {
+            if (volDTO.getId() == null) {
                 volService.createDTO(volDTO);
             } else {
                 volService.updateDTO(volDTO);
@@ -104,7 +104,7 @@ public class AdminVolController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la sauvegarde du Vol: " + e.getMessage());
             addCommonDataToModel(model);
-            model.addAttribute("pageTitle", (volDTO.getId() == 0 ? "Ajouter" : "Modifier") + " un Vol");
+            model.addAttribute("pageTitle", (volDTO.getId() == null ? "Ajouter" : "Modifier") + " un Vol");
             return "admin/add-edit-vol";
         }
     }
