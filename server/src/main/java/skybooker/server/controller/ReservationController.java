@@ -33,6 +33,12 @@ public class ReservationController {
         return ResponseEntity.ok(clientService.getReservations(client.getId()));
     }
 
+    @GetMapping("/history")
+    public ResponseEntity<List<ReservationDTO>> getHistory(Principal principal) {
+        Client client = clientService.getFromPrincipal(principal);
+        return ResponseEntity.ok(clientService.getReservationsHistory(client.getId()));
+    }
+
     @GetMapping("/{id}/billets")
     public ResponseEntity<List<BilletDTO>> getBillets(Principal principal, @PathVariable long id) {
         Client client = clientService.getFromPrincipal(principal);

@@ -25,6 +25,7 @@ public interface ClientService extends CrudDTO<ClientDTO, Long>{
     Client create(Client client);
     List<Client> findAll();
     List<ReservationDTO> getReservations(Long clientId);
+    List<ReservationDTO> getReservationsHistory(Long clientId);
     List<PassagerDTO> getPassagers(Long clientId);
     boolean clientMadeReservation(Long clientId, Long reservationId);
 }

@@ -149,8 +149,15 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @Transactional(readOnly = true)
     public List<ReservationDTO> getReservations(Long id) {
-        return clientRepository.getReservations(id).stream()
+        return clientRepository.getReservations(id, EtatReservation.PENDING).stream()
                 .map(ReservationDTO::new).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReservationDTO> getReservationsHistory(Long clientId) {
+        return clientRepository.getReservationsHistory(clientId, EtatReservation.PENDING)
+                .stream().map(ReservationDTO::new).toList();
     }
 
     @Override
