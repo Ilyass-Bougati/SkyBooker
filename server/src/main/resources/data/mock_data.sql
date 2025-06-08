@@ -365,10 +365,10 @@ date_depart = '2025-05-20' AND heure_depart = '07:30:00')
 );
 
 -- Add tickets for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (15, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'FR567890'), -- Jacques Durand
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),'ACTIVE');
 
 -- Reservation 2: New York to Rome for client Robert Brown with 2 passengers
 INSERT INTO reservations (etat, prix_total, reserved_at, client_id, vol_id) VALUES
@@ -381,14 +381,15 @@ date_depart = '2025-05-25' AND heure_depart = '19:20:00')
 );
 
 -- Add tickets for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (24, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'UK123456'), -- Emma Wilson (assuming she is travelling with Robert Brown)
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (25, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'US789012'), -- Robert Brown
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),
+'ACTIVE');
 
 -- Reservation 3: Dubai to Tokyo for client Alessio Ricci with family (3 passengers)
 INSERT INTO reservations (etat, prix_total, reserved_at, client_id, vol_id) VALUES
@@ -401,18 +402,18 @@ date_depart = '2025-05-21' AND heure_depart = '23:45:00')
 );
 
 -- Add tickets for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (5, (SELECT id FROM classes WHERE nom = 'First Class'),
 (SELECT id FROM passagers WHERE cin = 'AE456012'), -- Mohammed Al-Farsi
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (45, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'TH123789'), -- Li Chen
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (46, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'IT901234'), -- Alessio Ricci
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),'ACTIVE');
 
 -- Reservation 4: Madrid to Casablanca for client Akira Nakamura
 INSERT INTO reservations (etat, prix_total, reserved_at, client_id, vol_id) VALUES
@@ -425,10 +426,10 @@ date_depart = '2025-05-21' AND heure_depart = '11:40:00')
 );
 
 -- Add ticket for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (8, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'ES567890'), -- Carlos Fernandez (assuming travelling for Akira)
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),'ACTIVE');
 
 -- Reservation 5: Singapore to Sydney for Fatima Benali
 INSERT INTO reservations (etat, prix_total, reserved_at, client_id, vol_id) VALUES
@@ -441,18 +442,18 @@ date_depart = '2025-05-24' AND heure_depart = '21:15:00')
 );
 
 -- Add tickets for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (3, (SELECT id FROM classes WHERE nom = 'First Class'),
 (SELECT id FROM passagers WHERE cin = 'JP789345'), -- Akira Nakamura
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (4, (SELECT id FROM classes WHERE nom = 'First Class'),
 (SELECT id FROM passagers WHERE cin = 'KR345901'), -- Kim Min-Ji
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (120, (SELECT id FROM classes WHERE nom = 'Economy'),
 (SELECT id FROM passagers WHERE cin = 'KR123456'), -- Lee Soo-Jin
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),'ACTIVE');
 
 -- Reservation 6: Cairo to Moscow for client Marco Rossi
 INSERT INTO reservations (etat, prix_total, reserved_at, client_id, vol_id) VALUES
@@ -475,14 +476,14 @@ date_depart = '2025-05-22' AND heure_depart = '23:10:00')
 );
 
 -- Add tickets for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (18, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'BR012345'), -- Maria Silva
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (19, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'US567890'), -- David Johnson
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),'ACTIVE');
 
 -- Reservation 8: Bangkok to Tokyo for client Chai Wang
 INSERT INTO reservations (etat, prix_total, reserved_at, client_id, vol_id) VALUES
@@ -495,18 +496,18 @@ date_depart = '2025-05-20' AND heure_depart = '10:15:00')
 );
 
 -- Add tickets for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (20, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'MA012678'), -- Fatima Benali
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (21, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'DE345678'), -- Laura Klein
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (22, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'FR567890'), -- Jacques Durand
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),'ACTIVE');
 
 -- Reservation 9: London to Berlin for client Anna Schmidt
 INSERT INTO reservations (etat, prix_total, reserved_at, client_id, vol_id) VALUES
@@ -519,10 +520,10 @@ date_depart = '2025-05-22' AND heure_depart = '06:45:00')
 );
 
 -- Add ticket for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (180, (SELECT id FROM classes WHERE nom = 'Economy'),
 (SELECT id FROM passagers WHERE cin = 'UK123456'), -- Emma Wilson
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),'ACTIVE');
 
 -- Reservation 10: Paris to New York for client Omar Hassan
 INSERT INTO reservations (etat, prix_total, reserved_at, client_id, vol_id) VALUES
@@ -535,18 +536,18 @@ date_depart = '2025-05-20' AND heure_depart = '10:30:00')
 );
 
 -- Add tickets for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (2, (SELECT id FROM classes WHERE nom = 'First Class'),
 (SELECT id FROM passagers WHERE cin = 'AE456012'), -- Mohammed Al-Farsi
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (3, (SELECT id FROM classes WHERE nom = 'First Class'),
 (SELECT id FROM passagers WHERE cin = 'MA012678'), -- Fatima Benali
-(SELECT currval('reservations_id_seq'))),
+(SELECT currval('reservations_id_seq')),'ACTIVE'),
 
 (50, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'ES567890'), -- Carlos Fernandez
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),'ACTIVE');
 
 
 -- Make some additional reservations for these new flights
@@ -561,7 +562,7 @@ date_depart = '2025-05-26' AND heure_depart = '09:15:00')
 );
 
 -- Add tickets for this reservation
-INSERT INTO billets (siege, classe_id, passager_id, reservation_id) VALUES
+INSERT INTO billets (siege, classe_id, passager_id, reservation_id,etat) VALUES
 (20, (SELECT id FROM classes WHERE nom = 'Business'),
 (SELECT id FROM passagers WHERE cin = 'FR567890'),
-(SELECT currval('reservations_id_seq')));
+(SELECT currval('reservations_id_seq')),'ACTIVE');

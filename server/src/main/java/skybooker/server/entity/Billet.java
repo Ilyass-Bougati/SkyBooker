@@ -31,6 +31,6 @@ public class Billet {
     @JoinColumn(name = "reservation_id", nullable = false)
     private Reservation reservation;
 
-    // The etat of the billet
-//    private EtatBillet etat;
+    @Enumerated(EnumType.STRING)
+    private EtatBillet etat;
 }
