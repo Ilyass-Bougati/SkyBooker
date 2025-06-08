@@ -16,11 +16,13 @@ public class LandingPageController {
 
     @FXML
     protected void initialize() throws Exception {
-        Client.fetchClient();
         // loading needed values
         ObjectMapper mapper = new ObjectMapper();
         List<CategorieDTO> categories = new ArrayList<>();
         try {
+            // fetching the client's details
+            Client.fetchClient();
+
             String res = Client.get("/categories/");
             categories = mapper.readValue(res, new TypeReference<>(){});
 
