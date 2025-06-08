@@ -11,10 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import skybooker.client.DTO.AeroportDTO;
-import skybooker.client.DTO.AvionDTO;
-import skybooker.client.DTO.CompanieAerienneDTO;
-import skybooker.client.DTO.VolDTO;
+import skybooker.client.DTO.*;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 import skybooker.client.HelloApplication;
@@ -37,6 +34,11 @@ public class BookingDetailsController {
     private Text dateValue ;
 
     private static VolDTO vol;
+    private static ReservationDTO reservation;
+
+    public static void setReservation(ReservationDTO reservationDTO) {
+        reservation = reservationDTO;
+    }
 
     @FXML
     protected void onReturnButton() {
@@ -46,6 +48,7 @@ public class BookingDetailsController {
     @FXML
     protected void onPassengerDetailsButton(){
         try{
+            PassengersInfoController.setReservationId(reservation.getId());
             Parent parent = HelloApplication.loadView("passengersinfo-view.fxml");
             Stage secondaryStage = new Stage();
 
