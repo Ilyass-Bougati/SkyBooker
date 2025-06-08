@@ -24,7 +24,6 @@ public class ClientCache {
         if (cache.containsKey(id)) {
             return cache.get(id);
         } else {
-            // Fetching the cities
             T response = fetch(route + id, objectClass);
             add(response);
             return response;
