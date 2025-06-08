@@ -1,5 +1,7 @@
 package skybooker.client.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,10 +36,14 @@ public class VilleDTO implements Cacheable<VilleDTO> {
 
 
     // for caching
+    @JsonIgnore
     private final static HashMap<Long, VilleDTO> cache = new HashMap<>();
+
+    @JsonIgnore
     private final static String route = "/ville/";
 
     @Override
+    @JsonIgnore
     public Map<Long, VilleDTO> getCache() {
         return cache;
     }

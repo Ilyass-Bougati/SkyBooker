@@ -1,5 +1,6 @@
 package skybooker.client.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import skybooker.client.enums.EtatVol;
 
 import java.sql.Time;
@@ -100,10 +101,14 @@ public class VolDTO implements Cacheable<VolDTO> {
     }
 
     // for caching
+    @JsonIgnore
     private final static HashMap<Long, VolDTO> cache = new HashMap<>();
+
+    @JsonIgnore
     private final static String route = "/vol/";
 
     @Override
+    @JsonIgnore
     public Map<Long, VolDTO> getCache() {
         return cache;
     }

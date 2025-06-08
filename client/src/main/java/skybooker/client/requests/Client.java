@@ -2,6 +2,7 @@ package skybooker.client.requests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import skybooker.client.DTO.ClientDTO;
 import skybooker.client.exceptions.ExceptionHandler;
 import okhttp3.*;
 
@@ -9,10 +10,11 @@ public class Client {
     private static final String url = "http://localhost:8080/api/v1";
     private static final OkHttpClient client = new OkHttpClient();
     private static String token = "";
-    private static boolean isLoggedIn = false;
+    private static boolean loggedIn = false;
+    private static ClientDTO clientDetails = null;
 
     public static void login(String username, String password) throws Exception {
-        if (isLoggedIn) {
+        if (loggedIn) {
             return;
         }
 
@@ -27,7 +29,7 @@ public class Client {
                 ResponseBody res = response.body();
                 if (res != null) {
                     token = res.string();
-                    isLoggedIn = true;
+                    loggedIn = true;
                 }
             } else {
                 throw ExceptionHandler.getException(response);
@@ -94,12 +96,26 @@ public class Client {
         }
     }
 
+    public static void fetchClient() throws Exception {
+        String res = get("/client/");
+        ObjectMapper mapper = new ObjectMapper();
+        clientDetails = mapper.readValue(res, ClientDTO.class);
+    }
+
+    public static ClientDTO getClientDetails() {
+        return clientDetails;
+    }
+
+    public static boolean isLoggedIn() {
+        return loggedIn;
+    }
+
     public static String getToken() {
         return token;
     }
 
     public static void logout() {
         token = "";
-        isLoggedIn = false;
+        loggedIn = false;
     }
 }
