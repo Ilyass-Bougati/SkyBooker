@@ -35,6 +35,7 @@ import skybooker.client.HelloApplication;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
 import java.util.*;
 
 public class PreferencesController {
@@ -47,7 +48,7 @@ public class PreferencesController {
 
     public static boolean isComingFromBookPopup = false;
 
-    private final static Set<ReservationDTO.PassagerData> chosenPassagers = new HashSet<>();
+    private final static List<ReservationDTO.PassagerData> chosenPassagers = new ArrayList<>();
 
     @FXML
     protected void onReturnButton()
@@ -154,14 +155,24 @@ public class PreferencesController {
                 categoryContainer.getChildren().add(category);
 
                 ChoiceBox<String> classe = new ChoiceBox<>();
-                classe.setValue("Economy");
+                List<ReservationDTO.PassagerData> chosenPassager = chosenPassagers.stream().filter(p -> p.getPassagerId().equals(passager.getId())).toList();
+                if (chosenPassager.isEmpty()) {
+                    classe.setValue("Economy");
+                } else {
+                    classe.setValue(ClientCache.get(chosenPassager.getFirst().getClassId(), ClassDTO.class).getNom());
+                }
+
                 classe.setStyle("-fx-text-fill: rgba(0,0,0,0.5) ;-fx-background-color: #EDEDED  ;-fx-background-radius: 12 ;-fx-border-radius: 12 ;-fx-font-family: 'Roboto Light' ;-fx-font-size: 15 ;");
                 classe.setMinHeight(36);
                 classe.setMaxHeight(36);
                 classe.setMinWidth(100);
                 classe.setMaxWidth(100);
                 classe.setOnAction(_ ->{
-                    //TODO : edit the passenger's class in the backend with classe.getValue()
+                    chosenPassagers.forEach(p -> {
+                        if (p.getPassagerId().equals(passager.getId())) {
+                            p.setClassId(classMap.get(classe.getValue()).getId());
+                        }
+                    });
                 });
 
                 for(String key : classMap.keySet()){
@@ -169,17 +180,12 @@ public class PreferencesController {
                 }
 
                 checkBox.setOnAction(_ -> {
+                    data.setPassagerId(passager.getId());
+                    data.setClassId(classMap.get(classe.getValue()).getId());
                     if(checkBox.isSelected()){
-                        data.setPassagerId(passager.getId());
-                        data.setClassId(classMap.get(classe.getValue()).getId());
                         chosenPassagers.add(data);
                     } else {
-                        for( ReservationDTO.PassagerData pdata : chosenPassagers ){
-                            if(pdata.getPassagerId().equals(passager.getId())){
-                                chosenPassagers.remove(data);
-                                break;
-                            }
-                        }
+                        chosenPassagers.removeIf(p -> p.getPassagerId().equals(passager.getId()));
                     }
                 });
 
@@ -249,7 +255,7 @@ public class PreferencesController {
         }
     }
 
-    public static Set<ReservationDTO.PassagerData> getChosenPassagers() {
+    public static List<ReservationDTO.PassagerData> getChosenPassagers() {
         return chosenPassagers;
     }
 }
