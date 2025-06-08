@@ -1,10 +1,13 @@
 package skybooker.server.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import skybooker.server.entity.Billet;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -19,4 +22,9 @@ public interface BilletRepository extends JpaRepository<Billet, Long> {
 
     @Query("SELECT b from Billet b WHERE b.passager.id=:passagerId")
     List<Billet> passagerBillets(Long passagerId);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Billet b WHERE b.etat = 'USED' AND b.reservation.reservedAt  < :oneYearAgo")
+    void purgeUsedBillets(LocalDateTime oneYearAgo);
 }

@@ -18,5 +18,6 @@ public class ScheduledTasks {
         dataUpdateService.purgeReservations();
         dataUpdateService.purgeVols();
         dataUpdateService.updateCategories();
+        dataUpdateService.purgeUsedBillets();
     }
 }

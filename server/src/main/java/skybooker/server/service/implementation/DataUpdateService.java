@@ -11,6 +11,7 @@ import skybooker.server.repository.CategorieRepository;
 import skybooker.server.repository.PassagerRepository;
 import skybooker.server.repository.ReservationRepository;
 import skybooker.server.repository.VolRepository;
+import skybooker.server.repository.BilletRepository;
 import skybooker.server.service.PassagerService;
 
 import java.time.LocalDateTime;
@@ -28,14 +29,16 @@ public class DataUpdateService {
     private final CategorieRepository categorieRepository;
     private final ReservationRepository reservationRepository;
     private final VolRepository volRepository;
+    private final BilletRepository billetRepository;
 
-    public DataUpdateService(ReservationRepository reservationRepository, VolRepository volRepository, PassagerService passagerService, PassagerRepository passagerRepository, CategorieRepository categorieRepository, CacheManager cacheManager) {
+    public DataUpdateService(ReservationRepository reservationRepository, VolRepository volRepository, PassagerService passagerService, PassagerRepository passagerRepository, CategorieRepository categorieRepository, CacheManager cacheManager, BilletRepository billetRepository) {
         this.reservationRepository = reservationRepository;
         this.volRepository = volRepository;
         this.passagerService = passagerService;
         this.passagerRepository = passagerRepository;
         this.categorieRepository = categorieRepository;
         this.cacheManager = cacheManager;
+        this.billetRepository = billetRepository;
     }
 
     @Async("purgeTask")
@@ -44,6 +47,13 @@ public class DataUpdateService {
         LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(1);
         reservationRepository.purge(oneYearAgo);
         logger.info("Purged the reservations");
+    }
+
+    @Async("purgeTask")
+    public void purgeUsedBillets() {
+        LocalDateTime oneYearAgo = LocalDateTime.now().minusYears(1);
+        billetRepository.purgeUsedBillets(oneYearAgo);
+        logger.info("Purged used billets older than one year");
     }
 
     @Async("purgeTask")
