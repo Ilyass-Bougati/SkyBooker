@@ -18,9 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "searches", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"ville_depart_id", "ville_arrivee_id"})
-})
+@Table(name = "searches")
 public class Search {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
