@@ -201,7 +201,7 @@ public class PreferencesController {
 
                 stackPane.getChildren().addAll(icon , button);
                 stackPane.setStyle("-fx-cursor: hand;");
-                container.getChildren().addAll(checkBox , fName , lName , category , classe , stackPane);
+                container.getChildren().addAll(checkBox , fnameContainer , lnameContainer , categoryContainer , classe , stackPane);
 
                 scrollPaneBody.getChildren().addAll(container , new Separator());
 

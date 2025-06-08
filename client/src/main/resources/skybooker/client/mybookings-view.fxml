@@ -44,44 +44,6 @@
             </VBox>
             <ScrollPane style="-fx-background-color: transparent" stylesheets="@style.css" minHeight="385" maxHeight="385" minWidth="560" maxWidth="560">
                 <VBox fx:id="scrollPaneContainer">
-                    <StackPane>
-                        <HBox spacing="50" alignment="CENTER" minWidth="540" maxWidth="540">
-                            <Text text="00/00/0000">
-                                <font>
-                                    <Font name="Roboto" size="15" />
-                                </font>
-                            </Text>
-                            <HBox spacing="20" alignment="CENTER">
-                                <Text text="DEP">
-                                    <font>
-                                        <Font name="Roboto" size="15" />
-                                    </font>
-                                </Text>
-                                <Text text="00:00">
-                                    <font>
-                                        <Font name="Roboto" size="15" />
-                                    </font>
-                                </Text>
-                                <Text text="00:00">
-                                    <font>
-                                        <Font name="Roboto" size="15" />
-                                    </font>
-                                </Text>
-                                <Text text="ARR">
-                                    <font>
-                                        <Font name="Roboto" size="15" />
-                                    </font>
-                                </Text>
-                            </HBox>
-                            <Text text="Passengers : XX">
-                                <font>
-                                    <Font name="Roboto" size="15" />
-                                </font>
-                            </Text>
-                        </HBox>
-                        <Button  onAction="#onBookingSelected" minHeight="50" maxHeight="50" minWidth="540" maxWidth="540" opacity="0" style="-fx-cursor: hand"/>
-                    </StackPane>
-                    <Separator/>
                 </VBox>
             </ScrollPane>
         </VBox>

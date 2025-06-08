@@ -37,13 +37,13 @@
                     <ImageView fitHeight="16" fitWidth="16">
                         <Image url="@assets/icons/Plus.png"/>
                     </ImageView>
-                    <Text text="Book" fill="rgba(0,0,0,0.6)">
+                    <Text fx:id="destination1text" text="Book" fill="rgba(0,0,0,0.6)">
                         <font>
                             <Font name="Roboto" size="15" />
                         </font>
                     </Text>
                 </HBox>
-                <Button onAction="#onBookButton" style="-fx-background-color: transparent ;"
+                <Button fx:id="destination1" onAction="#onBookButton" style="-fx-background-color: transparent ;"
                         maxHeight="28" maxWidth="180"
                         minHeight="28" minWidth="180">
                 </Button>
@@ -57,13 +57,13 @@
                     <ImageView fitHeight="16" fitWidth="16">
                         <Image url="@assets/icons/Clock.png"/>
                     </ImageView>
-                    <Text text="History" fill="rgba(0,0,0,0.6)">
+                    <Text fx:id="destination2text" text="History" fill="rgba(0,0,0,0.6)">
                         <font>
                             <Font name="Roboto" size="15" />
                         </font>
                     </Text>
                 </HBox>
-                <Button onAction="#onHistoryButton" style="-fx-background-color: transparent ;"
+                <Button fx:id="destination2" onAction="#onHistoryButton" style="-fx-background-color: transparent ;"
                         maxHeight="28" maxWidth="180"
                         minHeight="28" minWidth="180">
                 </Button>
@@ -77,13 +77,13 @@
                     <ImageView fitHeight="16" fitWidth="16">
                         <Image url="@assets/icons/Ticket.png"/>
                     </ImageView>
-                    <Text text="My Bookings" fill="rgba(0,0,0,0.6)">
+                    <Text fx:id="destination3text" text="My Bookings" fill="rgba(0,0,0,0.6)">
                         <font>
                             <Font name="Roboto" size="15" />
                         </font>
                     </Text>
                 </HBox>
-                <Button onAction="#onMyBookingsButton" style="-fx-background-color: transparent ;"
+                <Button fx:id="destination3" onAction="#onMyBookingsButton" style="-fx-background-color: transparent ;"
                         maxHeight="28" maxWidth="180"
                         minHeight="28" minWidth="180">
                 </Button>
