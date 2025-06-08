@@ -13,17 +13,17 @@ import skybooker.server.enums.EtatBillet;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BilletDTO {
-    private long id;
+    private Long id;
     private int siege;
 
     @NotNull
-    private long classeId;
+    private Long classeId;
 
     @NotNull
-    private long passagerId;
+    private Long passagerId;
 
     @NotNull
-    private long reservationId;
+    private Long reservationId;
 
     private EtatBillet etat;
 

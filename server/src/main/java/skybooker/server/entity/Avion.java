@@ -17,7 +17,7 @@ import java.util.Set;
 public class Avion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String iataCode;
     private String icaoCode;
     private String model;

@@ -10,7 +10,7 @@ import skybooker.server.entity.Ville;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VilleDTO {
-    private long id;
+    private Long id;
 
     @NotNull
     @Column(unique = true)

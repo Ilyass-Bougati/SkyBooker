@@ -21,7 +21,7 @@ import java.util.Set;
 public class Vol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateDepart;

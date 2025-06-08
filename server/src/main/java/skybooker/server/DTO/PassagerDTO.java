@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PassagerDTO {
 
-    private long id;
+    private Long id;
 
     Long clientId;
 
@@ -29,7 +29,7 @@ public class PassagerDTO {
     private String CIN;
 
     @NotNull
-    private long age;
+    private Long age;
 
     @NotNull
     private LocalDate dateOfBirth;

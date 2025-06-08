@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface ReservationService extends CrudDTO<ReservationDTO, Long>, CrudService<Reservation, Long> {
     void checkInClient(Long reservationId);
-    List<BilletDTO> getBillets(long idReservation);
+    List<BilletDTO> getBillets(Long idReservation);
 }
