@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import skybooker.client.DTO.PassagerDTO;
 import skybooker.client.requests.Client;
+import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
 
 public class PassengerEditorController {
@@ -31,22 +32,32 @@ public class PassengerEditorController {
         EDIT , CREATE
     }
 
+    private static Long passagerId;
     public static Stage window;
     public static Mode mode;
+
 
     @FXML
     protected void onConfirmButton()
     {
         // TODO : the inside of this function
-        if (mode == Mode.CREATE) {
-            PassagerDTO passager = new PassagerDTO();
-            passager.setDateOfBirth(birthDatePicker.getValue().toString());
-            passager.setCIN(cinInput.getText());
-            passager.setNom(lastNameInput.getText());
-            passager.setPrenom(firstNameInput.getText());
+        PassagerDTO passager = new PassagerDTO();
+        passager.setDateOfBirth(birthDatePicker.getValue().toString());
+        passager.setCIN(cinInput.getText());
+        passager.setNom(lastNameInput.getText());
+        passager.setPrenom(firstNameInput.getText());
 
+        if (mode == Mode.CREATE) {
             try {
                 Client.post("/passager/", passager);
+                GeneralUtils.loadPreferences();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            passager.setId(passagerId);
+            try {
+                Client.put("/passager/", passager);
                 GeneralUtils.loadPreferences();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -60,6 +71,12 @@ public class PassengerEditorController {
     protected void onDeleteButton()
     {
         // TODO : the inside of this function
+        try {
+            Client.delete("/passager/" + passagerId);
+            GeneralUtils.loadPreferences();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         window.close();
         window.getOwner().getScene().getRoot().setEffect(null);
     }
@@ -71,8 +88,11 @@ public class PassengerEditorController {
     }
 
     @FXML
-    protected void initialize()
-    {
+    protected void initialize() throws Exception {
+        PassagerDTO passager = ClientCache.get(passagerId, PassagerDTO.class);
+        lastNameInput.setText(passager.getNom());
+        firstNameInput.setText(passager.getPrenom());
+        cinInput.setText(passager.getCIN());
         Platform.runLater(()->{
             if(mode.equals(Mode.EDIT))
             {
@@ -82,4 +102,7 @@ public class PassengerEditorController {
         });
     }
 
+    public static void setPassagerId(Long passagerId) {
+        PassengerEditorController.passagerId = passagerId;
+    }
 }

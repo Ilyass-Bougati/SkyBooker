@@ -168,7 +168,10 @@ public class PreferencesController {
                 button.setMaxHeight(16);
                 button.setMinHeight(16);
                 button.setOpacity(0);
-                button.setOnAction(_ -> loadPassengerEditor(PassengerEditorController.Mode.EDIT));
+                button.setOnAction(_ -> {
+                    PassengerEditorController.setPassagerId(passager.getId());
+                    loadPassengerEditor(PassengerEditorController.Mode.EDIT);
+                });
 
                 stackPane.getChildren().addAll(icon , button);
                 container.getChildren().addAll(checkBox , fName , lName , category , classe , stackPane);
