@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import skybooker.client.DTO.CategorieDTO;
 import skybooker.client.DTO.ClassDTO;
 import skybooker.client.DTO.PassagerDTO;
 import skybooker.client.DTO.ReservationDTO;
@@ -109,9 +110,10 @@ public class PreferencesController {
                 classMap.put(classe.getNom() , classe);
             }
 
-            //Show the passagers  ;; Stop ordering me around >:( ;; f u
             for(PassagerDTO passager : passagers)
             {
+                ReservationDTO.PassagerData data = new ReservationDTO.PassagerData();
+
                 HBox container = new HBox();
                 container.setAlignment(Pos.CENTER);
                 container.setSpacing(20);
@@ -129,7 +131,7 @@ public class PreferencesController {
                 Text lName = new Text(passager.getNom());
                 lName.setFont(new Font("Roboto" , 20));
 
-                Text category = new Text("Category");
+                Text category = new Text(ClientCache.get(passager.getId() ,CategorieDTO.class).getNom());
                 category.setFont(new Font("Roboto" , 20));
 
                 ChoiceBox<String> classe = new ChoiceBox<>();
@@ -139,6 +141,9 @@ public class PreferencesController {
                 classe.setMaxHeight(36);
                 classe.setMinWidth(100);
                 classe.setMaxWidth(100);
+                classe.setOnAction(_ ->{
+                    //TODO : edit the passenger's class in the backend with classe.getValue()
+                });
 
                 for(String key : classMap.keySet()){
                     classe.getItems().add(key);
@@ -146,21 +151,18 @@ public class PreferencesController {
 
                 checkBox.setOnAction(_ -> {
                     if(checkBox.isSelected()){
-                        ReservationDTO.PassagerData data = new ReservationDTO.PassagerData();
                         data.setPassagerId(passager.getId());
                         data.setClassId(classMap.get(classe.getValue()).getId());
                         chosenPassagers.add(data);
                     } else {
-                        for( ReservationDTO.PassagerData data : chosenPassagers ){
-                            if(data.getPassagerId().equals(passager.getId())){
+                        for( ReservationDTO.PassagerData pdata : chosenPassagers ){
+                            if(pdata.getPassagerId().equals(passager.getId())){
                                 chosenPassagers.remove(data);
                                 break;
                             }
                         }
                     }
                 });
-
-                // TODO : figure out how to get the category of the passenger
 
                 StackPane stackPane = new StackPane();
 

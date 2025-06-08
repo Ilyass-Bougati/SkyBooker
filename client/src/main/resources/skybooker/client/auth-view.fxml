@@ -45,7 +45,11 @@
                 <Font name="Roboto" size="18" />
             </font>
         </PasswordField>
-        <Rectangle height="14" />
+        <Text fx:id="error" text="Invalid email or password !" fill="RED" style="-fx-font-weight: bold ; " opacity="0">
+            <font>
+                <Font name="Roboto" size="14" />
+            </font>
+        </Text>
         <Button onAction="#onLogInButton" text="Log In" style="-fx-cursor: hand;
                                      -fx-text-fill: white ;
                                      -fx-font-weight: bold ;

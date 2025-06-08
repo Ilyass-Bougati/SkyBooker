@@ -42,7 +42,7 @@
                     </Text>
                 </VBox>
                 <ScrollPane maxHeight="200" minHeight="200.0" prefWidth="527.0" style="-fx-background-color: transparent ;" stylesheets="@style.css">
-                    <VBox alignment="CENTER" spacing="10">
+                    <VBox fx:id="scrollpaneBody" alignment="CENTER" spacing="10">
                         <HBox alignment="CENTER" spacing="40">
                             <Text text="First Name">
                                 <font>

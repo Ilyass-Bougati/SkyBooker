@@ -15,7 +15,7 @@
        <padding>
            <Insets left="26" right="26" />
        </padding>
-       <Text fill="rgba(0,0,0,0.8)" style="-fx-font-weight: bold" text="Welcome User">
+       <Text fill="rgba(0,0,0,0.8)" style="-fx-font-weight: bold" text="Welcome ">
            <font>
                <Font name="Roboto" size="40" />
            </font>
