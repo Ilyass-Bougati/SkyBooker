@@ -2,6 +2,7 @@ package skybooker.server.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import skybooker.server.DTO.ClasseDTO;
@@ -22,6 +23,11 @@ public class ClasseController {
     @GetMapping("/")
     public ResponseEntity<List<ClasseDTO>> getClasses() {
         return ResponseEntity.ok(classeService.findAllDTO());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClasseDTO> getClasses(@PathVariable Long id) {
+        return ResponseEntity.ok(classeService.findDTOById(id));
     }
 
 }
