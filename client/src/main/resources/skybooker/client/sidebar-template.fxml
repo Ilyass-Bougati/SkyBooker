@@ -37,13 +37,13 @@
                     <ImageView fitHeight="16" fitWidth="16">
                         <Image url="@assets/icons/Plus.png"/>
                     </ImageView>
-                    <Text fx:id="destination1text" text="Book" fill="rgba(0,0,0,0.6)">
+                    <Text text="Book" fill="rgba(0,0,0,0.6)">
                         <font>
                             <Font name="Roboto" size="15" />
                         </font>
                     </Text>
                 </HBox>
-                <Button fx:id="destination1" onAction="#onBookButton" style="-fx-background-color: transparent ;"
+                <Button onAction="#onBookButton" style="-fx-background-color: transparent ;"
                         maxHeight="28" maxWidth="180"
                         minHeight="28" minWidth="180">
                 </Button>
@@ -57,13 +57,13 @@
                     <ImageView fitHeight="16" fitWidth="16">
                         <Image url="@assets/icons/Clock.png"/>
                     </ImageView>
-                    <Text fx:id="destination2text" text="History" fill="rgba(0,0,0,0.6)">
+                    <Text text="History" fill="rgba(0,0,0,0.6)">
                         <font>
                             <Font name="Roboto" size="15" />
                         </font>
                     </Text>
                 </HBox>
-                <Button fx:id="destination2" onAction="#onHistoryButton" style="-fx-background-color: transparent ;"
+                <Button onAction="#onHistoryButton" style="-fx-background-color: transparent ;"
                         maxHeight="28" maxWidth="180"
                         minHeight="28" minWidth="180">
                 </Button>
@@ -77,13 +77,13 @@
                     <ImageView fitHeight="16" fitWidth="16">
                         <Image url="@assets/icons/Ticket.png"/>
                     </ImageView>
-                    <Text fx:id="destination3text" text="My Bookings" fill="rgba(0,0,0,0.6)">
+                    <Text text="My Bookings" fill="rgba(0,0,0,0.6)">
                         <font>
                             <Font name="Roboto" size="15" />
                         </font>
                     </Text>
                 </HBox>
-                <Button fx:id="destination3" onAction="#onMyBookingsButton" style="-fx-background-color: transparent ;"
+                <Button onAction="#onMyBookingsButton" style="-fx-background-color: transparent ;"
                         maxHeight="28" maxWidth="180"
                         minHeight="28" minWidth="180">
                 </Button>
@@ -105,13 +105,13 @@
                     <ImageView fitHeight="16" fitWidth="16">
                         <Image url="@assets/icons/Clock.png"/>
                     </ImageView>
-                    <Text text="Destination 1" fill="rgba(0,0,0,0.6)">
+                    <Text fx:id="destination1text" fill="rgba(0,0,0,0.6)">
                         <font>
                             <Font name="Roboto" size="15" />
                         </font>
                     </Text>
                 </HBox>
-                <Button style="-fx-background-color: transparent ;"
+                <Button fx:id="destination1" style="-fx-background-color: transparent ;"
                         maxHeight="28" maxWidth="180"
                         minHeight="28" minWidth="180">
                 </Button>
@@ -125,13 +125,13 @@
                     <ImageView fitHeight="16" fitWidth="16">
                         <Image url="@assets/icons/Clock.png"/>
                     </ImageView>
-                    <Text text="Destination 2" fill="rgba(0,0,0,0.6)">
+                    <Text fx:id="destination2text"  fill="rgba(0,0,0,0.6)">
                         <font>
                             <Font name="Roboto" size="15" />
                         </font>
                     </Text>
                 </HBox>
-                <Button style="-fx-background-color: transparent ;"
+                <Button fx:id="destination2" style="-fx-background-color: transparent ;"
                         maxHeight="28" maxWidth="180"
                         minHeight="28" minWidth="180">
                 </Button>
@@ -145,13 +145,13 @@
                     <ImageView fitHeight="16" fitWidth="16">
                         <Image url="@assets/icons/Clock.png"/>
                     </ImageView>
-                    <Text text="Destination 3" fill="rgba(0,0,0,0.6)">
+                    <Text fx:id="destination3text" fill="rgba(0,0,0,0.6)">
                         <font>
                             <Font name="Roboto" size="15" />
                         </font>
                     </Text>
                 </HBox>
-                <Button style="-fx-background-color: transparent ;"
+                <Button fx:id="destination3" style="-fx-background-color: transparent ;"
                         maxHeight="28" maxWidth="180"
                         minHeight="28" minWidth="180">
                 </Button>
