@@ -112,6 +112,8 @@ public class PreferencesController {
 
             for(PassagerDTO passager : passagers)
             {
+                ReservationDTO.PassagerData data = new ReservationDTO.PassagerData();
+
                 HBox container = new HBox();
                 container.setAlignment(Pos.CENTER);
                 container.setSpacing(20);
@@ -139,6 +141,9 @@ public class PreferencesController {
                 classe.setMaxHeight(36);
                 classe.setMinWidth(100);
                 classe.setMaxWidth(100);
+                classe.setOnAction(_ ->{
+                    //TODO : edit the passenger's class in the backend with classe.getValue()
+                });
 
                 for(String key : classMap.keySet()){
                     classe.getItems().add(key);
@@ -146,13 +151,12 @@ public class PreferencesController {
 
                 checkBox.setOnAction(_ -> {
                     if(checkBox.isSelected()){
-                        ReservationDTO.PassagerData data = new ReservationDTO.PassagerData();
                         data.setPassagerId(passager.getId());
                         data.setClassId(classMap.get(classe.getValue()).getId());
                         chosenPassagers.add(data);
                     } else {
-                        for( ReservationDTO.PassagerData data : chosenPassagers ){
-                            if(data.getPassagerId().equals(passager.getId())){
+                        for( ReservationDTO.PassagerData pdata : chosenPassagers ){
+                            if(pdata.getPassagerId().equals(passager.getId())){
                                 chosenPassagers.remove(data);
                                 break;
                             }
