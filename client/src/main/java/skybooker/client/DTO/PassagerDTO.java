@@ -14,6 +14,7 @@ public class PassagerDTO implements Cacheable<PassagerDTO> {
     private int age;
     private String dateOfBirth;
     private Long clientId;
+    private Long categorieId;
 
     public Long getClientId() {
         return clientId;
@@ -69,6 +70,14 @@ public class PassagerDTO implements Cacheable<PassagerDTO> {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Long getCategorieId() {
+        return categorieId;
+    }
+
+    public void setCategorieId(Long categorieId) {
+        this.categorieId = categorieId;
     }
 
     // for caching

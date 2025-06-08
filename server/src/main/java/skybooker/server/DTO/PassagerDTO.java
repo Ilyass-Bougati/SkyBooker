@@ -29,11 +29,13 @@ public class PassagerDTO {
     private String CIN;
 
     @NotNull
+    private Long categorieId;
+
+    @NotNull
     private long age;
 
     @NotNull
     private LocalDate dateOfBirth;
-
 
     public PassagerDTO(Passager passager) {
         setId(passager.getId());
@@ -42,5 +44,6 @@ public class PassagerDTO {
         setCIN(passager.getCIN());
         setDateOfBirth(passager.getDateOfBirth());
         setClientId(passager.getClient().getId());
+        setCategorieId(passager.getCategorie().getId());
     }
 }
