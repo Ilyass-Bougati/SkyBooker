@@ -37,7 +37,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class PreferencesController {
 
@@ -48,7 +47,7 @@ public class PreferencesController {
     private VBox scrollPaneBody ;
 
     public static boolean isComingFromBookPopup = false;
-    private List<ReservationDTO.PassagerData> chosenPassagers = new ArrayList<>();
+    private final List<ReservationDTO.PassagerData> chosenPassagers = new ArrayList<>();
 
     @FXML
     protected void onReturnButton()
@@ -99,6 +98,7 @@ public class PreferencesController {
             for (PassagerDTO passager : passagers) {
                 ClientCache.add(passager);
             }
+
             //fetching the classes ; you chose this route for them
             res = Client.get("/classe/");
             List<ClassDTO> classes = mapper.readValue(res, new TypeReference<>() {});
@@ -107,7 +107,6 @@ public class PreferencesController {
                 ClientCache.add(classe);
                 classMap.put(classe.getNom() , classe);
             }
-
 
             //Show the passagers  ;; Stop ordering me around >:( ;; f u
             for(PassagerDTO passager : passagers)
@@ -146,7 +145,7 @@ public class PreferencesController {
                         data.setPassagerId(passager.getId());
                         data.setClassId(classMap.get(classe.getValue()).getId());
                         chosenPassagers.add(data);
-                    }else{
+                    } else {
                         for( ReservationDTO.PassagerData data : chosenPassagers ){
                             if(data.getPassagerId().equals(passager.getId())){
                                 chosenPassagers.remove(data);
@@ -156,11 +155,11 @@ public class PreferencesController {
                     }
                 });
 
-                //TODO : figure out how to get the category of the passenger
+                // TODO : figure out how to get the category of the passenger
 
                 StackPane stackPane = new StackPane();
 
-                URL imageUrl = HelloApplication.class.getResource(" assets/icons/Edit.png") ;
+                URL imageUrl = HelloApplication.class.getResource("assets/icons/Edit.png") ;
                 Image image = new Image(imageUrl.toString());
                 ImageView icon = new ImageView(image);
                 Button button = new Button();
