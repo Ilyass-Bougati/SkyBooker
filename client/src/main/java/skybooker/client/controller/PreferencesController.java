@@ -35,9 +35,7 @@ import skybooker.client.HelloApplication;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class PreferencesController {
 
@@ -49,7 +47,7 @@ public class PreferencesController {
 
     public static boolean isComingFromBookPopup = false;
 
-    private final static List<ReservationDTO.PassagerData> chosenPassagers = new ArrayList<>();
+    private final static Set<ReservationDTO.PassagerData> chosenPassagers = new HashSet<>();
 
     @FXML
     protected void onReturnButton()
@@ -131,7 +129,7 @@ public class PreferencesController {
                 Text lName = new Text(passager.getNom());
                 lName.setFont(new Font("Roboto" , 20));
 
-                Text category = new Text(ClientCache.get(passager.getId() ,CategorieDTO.class).getNom());
+                Text category = new Text(ClientCache.get(passager.getCategorieId() ,CategorieDTO.class).getNom());
                 category.setFont(new Font("Roboto" , 20));
 
                 ChoiceBox<String> classe = new ChoiceBox<>();
@@ -230,7 +228,7 @@ public class PreferencesController {
         }
     }
 
-    public static List<ReservationDTO.PassagerData> getChosenPassagers() {
+    public static Set<ReservationDTO.PassagerData> getChosenPassagers() {
         return chosenPassagers;
     }
 }

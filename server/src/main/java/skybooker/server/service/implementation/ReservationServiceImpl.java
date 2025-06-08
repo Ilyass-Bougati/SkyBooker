@@ -69,6 +69,7 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = new Reservation(reservationDTO);
         reservation.setClient(client);
         reservation.setVol(vol);
+        reservation.setEtat(EtatReservation.PENDING);
         Reservation savedReservation = reservationRepository.save(reservation);
 
         // creating billets

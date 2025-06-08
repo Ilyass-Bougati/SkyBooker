@@ -16,6 +16,7 @@ import skybooker.client.DTO.CategorieDTO;
 import skybooker.client.DTO.ClassDTO;
 import skybooker.client.DTO.PassagerDTO;
 import skybooker.client.DTO.ReservationDTO;
+import skybooker.client.enums.EtatReservation;
 import skybooker.client.requests.Client;
 import skybooker.client.requests.ClientCache;
 import skybooker.client.utils.GeneralUtils;
@@ -54,7 +55,7 @@ public class BookController {
             try {
                 PassagerDTO passagerDTO = ClientCache.get(passagerData.getPassagerId(), PassagerDTO.class);
                 ClassDTO classDTO = ClientCache.get(passagerData.getClassId(), ClassDTO.class);
-                CategorieDTO categorieDTO = ClientCache.get(passagerData.getPassagerId() , CategorieDTO.class);
+                CategorieDTO categorieDTO = ClientCache.get(passagerDTO.getCategorieId() , CategorieDTO.class);
 
                 HBox container = new HBox();
                 container.setSpacing(40);
@@ -94,7 +95,19 @@ public class BookController {
 
     @FXML
     protected void onCheckoutButton(){
-        //TODO : We need to do something ;; yes ik
+        // Creating the reservations
+        ReservationDTO reservationDTO = new ReservationDTO();
+        reservationDTO.setVolId(volId);
+        // TODO : THIS CAN'T STAY
+        reservationDTO.setPrixTotal(FlightInfoController.getReservationPrice());
+        reservationDTO.setPassagers(PreferencesController.getChosenPassagers());
+
+        try {
+            Client.post("/reservation/", reservationDTO);
+            GeneralUtils.loadLandingPage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void setVolId(Long volId) {
