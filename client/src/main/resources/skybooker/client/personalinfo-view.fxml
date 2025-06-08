@@ -7,17 +7,32 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="skybooker.client.controller.PersonalInfoController"
       prefHeight="600.0" prefWidth="825.0"
       alignment="CENTER"
       style="-fx-background-color: white" >
-    <Text text="Sign Up" style="-fx-font-weight: bold ; " >
-        <font>
-            <Font name="Roboto" size="30" />
-        </font>
-    </Text>
+    <HBox alignment="CENTER" spacing="50">
+        <padding>
+            <Insets right="66" />
+        </padding>
+        <StackPane style="-fx-cursor: hand">
+            <ImageView>
+                <image>
+                    <Image url="@assets/icons/Back.png" />
+                </image>
+            </ImageView>
+            <Button onAction="#onBackButton" maxHeight="16" minHeight="16" maxWidth="16" minWidth="16" opacity="0"/>
+        </StackPane>
+        <Text text="Sign Up" style="-fx-font-weight: bold ; " >
+            <font>
+                <Font name="Roboto" size="30" />
+            </font>
+        </Text>
+    </HBox>
     <VBox alignment="CENTER" >
         <padding>
             <Insets top="25"/>
@@ -47,7 +62,7 @@
             </TextField>
         </HBox>
         <HBox alignment="CENTER">
-            <Text fx:id="nameError" text="first/last name shouldn't contain special/numeral characters " fill="RED" style="-fx-font-weight: bold">
+            <Text opacity="0" fx:id="nameError" text="first/last name shouldn't contain special/numeral characters " fill="RED" style="-fx-font-weight: bold">
                 <font>
                     <Font name="Roboto" size="14" />
                 </font>
@@ -88,7 +103,7 @@
             </HBox>
         </HBox>
         <HBox alignment="CENTER">
-            <Text fx:id="numberError" text="phone number must be 10 characters" fill="RED" style="-fx-font-weight: bold">
+            <Text opacity="0" fx:id="numberError" text="phone number must be 10 characters" fill="RED" style="-fx-font-weight: bold">
                 <font>
                     <Font name="Roboto" size="14" />
                 </font>
