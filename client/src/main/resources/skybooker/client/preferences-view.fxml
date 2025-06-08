@@ -83,14 +83,14 @@
                                         <Font name="Roboto" size="20" />
                                     </font>
                                 </Text>
-                                <ChoiceBox value="Class"  style="
+                                <ChoiceBox value="First Class"  style="
                                             -fx-text-fill: rgba(0,0,0,0.5) ;
                                             -fx-background-color: #EDEDED  ;
                                             -fx-background-radius: 12 ;
                                             -fx-border-radius: 12 ;
                                             -fx-font-family: 'Roboto Light' ;
                                             -fx-font-size: 15"
-                                           minWidth="70" maxWidth="70"
+                                           minWidth="100" maxWidth="100"
                                            minHeight="36" maxHeight="36"   >
                                 </ChoiceBox>
                                 <StackPane minWidth="16" maxHeight="16" maxWidth="16" minHeight="16" >
