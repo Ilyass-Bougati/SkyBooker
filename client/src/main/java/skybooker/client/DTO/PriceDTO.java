@@ -1,13 +1,13 @@
 package skybooker.client.DTO;
 
 public class PriceDTO {
-    private float price;
+    private Float price;
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 }

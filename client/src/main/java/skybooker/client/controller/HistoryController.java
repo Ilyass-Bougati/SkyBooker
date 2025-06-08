@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import skybooker.client.DTO.ReservationDTO;
-import skybooker.client.DTO.SearchDTO;
 import skybooker.client.requests.Client;
 import skybooker.client.utils.GeneralUtils;
 
