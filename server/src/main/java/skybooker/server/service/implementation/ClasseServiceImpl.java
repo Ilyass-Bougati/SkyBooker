@@ -33,7 +33,6 @@ public class ClasseServiceImpl implements ClasseService {
 
     @Override
     @Transactional(readOnly = true)
-    @Cacheable(value = "allClassesCache", key = "'allClasses'")
     public List<ClasseDTO> findAllDTO() {
         List<Classe> classes = classeRepository.findAll();
         return classes.stream().map(ClasseDTO::new).toList();
@@ -48,22 +47,14 @@ public class ClasseServiceImpl implements ClasseService {
     }
 
     @Override
-    @Caching(put = {
-            @CachePut(value = "classeCache", key = "#result.id")
-    }, evict = {
-            @CacheEvict(value = "allClassesCache", allEntries = true)
-    })
+    @CachePut(value = "classeCache", key = "#result.id")
     public ClasseDTO createDTO(ClasseDTO classeDTO) {
         Classe classe = new Classe(classeDTO);
         return new ClasseDTO(classeRepository.save(classe));
     }
 
     @Override
-    @Caching(put = {
-            @CachePut(value = "classeCache", key = "#classeDTO.id")
-    }, evict = {
-            @CacheEvict(value = "allClassesCache", allEntries = true)
-    })
+    @CachePut(value = "classeCache", key = "#classeDTO.id")
     public ClasseDTO updateDTO(ClasseDTO classeDTO) {
         Classe classe = classeRepository.findById(classeDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Classe not found"));
@@ -84,10 +75,7 @@ public class ClasseServiceImpl implements ClasseService {
     }
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = "classeCache", key = "#id"),
-            @CacheEvict(value = "allClassesCache", allEntries = true)
-    })
+    @CacheEvict(value = "classeCache", key = "#id")
     public void deleteById(Long id) {
         classeRepository.deleteById(id);
     }

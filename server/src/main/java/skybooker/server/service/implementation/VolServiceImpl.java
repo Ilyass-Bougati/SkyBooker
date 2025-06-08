@@ -79,11 +79,7 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
-    @Caching(put = {
-            @CachePut(value = "volCache", key = "#volDTO.id")
-    }, evict = {
-            @CacheEvict(value = "trajetVolsCache", allEntries = true)
-    })
+    @CachePut(value = "volCache", key = "#volDTO.id")
     public VolDTO updateDTO(VolDTO volDTO) {
         Optional<Vol> volOptional = volRepository.findById(volDTO.getId());
         if(volOptional.isPresent()){
@@ -134,7 +130,6 @@ public class VolServiceImpl implements VolService {
     }
 
     @Override
-    @Cacheable(value = "trajetVolsCache", key = "{#villeDepartId, #villeArriveeId}")
     public List<VolDTO> getTrajetVols(Long villeDepartId, Long villeArriveeId) {
         return volRepository.findByVilles(villeDepartId, villeArriveeId)
                 .stream().map(VolDTO::new).toList();

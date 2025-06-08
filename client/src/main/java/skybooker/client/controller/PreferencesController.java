@@ -35,9 +35,7 @@ import skybooker.client.HelloApplication;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class PreferencesController {
 
@@ -49,7 +47,7 @@ public class PreferencesController {
 
     public static boolean isComingFromBookPopup = false;
 
-    private final static List<ReservationDTO.PassagerData> chosenPassagers = new ArrayList<>();
+    private final static Set<ReservationDTO.PassagerData> chosenPassagers = new HashSet<>();
 
     @FXML
     protected void onReturnButton()
@@ -150,7 +148,7 @@ public class PreferencesController {
                 categoryContainer.setMinWidth(77);
                 categoryContainer.setMaxWidth(77);
 
-                Text category = new Text(ClientCache.get(passager.getId() ,CategorieDTO.class).getNom());
+                Text category = new Text(ClientCache.get(passager.getCategorieId() ,CategorieDTO.class).getNom());
                 category.setFont(new Font("Roboto" , 20));
 
                 categoryContainer.getChildren().add(category);
@@ -203,7 +201,7 @@ public class PreferencesController {
 
                 stackPane.getChildren().addAll(icon , button);
                 stackPane.setStyle("-fx-cursor: hand;");
-                container.getChildren().addAll(checkBox , fnameContainer , lnameContainer , categoryContainer , classe , stackPane);
+                container.getChildren().addAll(checkBox , fName , lName , category , classe , stackPane);
 
                 scrollPaneBody.getChildren().addAll(container , new Separator());
 
@@ -251,7 +249,7 @@ public class PreferencesController {
         }
     }
 
-    public static List<ReservationDTO.PassagerData> getChosenPassagers() {
+    public static Set<ReservationDTO.PassagerData> getChosenPassagers() {
         return chosenPassagers;
     }
 }
