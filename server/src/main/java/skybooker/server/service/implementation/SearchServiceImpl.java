@@ -1,5 +1,6 @@
 package skybooker.server.service.implementation;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.stylesheets.LinkStyle;
 import skybooker.server.DTO.SearchDTO;
@@ -37,6 +38,12 @@ public class SearchServiceImpl implements SearchService {
         search.setVilleArrivee(villeArrive);
         search.setClient(client);
         searchRepository.save(search);
+
+        // removing the oldest search if we exceed 3
+        List<Search> searches = searchRepository.findAllByClientId(client.getId());
+        if (searches.size() > 3) {
+            searchRepository.delete(searches.get(3));
+        }
     }
 
     @Override
