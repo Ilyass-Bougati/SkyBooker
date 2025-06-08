@@ -40,7 +40,6 @@ public class PassengerEditorController {
     @FXML
     protected void onConfirmButton()
     {
-        // TODO : the inside of this function
         PassagerDTO passager = new PassagerDTO();
         passager.setDateOfBirth(birthDatePicker.getValue().toString());
         passager.setCIN(cinInput.getText());
@@ -71,7 +70,6 @@ public class PassengerEditorController {
     @FXML
     protected void onDeleteButton()
     {
-        // TODO : the inside of this function
         try {
             Client.delete("/passager/" + passagerId);
             setPassagerId(null);

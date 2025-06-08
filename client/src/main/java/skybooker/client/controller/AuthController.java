@@ -2,6 +2,7 @@ package skybooker.client.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import skybooker.client.exceptions.UnauthorizedException;
 import skybooker.client.requests.Client;
 import skybooker.client.utils.GeneralUtils;
@@ -14,6 +15,9 @@ public class AuthController {
 
     @FXML
     private TextField password;
+
+    @FXML
+    private Text error ;
 
     @FXML
     protected void initialize() {
@@ -31,11 +35,13 @@ public class AuthController {
                 GeneralUtils.loadLandingPage();
             } catch (UnauthorizedException e) { // This should change
                 System.out.println("Invalid credentials");
+                error.setOpacity(1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             // Invalid email
+            error.setOpacity(1);
             System.out.println("Invalid email");
         }
 

@@ -2,7 +2,9 @@ package skybooker.client.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.text.Text;
 import skybooker.client.DTO.CategorieDTO;
 import skybooker.client.DTO.VilleDTO;
 import skybooker.client.requests.Client;
@@ -18,7 +20,7 @@ public class LandingPageController {
     protected void initialize() throws Exception {
         // loading needed values
         ObjectMapper mapper = new ObjectMapper();
-        List<CategorieDTO> categories = new ArrayList<>();
+        List<CategorieDTO> categories;
         try {
             // fetching the client's details
             Client.fetchClient();
@@ -33,6 +35,7 @@ public class LandingPageController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @FXML

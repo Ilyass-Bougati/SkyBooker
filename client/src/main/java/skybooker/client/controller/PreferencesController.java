@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import skybooker.client.DTO.CategorieDTO;
 import skybooker.client.DTO.ClassDTO;
 import skybooker.client.DTO.PassagerDTO;
 import skybooker.client.DTO.ReservationDTO;
@@ -108,7 +109,6 @@ public class PreferencesController {
                 classMap.put(classe.getNom() , classe);
             }
 
-            //Show the passagers  ;; Stop ordering me around >:( ;; f u
             for(PassagerDTO passager : passagers)
             {
                 HBox container = new HBox();
@@ -128,7 +128,7 @@ public class PreferencesController {
                 Text lName = new Text(passager.getNom());
                 lName.setFont(new Font("Roboto" , 20));
 
-                Text category = new Text("Category");
+                Text category = new Text(ClientCache.get(passager.getId() ,CategorieDTO.class).getNom());
                 category.setFont(new Font("Roboto" , 20));
 
                 ChoiceBox<String> classe = new ChoiceBox<>();
@@ -158,8 +158,6 @@ public class PreferencesController {
                         }
                     }
                 });
-
-                // TODO : figure out how to get the category of the passenger
 
                 StackPane stackPane = new StackPane();
 
