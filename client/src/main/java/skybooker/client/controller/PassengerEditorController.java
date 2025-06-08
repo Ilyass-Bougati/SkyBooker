@@ -32,7 +32,7 @@ public class PassengerEditorController {
         EDIT , CREATE
     }
 
-    private static Long passagerId;
+    private static Long passagerId = null;
     public static Stage window;
     public static Mode mode;
 
@@ -58,6 +58,7 @@ public class PassengerEditorController {
             passager.setId(passagerId);
             try {
                 Client.put("/passager/", passager);
+                setPassagerId(null);
                 GeneralUtils.loadPreferences();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -73,6 +74,7 @@ public class PassengerEditorController {
         // TODO : the inside of this function
         try {
             Client.delete("/passager/" + passagerId);
+            setPassagerId(null);
             GeneralUtils.loadPreferences();
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,10 +91,12 @@ public class PassengerEditorController {
 
     @FXML
     protected void initialize() throws Exception {
-        PassagerDTO passager = ClientCache.get(passagerId, PassagerDTO.class);
-        lastNameInput.setText(passager.getNom());
-        firstNameInput.setText(passager.getPrenom());
-        cinInput.setText(passager.getCIN());
+        if (passagerId != null) {
+            PassagerDTO passager = ClientCache.get(passagerId, PassagerDTO.class);
+            lastNameInput.setText(passager.getNom());
+            firstNameInput.setText(passager.getPrenom());
+            cinInput.setText(passager.getCIN());
+        }
         Platform.runLater(()->{
             if(mode.equals(Mode.EDIT))
             {
