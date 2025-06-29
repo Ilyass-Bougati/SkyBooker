@@ -5,10 +5,30 @@
 ![redis](https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white)
 ![docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)
 
+<a href="https://github.com/Ilyass-Bougati/SkyBooker/graphs/contributors">
+  <p align="center">
+  <img src="https://contrib.rocks/image?repo=Ilyass-Bougati/SkyBooker" />
+  </p>
+</a>
+
+
+SkyBooker est une application de réservation de billets d'avion en ligne conçue pour les compagnies aériennes. Elle s'adresse à la fois aux clients pour la réservation de vols et aux administrateurs pour la gestion et les statistiques.
 ## Execution
 Ce projet s'exécute en deux étapes. pour exécuter le serveur, vous devez avoir Docker installé sur votre machine. Si tel est le cas, vous pouvez exécuter le serveur en exécutant la commande suivante à partir du répertoire `serveur`
 ```bash
-docker compose up
+# Rebuild et redémarrer les services après modification du code
+docker-compose up --build
+
+# Voir l'état des conteneurs
+docker-compose ps
+
+# Accéder aux logs d'un service spécifique
+docker-compose logs skybooker_appserver           # server
+docker-compose logs skybooker_postgres_container  # database
+docker-compose logs skybooker_redis_container     # redis
+
+# Nettoyer complètement (attention : supprime les données)
+docker-compose down -v
 ```
 pour exécuter le client, vous exécutez les commandes suivantes dans le répertoire `client`
 ```bash
@@ -75,4 +95,3 @@ The header also includes direct links to all entity management lists and individ
 ### Logout
 
 To securely log out of the Admin Panel, click the "Logout" button located in the header navigation bar. This will end your session and redirect you back to the login page.
-
