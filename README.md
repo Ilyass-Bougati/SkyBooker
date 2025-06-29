@@ -1,4 +1,9 @@
 # SkyBooker
+![spring-boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
+![spring-security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white)
+![postgresql](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![redis](https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white)
+
 ## Execution
 Ce projet s'exécute en deux étapes. pour exécuter le serveur, vous devez avoir Docker installé sur votre machine. Si tel est le cas, vous pouvez exécuter le serveur en exécutant la commande suivante à partir du répertoire `serveur`
 ```bash
